@@ -158,7 +158,7 @@ updated: 2026-08-18
           - Optional: headless render assertion that button/card/data-table appear in DOM
   - phase: ci-deploy
     story_id: 01M0ANVJRSWZ7JZEYCNN34HEFX
-    status: in-progress
+    status: checked
     goal: Automate build+validate+deploy on push to main via GitHub Actions so registry URL tracks git.
     depends_on: e2e-smoke
     waves:
@@ -206,6 +206,10 @@ updated: 2026-08-18
 - `2026-08-19T06:13:37Z` — wave 1, task Post-deploy verification job: fetch registry URL index.json + a sample item, assert 200 + content-type json.. task_status: `DONE`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: verify job curls https://<project>.pages.dev/r/registry.json + /r/button.json asserting HTTP 200 + content-type json — flat-layout paths, since index.json/styles-default do not exist in the CLI 4.18.0 flat build (see decision)..
 - `2026-08-19T06:13:49Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy wave 1 implementation complete: .github/workflows/registry.yml authored (build -> Cloudflare Pages deploy -> live-URL verify), YAML valid, all 7 CI commands proven exit 0 locally by parallel verifier, verify paths adapted to flat public/r/ layout (decision 01M0CAEXQ1QJXKSW35KBSKJQHQ). Phase checks (CI green on push to main, live URL 200 JSON) still pending external infra: create+push GitHub repo, wire Cloudflare Pages secrets..
 - `2026-08-20T13:39:16Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy correction: GitHub rejected secrets in the deploy job-level if (run 32364726176); replaced it with vars.VERCEL_ENABLED, actionlint now passes, and the full local CI chain remains green. Corrected workflow is ready to push; Vercel project/authentication, VERCEL_* secrets, and VERCEL_ENABLED=true remain external blockers for deploy and live URL proof..
+- `2026-08-20T13:42:27Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: GitHub Actions run 32375572918 passed after the workflow fix: build job green in 48s, registry-public artifact uploaded; deploy and verify were intentionally skipped because repository variable VERCEL_ENABLED is unset. Only annotation is GitHub's Node 20 deprecation notice for v4 actions; no job failure..
+- `2026-08-20T13:55:56Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: GitHub Actions run 32376843343 completed green end-to-end: build 44s, deploy 37s, verify 4s. Vercel deployment protection was disabled for the public project; verify job fetched /r/registry.json and /r/button.json from the live deployment and asserted HTTP 200 application/json for both..
+- `2026-08-20T13:59:11Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy phase complete and checked: final durable check 01M0FQDE49X4XNEHFRK8B0DV54 APPROVED; GitHub Actions run 32376843343 build/deploy/verify all green; public Vercel registry endpoints /r/registry.json and /r/button.json returned HTTP 200 application/json..
+- `2026-08-20T14:00:59Z` — handoff recorded. handoff: `01M0FQK83ZQB8SV877AT9FKDWK`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. check: `01M0FQDE49X4XNEHFRK8B0DV54`. open items: Optional lifecycle cleanup: close the five historical checked phases in dependency order before completing the initiative.; Run zharness plan complete --json after every phase is done..
 
 ## Decisions
 <!-- Append-only durable entries record timestamp, phase/task, decision, and rationale. -->
@@ -214,6 +218,8 @@ updated: 2026-08-18
 - `2026-08-19T06:13:43Z` — ci-deploy post-deploy verification curls flat-layout paths /r/registry.json + /r/button.json instead of the plan check text /r/index.json + /r/styles/default/button.json. (phase: `ci-deploy`), task: Post-deploy verification job. rationale: The shadcn CLI 4.18.0 build emits a flat public/r/ layout (registry-build decision 2026-08-18T16:30): per-item {name}.json + registry.json, no index.json, no styles/default/ subdir. registry.json is the built index; button.json is the sample item..
 - `2026-08-20T11:37:14Z` — Deploy host switched from Cloudflare Pages to Vercel in ci-deploy registry.yml. (phase: `ci-deploy`), task: Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. rationale: Owner chose Vercel over Cloudflare Pages during the ci-deploy credential gate. Deploy job uses amondnet/vercel-action@v42 (working-directory packages/registry/public, vercel-args --prod --yes), gated on secrets.VERCEL_TOKEN; verify job curls the deployment URL from deploy.outputs.deployment-url for /r/registry.json + /r/button.json (200 + json content-type)..
 - `2026-08-20T13:37:23Z` — Use repository variable VERCEL_ENABLED to gate the deploy job instead of testing secrets in job-level if. (phase: `ci-deploy`), task: Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. rationale: GitHub Actions forbids the secrets context in job-level if expressions (actionlint and run 32364726176 both confirmed workflow registration failure). vars is available at job scope; set VERCEL_ENABLED=true only after Vercel project and VERCEL_TOKEN/VERCEL_ORG_ID/VERCEL_PROJECT_ID secrets are configured. This preserves an intentional skip until external deployment is ready..
+- `2026-08-20T13:55:56Z` — Disable Vercel project SSO deployment protection for the public registry project. (phase: `ci-deploy`), task: Post-deploy verification job. rationale: The new project defaulted to ssoProtection.deploymentType=all_except_custom_domains, causing anonymous registry requests to return HTTP 302 to vercel.com/sso-api despite the production deployment being READY. The initiative requires a public static host with no auth; PATCH /v9/projects/{id} with {"ssoProtection":null} removed the protection, after which both registry.json and button.json returned HTTP 200 application/json..
+- `2026-08-20T14:01:24Z` — Leave initiative closure as an optional lifecycle follow-up after the ci-deploy product phase is checked. (phase: `ci-deploy`), task: Closing handoff. rationale: The product outcome is complete and handoff 01M0FQK83ZQB8SV877AT9FKDWK records it. `zharness handoff --close-phase` cannot close the final phase while the five historical prerequisite phases remain checked rather than done; no product blocker remains. Close those historical phases in dependency order, then run plan complete if full lifecycle closure is desired..
 
 ## Validation
 <!-- Append-only durable entries record timestamp, phase, exact command/result/output, run_id, check_id, verdict, and proof_gaps. -->
@@ -251,20 +257,24 @@ updated: 2026-08-18
   - `gh run view 32364726176` → initial push run failed before jobs with workflow-file issue; actionlint identified .github/workflows/registry.yml:37 secrets context forbidden at job scope
   - `gh workflow run registry.yml --ref main` → not run after fix: corrected workflow is not pushed yet
   - `curl <vercel-deployment-url>/r/registry.json && curl <vercel-deployment-url>/r/button.json` → not run: no Vercel project/authentication or GitHub VERCEL_* secrets/VERCEL_ENABLED variable configured
+- `2026-08-20T13:57:49Z` — check. verdict: `APPROVED`. check: `01M0FQDE49X4XNEHFRK8B0DV54`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. phase: `ci-deploy`. judge: `same-session` (gpt-5.6-luna).
+  - `actionlint .github/workflows/registry.yml` → Final gate: actionlint exit 0; workflow jobs build/deploy/verify parse successfully.
+  - `pnpm install --frozen-lockfile && pnpm lint && pnpm typecheck && pnpm --filter @therealtinhtute/tokens generate && pnpm --filter @therealtinhtute/registry build && pnpm --filter @therealtinhtute/registry validate:build && pnpm --filter @therealtinhtute/registry e2e` → Final gate: all commands exit 0; 13 built files schema-valid; fresh consumer installs all MVP items, builds, and render-checks successfully.
+  - `gh run view 32376843343 --repo therealtinhtute/therealtinhtute-ui --json conclusion --jq .conclusion` → GitHub Actions run 32376843343 -> success; build, deploy, and verify jobs all green.
+  - `curl -sS -o /dev/null -w '%{http_code} %{content_type}' https://therealtinhtute-keb6kfaqr-therealtinhtute.vercel.app/r/registry.json` → Live proof -> 200 application/json; charset=utf-8.
+  - `curl -sS -o /dev/null -w '%{http_code} %{content_type}' https://therealtinhtute-keb6kfaqr-therealtinhtute.vercel.app/r/button.json` → Live proof -> 200 application/json; charset=utf-8.
+  - `git diff --check` → Final gate -> clean.
 
 ## Current State and Next Action
 - active_phase: ci-deploy
-- lifecycle_status: in-progress
+- lifecycle_status: checked
 - latest_run_id: 01M0C9Q2FBSZF577B87DT8BN3C
-- latest_trace_ids: [01M0FPBFJXY6DZ44AFZC1K2G4Y, 01M0CAF3B6NR7JX0X1H0DQF5RK, 01M0CAEQSQ0ZTQMG9NA2TBDQ51, 01M0CAEQSQ0ZTQMG9NA5YWQ0PV]
-- latest_check_id: 01M0FP8CVCATFBWXFFGA775S93
-- latest_handoff_id: none
+- latest_trace_ids: [01M0FQFXZZE3C0RMPT1Q9GYG37, 01M0FQA064K3C6QSCK79GXKWJ3, 01M0FPH9PZVHBS5219YQ2PGX8X, 01M0FPBFJXY6DZ44AFZC1K2G4Y]
+- latest_check_id: 01M0FQDE49X4XNEHFRK8B0DV54
+- latest_handoff_id: 01M0FQK83ZQB8SV877AT9FKDWK
 - blockers:
-  - external: Vercel project/authentication and GitHub Actions secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` plus repository variable `VERCEL_ENABLED=true` are not configured
-  - verification: corrected workflow is still local; live GitHub Actions and deployment URL proof are pending
+  - none
 - open_items:
-  - push corrected workflow to `main`
-  - configure/link Vercel project and set the three `VERCEL_*` secrets without exposing the token
-  - set repository variable `VERCEL_ENABLED=true`
-  - rerun workflow and verify `/r/registry.json` + `/r/button.json` return HTTP 200 JSON
-- exact_next_action: run `! vercel login`, link or create the Vercel project, set `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` and `VERCEL_ENABLED=true`, then commit/push the corrected workflow and rerun CI
+  - optional lifecycle cleanup: close the five historical checked phases in dependency order before completing the initiative
+  - run `zharness plan complete --json` after every phase is done
+- exact_next_action: product work is complete; if initiative closure is desired, close historical checked phases in dependency order, then run `zharness plan complete --json`
