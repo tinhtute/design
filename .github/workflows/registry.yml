@@ -34,7 +34,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: ${{ secrets.VERCEL_TOKEN != '' }}
+    if: ${{ vars.VERCEL_ENABLED == 'true' }}
     outputs:
       deployment-url: ${{ steps.vercel-deploy.outputs.preview-url }}
     steps:

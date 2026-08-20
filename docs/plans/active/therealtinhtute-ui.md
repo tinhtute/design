@@ -205,6 +205,7 @@ updated: 2026-08-18
 - `2026-08-19T06:13:37Z` — wave 1, task Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. task_status: `DONE`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: deploy job: cloudflare/pages-action@v1 (directory packages/registry/public, branch main, gitHubToken), gated on secrets.CLOUDFLARE_API_TOKEN != "", artifact round-trip build->deploy via upload/download-artifact..
 - `2026-08-19T06:13:37Z` — wave 1, task Post-deploy verification job: fetch registry URL index.json + a sample item, assert 200 + content-type json.. task_status: `DONE`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: verify job curls https://<project>.pages.dev/r/registry.json + /r/button.json asserting HTTP 200 + content-type json — flat-layout paths, since index.json/styles-default do not exist in the CLI 4.18.0 flat build (see decision)..
 - `2026-08-19T06:13:49Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy wave 1 implementation complete: .github/workflows/registry.yml authored (build -> Cloudflare Pages deploy -> live-URL verify), YAML valid, all 7 CI commands proven exit 0 locally by parallel verifier, verify paths adapted to flat public/r/ layout (decision 01M0CAEXQ1QJXKSW35KBSKJQHQ). Phase checks (CI green on push to main, live URL 200 JSON) still pending external infra: create+push GitHub repo, wire Cloudflare Pages secrets..
+- `2026-08-20T13:39:16Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy correction: GitHub rejected secrets in the deploy job-level if (run 32364726176); replaced it with vars.VERCEL_ENABLED, actionlint now passes, and the full local CI chain remains green. Corrected workflow is ready to push; Vercel project/authentication, VERCEL_* secrets, and VERCEL_ENABLED=true remain external blockers for deploy and live URL proof..
 
 ## Decisions
 <!-- Append-only durable entries record timestamp, phase/task, decision, and rationale. -->
@@ -212,6 +213,7 @@ updated: 2026-08-18
 - `2026-08-18T16:30:00Z` — phase: registry-build. decision: the current shadcn CLI (4.18.0) `build` emits a flat layout — `public/r/{name}.json` per item + `public/r/registry.json` — not the researched `styles/{style}/{name}.json` + `index.json` + `registries.json`. rationale: verified empirically against the shipped CLI; the flat layout is what the current CLI serves/consumes, so the plan's `styles/default` layout constraint is superseded for MVP; the e2e phase registers the flat `/r` URL.
 - `2026-08-19T06:13:43Z` — ci-deploy post-deploy verification curls flat-layout paths /r/registry.json + /r/button.json instead of the plan check text /r/index.json + /r/styles/default/button.json. (phase: `ci-deploy`), task: Post-deploy verification job. rationale: The shadcn CLI 4.18.0 build emits a flat public/r/ layout (registry-build decision 2026-08-18T16:30): per-item {name}.json + registry.json, no index.json, no styles/default/ subdir. registry.json is the built index; button.json is the sample item..
 - `2026-08-20T11:37:14Z` — Deploy host switched from Cloudflare Pages to Vercel in ci-deploy registry.yml. (phase: `ci-deploy`), task: Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. rationale: Owner chose Vercel over Cloudflare Pages during the ci-deploy credential gate. Deploy job uses amondnet/vercel-action@v42 (working-directory packages/registry/public, vercel-args --prod --yes), gated on secrets.VERCEL_TOKEN; verify job curls the deployment URL from deploy.outputs.deployment-url for /r/registry.json + /r/button.json (200 + json content-type)..
+- `2026-08-20T13:37:23Z` — Use repository variable VERCEL_ENABLED to gate the deploy job instead of testing secrets in job-level if. (phase: `ci-deploy`), task: Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. rationale: GitHub Actions forbids the secrets context in job-level if expressions (actionlint and run 32364726176 both confirmed workflow registration failure). vars is available at job scope; set VERCEL_ENABLED=true only after Vercel project and VERCEL_TOKEN/VERCEL_ORG_ID/VERCEL_PROJECT_ID secrets are configured. This preserves an intentional skip until external deployment is ready..
 
 ## Validation
 <!-- Append-only durable entries record timestamp, phase, exact command/result/output, run_id, check_id, verdict, and proof_gaps. -->
@@ -243,16 +245,26 @@ updated: 2026-08-18
   - `pnpm lint` → Validation entry 2026-08-19T04:22:22Z: eslint exit 0
   - `pnpm -r typecheck` → Validation entry 2026-08-19T04:22:22Z: tsc --noEmit exit 0 for tokens + registry
   - proof_gaps: browser-level dark-toggle interaction (real-browser class toggle) not independently verified — dark correctness proven via built-CSS :root/.dark token blocks + SSR render output; e2e script authored and fixed (ROOT path, SHADCN array) by the judging agent (same-session).
+- `2026-08-20T13:37:35Z` — check. verdict: `REQUEST_CHANGES`. check: `01M0FP8CVCATFBWXFFGA775S93`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. phase: `ci-deploy`. judge: `same-session` (gpt-5.6-luna).
+  - `actionlint .github/workflows/registry.yml` → 2026-08-20T13:37: workflow parses and actionlint exits 0 after replacing forbidden secrets job-if with vars.VERCEL_ENABLED
+  - `pnpm install --frozen-lockfile && pnpm lint && pnpm typecheck && pnpm --filter @therealtinhtute/tokens generate && pnpm --filter @therealtinhtute/registry build && pnpm --filter @therealtinhtute/registry validate:build && pnpm --filter @therealtinhtute/registry e2e` → 2026-08-20T13:37: all commands exit 0; 13 built registry files validate; fresh consumer e2e passes
+  - `gh run view 32364726176` → initial push run failed before jobs with workflow-file issue; actionlint identified .github/workflows/registry.yml:37 secrets context forbidden at job scope
+  - `gh workflow run registry.yml --ref main` → not run after fix: corrected workflow is not pushed yet
+  - `curl <vercel-deployment-url>/r/registry.json && curl <vercel-deployment-url>/r/button.json` → not run: no Vercel project/authentication or GitHub VERCEL_* secrets/VERCEL_ENABLED variable configured
 
 ## Current State and Next Action
 - active_phase: ci-deploy
 - lifecycle_status: in-progress
 - latest_run_id: 01M0C9Q2FBSZF577B87DT8BN3C
-- latest_trace_ids: [01M0CAF3B6NR7JX0X1H0DQF5RK, 01M0CAEQSQ0ZTQMG9NA2TBDQ51, 01M0CAEQSQ0ZTQMG9NA5YWQ0PV, 01M0CAEQSQ0ZTQMG9NA8TZ8R7G]
-- latest_check_id: 01M0C44A1SGGGEDER96XFQG2K0
+- latest_trace_ids: [01M0FPBFJXY6DZ44AFZC1K2G4Y, 01M0CAF3B6NR7JX0X1H0DQF5RK, 01M0CAEQSQ0ZTQMG9NA2TBDQ51, 01M0CAEQSQ0ZTQMG9NA5YWQ0PV]
+- latest_check_id: 01M0FP8CVCATFBWXFFGA775S93
 - latest_handoff_id: none
 - blockers:
-  - external: Cloudflare Pages secrets (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_PROJECT_NAME) not provided; GitHub repo not created/pushed
+  - external: Vercel project/authentication and GitHub Actions secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` plus repository variable `VERCEL_ENABLED=true` are not configured
+  - verification: corrected workflow is still local; live GitHub Actions and deployment URL proof are pending
 - open_items:
-  - ci-deploy checks pending: workflow green on push to main; live URL serves /r/registry.json + /r/button.json 200 JSON
-- exact_next_action: create public GitHub repo `therealtinhtute/therealtinhtute-ui`, initial commit + push to main (needs repo/settings consent), wire CLOUDFLARE_* secrets, run workflow, verify live URL, then gate ci-deploy
+  - push corrected workflow to `main`
+  - configure/link Vercel project and set the three `VERCEL_*` secrets without exposing the token
+  - set repository variable `VERCEL_ENABLED=true`
+  - rerun workflow and verify `/r/registry.json` + `/r/button.json` return HTTP 200 JSON
+- exact_next_action: run `! vercel login`, link or create the Vercel project, set `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID` and `VERCEL_ENABLED=true`, then commit/push the corrected workflow and rerun CI
