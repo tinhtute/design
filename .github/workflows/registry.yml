@@ -1,0 +1,86 @@
+name: Registry Build, Deploy & Verify
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: registry-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm --filter @therealtinhtute/tokens generate
+      - run: pnpm --filter @therealtinhtute/registry build
+      - run: pnpm --filter @therealtinhtute/registry validate:build
+      - run: pnpm --filter @therealtinhtute/registry e2e
+      - uses: actions/upload-artifact@v4
+        with:
+          name: registry-public
+          path: packages/registry/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ secrets.VERCEL_TOKEN != '' }}
+    outputs:
+      deployment-url: ${{ steps.vercel-deploy.outputs.preview-url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: actions/download-artifact@v4
+        with:
+          name: registry-public
+          path: packages/registry/public
+      - id: vercel-deploy
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: packages/registry/public
+          vercel-args: '--prod --yes'
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify live registry
+        run: |
+          set -euo pipefail
+          base="${{ needs.deploy.outputs.deployment-url }}"
+          for f in registry.json button.json; do
+            result="$(curl -sf -o /dev/null -w '%{http_code} %{content_type}' "$base/r/$f")" || {
+              echo "FAIL: GET $base/r/$f returned non-2xx or was unreachable"
+              exit 1
+            }
+            code="${result%% *}"
+            ctype="${result#* }"
+            echo "GET $base/r/$f -> HTTP $code ($ctype)"
+            if [[ "$code" != "200" ]]; then
+              echo "FAIL: $f HTTP status $code (expected 200)"
+              exit 1
+            fi
+            if [[ "$ctype" != *json* ]]; then
+              echo "FAIL: $f content-type '$ctype' does not include json"
+              exit 1
+            fi
+          done
+          echo "All checks passed"
