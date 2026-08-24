@@ -119,3 +119,48 @@
 {"argv":["decision","add","--decisions","[{\"decision\":\"Leave initiative closure as an optional lifecycle follow-up after the ci-deploy product phase is checked.\",\"rationale\":\"The product outcome is complete and handoff 01M0FQK83ZQB8SV877AT9FKDWK records it. `zharness handoff --close-phase` cannot close the final phase while the five historical prerequisite phases remain checked rather than done; no product blocker remains. Close those historical phases in dependency order, then run plan complete if full lifecycle closure is desired.\",\"phase\":\"ci-deploy\",\"task\":\"Closing handoff\"}]","--run-id","01M0C9Q2FBSZF577B87DT8BN3C","--json"],"error_code":"","exit":0,"ms":8,"ts":"2026-08-20T14:01:24Z"}
 {"argv":["audit","--json"],"error_code":"","exit":0,"ms":2,"ts":"2026-08-20T14:01:31Z"}
 {"argv":["query","plan","--section","current-state","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:01:31Z"}
+{"argv":["preflight","handoff","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:09:04Z"}
+{"argv":["query","plan","--section","current-state","--json"],"error_code":"","exit":0,"ms":1,"ts":"2026-08-20T14:09:17Z"}
+{"argv":["query","traces","--tail","10","--json"],"error_code":"","exit":0,"ms":10,"ts":"2026-08-20T14:09:17Z"}
+{"argv":["query","decisions","--tail","10","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:09:17Z"}
+{"argv":["query","checks","--tail","3","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:09:17Z"}
+{"argv":["handoff","record","--run-id","01M0APDEFFDQ9M0757AB3NVNM4","--check-id","01M0APJTWWE3MGE3A8Y1YP4N4B","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-20T14:09:28Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:09:32Z"}
+{"argv":["query","plan","--section","current-state","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:09:32Z"}
+{"argv":["query","traces","--phase","workspace-init","--json"],"error_code":"","exit":0,"ms":1,"ts":"2026-08-20T14:10:13Z"}
+{"argv":["query","traces","--phase","token-system","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:10:13Z"}
+{"argv":["query","traces","--phase","registry-items","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:10:13Z"}
+{"argv":["query","traces","--phase","registry-build","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:10:13Z"}
+{"argv":["query","traces","--phase","e2e-smoke","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-20T14:10:13Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:11:10Z"}
+{"argv":["handoff","record","--run-id","01M0ARRNJ2Z9Y9FRN1SGJD7Q4F","--check-id","01M0AS44CDB6WQAWKBKV9EDZRP","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:11:15Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-20T14:11:46Z"}
+{"argv":["handoff","record","--run-id","01M0ASD01XHVSF5DM1QEEX2TKN","--check-id","01M0ATJ4G1G73FEVGCDPRX19DV","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:11:53Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-20T14:12:37Z"}
+{"argv":["handoff","record","--run-id","01M0ATRPYBBYCV3V754P8YV030","--check-id","01M0ATW3R039W411TG9YZTD641","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:12:42Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-20T14:13:22Z"}
+{"argv":["handoff","record","--run-id","01M0BY1AGKECE92SKP664XCMJ1","--check-id","01M0C44A1SGGGEDER96XFQG2K0","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":9,"ts":"2026-08-20T14:13:28Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":6,"ts":"2026-08-20T14:14:14Z"}
+{"argv":["handoff","record","--run-id","01M0C9Q2FBSZF577B87DT8BN3C","--check-id","01M0FQDE49X4XNEHFRK8B0DV54","--open-items","[]","--close-phase","--json"],"error_code":"","exit":0,"ms":8,"ts":"2026-08-20T14:14:19Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-20T14:14:51Z"}
+{"argv":["plan","complete","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-20T14:14:56Z"}
+{"argv":["audit","--json"],"error_code":"","exit":0,"ms":4,"ts":"2026-08-20T14:15:07Z"}
+{"argv":["preflight","git","--json"],"error_code":"","exit":0,"ms":1,"ts":"2026-08-20T14:49:05Z"}
+{"argv":["query","check","--latest","--json"],"error_code":"","exit":0,"ms":4,"ts":"2026-08-20T14:49:34Z"}
+{"argv":["query","check","--latest","--json"],"error_code":"","exit":0,"ms":1,"ts":"2026-08-20T14:56:18Z"}
+{"argv":["preflight","git","--json"],"error_code":"","exit":0,"ms":1,"ts":"2026-08-21T14:14:06Z"}
+{"argv":["query","check","--latest","--json"],"error_code":"","exit":0,"ms":2,"ts":"2026-08-21T14:14:06Z"}
+{"argv":["resume"],"error_code":"","exit":0,"ms":9,"ts":"2026-08-24T14:48:13Z"}
+{"argv":["preflight","watzup","--json"],"error_code":"","exit":0,"ms":16,"ts":"2026-08-24T14:49:21Z"}
+{"argv":["preflight","to-plan","--mode","full","--json"],"error_code":"","exit":0,"ms":11,"ts":"2026-08-24T15:17:35Z"}
+{"argv":["--help"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:18:30Z"}
+{"argv":["intake","--help"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:19:00Z"}
+{"argv":["plan","--help"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:19:00Z"}
+{"argv":["scaffold","--help"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:19:00Z"}
+{"argv":["intake","--type","new-initiative","--lane","normal","--summary","Port Cloudflare Kumo components (MIT) into @therealtinhtute/ui registry re-themed via token bridge: badge, button, input wave 1.","--plan-path","docs/plans/active/kumo-component-port.md","--json"],"error_code":"","exit":0,"ms":11,"ts":"2026-08-24T15:19:37Z"}
+{"argv":["scaffold","plan","--path","docs/plans/active/kumo-component-port.md","--json"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:19:40Z"}
+{"argv":["id"],"error_code":"","exit":0,"ms":0,"ts":"2026-08-24T15:20:03Z"}
+{"argv":["story","--slug","kumo-token-bridge-badge","--goal","Emit kumo-compat CSS variables through the tokens generator onto theme-default and port Kumo Badge as registry item kumo-badge","--json"],"error_code":"","exit":0,"ms":11,"ts":"2026-08-24T15:20:03Z"}
+{"argv":["story","--slug","kumo-button","--goal","Port Kumo Button plus transitive Loader and Tooltip as kumo-button, kumo-loader, kumo-tooltip registry items with @phosphor-icons/react dependency","--depends-on","kumo-token-bridge-badge","--json"],"error_code":"","exit":0,"ms":5,"ts":"2026-08-24T15:20:03Z"}
+{"argv":["story","--slug","kumo-input","--goal","Port Kumo Input plus Field as kumo-input and kumo-field registry items with @base-ui/react dependency","--depends-on","kumo-token-bridge-badge","--json"],"error_code":"","exit":0,"ms":7,"ts":"2026-08-24T15:20:03Z"}
+{"argv":["query","phases","--json"],"error_code":"","exit":0,"ms":16,"ts":"2026-08-24T15:22:26Z"}
