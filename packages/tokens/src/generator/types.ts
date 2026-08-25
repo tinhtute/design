@@ -1,5 +1,20 @@
 export type Mode = "light" | "dark";
 
+/**
+ * One kumo-compat bridge entry for a Kumo semantic color token used by
+ * ported components (`bg-kumo-*`, `text-kumo-*`, …). Either routes to an
+ * existing palette variable so re-theming propagates, or keeps upstream
+ * cloudflare/kumo values when no shadcn equivalent exists.
+ */
+export interface KumoCompatToken {
+  /** Palette variable this token routes to (e.g. "var(--primary)"). */
+  mapsTo?: string;
+  /** Upstream-owned light-mode literal when mapsTo is absent. */
+  light?: string;
+  /** Upstream-owned dark-mode literal when mapsTo is absent. */
+  dark?: string;
+}
+
 export interface ThemeColors {
   light: Record<string, string>;
   dark: Record<string, string>;
