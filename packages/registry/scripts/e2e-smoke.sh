@@ -154,6 +154,7 @@ import "./globals.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Badge as KumoBadge } from "@/components/kumo/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FilterBar } from "@/components/filter-bar";
 import { DataTable, type ColumnDef } from "@/components/data-table";
@@ -190,6 +191,8 @@ function App() {
         Toggle theme
       </Button>
       <Badge>v1</Badge>
+      <KumoBadge variant="success" appearance="dot">Healthy</KumoBadge>
+      <KumoBadge variant="outline">kumo outline</KumoBadge>
       <Input placeholder="Enter text" aria-label="input" />
       <FilterBar value={q} onValueChange={setQ} filterLabel="Apply filter" />
       <Card>
@@ -242,8 +245,17 @@ step "register @therealtinhtute registry"
 "${SHADCN[@]}" registry add "@therealtinhtute=$BASE_URL/{name}.json" --cwd "$CONSUMER"
 ok "registry registered"
 
+# --- 3b. assert served item payloads ----------------------------------------
+for item in kumo-badge; do
+  if curl -sf -o /dev/null -w '%{content_type}' "$BASE_URL/$item.json" | grep -q '^application/json'; then
+    ok "/r/$item.json served as application/json"
+  else
+    fail "/r/$item.json missing or not JSON"
+  fi
+done
+
 # --- 5. add all MVP items + theme -------------------------------------------
-step "add MVP items: button card input badge data-table filter-bar dashboard + theme-default"
+step "add MVP items: button card input badge data-table filter-bar dashboard kumo-badge + theme-default"
 "${SHADCN[@]}" add \
   "@therealtinhtute/button" \
   "@therealtinhtute/card" \
@@ -252,6 +264,7 @@ step "add MVP items: button card input badge data-table filter-bar dashboard + t
   "@therealtinhtute/filter-bar" \
   "@therealtinhtute/data-table" \
   "@therealtinhtute/dashboard" \
+  "@therealtinhtute/kumo-badge" \
   "@therealtinhtute/theme-default" \
   --cwd "$CONSUMER" -y
 ok "all items added"
@@ -267,6 +280,8 @@ expected_files=(
   "src/components/filter-bar.tsx"
   "src/components/dashboard.tsx"
   "src/lib/utils.ts"
+  "src/components/kumo/badge.tsx"
+  "src/components/kumo/resolve-variant.ts"
 )
 for f in "${expected_files[@]}"; do
   if [ -f "$CONSUMER/$f" ]; then
@@ -294,6 +309,18 @@ if grep -qE -- '\.dark\{[^}]*--background:\s*oklch\((14\.5%|0\.145) 0 0\)' "$CSS
   ok ".dark --background = dark oklch(14.5% 0 0)"
 else
   fail ".dark --background token missing in built CSS"
+fi
+# kumo-compat bridge: runtime vars in both modes + utilities compiled from the
+# Kumo class vocabulary (R2) rendered by main.tsx.
+if grep -q -- '--kumo-brand' "$CSS_FILE"; then
+  ok "kumo-compat runtime var --kumo-brand present"
+else
+  fail "kumo-compat runtime vars missing in built CSS"
+fi
+if grep -q -- 'bg-kumo-success' "$CSS_FILE"; then
+  ok "kumo utility .bg-kumo-success compiled"
+else
+  fail "kumo utility classes missing in built CSS"
 fi
 
 # --- 9. SSR render-check of installed components -----------------------------

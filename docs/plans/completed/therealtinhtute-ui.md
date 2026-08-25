@@ -3,9 +3,9 @@ id: 01M0ANQW05BCEE28FYH76VT8NF
 type: plan
 intake_id: 01M0ANR8NSEACM3EJMEA8E53C8
 lane: normal
-status: active
+status: completed
 created: 2026-08-18
-updated: 2026-08-18
+updated: 2026-08-20
 ---
 
 # Plan: @therealtinhtute/ui — public shadcn/ui Registry + design system
@@ -73,7 +73,7 @@ updated: 2026-08-18
 - phases:
   - phase: workspace-init
     story_id: 01M0ANVJQMS813P184SPMGYA7Z
-    status: checked
+    status: done
     goal: Initialize minimal pnpm workspace: packages/tokens + packages/registry, TS/ESLint/Prettier tooling.
     depends_on: none
     waves:
@@ -89,7 +89,7 @@ updated: 2026-08-18
           - pnpm -r typecheck
   - phase: token-system
     story_id: 01M0ANVJQWG0GQ1F9GXZ8JE2J0
-    status: checked
+    status: done
     goal: Build data-driven token system: theme.json -> generator -> globals.css CSS variables + registry:theme items (default light/dark).
     depends_on: workspace-init
     waves:
@@ -106,7 +106,7 @@ updated: 2026-08-18
           - Validate emitted registry:theme item JSON against ui.shadcn.com/schema/registry-item.json
   - phase: registry-items
     story_id: 01M0ANVJR36TQ5GFWGQ7BE8KBY
-    status: checked
+    status: done
     goal: Author MVP component source + registry.json entries (button, input, badge, card, data-table, filter-bar, dashboard block) with correct types/deps/registryDependencies/cssVars.
     depends_on: token-system
     waves:
@@ -124,7 +124,7 @@ updated: 2026-08-18
           - pnpm lint && pnpm -r typecheck
   - phase: registry-build
     story_id: 01M0ANVJRBGTWEB0Z3SMDSZRJ1
-    status: checked
+    status: done
     goal: Produce and validate built registry artifact layout public/r/ via shadcn registry:build (styles/default/{name}.json, index.json, registries.json).
     depends_on: registry-items
     waves:
@@ -141,7 +141,7 @@ updated: 2026-08-18
           - Local static server + curl each item -> 200
   - phase: e2e-smoke
     story_id: 01M0ANVJRJ80MNJWJHRD2AZ4TA
-    status: checked
+    status: done
     goal: Prove fresh consumer installs and renders all MVP items with light/dark theme via local registry.
     depends_on: registry-build
     waves:
@@ -158,7 +158,7 @@ updated: 2026-08-18
           - Optional: headless render assertion that button/card/data-table appear in DOM
   - phase: ci-deploy
     story_id: 01M0ANVJRSWZ7JZEYCNN34HEFX
-    status: checked
+    status: done
     goal: Automate build+validate+deploy on push to main via GitHub Actions so registry URL tracks git.
     depends_on: e2e-smoke
     waves:
@@ -210,6 +210,12 @@ updated: 2026-08-18
 - `2026-08-20T13:55:56Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: GitHub Actions run 32376843343 completed green end-to-end: build 44s, deploy 37s, verify 4s. Vercel deployment protection was disabled for the public project; verify job fetched /r/registry.json and /r/button.json from the live deployment and asserted HTTP 200 application/json for both..
 - `2026-08-20T13:59:11Z` — wave 1. run: `01M0C9Q2FBSZF577B87DT8BN3C`. summary: ci-deploy phase complete and checked: final durable check 01M0FQDE49X4XNEHFRK8B0DV54 APPROVED; GitHub Actions run 32376843343 build/deploy/verify all green; public Vercel registry endpoints /r/registry.json and /r/button.json returned HTTP 200 application/json..
 - `2026-08-20T14:00:59Z` — handoff recorded. handoff: `01M0FQK83ZQB8SV877AT9FKDWK`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. check: `01M0FQDE49X4XNEHFRK8B0DV54`. open items: Optional lifecycle cleanup: close the five historical checked phases in dependency order before completing the initiative.; Run zharness plan complete --json after every phase is done..
+- `2026-08-20T14:09:28Z` — handoff recorded. handoff: `01M0FR2SCGP4A2JWEYW8TRMCT0`. run: `01M0APDEFFDQ9M0757AB3NVNM4`. check: `01M0APJTWWE3MGE3A8Y1YP4N4B`. phase closed.
+- `2026-08-20T14:11:15Z` — handoff recorded. handoff: `01M0FR61E1BECTEQWR0XWRMRKK`. run: `01M0ARRNJ2Z9Y9FRN1SGJD7Q4F`. check: `01M0AS44CDB6WQAWKBKV9EDZRP`. phase closed.
+- `2026-08-20T14:11:53Z` — handoff recorded. handoff: `01M0FR76BHG9JJEAWV8KJXYW66`. run: `01M0ASD01XHVSF5DM1QEEX2TKN`. check: `01M0ATJ4G1G73FEVGCDPRX19DV`. phase closed.
+- `2026-08-20T14:12:42Z` — handoff recorded. handoff: `01M0FR8PCRM3EX5V3RRBSVMNK4`. run: `01M0ATRPYBBYCV3V754P8YV030`. check: `01M0ATW3R039W411TG9YZTD641`. phase closed.
+- `2026-08-20T14:13:28Z` — handoff recorded. handoff: `01M0FRA2W95TJ6M44CSTHQNXCY`. run: `01M0BY1AGKECE92SKP664XCMJ1`. check: `01M0C44A1SGGGEDER96XFQG2K0`. phase closed.
+- `2026-08-20T14:14:19Z` — handoff recorded. handoff: `01M0FRBMT3VGED28QJSXQG9TF9`. run: `01M0C9Q2FBSZF577B87DT8BN3C`. check: `01M0FQDE49X4XNEHFRK8B0DV54`. phase closed.
 
 ## Decisions
 <!-- Append-only durable entries record timestamp, phase/task, decision, and rationale. -->
@@ -220,6 +226,7 @@ updated: 2026-08-18
 - `2026-08-20T13:37:23Z` — Use repository variable VERCEL_ENABLED to gate the deploy job instead of testing secrets in job-level if. (phase: `ci-deploy`), task: Add Cloudflare Pages (default) or Vercel deploy step publishing public/ (registry artifact only).. rationale: GitHub Actions forbids the secrets context in job-level if expressions (actionlint and run 32364726176 both confirmed workflow registration failure). vars is available at job scope; set VERCEL_ENABLED=true only after Vercel project and VERCEL_TOKEN/VERCEL_ORG_ID/VERCEL_PROJECT_ID secrets are configured. This preserves an intentional skip until external deployment is ready..
 - `2026-08-20T13:55:56Z` — Disable Vercel project SSO deployment protection for the public registry project. (phase: `ci-deploy`), task: Post-deploy verification job. rationale: The new project defaulted to ssoProtection.deploymentType=all_except_custom_domains, causing anonymous registry requests to return HTTP 302 to vercel.com/sso-api despite the production deployment being READY. The initiative requires a public static host with no auth; PATCH /v9/projects/{id} with {"ssoProtection":null} removed the protection, after which both registry.json and button.json returned HTTP 200 application/json..
 - `2026-08-20T14:01:24Z` — Leave initiative closure as an optional lifecycle follow-up after the ci-deploy product phase is checked. (phase: `ci-deploy`), task: Closing handoff. rationale: The product outcome is complete and handoff 01M0FQK83ZQB8SV877AT9FKDWK records it. `zharness handoff --close-phase` cannot close the final phase while the five historical prerequisite phases remain checked rather than done; no product blocker remains. Close those historical phases in dependency order, then run plan complete if full lifecycle closure is desired..
+- `2026-08-20T14:14:56Z` — plan completed. rationale: every phase_slug is a done story.
 
 ## Validation
 <!-- Append-only durable entries record timestamp, phase, exact command/result/output, run_id, check_id, verdict, and proof_gaps. -->
@@ -266,15 +273,14 @@ updated: 2026-08-18
   - `git diff --check` → Final gate -> clean.
 
 ## Current State and Next Action
-- active_phase: ci-deploy
-- lifecycle_status: checked
+- active_phase: none
+- lifecycle_status: done
 - latest_run_id: 01M0C9Q2FBSZF577B87DT8BN3C
 - latest_trace_ids: [01M0FQFXZZE3C0RMPT1Q9GYG37, 01M0FQA064K3C6QSCK79GXKWJ3, 01M0FPH9PZVHBS5219YQ2PGX8X, 01M0FPBFJXY6DZ44AFZC1K2G4Y]
 - latest_check_id: 01M0FQDE49X4XNEHFRK8B0DV54
-- latest_handoff_id: 01M0FQK83ZQB8SV877AT9FKDWK
+- latest_handoff_id: 01M0FRBMT3VGED28QJSXQG9TF9
 - blockers:
   - none
 - open_items:
-  - optional lifecycle cleanup: close the five historical checked phases in dependency order before completing the initiative
-  - run `zharness plan complete --json` after every phase is done
-- exact_next_action: product work is complete; if initiative closure is desired, close historical checked phases in dependency order, then run `zharness plan complete --json`
+  - none
+- exact_next_action: run `zharness plan complete --json`

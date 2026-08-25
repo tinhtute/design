@@ -1,4 +1,4 @@
-import { colorNames } from "./shared";
+import { colorNames, kumoModeVars, kumoThemeInlineVars } from "./shared";
 import type { Theme } from "./types";
 
 /** `@theme inline` block: bridges runtime vars into Tailwind theme tokens. */
@@ -6,6 +6,9 @@ function themeInlineVars(theme: Theme): string[] {
   const vars: string[] = [];
   for (const name of colorNames(theme)) {
     vars.push(`--color-${name}: var(--${name});`);
+  }
+  for (const [name, value] of kumoThemeInlineVars()) {
+    vars.push(`${name}: ${value};`);
   }
   for (const [key, mult] of Object.entries(theme.radiusScale ?? {})) {
     vars.push(`--radius-${key}: calc(var(--radius) * ${mult});`);
@@ -34,6 +37,9 @@ function lightVars(theme: Theme): string[] {
   for (const [key, value] of Object.entries(theme.colors.light)) {
     vars.push(`--${key}: ${value};`);
   }
+  for (const [name, value] of kumoModeVars("light")) {
+    vars.push(`${name}: ${value};`);
+  }
   vars.push(`--radius: ${theme.radius};`);
   for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
     vars.push(`--font-${key}: ${value};`);
@@ -45,6 +51,9 @@ function darkVars(theme: Theme): string[] {
   const vars: string[] = [];
   for (const [key, value] of Object.entries(theme.colors.dark)) {
     vars.push(`--${key}: ${value};`);
+  }
+  for (const [name, value] of kumoModeVars("dark")) {
+    vars.push(`${name}: ${value};`);
   }
   return vars;
 }
