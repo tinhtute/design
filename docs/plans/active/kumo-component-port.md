@@ -62,7 +62,7 @@ updated: 2026-08-24
 
 - phase_slug: kumo-token-bridge-badge
   story_id: 01M0T5PW9JX77P0RT56RE28AKY
-  status: planned
+  status: checked
   goal: Emit kumo-compat CSS variables through the tokens generator onto theme-default and port Kumo Badge as registry item kumo-badge.
   depends_on: none
   surfaces:
@@ -137,23 +137,32 @@ updated: 2026-08-24
 
 ## Progress
 <!-- Append-only durable entries record timestamp, phase, wave, task, task_status, run_id, trace_id, exact verification/result, and changed surfaces or blocker. -->
-- none
+- `2026-08-24T15:52:57Z` — wave 1, task T1. task_status: `DONE`. run: `01M0T6SYH7ZNBQBFBXB64D6ZFX`. summary: Upstream pinned: shallow-cloned cloudflare/kumo HEAD e6d17c6ffc566009277447dc213d72638a0b78ad (git rev-parse); all copies + KUMO_COMPAT values reference this commit; hash recorded in file attribution headers and shared.ts..
+- `2026-08-24T15:52:57Z` — wave 1, task T2. task_status: `DONE`. run: `01M0T6SYH7ZNBQBFBXB64D6ZFX`. summary: kumoCompat bridge added to packages/tokens/src/generator/{types,shared,css,registry}.ts: 9 R1-mapped tokens route to palette vars, 19 upstream-owned status-hue/support tokens per mode (decision 01M0T7JNEG8S3G6ZB18G16RHBK). Check chain pnpm generate && validate && typecheck exit 0; dist/themes/default.css carries 28 --kumo-* vars in :root AND .dark plus 28 --color-kumo-* @theme inline bridges; dist/registry/theme-default.json cssVars match..
+- `2026-08-24T15:52:57Z` — wave 1, task T3. task_status: `DONE`. run: `01M0T6SYH7ZNBQBFBXB64D6ZFX`. summary: Copied resolve-variant.ts + badge.tsx verbatim from pinned commit into packages/registry/src/components/kumo/ with attribution headers; imports adjusted to @/lib/utils + ./resolve-variant; kumo-badge registry item appended with phosphor dependency (devDep added per decision 01M0T7JNEG8S3G6ZB18JCGSGFJ), files target components/kumo/. Registry typecheck exit 0; validate OK for all 13 items incl. kumo-badge..
+- `2026-08-24T15:53:08Z` — wave 1. run: `01M0T6SYH7ZNBQBFBXB64D6ZFX`. summary: Wave 1 complete: token bridge emits 28 --color-kumo-* vars (9 R1-mapped to palette + 19 upstream-owned) onto default.css both modes + theme-default cssVars; kumo-badge ported verbatim from pinned commit e6d17c6f with resolve-variant util, registry entry validated; tokens generate/validate/typecheck and registry typecheck all exit 0..
 
 ## Decisions
 <!-- Append-only durable entries record timestamp, phase/task, decision, and rationale. -->
-- none
+- `2026-08-24T15:52:42Z` — kumoCompat map emits 28 tokens: the 9 R1-mapped rows plus 19 status-hue/support tokens badge.tsx references but R1 does not name (fill, link, info/warning/danger/success-tint, badge-inverted, badge-neutral, badge-teal-subtle, badge-neutral-subtle), using pinned upstream theme-kumo.css values per mode. (phase: `kumo-token-bridge-badge`), task: T2. rationale: Badge keeps its Kumo class vocabulary (R2); without these vars bg-kumo-fill/text-kumo-link/*-tint classes would silently no-op and the ported badge renders broken. Values taken verbatim from upstream light/dark blocks at the pinned commit..
+- `2026-08-24T15:52:42Z` — Added @phosphor-icons/react ^2.1.10 to packages/registry/package.json devDependencies and declared it in the kumo-badge item dependencies. (phase: `kumo-token-bridge-badge`), task: T3. rationale: Upstream badge.tsx has a type-only import of Icon from @phosphor-icons/react; tsc must resolve it for the T4 typecheck gate. The phase surfaces omitted package.json, but R4 explicitly sanctions phosphor as workspace devDep + item dependency (design lists Badge icon slot). Keeps the copied source verbatim instead of rewriting the import..
 
 ## Validation
 <!-- Append-only durable entries record timestamp, phase, exact command/result/output, run_id, check_id, verdict, and proof_gaps. -->
-- none
+- `2026-08-25T12:30:32Z` — check. verdict: `APPROVED`. check: `01M0WED6YH8Q6NABYR9MKV9N94`. run: `01M0T6SYH7ZNBQBFBXB64D6ZFX`. phase: `kumo-token-bridge-badge`. judge: `same-session` (stealth/ox-alpha).
+  - `pnpm --filter @therealtinhtute/tokens generate && pnpm --filter @therealtinhtute/tokens validate && pnpm --filter @therealtinhtute/tokens typecheck` → Validation entry kumo-token-bridge-badge: tokens generate+validate+typecheck exit 0, no dist drift
+  - `pnpm --filter @therealtinhtute/registry build && pnpm --filter @therealtinhtute/registry typecheck && pnpm --filter @therealtinhtute/registry validate && pnpm --filter @therealtinhtute/registry validate:build` → Validation entry kumo-token-bridge-badge: registry build/typecheck/validate (13 items)/validate:build (14 files incl kumo-badge.json) exit 0
+  - `pnpm --filter @therealtinhtute/registry e2e` → Validation entry kumo-token-bridge-badge: e2e smoke all checks passed — /r/kumo-badge.json served as JSON, installed into fresh consumer, --kumo-brand var + .bg-kumo-success utility in built CSS, SSR render OK
 
 ## Current State and Next Action
-- active_phase: none
-- lifecycle_status: planned
-- latest_run_id: none
+- active_phase: kumo-token-bridge-badge
+- lifecycle_status: checked
+- latest_run_id: 01M0T6SYH7ZNBQBFBXB64D6ZFX
 - latest_trace_ids: []
-- latest_check_id: none
-- latest_handoff_id: none
+- latest_check_id: 01M0WED6YH8Q6NABYR9MKV9N94
+- latest_handoff_id: 01M0FRBMT3VGED28QJSXQG9TF9 (prior)
 - blockers: none
-- open_items: [execute phase kumo-token-bridge-badge]
-- exact_next_action: work full on phase kumo-token-bridge-badge (start by pinning the upstream cloudflare/kumo commit)
+- open_items:
+  - none — wave 1 (T1 pin e6d17c6f, T2 token bridge, T3 badge port) and wave 2 (T4 full gate + e2e kumo-badge assertion) all complete; check APPROVED same-session
+  - unverified by this gate: visual fidelity vs kumo-ui.com references + dark-mode emphasis with non-neutral primary (deferred to kumo-input phase T4 fresh-consumer acceptance per plan)
+- exact_next_action: commit + push feat/kumo-component-port and open PR to main; then next phase kumo-button (T1 phosphor devDep already in lockfile, T2 port loader/tooltip/button)
