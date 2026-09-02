@@ -1,0 +1,734 @@
+{
+  "pin": "a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf",
+  "topo": [
+    "badge",
+    "code",
+    "collapsible",
+    "date-picker",
+    "dropdown-menu",
+    "grid",
+    "layer-card",
+    "link",
+    "loader",
+    "meter",
+    "popover",
+    "radio",
+    "resource-list-page",
+    "table-of-contents",
+    "tabs",
+    "text",
+    "tooltip",
+    "utils",
+    "dialog",
+    "chart",
+    "command-palette",
+    "page-header",
+    "button",
+    "bubble-map",
+    "choropleth-map",
+    "sankey-chart",
+    "timeseries-chart",
+    "banner",
+    "breadcrumbs",
+    "empty",
+    "label",
+    "sidebar",
+    "toasty",
+    "checkbox",
+    "field",
+    "table",
+    "switch"
+  ],
+  "cycles": [
+    "input-area depends on input; input-group depends on input \u2014 order: field, input, then input-area/input-group"
+  ],
+  "items": {
+    "autocomplete": {
+      "files": [
+        "components/autocomplete/autocomplete.tsx",
+        "components/autocomplete/index.ts"
+      ],
+      "registryDependencies": [
+        "field",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "badge": {
+      "files": [
+        "components/badge/badge.tsx",
+        "components/badge/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "banner": {
+      "files": [
+        "components/banner/banner-action.tsx",
+        "components/banner/banner.tsx",
+        "components/banner/index.ts"
+      ],
+      "registryDependencies": [
+        "button",
+        "link",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "breadcrumbs": {
+      "files": [
+        "components/breadcrumbs/breadcrumbs.tsx",
+        "components/breadcrumbs/index.ts"
+      ],
+      "registryDependencies": [
+        "button",
+        "loader",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "bubble-map": {
+      "files": [],
+      "registryDependencies": [
+        "chart",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ]
+    },
+    "button": {
+      "files": [
+        "components/button/button.tsx",
+        "components/button/index.ts"
+      ],
+      "registryDependencies": [
+        "loader",
+        "third-party-licenses",
+        "tooltip",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "chart": {
+      "files": [
+        "components/chart/Color.ts",
+        "components/chart/EChart.tsx",
+        "components/chart/Legend.tsx",
+        "components/chart/Maps.tsx",
+        "components/chart/index.ts",
+        "components/chart/tooltip-utils.ts"
+      ],
+      "registryDependencies": [
+        "loader",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ]
+    },
+    "checkbox": {
+      "files": [
+        "components/checkbox/checkbox.tsx",
+        "components/checkbox/index.ts"
+      ],
+      "registryDependencies": [
+        "label",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "choropleth-map": {
+      "files": [],
+      "registryDependencies": [
+        "chart",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ]
+    },
+    "clipboard-text": {
+      "files": [
+        "components/clipboard-text/clipboard-text.tsx",
+        "components/clipboard-text/index.ts"
+      ],
+      "registryDependencies": [
+        "button",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "code": {
+      "files": [
+        "components/code/code.tsx",
+        "components/code/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "collapsible": {
+      "files": [
+        "components/collapsible/collapsible.tsx",
+        "components/collapsible/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "combobox": {
+      "files": [
+        "components/combobox/combobox.tsx",
+        "components/combobox/index.ts"
+      ],
+      "registryDependencies": [
+        "field",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "command-palette": {
+      "files": [
+        "components/command-palette/command-palette.tsx",
+        "components/command-palette/index.ts",
+        "components/command-palette/types.ts"
+      ],
+      "registryDependencies": [
+        "layer-card",
+        "loader",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "date-picker": {
+      "files": [
+        "components/date-picker/date-picker.tsx",
+        "components/date-picker/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react",
+        "react-day-picker"
+      ]
+    },
+    "delete-resource": {
+      "files": [
+        "blocks/delete-resource/delete-resource.tsx",
+        "blocks/delete-resource/index.ts"
+      ],
+      "registryDependencies": [
+        "banner",
+        "button",
+        "dialog",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "dialog": {
+      "files": [
+        "components/dialog/dialog.tsx",
+        "components/dialog/index.ts"
+      ],
+      "registryDependencies": [
+        "layer-card",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "dropdown-menu": {
+      "files": [
+        "components/dropdown/dropdown.tsx",
+        "components/dropdown/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "empty": {
+      "files": [
+        "components/empty/empty.tsx",
+        "components/empty/index.ts"
+      ],
+      "registryDependencies": [
+        "button",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "field": {
+      "files": [
+        "components/field/field.tsx",
+        "components/field/index.ts"
+      ],
+      "registryDependencies": [
+        "label",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "grid": {
+      "files": [
+        "components/grid/grid.tsx",
+        "components/grid/index.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "input": {
+      "files": [
+        "components/input/input.tsx"
+      ],
+      "registryDependencies": [
+        "field",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "input-area": {
+      "files": [
+        "components/input/input-area.tsx"
+      ],
+      "registryDependencies": [
+        "field",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "input-group": {
+      "files": [
+        "components/input-group/context.ts",
+        "components/input-group/index.ts",
+        "components/input-group/input-group-addon.tsx",
+        "components/input-group/input-group-button.tsx",
+        "components/input-group/input-group-input.tsx",
+        "components/input-group/input-group-suffix.tsx",
+        "components/input-group/input-group.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "field",
+        "input",
+        "third-party-licenses",
+        "tooltip",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "label": {
+      "files": [
+        "components/label/index.ts",
+        "components/label/label.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "third-party-licenses",
+        "tooltip",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "layer-card": {
+      "files": [
+        "components/layer-card/index.ts",
+        "components/layer-card/layer-card.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "link": {
+      "files": [
+        "components/link/index.ts",
+        "components/link/link.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "loader": {
+      "files": [
+        "components/loader/index.ts",
+        "components/loader/loader.tsx",
+        "components/loader/skeleton-line.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "meter": {
+      "files": [
+        "components/meter/index.ts",
+        "components/meter/meter.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "page-header": {
+      "files": [
+        "blocks/page-header/index.ts",
+        "blocks/page-header/page-header.tsx"
+      ],
+      "registryDependencies": [
+        "tabs",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "pagination": {
+      "files": [
+        "components/pagination/index.ts",
+        "components/pagination/pagination.tsx"
+      ],
+      "registryDependencies": [
+        "input-group",
+        "select",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@phosphor-icons/react"
+      ]
+    },
+    "popover": {
+      "files": [
+        "components/popover/index.ts",
+        "components/popover/popover.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "radio": {
+      "files": [
+        "components/radio/index.ts",
+        "components/radio/radio.tsx",
+        "components/radio/radio.type-spec.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "resource-list-page": {
+      "files": [
+        "blocks/resource-list/index.ts",
+        "blocks/resource-list/resource-list.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "sankey-chart": {
+      "files": [
+        "components/chart/SankeyChart.tsx"
+      ],
+      "registryDependencies": [
+        "chart",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "echarts"
+      ]
+    },
+    "select": {
+      "files": [
+        "components/select/index.ts",
+        "components/select/select.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "field",
+        "input",
+        "label",
+        "loader",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "sensitive-input": {
+      "files": [
+        "components/sensitive-input/index.ts",
+        "components/sensitive-input/sensitive-input.tsx"
+      ],
+      "registryDependencies": [
+        "field",
+        "input",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "sidebar": {
+      "files": [
+        "components/sidebar/index.ts",
+        "components/sidebar/sidebar.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "loader",
+        "third-party-licenses",
+        "tooltip",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "switch": {
+      "files": [
+        "components/switch/index.ts",
+        "components/switch/switch.tsx"
+      ],
+      "registryDependencies": [
+        "field",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "table": {
+      "files": [
+        "components/table/index.ts",
+        "components/table/table.tsx"
+      ],
+      "registryDependencies": [
+        "checkbox",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "table-of-contents": {
+      "files": [
+        "components/table-of-contents/index.ts",
+        "components/table-of-contents/table-of-contents.tsx",
+        "components/table-of-contents/use-table-of-contents-active-id.ts"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "tabs": {
+      "files": [
+        "components/tabs/index.ts",
+        "components/tabs/tabs.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "text": {
+      "files": [
+        "components/text/index.ts",
+        "components/text/text.tsx",
+        "components/text/text.type-spec.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": []
+    },
+    "timeseries-chart": {
+      "files": [
+        "components/chart/TimeseriesChart.tsx",
+        "components/chart/timeseries-markers.ts",
+        "components/chart/timeseries-thresholds.ts",
+        "components/chart/timeseries-tooltip.tsx"
+      ],
+      "registryDependencies": [
+        "chart",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "echarts"
+      ]
+    },
+    "toasty": {
+      "files": [
+        "components/toast/index.ts",
+        "components/toast/toast.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ]
+    },
+    "toolbar": {
+      "files": [
+        "components/toolbar/index.ts",
+        "components/toolbar/toolbar.tsx"
+      ],
+      "registryDependencies": [
+        "button",
+        "input",
+        "input-group",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "tooltip": {
+      "files": [
+        "components/tooltip/index.ts",
+        "components/tooltip/tooltip.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": [
+        "@base-ui/react"
+      ]
+    },
+    "utils": {
+      "files": [
+        "utils/cn.ts",
+        "utils/resolve-variant.ts",
+        "utils/link-provider.tsx",
+        "utils/portal-provider.tsx"
+      ],
+      "registryDependencies": [
+        "third-party-licenses"
+      ],
+      "dependencies": []
+    }
+  },
+  "notes": {
+    "input-cycle": "Do not copy components/input/index.ts barrels. input owns input.tsx only; input-area owns input-area.tsx; input-group owns its folder. That removes input\u2194input-area cycle.",
+    "chart-family": "chart owns Color.ts EChart.tsx Legend.tsx Maps.tsx tooltip-utils.ts and a rewritten index that does NOT re-export Sankey/Timeseries/Maps public charts as separate packages. bubble-map and choropleth-map are thin re-export files depending on chart. sankey-chart owns SankeyChart.tsx. timeseries-chart owns TimeseriesChart.tsx + timeseries-*.",
+    "targets": "Consumer path components/ui/{kebab}.tsx or components/ui/{kebab}/* when multiple files. Shared lib files land in lib/ via utils item."
+  }
+}
