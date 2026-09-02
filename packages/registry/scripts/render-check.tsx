@@ -2,9 +2,9 @@
  * render-check.tsx — SSR smoke check for the e2e consumer.
  *
  * Copied into the temp consumer app by `scripts/e2e-smoke.sh`, then run with
- * `tsx`. Renders the installed MVP components with react-dom/server and asserts
- * that expected content appears in the output HTML — proving the components
- * mount in a real render pass with the installed dependencies.
+ * `tsx`. Renders the installed Kumo Button/Badge plus FilterBar, DataTable,
+ * and Dashboard (layer-card, no Card) with react-dom/server and asserts that
+ * expected content appears in the output HTML.
  *
  * Uses the consumer's `@/*` path alias (tsconfig paths), which tsx resolves.
  */
@@ -41,13 +41,13 @@ const html = renderToString(
 );
 
 const expected = [
-  "Click me", // button
-  "v1", // badge
+  "Click me", // Kumo Button
+  "v1", // Kumo Badge
   "Apply filter", // filter-bar
   "Ada", // data-table row
   "Grace", // data-table row
   "Dashboard", // dashboard block
-  "Recent orders", // dashboard card
+  "Recent orders", // dashboard layer-card
   "ORD-001", // dashboard recent-orders table
 ];
 

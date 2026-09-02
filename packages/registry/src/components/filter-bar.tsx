@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Search, X } from "lucide-react";
+import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -26,22 +26,25 @@ export function FilterBar({
   return (
     <div className={cn("flex items-center gap-2", className)} {...props}>
       <div className="relative w-full max-w-sm">
-        <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
+        <MagnifyingGlass className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-kumo-subtle" />
         <Input
           value={value}
           onChange={(event) => onValueChange(event.target.value)}
           placeholder={placeholder}
+          aria-label={placeholder}
           className="pl-8"
         />
         {value ? (
-          <button
+          <Button
             type="button"
-            onClick={() => onValueChange("")}
+            shape="square"
+            size="sm"
+            variant="ghost"
+            icon={X}
             aria-label="Clear search"
-            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-2 -translate-y-1/2"
-          >
-            <X className="size-4" />
-          </button>
+            onClick={() => onValueChange("")}
+            className="absolute top-1/2 right-1 -translate-y-1/2"
+          />
         ) : null}
       </div>
       <Button type="button" onClick={onFilter}>

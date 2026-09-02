@@ -8,7 +8,7 @@
       "name": "theme-default",
       "type": "registry:theme",
       "title": "Default",
-      "description": "Default @therealtinhtute/ui theme — neutral palette, shadcn/ui compatible, light + dark.",
+      "description": "Default @therealtinhtute/ui theme \u2014 neutral palette, shadcn/ui compatible, light + dark.",
       "cssVars": {
         "theme": {
           "--color-background": "var(--background)",
@@ -43,24 +43,37 @@
           "--color-sidebar-accent-foreground": "var(--sidebar-accent-foreground)",
           "--color-sidebar-border": "var(--sidebar-border)",
           "--color-sidebar-ring": "var(--sidebar-ring)",
-          "--color-kumo-brand": "var(--kumo-brand)",
-          "--color-kumo-danger": "var(--kumo-danger)",
+          "--color-kumo-canvas": "var(--kumo-canvas)",
+          "--color-kumo-elevated": "var(--kumo-elevated)",
+          "--color-kumo-recessed": "var(--kumo-recessed)",
           "--color-kumo-base": "var(--kumo-base)",
           "--color-kumo-tint": "var(--kumo-tint)",
+          "--color-kumo-contrast": "var(--kumo-contrast)",
+          "--color-kumo-overlay": "var(--kumo-overlay)",
+          "--color-kumo-control": "var(--kumo-control)",
+          "--color-kumo-interact": "var(--kumo-interact)",
+          "--color-kumo-fill": "var(--kumo-fill)",
+          "--color-kumo-fill-hover": "var(--kumo-fill-hover)",
+          "--color-kumo-brand": "var(--kumo-brand)",
+          "--color-kumo-brand-hover": "var(--kumo-brand-hover)",
+          "--color-kumo-link": "var(--kumo-link)",
           "--color-kumo-line": "var(--kumo-line)",
           "--color-kumo-hairline": "var(--kumo-hairline)",
-          "--color-kumo-default": "var(--kumo-default)",
-          "--color-kumo-strong": "var(--kumo-strong)",
-          "--color-kumo-subtle": "var(--kumo-subtle)",
-          "--color-kumo-success": "var(--kumo-success)",
-          "--color-kumo-warning": "var(--kumo-warning)",
+          "--color-kumo-focus": "var(--kumo-focus)",
+          "--color-kumo-shadow-edge": "var(--kumo-shadow-edge)",
+          "--color-kumo-shadow-drop": "var(--kumo-shadow-drop)",
+          "--color-kumo-arrow-edge": "var(--kumo-arrow-edge)",
+          "--color-kumo-arrow-stroke": "var(--kumo-arrow-stroke)",
           "--color-kumo-info": "var(--kumo-info)",
-          "--color-kumo-fill": "var(--kumo-fill)",
-          "--color-kumo-link": "var(--kumo-link)",
           "--color-kumo-info-tint": "var(--kumo-info-tint)",
+          "--color-kumo-warning": "var(--kumo-warning)",
           "--color-kumo-warning-tint": "var(--kumo-warning-tint)",
+          "--color-kumo-danger": "var(--kumo-danger)",
           "--color-kumo-danger-tint": "var(--kumo-danger-tint)",
+          "--color-kumo-success": "var(--kumo-success)",
           "--color-kumo-success-tint": "var(--kumo-success-tint)",
+          "--color-kumo-banner-info": "var(--kumo-banner-info)",
+          "--color-kumo-banner-warning": "var(--kumo-banner-warning)",
           "--color-kumo-badge-red": "var(--kumo-badge-red)",
           "--color-kumo-badge-green": "var(--kumo-badge-green)",
           "--color-kumo-badge-orange": "var(--kumo-badge-orange)",
@@ -71,6 +84,22 @@
           "--color-kumo-badge-inverted": "var(--kumo-badge-inverted)",
           "--color-kumo-badge-teal-subtle": "var(--kumo-badge-teal-subtle)",
           "--color-kumo-badge-neutral-subtle": "var(--kumo-badge-neutral-subtle)",
+          "--text-color-kumo-default": "var(--text-color-kumo-default)",
+          "--text-color-kumo-inverse": "var(--text-color-kumo-inverse)",
+          "--text-color-kumo-strong": "var(--text-color-kumo-strong)",
+          "--text-color-kumo-subtle": "var(--text-color-kumo-subtle)",
+          "--text-color-kumo-inactive": "var(--text-color-kumo-inactive)",
+          "--text-color-kumo-placeholder": "var(--text-color-kumo-placeholder)",
+          "--text-color-kumo-brand": "var(--text-color-kumo-brand)",
+          "--text-color-kumo-link": "var(--text-color-kumo-link)",
+          "--text-color-kumo-info": "var(--text-color-kumo-info)",
+          "--text-color-kumo-success": "var(--text-color-kumo-success)",
+          "--text-color-kumo-danger": "var(--text-color-kumo-danger)",
+          "--text-color-kumo-warning": "var(--text-color-kumo-warning)",
+          "--text-color-kumo-badge-orange-subtle": "var(--text-color-kumo-badge-orange-subtle)",
+          "--text-color-kumo-badge-teal-subtle": "var(--text-color-kumo-badge-teal-subtle)",
+          "--text-color-kumo-badge-neutral-subtle": "var(--text-color-kumo-badge-neutral-subtle)",
+          "--text-color-kumo-badge-inverted": "var(--text-color-kumo-badge-inverted)",
           "--radius-sm": "calc(var(--radius) * 0.6)",
           "--radius-md": "calc(var(--radius) * 0.8)",
           "--radius-lg": "calc(var(--radius) * 1)",
@@ -99,7 +128,7 @@
           "--card-foreground": "oklch(0.145 0 0)",
           "--popover": "oklch(1 0 0)",
           "--popover-foreground": "oklch(0.145 0 0)",
-          "--primary": "oklch(0.205 0 0)",
+          "--primary": "oklch(0.3917 0.0748 236.055)",
           "--primary-foreground": "oklch(0.985 0 0)",
           "--secondary": "oklch(0.97 0 0)",
           "--secondary-foreground": "oklch(0.205 0 0)",
@@ -119,30 +148,43 @@
           "--chart-5": "oklch(0.769 0.188 70.08)",
           "--sidebar": "oklch(0.985 0 0)",
           "--sidebar-foreground": "oklch(0.145 0 0)",
-          "--sidebar-primary": "oklch(0.205 0 0)",
+          "--sidebar-primary": "oklch(0.3917 0.0748 236.055)",
           "--sidebar-primary-foreground": "oklch(0.985 0 0)",
           "--sidebar-accent": "oklch(0.97 0 0)",
           "--sidebar-accent-foreground": "oklch(0.205 0 0)",
           "--sidebar-border": "oklch(0.922 0 0)",
           "--sidebar-ring": "oklch(0.708 0 0)",
-          "--kumo-brand": "var(--primary)",
-          "--kumo-danger": "var(--destructive)",
+          "--kumo-canvas": "oklch(98.75% 0 0)",
+          "--kumo-elevated": "oklch(98% 0 0)",
+          "--kumo-recessed": "oklch(96% 0 0)",
           "--kumo-base": "var(--background)",
           "--kumo-tint": "var(--muted)",
+          "--kumo-contrast": "oklch(8.5% 0 0)",
+          "--kumo-overlay": "oklch(97.5% 0 0)",
+          "--kumo-control": "#fff",
+          "--kumo-interact": "oklch(87% 0 0)",
+          "--kumo-fill": "oklch(92.2% 0 0)",
+          "--kumo-fill-hover": "oklch(96.5% 0 0)",
+          "--kumo-brand": "oklch(0.3917 0.0748 236.055)",
+          "--kumo-brand-hover": "oklch(0.32 0.0748 236.055)",
+          "--kumo-link": "oklch(0.3917 0.0748 236.055)",
           "--kumo-line": "var(--border)",
           "--kumo-hairline": "var(--border)",
-          "--kumo-default": "var(--foreground)",
-          "--kumo-strong": "var(--foreground)",
-          "--kumo-subtle": "var(--muted-foreground)",
-          "--kumo-success": "oklch(59.6% 0.145 163.225)",
-          "--kumo-warning": "oklch(73.9% 0.177 58.2)",
+          "--kumo-focus": "oklch(15% 0 0)",
+          "--kumo-shadow-edge": "oklch(0% 0 0 / 0.12)",
+          "--kumo-shadow-drop": "oklch(0% 0 0 / 0.08)",
+          "--kumo-arrow-edge": "oklch(14.5% 0 0 / 0.1)",
+          "--kumo-arrow-stroke": "transparent",
           "--kumo-info": "oklch(68.5% 0.169 237.323)",
-          "--kumo-fill": "oklch(92.2% 0 0)",
-          "--kumo-link": "oklch(42.4% 0.199 265.638)",
           "--kumo-info-tint": "oklch(93.2% 0.032 255.6 / 0.45)",
+          "--kumo-warning": "oklch(73.9% 0.177 58.2)",
           "--kumo-warning-tint": "oklch(93.1% 0.107 94.6 / 0.2)",
+          "--kumo-danger": "var(--destructive)",
           "--kumo-danger-tint": "oklch(93.6% 0.032 17.7 / 0.42)",
+          "--kumo-success": "oklch(59.6% 0.145 163.225)",
           "--kumo-success-tint": "oklch(96.2% 0.043 156.7 / 0.57)",
+          "--kumo-banner-info": "oklch(93.2% 0.032 255.585 / 0.7)",
+          "--kumo-banner-warning": "oklch(97.3% 0.071 103.193)",
           "--kumo-badge-red": "oklch(57.7% 0.245 27.325)",
           "--kumo-badge-green": "oklch(59.6% 0.145 163.225)",
           "--kumo-badge-orange": "oklch(81.5% 0.197 76)",
@@ -153,6 +195,22 @@
           "--kumo-badge-inverted": "oklch(14.5% 0 0)",
           "--kumo-badge-teal-subtle": "oklch(43.7% 0.078 188.216)",
           "--kumo-badge-neutral-subtle": "oklch(26.9% 0 0)",
+          "--text-color-kumo-default": "var(--foreground)",
+          "--text-color-kumo-inverse": "oklch(97% 0 0)",
+          "--text-color-kumo-strong": "var(--foreground)",
+          "--text-color-kumo-subtle": "var(--muted-foreground)",
+          "--text-color-kumo-inactive": "oklch(87% 0 0)",
+          "--text-color-kumo-placeholder": "oklch(70.8% 0 0)",
+          "--text-color-kumo-brand": "#f6821f",
+          "--text-color-kumo-link": "oklch(0.3917 0.0748 236.055)",
+          "--text-color-kumo-info": "oklch(42.4% 0.199 265.638)",
+          "--text-color-kumo-success": "oklch(43.2% 0.095 166.913)",
+          "--text-color-kumo-danger": "oklch(50.5% 0.213 27.518)",
+          "--text-color-kumo-warning": "oklch(59.7% 0.144 57.5)",
+          "--text-color-kumo-badge-orange-subtle": "oklch(47% 0.157 37.304)",
+          "--text-color-kumo-badge-teal-subtle": "oklch(43.7% 0.078 188.216)",
+          "--text-color-kumo-badge-neutral-subtle": "oklch(26.9% 0 0)",
+          "--text-color-kumo-badge-inverted": "#fff",
           "--radius": "0.625rem",
           "--font-sans": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
           "--font-mono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
@@ -165,7 +223,7 @@
           "--card-foreground": "oklch(0.985 0 0)",
           "--popover": "oklch(0.205 0 0)",
           "--popover-foreground": "oklch(0.985 0 0)",
-          "--primary": "oklch(0.922 0 0)",
+          "--primary": "oklch(0.72 0.0748 236.055)",
           "--primary-foreground": "oklch(0.205 0 0)",
           "--secondary": "oklch(0.269 0 0)",
           "--secondary-foreground": "oklch(0.985 0 0)",
@@ -185,30 +243,43 @@
           "--chart-5": "oklch(0.645 0.246 16.439)",
           "--sidebar": "oklch(0.205 0 0)",
           "--sidebar-foreground": "oklch(0.985 0 0)",
-          "--sidebar-primary": "oklch(0.488 0.243 264.376)",
-          "--sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "--sidebar-primary": "oklch(0.72 0.0748 236.055)",
+          "--sidebar-primary-foreground": "oklch(0.205 0 0)",
           "--sidebar-accent": "oklch(0.269 0 0)",
           "--sidebar-accent-foreground": "oklch(0.985 0 0)",
           "--sidebar-border": "oklch(1 0 0 / 10%)",
           "--sidebar-ring": "oklch(0.556 0 0)",
-          "--kumo-brand": "var(--primary)",
-          "--kumo-danger": "var(--destructive)",
+          "--kumo-canvas": "oklch(10% 0 0)",
+          "--kumo-elevated": "oklch(12% 0 0)",
+          "--kumo-recessed": "oklch(15% 0 0)",
           "--kumo-base": "var(--background)",
           "--kumo-tint": "var(--muted)",
+          "--kumo-contrast": "oklch(98.5% 0 0)",
+          "--kumo-overlay": "oklch(26.9% 0 0)",
+          "--kumo-control": "oklch(21% 0.006 285.885)",
+          "--kumo-interact": "oklch(37.1% 0 0)",
+          "--kumo-fill": "oklch(26.9% 0 0)",
+          "--kumo-fill-hover": "oklch(37.1% 0 0)",
+          "--kumo-brand": "oklch(0.72 0.0748 236.055)",
+          "--kumo-brand-hover": "oklch(0.80 0.0748 236.055)",
+          "--kumo-link": "oklch(0.72 0.0748 236.055)",
           "--kumo-line": "var(--border)",
           "--kumo-hairline": "var(--border)",
-          "--kumo-default": "var(--foreground)",
-          "--kumo-strong": "var(--foreground)",
-          "--kumo-subtle": "var(--muted-foreground)",
-          "--kumo-success": "oklch(76.5% 0.177 163.223)",
-          "--kumo-warning": "oklch(64.5% 0.168 50)",
+          "--kumo-focus": "oklch(93.5% 0 0)",
+          "--kumo-shadow-edge": "oklch(100% 0 0 / 0.1)",
+          "--kumo-shadow-drop": "oklch(0% 0 0 / 0.3)",
+          "--kumo-arrow-edge": "transparent",
+          "--kumo-arrow-stroke": "oklch(32% 0 0)",
           "--kumo-info": "oklch(68.5% 0.169 237.323)",
-          "--kumo-fill": "oklch(26.9% 0 0)",
-          "--kumo-link": "oklch(70.7% 0.165 254.624)",
           "--kumo-info-tint": "oklch(38% 0.145 265.5 / 0.22)",
+          "--kumo-warning": "oklch(64.5% 0.168 50)",
           "--kumo-warning-tint": "oklch(35.3% 0.079 65 / 0.37)",
+          "--kumo-danger": "var(--destructive)",
           "--kumo-danger-tint": "oklch(42.9% 0.176 28.7 / 0.17)",
+          "--kumo-success": "oklch(76.5% 0.177 163.223)",
           "--kumo-success-tint": "oklch(39.3% 0.096 152.3 / 0.2)",
+          "--kumo-banner-info": "oklch(37.9% 0.146 265.522 / 0.5)",
+          "--kumo-banner-warning": "oklch(55.4% 0.135 66.442 / 0.5)",
           "--kumo-badge-red": "oklch(50.5% 0.213 27.518)",
           "--kumo-badge-green": "oklch(50.8% 0.118 165.612)",
           "--kumo-badge-orange": "oklch(81.5% 0.197 76)",
@@ -218,17 +289,47 @@
           "--kumo-badge-neutral": "oklch(43.9% 0 0)",
           "--kumo-badge-inverted": "#fff",
           "--kumo-badge-teal-subtle": "oklch(91% 0.096 180.426)",
-          "--kumo-badge-neutral-subtle": "oklch(92.2% 0 0)"
+          "--kumo-badge-neutral-subtle": "oklch(92.2% 0 0)",
+          "--text-color-kumo-default": "var(--foreground)",
+          "--text-color-kumo-inverse": "oklch(20.5% 0 0)",
+          "--text-color-kumo-strong": "var(--foreground)",
+          "--text-color-kumo-subtle": "var(--muted-foreground)",
+          "--text-color-kumo-inactive": "oklch(43.9% 0 0)",
+          "--text-color-kumo-placeholder": "oklch(55.6% 0 0)",
+          "--text-color-kumo-brand": "#f6821f",
+          "--text-color-kumo-link": "oklch(0.72 0.0748 236.055)",
+          "--text-color-kumo-info": "oklch(70.7% 0.165 254.624)",
+          "--text-color-kumo-success": "oklch(90.5% 0.093 164.15)",
+          "--text-color-kumo-danger": "oklch(70.4% 0.191 22.216)",
+          "--text-color-kumo-warning": "oklch(75% 0.183 55.934)",
+          "--text-color-kumo-badge-orange-subtle": "oklch(90.1% 0.076 70.697)",
+          "--text-color-kumo-badge-teal-subtle": "oklch(91% 0.096 180.426)",
+          "--text-color-kumo-badge-neutral-subtle": "oklch(92.2% 0 0)",
+          "--text-color-kumo-badge-inverted": "#000"
         }
       },
       "files": []
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "third-party-licenses",
+      "type": "registry:file",
+      "title": "Third Party Licenses",
+      "description": "Full MIT copyright and permission notice from Cloudflare Kumo.",
+      "files": [
+        {
+          "path": "src/licenses/THIRD_PARTY_LICENSES.md",
+          "type": "registry:file",
+          "target": "THIRD_PARTY_LICENSES.md"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "utils",
       "type": "registry:lib",
       "title": "Utils",
-      "description": "Utility helpers for @therealtinhtute/ui — cn() merge helper.",
+      "description": "Utility helpers \u2014 cn(), resolveVariant, LinkProvider, KumoPortalProvider.",
       "dependencies": [
         "clsx",
         "tailwind-merge"
@@ -237,7 +338,22 @@
         {
           "path": "src/lib/utils.ts",
           "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/resolve-variant.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/link-provider.tsx",
+          "type": "registry:lib"
+        },
+        {
+          "path": "src/lib/portal-provider.tsx",
+          "type": "registry:lib"
         }
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses"
       ]
     },
     {
@@ -245,18 +361,21 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Displays a button or a component that looks like a button.",
+      "description": "Primary action trigger with variants, sizes, shapes, icons, loading state, and LinkButton.",
       "dependencies": [
-        "@radix-ui/react-slot",
-        "class-variance-authority"
+        "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/tooltip",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/button.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/button.tsx"
         }
       ]
     },
@@ -265,14 +384,20 @@
       "name": "input",
       "type": "registry:ui",
       "title": "Input",
-      "description": "Displays a form input field.",
+      "description": "Text input with sizes, error styling, optional Field wrapper, and password-manager ignore.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/field",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/input.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/input.tsx"
         }
       ]
     },
@@ -281,34 +406,19 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Displays a badge or a component that looks like a badge.",
+      "description": "Small status label for categorizing or highlighting content.",
       "dependencies": [
-        "@radix-ui/react-slot",
-        "class-variance-authority"
+        "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/badge.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "card",
-      "type": "registry:ui",
-      "title": "Card",
-      "description": "Displays a card with header, content, and footer sections.",
-      "registryDependencies": [
-        "utils"
-      ],
-      "files": [
-        {
-          "path": "src/components/ui/card.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/badge.tsx"
         }
       ]
     },
@@ -317,14 +427,18 @@
       "name": "table",
       "type": "registry:ui",
       "title": "Table",
-      "description": "A responsive table component.",
+      "description": "Semantic HTML table with styled rows, cells, sticky columns, and selection support.",
+      "dependencies": [],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/checkbox",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/table.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/table.tsx"
         }
       ]
     },
@@ -333,18 +447,21 @@
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "A control that allows the user to toggle between checked and not checked.",
+      "description": "Single checkbox and checkbox group with optional labels, error state, and indeterminate support.",
       "dependencies": [
-        "@radix-ui/react-checkbox",
-        "lucide-react"
+        "@base-ui/react",
+        "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/label",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/checkbox.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/checkbox.tsx"
         }
       ]
     },
@@ -353,18 +470,20 @@
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
-      "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
+      "description": "Accessible dropdown menu anchored to a trigger. Adapted from Cloudflare Kumo.",
       "dependencies": [
-        "@radix-ui/react-dropdown-menu",
-        "lucide-react"
+        "@base-ui/react",
+        "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/ui/dropdown-menu.tsx",
-          "type": "registry:ui"
+          "type": "registry:ui",
+          "target": "components/ui/dropdown-menu.tsx"
         }
       ]
     },
@@ -378,16 +497,16 @@
         "@tanstack/react-table@^8.21.2"
       ],
       "registryDependencies": [
-        "table",
-        "button",
-        "dropdown-menu",
-        "checkbox",
-        "utils"
+        "@therealtinhtute/table",
+        "@therealtinhtute/button",
+        "@therealtinhtute/checkbox",
+        "@therealtinhtute/dropdown-menu"
       ],
       "files": [
         {
           "path": "src/components/data-table.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/data-table.tsx"
         }
       ]
     },
@@ -396,19 +515,20 @@
       "name": "filter-bar",
       "type": "registry:component",
       "title": "Filter Bar",
-      "description": "A search input with clear button and a filter action — a reusable list-filtering pattern.",
+      "description": "A search input with clear button and a filter action \u2014 a reusable list-filtering pattern.",
       "dependencies": [
-        "lucide-react"
+        "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "input",
-        "button",
-        "utils"
+        "@therealtinhtute/input",
+        "@therealtinhtute/button",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
           "path": "src/components/filter-bar.tsx",
-          "type": "registry:component"
+          "type": "registry:component",
+          "target": "components/filter-bar.tsx"
         }
       ]
     },
@@ -417,47 +537,953 @@
       "name": "dashboard",
       "type": "registry:block",
       "title": "Dashboard",
-      "description": "A dashboard shell — sidebar navigation, stat cards, and a recent-orders data table.",
+      "description": "A dashboard shell \u2014 sidebar navigation, stat cards, and a recent-orders data table.",
       "dependencies": [
-        "lucide-react",
+        "@phosphor-icons/react",
         "@tanstack/react-table"
       ],
       "registryDependencies": [
-        "card",
-        "button",
-        "badge",
-        "@therealtinhtute/data-table",
-        "utils"
+        "@therealtinhtute/layer-card",
+        "@therealtinhtute/button",
+        "@therealtinhtute/badge",
+        "@therealtinhtute/data-table"
       ],
       "files": [
         {
           "path": "src/components/dashboard.tsx",
-          "type": "registry:block"
+          "type": "registry:block",
+          "target": "components/dashboard.tsx"
         }
       ]
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
-      "name": "kumo-badge",
+      "name": "code",
       "type": "registry:ui",
-      "title": "Kumo Badge",
-      "description": "Small status label adapted from Cloudflare Kumo, themed via the kumo-compat token bridge on theme-default. Requires Tailwind v4 + React 19.",
+      "title": "Code",
+      "description": "Monospace code snippet without syntax highlighting. Adapted from Cloudflare Kumo.",
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/code.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/code.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "A composable disclosure component for showing and hiding content.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/collapsible.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A date selection calendar built on react-day-picker. Supports single, multiple, and range modes.",
+      "dependencies": [
+        "@phosphor-icons/react",
+        "react-day-picker"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/date-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/date-picker.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "grid",
+      "type": "registry:ui",
+      "title": "Grid",
+      "description": "Responsive CSS grid layout container with preset column configurations.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/grid.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/grid.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "layer-card",
+      "type": "registry:ui",
+      "title": "Layer Card",
+      "description": "Card container for both simple surfaces and layered layouts.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/layer-card.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/layer-card.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "link",
+      "type": "registry:ui",
+      "title": "Link",
+      "description": "Presentational inline text link with variants, render-prop composition, and LinkProvider routing.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/link.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/link.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "loader",
+      "type": "registry:ui",
+      "title": "Loader",
+      "description": "Animated circular spinner and skeleton line for indicating loading states.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/loader.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/loader.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "meter",
+      "type": "registry:ui",
+      "title": "Meter",
+      "description": "Progress bar showing a measured value within a known range (e.g. quota usage).",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/meter.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/meter.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Accessible popup content anchored to a trigger, adapted from Cloudflare Kumo.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/popover.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/popover.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "radio",
+      "type": "registry:ui",
+      "title": "Radio",
+      "description": "Radio button group for single-select choices, with optional card appearance.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/radio.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/radio.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "table-of-contents",
+      "type": "registry:ui",
+      "title": "Table of Contents",
+      "description": "Presentational section navigation with an optional scrollspy hook for the active heading.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/table-of-contents.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/table-of-contents.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tab navigation with segmented or underline style, built on Base UI Tabs with an animated active indicator.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tabs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tabs.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "text",
+      "type": "registry:ui",
+      "title": "Text",
+      "description": "Typography component for rendering text with consistent styling.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/text.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/text.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Accessible popup that shows additional information on hover or focus.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tooltip.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Modal dialog overlay with backdrop, adapted from Cloudflare Kumo.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/layer-card",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/dialog.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "page-header",
+      "type": "registry:block",
+      "title": "Page Header",
+      "description": "Page header block with breadcrumbs, optional title and description, and optional tabs.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/tabs",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/page-header.tsx",
+          "type": "registry:block",
+          "target": "components/page-header.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "command-palette",
+      "type": "registry:ui",
+      "title": "Command Palette",
+      "description": "Accessible command palette / spotlight search overlay.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/layer-card",
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/command-palette.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/command-palette.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Form field label with optional indicator and info tooltip.",
       "dependencies": [
         "@phosphor-icons/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@therealtinhtute/button",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/tooltip",
+        "@therealtinhtute/utils"
       ],
       "files": [
         {
-          "path": "src/components/kumo/badge.tsx",
+          "path": "src/components/ui/label.tsx",
           "type": "registry:ui",
-          "target": "components/kumo/badge.tsx"
+          "target": "components/ui/label.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Placeholder shown when a list, table, or page has no content to display.",
+      "dependencies": [
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/empty.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/empty.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "breadcrumbs",
+      "type": "registry:ui",
+      "title": "Breadcrumbs",
+      "description": "Navigation breadcrumb trail with Link, Current, Separator, and Clipboard compound parts.",
+      "dependencies": [
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/breadcrumbs.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/breadcrumbs.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "banner",
+      "type": "registry:ui",
+      "title": "Banner",
+      "description": "Full-width message bar for informational, warning, or error notices, with an optional accent-aware CTA.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/link",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/banner.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/banner.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "toasty",
+      "type": "registry:ui",
+      "title": "Toasty",
+      "description": "Toast notification provider and viewport with stacking, swipe-to-dismiss, and variant styles.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/toasty.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toasty.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Responsive navigation panel with expand/collapse, peek, resize, and mobile sheet support.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/tooltip",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sidebar.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Form field wrapper that provides a label, optional description, and error display around any form control.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/label",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/field.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/field.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Single switch and switch group with optional labels, sizes, and variants.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/field",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/switch.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/switch.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-area",
+      "type": "registry:ui",
+      "title": "Input Area",
+      "description": "Auto-resizing textarea with sizes, error styling, and optional Field wrapper.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input-area.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/input-area.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Compound input with icons, addons, inline suffixes, and action buttons.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/tooltip",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/input-group.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/input-group.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sensitive-input",
+      "type": "registry:ui",
+      "title": "Sensitive Input",
+      "description": "Password/secret input that masks its value by default, reveals on click, and copies to clipboard on hover.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sensitive-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sensitive-input.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Dropdown for selecting a value from a list of options, with Field integration, sizes, and grouping.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/label",
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/select.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/select.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input with a filterable dropdown list, single- or multi-select chips, and optional Field wrapper.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/combobox.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/combobox.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "autocomplete",
+      "type": "registry:ui",
+      "title": "Autocomplete",
+      "description": "Free-form text input with an optional filtered suggestion list.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/autocomplete.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/autocomplete.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "clipboard-text",
+      "type": "registry:ui",
+      "title": "Clipboard Text",
+      "description": "Read-only text field with a one-click copy-to-clipboard button.",
+      "dependencies": [
+        "@base-ui/react",
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/clipboard-text.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/clipboard-text.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation controls with page count display, page size selector, and compound or legacy APIs.",
+      "dependencies": [
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/input-group",
+        "@therealtinhtute/select",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/pagination.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/pagination.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "toolbar",
+      "type": "registry:ui",
+      "title": "Toolbar",
+      "description": "Grouped toolbar controls as one compact card, with button, link, input, and input-group items.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/input",
+        "@therealtinhtute/input-group",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/toolbar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/toolbar.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "delete-resource",
+      "type": "registry:block",
+      "title": "Delete Resource",
+      "description": "Confirmation dialog that requires typing the resource name before deleting.",
+      "dependencies": [
+        "@phosphor-icons/react"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/banner",
+        "@therealtinhtute/button",
+        "@therealtinhtute/dialog",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/delete-resource.tsx",
+          "type": "registry:block",
+          "target": "components/delete-resource.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "resource-list-page",
+      "type": "registry:block",
+      "title": "Resource List Page",
+      "description": "Page-level layout for resource lists with title, description, optional usage sidebar, and additional content.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/resource-list-page.tsx",
+          "type": "registry:block",
+          "target": "components/resource-list-page.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Low-level Apache ECharts wrapper with shared palette, legend items, and GeoJSON map charts.",
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/loader",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/chart/index.ts",
+          "type": "registry:ui",
+          "target": "components/ui/chart/index.ts"
         },
         {
-          "path": "src/components/kumo/resolve-variant.ts",
-          "type": "registry:lib",
-          "target": "components/kumo/resolve-variant.ts"
+          "path": "src/components/ui/chart/Color.ts",
+          "type": "registry:ui",
+          "target": "components/ui/chart/Color.ts"
+        },
+        {
+          "path": "src/components/ui/chart/EChart.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/chart/EChart.tsx"
+        },
+        {
+          "path": "src/components/ui/chart/Legend.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/chart/Legend.tsx"
+        },
+        {
+          "path": "src/components/ui/chart/Maps.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/chart/Maps.tsx"
+        },
+        {
+          "path": "src/components/ui/chart/tooltip-utils.ts",
+          "type": "registry:ui",
+          "target": "components/ui/chart/tooltip-utils.ts"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sankey-chart",
+      "type": "registry:ui",
+      "title": "Sankey Chart",
+      "description": "Sankey flow diagram built on the shared chart ECharts wrapper.",
+      "dependencies": [
+        "echarts"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/chart",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/sankey-chart.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sankey-chart.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "timeseries-chart",
+      "type": "registry:ui",
+      "title": "Timeseries Chart",
+      "description": "Time-series line or bar chart with markers, thresholds, and a cursor-following tooltip.",
+      "dependencies": [
+        "@base-ui/react",
+        "echarts"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/chart",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/timeseries-chart.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/timeseries-chart.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "bubble-map",
+      "type": "registry:ui",
+      "title": "Bubble Map",
+      "description": "GeoJSON scatter/bubble map built on the shared chart ECharts wrapper.",
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/chart",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/bubble-map.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/bubble-map.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "choropleth-map",
+      "type": "registry:ui",
+      "title": "Choropleth Map",
+      "description": "GeoJSON choropleth map chart built on Apache ECharts.",
+      "dependencies": [
+        "d3-geo",
+        "echarts"
+      ],
+      "registryDependencies": [
+        "@therealtinhtute/chart",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/choropleth-map.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/choropleth-map.tsx"
         }
       ]
     }

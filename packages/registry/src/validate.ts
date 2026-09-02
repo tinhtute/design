@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv from "ajv";
+import { validateDeps } from "./validate-deps";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
@@ -11,6 +12,7 @@ interface RegistryItem {
   name: string;
   type: string;
   files?: { path: string; type: string }[];
+  registryDependencies?: string[];
 }
 
 async function main() {
@@ -73,6 +75,7 @@ async function main() {
       `FAIL non-theme items with no files: ${noFiles.map((i) => i.name).join(", ")}`,
     );
   }
+  failed += await validateDeps(root, registry);
 
   if (failed > 0) process.exit(1);
   console.log(

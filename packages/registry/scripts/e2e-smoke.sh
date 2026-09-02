@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 #
-# e2e-smoke.sh — prove a fresh consumer can install every @therealtinhtute/ui
-# MVP item from the locally built registry and render it with the theme.
+# e2e-smoke.sh — prove a fresh consumer can install the full @therealtinhtute/ui
+# catalog from the locally built registry and render it with the theme.
 #
-# Flow: build+validate the registry -> serve public/ locally -> scaffold a temp
-# Vite + React + TS + Tailwind v4 consumer -> `shadcn registry add
-# @therealtinhtute=http://127.0.0.1:<port>/r/{name}.json` -> add all items by
-# namespace -> build the consumer -> assert the built CSS carries both :root
-# (light) and .dark token blocks -> SSR-render the installed components.
+# Flow: build+validate the registry -> exact-set of 53 names -> serve public/
+# -> isolated add of button/badge/dialog/chart each in a fresh consumer
+# -> full-set add in the main consumer -> build -> CSS + license + lockfile
+# asserts -> SSR render-check.
 #
-# Requires: pnpm, node, python3. Network access for consumer deps.
+# Requires: pnpm, node, python3, jq. Network access for consumer deps.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
@@ -20,8 +19,65 @@ PORT="${E2E_PORT:-8791}"
 BASE_URL="http://127.0.0.1:$PORT/r"
 WORK="$(mktemp -d /tmp/therealtinhtute-e2e.XXXXXX)"
 CONSUMER="$WORK/consumer"
+BASE_CONSUMER="$WORK/base"
 SERVER_PID=""
 FAILED=0
+
+EXPECTED_NAMES=(
+  autocomplete
+  badge
+  banner
+  breadcrumbs
+  bubble-map
+  button
+  chart
+  checkbox
+  choropleth-map
+  clipboard-text
+  code
+  collapsible
+  combobox
+  command-palette
+  dashboard
+  data-table
+  date-picker
+  delete-resource
+  dialog
+  dropdown-menu
+  empty
+  field
+  filter-bar
+  grid
+  input
+  input-area
+  input-group
+  label
+  layer-card
+  link
+  loader
+  meter
+  page-header
+  pagination
+  popover
+  radio
+  resource-list-page
+  sankey-chart
+  select
+  sensitive-input
+  sidebar
+  switch
+  table
+  table-of-contents
+  tabs
+  text
+  theme-default
+  third-party-licenses
+  timeseries-chart
+  toasty
+  toolbar
+  tooltip
+  utils
+)
 
 step() { printf '\n== %s ==\n' "$*"; }
 ok() { printf 'OK   %s\n' "$*"; }
@@ -35,17 +91,16 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# --- 1. build + validate the registry artifact ------------------------------
-step "build + validate registry"
-pnpm --filter @therealtinhtute/registry build
-pnpm --filter @therealtinhtute/registry validate:build >/dev/null
-ok "registry built + schema-validated"
+scaffold_consumer() {
+  local dest="$1"
+  mkdir -p "$dest/src"
+  cat > "$dest/pnpm-workspace.yaml" <<'EOF'
+allowBuilds:
+  esbuild: true
+EOF
 
-# --- 2. scaffold the consumer app -------------------------------------------
-step "scaffold consumer app ($CONSUMER)"
-mkdir -p "$CONSUMER/src"
 
-cat > "$CONSUMER/package.json" <<'EOF'
+  cat > "$dest/package.json" <<'EOF'
 {
   "name": "therealtinhtute-e2e-consumer",
   "private": true,
@@ -70,7 +125,7 @@ cat > "$CONSUMER/package.json" <<'EOF'
 }
 EOF
 
-cat > "$CONSUMER/tsconfig.json" <<'EOF'
+  cat > "$dest/tsconfig.json" <<'EOF'
 {
   "compilerOptions": {
     "target": "ES2022",
@@ -91,7 +146,7 @@ cat > "$CONSUMER/tsconfig.json" <<'EOF'
 }
 EOF
 
-cat > "$CONSUMER/vite.config.ts" <<'EOF'
+  cat > "$dest/vite.config.ts" <<'EOF'
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -103,7 +158,7 @@ export default defineConfig({
 });
 EOF
 
-cat > "$CONSUMER/index.html" <<'EOF'
+  cat > "$dest/index.html" <<'EOF'
 <!doctype html>
 <html lang="en">
   <head>
@@ -118,11 +173,11 @@ cat > "$CONSUMER/index.html" <<'EOF'
 </html>
 EOF
 
-cat > "$CONSUMER/src/globals.css" <<'EOF'
+  cat > "$dest/src/globals.css" <<'EOF'
 @import "tailwindcss";
 EOF
 
-cat > "$CONSUMER/components.json" <<'EOF'
+  cat > "$dest/components.json" <<'EOF'
 {
   "$schema": "https://ui.shadcn.com/schema/config.json",
   "style": "new-york",
@@ -146,7 +201,178 @@ cat > "$CONSUMER/components.json" <<'EOF'
 }
 EOF
 
-# Renders every installed component plus a dark-mode toggle.
+  cat > "$dest/src/main.tsx" <<'EOF'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./globals.css";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <div>ok</div>
+  </StrictMode>,
+);
+EOF
+}
+
+write_isolated_main() {
+  local dest="$1"
+  local item="$2"
+  case "$item" in
+    button)
+      cat > "$dest/src/main.tsx" <<'EOF'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./globals.css";
+import { Button } from "@/components/ui/button";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <Button>Click me</Button>
+  </StrictMode>,
+);
+EOF
+      ;;
+    badge)
+      cat > "$dest/src/main.tsx" <<'EOF'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./globals.css";
+import { Badge } from "@/components/ui/badge";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <Badge>v1</Badge>
+  </StrictMode>,
+);
+EOF
+      ;;
+    dialog)
+      cat > "$dest/src/main.tsx" <<'EOF'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./globals.css";
+import { Dialog } from "@/components/ui/dialog";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <div>{String(!!Dialog)}</div>
+  </StrictMode>,
+);
+EOF
+      ;;
+    chart)
+      cat > "$dest/src/main.tsx" <<'EOF'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./globals.css";
+import { Chart } from "@/components/ui/chart";
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <div>{String(!!Chart)}</div>
+  </StrictMode>,
+);
+EOF
+      ;;
+    *)
+      echo "unknown isolated item: $item" >&2
+      return 1
+      ;;
+  esac
+}
+
+# --- 1. build + validate the registry artifact ------------------------------
+step "build + validate registry"
+pnpm --filter @therealtinhtute/registry validate
+pnpm --filter @therealtinhtute/registry build
+pnpm --filter @therealtinhtute/registry validate:build >/dev/null
+ok "registry built + schema-validated"
+
+# --- 2. exact-set of 53 names ----------------------------------------------
+step "exact-set: 53 registry names"
+BUILT_REGISTRY="$REGISTRY_PUBLIC/r/registry.json"
+if [ ! -f "$BUILT_REGISTRY" ]; then
+  fail "missing $BUILT_REGISTRY"
+  exit 1
+fi
+GOT_SORTED="$(jq -r '.items[].name' "$BUILT_REGISTRY" | LC_ALL=C sort)"
+EXP_SORTED="$(printf '%s\n' "${EXPECTED_NAMES[@]}" | LC_ALL=C sort)"
+if [ "$GOT_SORTED" = "$EXP_SORTED" ]; then
+  ok "public/r/registry.json names = 53 catalog set"
+else
+  fail "public/r/registry.json names do not equal the 53-name catalog set"
+  printf 'missing:\n'
+  comm -23 <(printf '%s\n' "$EXP_SORTED") <(printf '%s\n' "$GOT_SORTED") || true
+  printf 'extra:\n'
+  comm -13 <(printf '%s\n' "$EXP_SORTED") <(printf '%s\n' "$GOT_SORTED") || true
+  exit 1
+fi
+if printf '%s\n' "$GOT_SORTED" | grep -qx 'card'; then
+  fail "forbidden name present: card"
+  exit 1
+fi
+if printf '%s\n' "$GOT_SORTED" | grep -qx 'kumo-badge'; then
+  fail "forbidden name present: kumo-badge"
+  exit 1
+fi
+
+# --- 3. serve the registry --------------------------------------------------
+step "serve registry on :$PORT"
+SERVER_LOG="$WORK/http-server.log"
+python3 -m http.server "$PORT" --directory "$REGISTRY_PUBLIC" >"$SERVER_LOG" 2>&1 &
+SERVER_PID=$!
+served=0
+for _ in $(seq 1 20); do
+  if curl -sf -o /dev/null "$BASE_URL/registry.json"; then
+    served=1
+    break
+  fi
+  sleep 0.2
+done
+if [ "$served" -eq 0 ]; then
+  fail "registry http server did not become ready on :$PORT"
+  cat "$SERVER_LOG" || true
+  exit 1
+fi
+ok "registry served"
+
+# --- 4. scaffold a reusable consumer base -----------------------------------
+step "scaffold consumer base"
+scaffold_consumer "$BASE_CONSUMER"
+(cd "$BASE_CONSUMER" && pnpm install >/dev/null)
+"${SHADCN[@]}" registry add "@therealtinhtute=$BASE_URL/{name}.json" --cwd "$BASE_CONSUMER"
+ok "consumer base installed + registry registered"
+
+# --- 5. isolated add: button, badge, dialog, chart --------------------------
+step "isolated add (fresh consumer per item)"
+for item in button badge dialog chart; do
+  dest="$WORK/isolated-$item"
+  cp -a "$BASE_CONSUMER" "$dest"
+  if ! "${SHADCN[@]}" add \
+    "@therealtinhtute/$item" \
+    "@therealtinhtute/theme-default" \
+    --cwd "$dest" -y; then
+    fail "isolated add failed: $item"
+    continue
+  fi
+  write_isolated_main "$dest" "$item"
+  if (cd "$dest" && pnpm build >/dev/null); then
+    ok "isolated $item consumer built"
+  else
+    fail "isolated $item consumer build failed"
+  fi
+done
+
+# --- 6. main consumer: full catalog add -------------------------------------
+step "scaffold main consumer + add all 53 items"
+cp -a "$BASE_CONSUMER" "$CONSUMER"
+ADD_ARGS=()
+for name in "${EXPECTED_NAMES[@]}"; do
+  ADD_ARGS+=("@therealtinhtute/$name")
+done
+"${SHADCN[@]}" add "${ADD_ARGS[@]}" --cwd "$CONSUMER" -y
+ok "all 53 items added"
+
 cat > "$CONSUMER/src/main.tsx" <<'EOF'
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -154,8 +380,6 @@ import "./globals.css";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Badge as KumoBadge } from "@/components/kumo/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FilterBar } from "@/components/filter-bar";
 import { DataTable, type ColumnDef } from "@/components/data-table";
 import { Dashboard } from "@/components/dashboard";
@@ -179,7 +403,7 @@ function App() {
   const [dark, setDark] = useState(false);
   const [q, setQ] = useState("");
   return (
-    <div>
+    <div className="bg-kumo-control">
       <Button
         variant="outline"
         onClick={() => {
@@ -191,16 +415,11 @@ function App() {
         Toggle theme
       </Button>
       <Badge>v1</Badge>
-      <KumoBadge variant="success" appearance="dot">Healthy</KumoBadge>
-      <KumoBadge variant="outline">kumo outline</KumoBadge>
+      <Badge variant="success" appearance="dot">
+        Healthy
+      </Badge>
       <Input placeholder="Enter text" aria-label="input" />
       <FilterBar value={q} onValueChange={setQ} filterLabel="Apply filter" />
-      <Card>
-        <CardHeader>
-          <CardTitle>Hello card</CardTitle>
-        </CardHeader>
-        <CardContent>card body</CardContent>
-      </Card>
       <DataTable columns={columns} data={rows} />
       <Dashboard />
     </div>
@@ -214,74 +433,13 @@ createRoot(document.getElementById("root")!).render(
 );
 EOF
 
-ok "consumer scaffold written"
-
-# --- 3. install consumer base deps ------------------------------------------
-step "install consumer deps"
-(cd "$CONSUMER" && pnpm install >/dev/null)
-ok "consumer deps installed"
-
-# --- 4. serve the registry and register it ----------------------------------
-step "serve registry on :$PORT"
-SERVER_LOG="$WORK/http-server.log"
-python3 -m http.server "$PORT" --directory "$REGISTRY_PUBLIC" >"$SERVER_LOG" 2>&1 &
-SERVER_PID=$!
-served=0
-for _ in $(seq 1 20); do
-  if curl -sf -o /dev/null "$BASE_URL/registry.json"; then
-    served=1
-    break
-  fi
-  sleep 0.5
-done
-if [ "$served" -eq 0 ]; then
-  fail "registry not reachable at $BASE_URL/registry.json"
-  cat "$SERVER_LOG" >&2 || true
-  exit 1
-fi
-ok "registry served"
-
-step "register @therealtinhtute registry"
-"${SHADCN[@]}" registry add "@therealtinhtute=$BASE_URL/{name}.json" --cwd "$CONSUMER"
-ok "registry registered"
-
-# --- 3b. assert served item payloads ----------------------------------------
-for item in kumo-badge; do
-  if curl -sf -o /dev/null -w '%{content_type}' "$BASE_URL/$item.json" | grep -q '^application/json'; then
-    ok "/r/$item.json served as application/json"
-  else
-    fail "/r/$item.json missing or not JSON"
-  fi
-done
-
-# --- 5. add all MVP items + theme -------------------------------------------
-step "add MVP items: button card input badge data-table filter-bar dashboard kumo-badge + theme-default"
-"${SHADCN[@]}" add \
-  "@therealtinhtute/button" \
-  "@therealtinhtute/card" \
-  "@therealtinhtute/input" \
-  "@therealtinhtute/badge" \
-  "@therealtinhtute/filter-bar" \
-  "@therealtinhtute/data-table" \
-  "@therealtinhtute/dashboard" \
-  "@therealtinhtute/kumo-badge" \
-  "@therealtinhtute/theme-default" \
-  --cwd "$CONSUMER" -y
-ok "all items added"
-
-# --- 6. assert installed files + deps ---------------------------------------
+# --- 7. assert installed files + forbidden paths ----------------------------
 step "assert installed files"
 expected_files=(
   "src/components/ui/button.tsx"
-  "src/components/ui/input.tsx"
   "src/components/ui/badge.tsx"
-  "src/components/ui/card.tsx"
-  "src/components/data-table.tsx"
-  "src/components/filter-bar.tsx"
-  "src/components/dashboard.tsx"
+  "src/components/ui/dialog.tsx"
   "src/lib/utils.ts"
-  "src/components/kumo/badge.tsx"
-  "src/components/kumo/resolve-variant.ts"
 )
 for f in "${expected_files[@]}"; do
   if [ -f "$CONSUMER/$f" ]; then
@@ -290,13 +448,48 @@ for f in "${expected_files[@]}"; do
     fail "missing file: $f"
   fi
 done
+LICENSE_FILE=""
+if [ -f "$CONSUMER/THIRD_PARTY_LICENSES.md" ]; then
+  LICENSE_FILE="$CONSUMER/THIRD_PARTY_LICENSES.md"
+elif [ -f "$CONSUMER/src/THIRD_PARTY_LICENSES.md" ]; then
+  LICENSE_FILE="$CONSUMER/src/THIRD_PARTY_LICENSES.md"
+fi
+if [ -n "$LICENSE_FILE" ]; then
+  ok "file present: ${LICENSE_FILE#"$CONSUMER/"}"
+else
+  fail "missing file: THIRD_PARTY_LICENSES.md"
+fi
 
-# --- 7. build the consumer ---------------------------------------------------
+if [ -f "$CONSUMER/src/components/ui/card.tsx" ]; then
+  fail "forbidden file present: src/components/ui/card.tsx"
+else
+  ok "no card.tsx"
+fi
+if [ -e "$CONSUMER/src/components/kumo" ]; then
+  fail "forbidden path present: src/components/kumo"
+else
+  ok "no components/kumo"
+fi
+
+if [ -n "$LICENSE_FILE" ] && grep -q 'Copyright (c) 2026 Cloudflare, Inc.' "$LICENSE_FILE"; then
+  ok "THIRD_PARTY_LICENSES.md contains Cloudflare MIT copyright"
+else
+  fail "THIRD_PARTY_LICENSES.md missing Copyright (c) 2026 Cloudflare, Inc."
+fi
+
+if grep -q '@cloudflare/kumo' "$CONSUMER/package.json" \
+  || { [ -f "$CONSUMER/pnpm-lock.yaml" ] && grep -q '@cloudflare/kumo' "$CONSUMER/pnpm-lock.yaml"; }; then
+  fail "@cloudflare/kumo present in consumer package.json or lockfile"
+else
+  ok "no @cloudflare/kumo in consumer package.json/lockfile"
+fi
+
+# --- 8. build the consumer ---------------------------------------------------
 step "build consumer"
 (cd "$CONSUMER" && pnpm build >/dev/null)
 ok "consumer build passed"
 
-# --- 8. assert :root (light) + .dark token blocks in built CSS ---------------
+# --- 9. assert :root (light) + .dark token blocks in built CSS ---------------
 step "assert theme tokens in built CSS"
 CSS_FILE="$(ls "$CONSUMER"/dist/assets/*.css | head -1)"
 # Tailwind v4 (LightningCSS) normalizes oklch: oklch(1 0 0) -> oklch(100% 0 0).
@@ -310,26 +503,24 @@ if grep -qE -- '\.dark\{[^}]*--background:\s*oklch\((14\.5%|0\.145) 0 0\)' "$CSS
 else
   fail ".dark --background token missing in built CSS"
 fi
-# kumo-compat bridge: runtime vars in both modes + utilities compiled from the
-# Kumo class vocabulary (R2) rendered by main.tsx.
 if grep -q -- '--kumo-brand' "$CSS_FILE"; then
-  ok "kumo-compat runtime var --kumo-brand present"
+  ok "runtime var --kumo-brand present"
 else
-  fail "kumo-compat runtime vars missing in built CSS"
+  fail "--kumo-brand missing in built CSS"
 fi
-if grep -q -- 'bg-kumo-success' "$CSS_FILE"; then
-  ok "kumo utility .bg-kumo-success compiled"
+if grep -q -- 'bg-kumo-control' "$CSS_FILE"; then
+  ok "kumo utility .bg-kumo-control compiled"
 else
-  fail "kumo utility classes missing in built CSS"
+  fail "bg-kumo-control missing in built CSS"
 fi
 
-# --- 9. SSR render-check of installed components -----------------------------
+# --- 10. SSR render-check of installed components ---------------------------
 step "render-check installed components (SSR)"
 cp "$SCRIPTS_DIR/render-check.tsx" "$CONSUMER/src/render-check.tsx"
 (cd "$CONSUMER" && pnpm exec tsx src/render-check.tsx)
 ok "render-check passed"
 
-# --- 10. summary -------------------------------------------------------------
+# --- 11. summary -------------------------------------------------------------
 printf '\n'
 if [ "$FAILED" -gt 0 ]; then
   printf 'e2e-smoke: %d check(s) failed\n' "$FAILED"

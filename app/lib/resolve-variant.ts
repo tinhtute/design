@@ -1,5 +1,5 @@
 /**
- * Adapted from cloudflare/kumo (MIT), commit e6d17c6ffc566009277447dc213d72638a0b78ad.
+ * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  *
  * Safely resolve a variant config from a variants map, falling back
  * to a known-good default when the key doesn't match any entry.
@@ -31,7 +31,8 @@ export function resolveVariant<T extends Record<string, unknown>>(
   fallback: keyof T & string,
 ): T[keyof T] {
   const config = (variants as Record<string, unknown>)[key] as
-    T[keyof T] | undefined;
+    | T[keyof T]
+    | undefined;
 
   if (config !== undefined) return config;
 

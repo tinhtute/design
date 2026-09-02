@@ -1,4 +1,10 @@
-import { colorNames, kumoModeVars, kumoThemeInlineVars } from "./shared";
+import {
+  colorNames,
+  kumoModeVars,
+  kumoThemeInlineVars,
+  textKumoModeVars,
+  textKumoThemeInlineVars,
+} from "./shared";
 import type { Theme } from "./types";
 
 export interface RegistryThemeItem {
@@ -28,6 +34,9 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [name, value] of kumoThemeInlineVars()) {
     themeBlock[name] = value;
   }
+  for (const [name, value] of textKumoThemeInlineVars()) {
+    themeBlock[name] = value;
+  }
   for (const [key, mult] of Object.entries(theme.radiusScale ?? {})) {
     themeBlock[`--radius-${key}`] = `calc(var(--radius) * ${mult})`;
   }
@@ -55,6 +64,9 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [name, value] of kumoModeVars("light")) {
     light[name] = value;
   }
+  for (const [name, value] of textKumoModeVars("light")) {
+    light[name] = value;
+  }
   light["--radius"] = theme.radius;
   for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
     light[`--font-${key}`] = value;
@@ -65,6 +77,9 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
     dark[`--${key}`] = value;
   }
   for (const [name, value] of kumoModeVars("dark")) {
+    dark[name] = value;
+  }
+  for (const [name, value] of textKumoModeVars("dark")) {
     dark[name] = value;
   }
 

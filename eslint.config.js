@@ -16,4 +16,17 @@ export default tseslint.config(
       ],
     },
   },
+  {
+    files: [
+      "packages/registry/src/components/**/*.{ts,tsx}",
+      "app/components/**/*.{ts,tsx}",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/no-namespace": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
 );

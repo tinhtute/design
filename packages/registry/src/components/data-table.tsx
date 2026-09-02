@@ -12,22 +12,10 @@ import {
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Table } from "@/components/ui/table";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -68,95 +56,104 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center py-4">
         {toolbar}
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
+          <DropdownMenu.Trigger>
             <Button variant="outline" className="ml-auto">
               Columns
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content align="end">
             {table
               .getAllColumns()
               .filter((column) => column.getCanHide())
               .map((column) => (
-                <DropdownMenuCheckboxItem
+                <DropdownMenu.CheckboxItem
                   key={column.id}
                   className="capitalize"
                   checked={column.getIsVisible()}
                   onCheckedChange={(value) => column.toggleVisibility(!!value)}
                 >
                   {column.id}
-                </DropdownMenuCheckboxItem>
+                </DropdownMenu.CheckboxItem>
               ))}
-          </DropdownMenuContent>
+          </DropdownMenu.Content>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border">
+      <div className="overflow-x-auto rounded-lg ring ring-kumo-line">
         <Table>
-          <TableHeader>
+          <Table.Header>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                <TableHead className="w-[40px]">
+              <Table.Row key={headerGroup.id}>
+                <Table.Head className="w-10 leading-none">
                   <Checkbox
                     checked={table.getIsAllPageRowsSelected()}
-                    onCheckedChange={(value) =>
-                      table.toggleAllPageRowsSelected(!!value)
+                    indeterminate={
+                      table.getIsSomePageRowsSelected() &&
+                      !table.getIsAllPageRowsSelected()
+                    }
+                    onCheckedChange={(checked) =>
+                      table.toggleAllPageRowsSelected(!!checked)
                     }
                     aria-label="Select all"
                   />
-                </TableHead>
+                </Table.Head>
                 {headerGroup.headers.map((header) => (
-                  <TableHead key={header.id} colSpan={header.colSpan}>
+                  <Table.Head key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
                           header.getContext(),
                         )}
-                  </TableHead>
+                  </Table.Head>
                 ))}
-              </TableRow>
+              </Table.Row>
             ))}
-          </TableHeader>
-          <TableBody>
+          </Table.Header>
+          <Table.Body>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
+                <Table.Row
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  variant={row.getIsSelected() ? "selected" : "default"}
                 >
-                  <TableCell>
+                  <Table.Cell className="w-10 leading-none">
                     <Checkbox
                       checked={row.getIsSelected()}
-                      onCheckedChange={(value) => row.toggleSelected(!!value)}
+                      onCheckedChange={(checked) =>
+                        row.toggleSelected(!!checked)
+                      }
                       aria-label="Select row"
                     />
-                  </TableCell>
+                  </Table.Cell>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
+                    <Table.Cell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </Table.Cell>
                   ))}
-                </TableRow>
+                </Table.Row>
               ))
             ) : (
-              <TableRow>
-                <TableCell
+              <Table.Row>
+                <Table.Cell
                   colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
                   No results.
-                </TableCell>
-              </TableRow>
+                </Table.Cell>
+              </Table.Row>
             )}
-          </TableBody>
+          </Table.Body>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+      <div className="flex items-center justify-end gap-2 py-4">
+        <div className="flex-1 text-sm text-kumo-subtle">
           Page {table.getState().pagination.pageIndex + 1} of{" "}
           {table.getPageCount()}
         </div>
-        <div className="space-x-2">
+        <div className="flex gap-2">
           <Button
             variant="outline"
             size="sm"

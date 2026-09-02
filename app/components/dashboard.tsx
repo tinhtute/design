@@ -2,32 +2,25 @@
 
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import type { LucideIcon } from "lucide-react";
 import {
-  BarChart3,
-  LayoutDashboard,
+  ChartBar,
+  Gear,
   Package,
-  Settings,
+  SquaresFour,
   Users,
-} from "lucide-react";
+  type Icon,
+} from "@phosphor-icons/react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { LayerCard } from "@/components/ui/layer-card";
 import { DataTable } from "@/components/data-table";
-import { cn } from "@/lib/utils";
 
-const navItems: { icon: LucideIcon; label: string; active?: boolean }[] = [
-  { icon: LayoutDashboard, label: "Overview", active: true },
-  { icon: BarChart3, label: "Analytics" },
+const navItems: { icon: Icon; label: string; active?: boolean }[] = [
+  { icon: SquaresFour, label: "Overview", active: true },
+  { icon: ChartBar, label: "Analytics" },
   { icon: Users, label: "Customers" },
   { icon: Package, label: "Products" },
-  { icon: Settings, label: "Settings" },
+  { icon: Gear, label: "Settings" },
 ];
 
 const stats = [
@@ -55,15 +48,30 @@ const columns: ColumnDef<Order>[] = [
 ];
 
 const orders: Order[] = [
-  { id: "ORD-001", customer: "Ada Lovelace", status: "Completed", total: "$129.00" },
-  { id: "ORD-002", customer: "Grace Hopper", status: "Processing", total: "$84.50" },
-  { id: "ORD-003", customer: "Katherine Johnson", status: "Completed", total: "$249.99" },
+  {
+    id: "ORD-001",
+    customer: "Ada Lovelace",
+    status: "Completed",
+    total: "$129.00",
+  },
+  {
+    id: "ORD-002",
+    customer: "Grace Hopper",
+    status: "Processing",
+    total: "$84.50",
+  },
+  {
+    id: "ORD-003",
+    customer: "Katherine Johnson",
+    status: "Completed",
+    total: "$249.99",
+  },
 ];
 
 export function Dashboard() {
   return (
-    <div className="bg-background min-h-screen">
-      <header className="border-b">
+    <div className="min-h-screen bg-kumo-canvas">
+      <header className="border-b border-kumo-line">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="font-semibold">therealtinhtute</div>
           <Button variant="ghost" size="sm">
@@ -72,56 +80,54 @@ export function Dashboard() {
         </div>
       </header>
       <div className="flex">
-        <aside className="hidden w-64 flex-col gap-1 border-r p-4 md:flex">
+        <aside className="hidden w-64 flex-col gap-1 border-r border-kumo-line p-4 md:flex">
           {navItems.map((item) => (
-            <button
+            <Button
               key={item.label}
-              className={cn(
-                "hover:bg-accent hover:text-accent-foreground flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium",
-                item.active && "bg-accent text-accent-foreground",
-              )}
+              variant={item.active ? "secondary" : "ghost"}
+              icon={item.icon}
+              className="w-full justify-start"
             >
-              <item.icon className="size-4" />
               {item.label}
-            </button>
+            </Button>
           ))}
         </aside>
         <main className="flex-1 space-y-6 p-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Dashboard</h1>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-sm text-kumo-subtle">
                 Welcome back, here's what's happening today.
               </p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline">Export</Button>
-              <Button>New report</Button>
+              <Button variant="primary">New report</Button>
             </div>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {stats.map((stat) => (
-              <Card key={stat.label}>
-                <CardHeader>
-                  <CardDescription>{stat.label}</CardDescription>
-                  <CardTitle className="text-2xl">{stat.value}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{stat.change}</p>
-                </CardContent>
-              </Card>
+              <LayerCard key={stat.label} className="p-4">
+                <p className="text-sm text-kumo-subtle">{stat.label}</p>
+                <p className="text-2xl font-semibold">{stat.value}</p>
+                <p className="text-sm text-kumo-subtle">{stat.change}</p>
+              </LayerCard>
             ))}
           </div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Recent orders</CardTitle>
-              <CardDescription>Latest activity across your store</CardDescription>
-              <Badge className="w-fit">Live</Badge>
-            </CardHeader>
-            <CardContent>
+          <LayerCard>
+            <LayerCard.Secondary className="justify-between">
+              <span>Recent orders</span>
+              <Badge variant="success" appearance="dot">
+                Live
+              </Badge>
+            </LayerCard.Secondary>
+            <LayerCard.Primary>
+              <p className="text-sm text-kumo-subtle">
+                Latest activity across your store
+              </p>
               <DataTable columns={columns} data={orders} />
-            </CardContent>
-          </Card>
+            </LayerCard.Primary>
+          </LayerCard>
         </main>
       </div>
     </div>
