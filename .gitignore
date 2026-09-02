@@ -18,3 +18,5 @@ public/
 .env.local
 .vercel
 .env*
+# zharness v0.15 managed set
+/.zharness/
