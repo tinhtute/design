@@ -5,28 +5,26 @@
   "engines": {
     "node": ">=24"
   },
-
   "scripts": {
     "dev": "next dev --port 3000",
     "sync-registry": "node scripts/sync-registry.mjs",
     "build": "node scripts/sync-registry.mjs && next build",
-
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@base-ui/react": "^1.7.0",
+    "@cloudflare/kumo": "2.13.0",
     "@phosphor-icons/react": "^2.1.10",
-    "@radix-ui/react-checkbox": "^1.3.11",
-    "@radix-ui/react-dropdown-menu": "^2.1.24",
-    "@radix-ui/react-slot": "^1.3.3",
     "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^1.38.0",
+    "d3-geo": "^3.1.1",
+    "echarts": "^6.1.0",
     "next": "16.3.4",
-    "radix-ui": "^1.6.7",
     "react": "19.2.8",
+    "react-day-picker": "^10.0.1",
     "react-dom": "19.2.8",
     "shadcn": "^4.19.1",
     "tailwind-merge": "^3.6.0",
@@ -34,6 +32,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/d3-geo": "^3.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
