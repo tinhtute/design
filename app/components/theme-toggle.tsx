@@ -1,7 +1,7 @@
 "use client";
 
 import { Moon, Sun } from "@phosphor-icons/react";
-import { Button } from "@cloudflare/kumo";
+import { Button } from "@/components/ui/button";
 
 export function ThemeToggle() {
   return (

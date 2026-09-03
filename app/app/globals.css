@@ -1,12 +1,5 @@
-@source "../node_modules/@cloudflare/kumo/dist/**/*.{js,jsx,ts,tsx}";
-@import "@cloudflare/kumo/styles/tailwind";
 @import "tailwindcss";
-
-@theme {
-  --color-kumo-brand: #124b68;
-  --color-kumo-brand-hover: color-mix(in oklch, #124b68, black 18%);
-  --text-color-kumo-link: #124b68;
-}
+@import "./theme.css";
 
 html {
   color-scheme: light;

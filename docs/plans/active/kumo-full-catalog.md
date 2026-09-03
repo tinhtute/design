@@ -1,8 +1,11 @@
 ---
 title: Kumo full catalog port
-status: planned
+status: active
+updated: 2026-09-03
 interviewed: 2026-09-02
 slug: kumo-full-catalog
+id: kumo-full-catalog
+intake_id: intake-kumo-20260902
 authority: https://unpkg.com/@cloudflare/kumo@2.13.0/ai/component-registry.json
 upstream: "@cloudflare/kumo@2.13.0"
 commit: a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf
@@ -184,160 +187,76 @@ Count: **44**.
 - Chart / map items cannot render without an `echarts` peer and that peer breaks the demo app — stop after core UI (non-viz) and ask before adding the five viz items’ peer.
 - Base UI 1.6 × React 19 incompatibility in the demo app.
 
-## Approach
+## Approach and Risks
 
-1. Read source only from `cloudflare/kumo` commit `a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf` or `@cloudflare/kumo@2.13.0`. Never `main`.
-2. Expand `KUMO_COMPAT` from pin `packages/kumo/src/styles/theme-kumo.css` (all `--color-kumo-*` / `--text-color-kumo-*`). Override:
-   - light `--primary` / `--kumo-brand` / `--kumo-link` = `oklch(0.3917 0.0748 236.055)` (`#124b68`)
-   - dark same hue, `oklch(0.72 0.0748 236.055)`
-   - `--kumo-brand-hover` = darker/lighter of that hue
-   - do **not** remap `--text-color-kumo-brand` orange `#f6821f`
-3. `pnpm --filter @therealtinhtute/tokens generate` then copy generated theme item into `packages/registry/registry.json` `theme-default`.
-4. Add `third-party-licenses` item: file `src/licenses/THIRD_PARTY_LICENSES.md` → consumer `THIRD_PARTY_LICENSES.md`, full MIT from pin `LICENSE`. Every ported UI/block item lists it in `registryDependencies`.
-5. Port recipe (each UI item):
-   - Default: single `packages/registry/src/components/ui/{name}.tsx`. **Never** create `ui/{name}/` while `ui/{name}.tsx` exists — `button.tsx`/`input.tsx`/`badge.tsx`/`checkbox.tsx`/`table.tsx`/`dropdown-menu.tsx` win over `{name}/index.ts`. Replace those files in place in the same wave.
-   - Folder form only when 3+ modules AND the `.tsx` stem is deleted in the same wave.
-   - Rewrite `@cloudflare/kumo` / relative utils to `@/lib/utils`, `@/lib/resolve-variant`, local UI imports.
-   - Header: `Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.`
-   - `registry.json` item: kebab `name`, npm deps, `registryDependencies` (`utils`, `third-party-licenses`, composed UI).
-   - Delete Radix/Lucide from that item.
+### Implementation Approach
 
-6. `registry.json` is single-writer per wave (append items at wave end). Component files in a wave may be authored in parallel.
-7. Viz wave is last and may **pause** if `echarts` peer breaks `app`.
-8. File ownership is `docs/plans/active/kumo-source-manifest.json`. Each support file belongs to exactly one registry item.
-9. Isolated-install gate: `validate-deps` plus fresh-consumer add of `button`, `badge`, `dialog`, `chart` — batch add of 53 is not proof of complete `registryDependencies`.
+100% pure self-hosted port. Remove `@cloudflare/kumo` runtime dependency entirely from `app/package.json`.
+`app/components/playground.tsx` imports exclusively from `@/components/ui/*` (the ported registry components).
+`app/app/globals.css` stops importing `@cloudflare/kumo/styles/tailwind` and loads our generated `#124b68` theme tokens.
+Trademark (`CloudflareLogo`), deprecated (`MenuBar`, `Surface`, `DateRangePicker`), and out-of-catalog (`Flow`) components are purged from `playground.tsx`.
 
+### Constraints & Dependencies
 
-## Phases
+- Zero runtime dependency on `@cloudflare/kumo` across the entire repository.
+- All UI components use Base UI (`@base-ui/react`) + Phosphor icons (`@phosphor-icons/react`).
+- Light mode `--primary`, `--kumo-brand`, and `--kumo-link` computed values strictly equal `#124b68` / `oklch(0.3917 0.0748 236.055)`.
+- Cloudflare MIT copyright and license notice preserved in `THIRD_PARTY_LICENSES.md`.
 
-### Foundation
+### Rejected Alternatives
 
-**Wave A — tokens**
-- Files: `packages/tokens/src/generator/shared.ts`, `types.ts` if new keys needed, `packages/tokens/src/themes/default/theme.json` (`primary` + `sidebar-primary` light = `#124b68` oklch).
-- Port full kumo token set from pin `theme-kumo.css` into `KUMO_COMPAT` (canvas, elevated, control, overlay, brand-hover, focus, banner-*, text inactive/placeholder/inverse, etc.).
-- Run `pnpm --filter @therealtinhtute/tokens generate && pnpm --filter @therealtinhtute/tokens validate`.
-- Copy generated cssVars into `registry.json` `theme-default`.
+- **Dual architecture (app using official @cloudflare/kumo package)**: Rejected by user direction ("kéo sạch app về xài hàng tự port"). Violates success condition 5 and creates split styling.
 
-**Wave A check**
-- Generated CSS contains `--kumo-control`, `--kumo-brand-hover`, `--kumo-canvas`.
-- Light `--primary` / `--kumo-brand` / `--kumo-link` match `oklch(0.3917 0.0748 236.055)`.
-- `--text-color-kumo-brand` / text brand still `#f6821f` if that token is emitted.
+### Primary Risks & Mitigations
 
-**Wave B — license + lib**
-- Add `packages/registry/src/licenses/THIRD_PARTY_LICENSES.md` = pin LICENSE (full text).
-- Registry item `third-party-licenses` type `registry:file`, target `THIRD_PARTY_LICENSES.md`.
-- Move `resolve-variant.ts` → `packages/registry/src/lib/resolve-variant.ts`; attach to `utils` or a `resolve-variant` lib item. Delete `src/components/kumo/` after badge cutover (Wave Rewire). Until then, keep re-export or update kumo-badge import.
-- Registry `utils` stays `cn()`.
+- **Risk**: Ported `Sidebar` component in `app/components/ui/sidebar.tsx` might differ slightly in compound API or animations from the npm package.
+  - **Mitigation**: Verified port in `packages/registry/src/components/ui/sidebar.tsx` was adapted directly from pin `a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf`.
+- **Risk**: Next.js build or SSR failures with `echarts` when `@cloudflare/kumo` CSS is removed.
+  - **Mitigation**: Theme tokens already include canvas and chart variables. `echarts.use` is client-side in `playground.tsx`.
 
-**Wave B check**
-- `pnpm --filter @therealtinhtute/registry validate`
-- Built `/r/third-party-licenses.json` contains `Copyright (c) 2026 Cloudflare, Inc.`
+---
 
-### Atoms
+## Phases and Verification
 
-No Kumo UI-to-UI deps. Parallel files, one `registry.json` write at end.
+### Phase 1: Foundation & Registry Catalog
+- **Slug**: `foundation-and-registry`
+- **Story ID**: `story-foundation-registry-001`
+- **Status**: `done`
+- **Goal**: 53 registry items (44 UI + 3 blocks + 3 patterns + 3 infra) ported, schemas validated, token generator producing `#124b68`.
+- **Verification**: `pnpm --filter @therealtinhtute/registry validate` and `validate:build` pass without errors.
 
-**Wave C:** `button`, `badge`, `text`, `label`, `link`, `loader`, `tooltip`
-**Wave D:** `input`, `checkbox`, `switch`, `radio`, `meter`, `clipboard-text`, `grid`, `collapsible`
+### Phase 2: App Clean Cutover
+- **Slug**: `app-clean-cutover`
+- **Story ID**: `story-app-clean-cutover-002`
+- **Status**: `done`
+- **Goal**: Complete migration of `app` to 100% local ported components, removing `@cloudflare/kumo`.
+- **Waves**:
+  - **Wave 2A (Dependencies & CSS)**:
+    - Remove `@cloudflare/kumo` from `app/package.json` and reinstall.
+    - In `app/app/globals.css`, remove `@import "@cloudflare/kumo/styles/tailwind"` and `@source "../node_modules/@cloudflare/kumo/..."`.
+    - Import our generated theme CSS vars with `#124b68`.
+  - **Wave 2B (Playground Cutover)**:
+    - In `app/components/playground.tsx`, replace `import ... from "@cloudflare/kumo"` with local imports from `@/components/ui/*`.
+    - Remove out-of-scope/deprecated items from nav and canvas: `CloudflareLogo`, `MenuBar`, `Surface`, `DateRangePicker`, `Flow`.
+    - Retain `mono` sidebar branding, collapsible groups with Phosphor icons, and bottom trigger.
+- **Verification**:
+  - `pnpm --filter app exec pnpm why @cloudflare/kumo` reports no dependency.
+  - `pnpm --filter app typecheck` and `pnpm --filter app build` exit 0.
+  - Browser visual check: primary button computed background is `#124b68` (`oklch(0.3917...)`), sidebar works.
 
-Each: follow port recipe. `clipboard-text` may depend on `button` — if so, put it in Wave D and list `button` in `registryDependencies`.
-
-**Atoms check**
-- `pnpm --filter @therealtinhtute/registry build && validate && validate:build`
-- `public/r/{name}.json` exists for all 15 names; each lists `third-party-licenses`.
-- Demo playground: Button / Badge / Input sections render (partial playground OK until Prove).
-
-### Forms
-
-**Wave E:** `input-group`, `input-area`, `field`, `sensitive-input`, `banner`, `empty`
-**Wave F:** `select`, `combobox`, `autocomplete`
-
-`registryDependencies` as upstream imports require (typically `input`, `button`, `label`, `field`, `popover` — if a form item needs `popover`/`dialog`, delay that item to Overlay).
-
-**Forms check**
-- Same build+validate.
-- No item in this phase imports overlay components that are not yet ported; if blocked, move that item to Overlay.
-
-### Overlay
-
-**Wave G:** `popover`, `dialog`, `dropdown-menu`
-**Wave H:** `date-picker` (`react-day-picker`; `mode="range"` covers skipped DateRangePicker)
-
-**Overlay check**
-- build+validate
-- Typecheck registry package with `@base-ui/react` in registry `devDependencies`.
-
-### Chrome
-
-**Wave I:** `layer-card`, `table`, `breadcrumbs`, `code` (`shiki` + `@shikijs/*`)
-**Wave J:** `tabs`, `pagination`, `toolbar`, `toasty`
-**Wave K:** `sidebar`, `command-palette`, `table-of-contents`
-
-**Chrome check**
-- build+validate
-- `table` item exists (required before data-table rewire).
-
-### Blocks + rewire
-
-**Wave L — Kumo blocks:** `delete-resource`, `page-header`, `resource-list-page` from pin `packages/kumo/src/blocks/*`.
-**Wave M — rewire + delete:**
-- `data-table` → Kumo `table` + `button` + `checkbox` + `dropdown-menu` (drop Radix table primitives / old shadcn table).
-- `filter-bar` → Kumo `input` + `button`.
-- `dashboard` → `layer-card` + `button` + `badge` + `data-table`. Remove shadcn `Card*` usage.
-- Delete registry items `card`, `kumo-badge`. Delete `src/components/ui/card.tsx`, `src/components/kumo/**`.
-- App copies follow (`app/components/**`).
-
-**Rewire check**
-- `rg` in `packages/registry` and `app`: no `kumo-badge`, no `components/ui/card`, no `from "@/components/kumo`.
-- `registry.json` names include `layer-card`, exclude `card` and `kumo-badge`.
-- `pnpm --filter app typecheck`
-
-### Viz (pause gate)
-
-**Wave N:** `chart`, `sankey-chart`, `timeseries-chart`, `bubble-map`, `choropleth-map`
-- npm: `echarts` (peer), `d3-geo`, `motion` as upstream.
-- Add `echarts` to `app` only if playground mounts these sections.
-
-**Viz check**
-- build+validate those 5 JSON files.
-- If `app` build fails on `echarts`/SSR: **pause** (spec Stop/Pause). Do not delete the registry items; leave playground sections unmounted until unblocked.
-
-### Prove
-
-**Wave O — playground**
-- `app/components/playground.tsx`: one section per 44 UI items + 3 blocks + 3 patterns.
-- `app/package.json`: add `@base-ui/react`, keep `@phosphor-icons/react`; remove Radix deps that nothing imports.
-- `pnpm --filter app typecheck` and `pnpm --filter app build`.
-- Browser: light mode computed `--kumo-brand` / `--primary` = `#124b68` or the oklch equivalent.
-
-**Wave P — e2e + catalog set + isolated deps**
-- Add `packages/registry/src/validate-deps.ts`: for every non-theme item, parse owned TS/TSX imports; every relative import must resolve to a `files[]` path of this item or of an item in the recursive `registryDependencies` closure. Wire into `validate`.
-- Rewrite `packages/registry/scripts/e2e-smoke.sh`:
-  - exact-set of 53 names vs `public/r/registry.json`
-  - isolated add: `button`, `badge`, `dialog`, `chart` each in a **fresh** consumer with only that item + `theme-default`. Must compile.
-  - then full-set add in the main consumer
-  - expected files from manifest owners + `THIRD_PARTY_LICENSES.md`
-  - forbid `src/components/ui/card.tsx`, `src/components/kumo/**`
-  - consumer deps: `@base-ui/react`, `@phosphor-icons/react`, plus item peers
-  - assert CSS `--kumo-brand` and `bg-kumo-control`
-  - assert license file contains `Copyright (c) 2026 Cloudflare, Inc.`
-  - assert consumer lockfile has **no** `@cloudflare/kumo`
-- `render-check.tsx`: Button, Badge, FilterBar, DataTable, Dashboard (layer-card copy).
-- Run `pnpm --filter @therealtinhtute/registry e2e`.
-
-**Prove check = done:** success conditions 1–6.
-
-## Wave ownership
-
-| Wave | Owner writes | Parallel OK |
-|---|---|---|
-| A | tokens + theme-default cssVars | no |
-| B | licenses + lib | no |
-| C–K | `src/components/ui/*` parallel; **one** `registry.json` patch per wave | files yes, registry.json no |
-| L–M | blocks + patterns + deletes | no (deletes) |
-| N | viz | files yes, registry.json no |
-| O–P | app playground + e2e | no |
-
-## Next
-
-`work` — execute Foundation Wave A first. Do not skip license (Wave B) before shipping any ported UI item.
+### Phase 3: E2E Smoke & Plan Closure
+- **Slug**: `e2e-and-close`
+- **Story ID**: `story-e2e-and-close-003`
+- **Status**: `planned`
+- **Goal**: Prove end-to-end fresh consumer installation and archive plan to `docs/plans/completed/`.
+- **Waves**:
+  - **Wave 3A (E2E Verification)**:
+    - Run `pnpm --filter @therealtinhtute/registry e2e`.
+    - Verify isolated add of `button`, `badge`, `dialog`, `chart` in fresh consumers.
+    - Verify full 53-item install, lockfile without `@cloudflare/kumo`, and MIT license text.
+  - **Wave 3B (Archive)**:
+    - Move `docs/plans/active/kumo-full-catalog.md` to `docs/plans/completed/kumo-full-catalog.md`.
+    - Update status to `completed`.
+- **Verification**:
+  - `bash packages/registry/scripts/e2e-smoke.sh` exits 0.
+  - `git status` clean and committed.

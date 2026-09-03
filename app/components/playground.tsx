@@ -17,57 +17,57 @@ import {
   SquaresFourIcon,
   TagIcon,
 } from "@phosphor-icons/react";
-import {
-  Autocomplete,
-  Badge,
-  Banner,
-  Breadcrumbs,
-  Button,
-  Checkbox,
-  ClipboardText,
-  CloudflareLogo,
-  Code,
-  Collapsible,
-  Combobox,
-  CommandPalette,
-  DatePicker,
-  DateRangePicker,
-  Dialog,
-  DropdownMenu,
-  Empty,
-  Field,
-  Flow,
-  Grid,
-  GridItem,
-  Input,
-  InputArea,
-  InputGroup,
-  Label,
-  LayerCard,
-  Link,
-  Loader,
-  MenuBar,
-  Meter,
-  Pagination,
-  Popover,
-  Radio,
-  Select,
-  SensitiveInput,
-  Sidebar,
-  SidebarProvider,
-  Surface,
-  Switch,
-  Table,
-  TableOfContents,
-  Tabs,
-  Text,
-  TimeseriesChart,
-  Toasty,
-  ToastProvider,
-  Toolbar,
-  Tooltip,
-  TooltipProvider,
-} from "@cloudflare/kumo";
+
+import { Autocomplete } from "@/components/ui/autocomplete";
+import { Badge } from "@/components/ui/badge";
+import { Banner } from "@/components/ui/banner";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ClipboardText } from "@/components/ui/clipboard-text";
+import { Code } from "@/components/ui/code";
+import { Collapsible } from "@/components/ui/collapsible";
+import { Combobox } from "@/components/ui/combobox";
+import { CommandPalette } from "@/components/ui/command-palette";
+import { DatePicker } from "@/components/ui/date-picker";
+import { Dialog } from "@/components/ui/dialog";
+import { DropdownMenu } from "@/components/ui/dropdown-menu";
+import { Empty } from "@/components/ui/empty";
+import { Field } from "@/components/ui/field";
+import { Grid, GridItem } from "@/components/ui/grid";
+import { Input } from "@/components/ui/input";
+import { InputArea } from "@/components/ui/input-area";
+import { InputGroup } from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
+import { LayerCard } from "@/components/ui/layer-card";
+import { Link } from "@/components/ui/link";
+import { Loader } from "@/components/ui/loader";
+import { Meter } from "@/components/ui/meter";
+import { Pagination } from "@/components/ui/pagination";
+import { Popover } from "@/components/ui/popover";
+import { Radio } from "@/components/ui/radio";
+import { Select } from "@/components/ui/select";
+import { SensitiveInput } from "@/components/ui/sensitive-input";
+import { Sidebar, SidebarProvider } from "@/components/ui/sidebar";
+import { Switch } from "@/components/ui/switch";
+import { Table } from "@/components/ui/table";
+import { TableOfContents } from "@/components/ui/table-of-contents";
+import { Tabs } from "@/components/ui/tabs";
+import { Text } from "@/components/ui/text";
+import { TimeseriesChart } from "@/components/ui/timeseries-chart";
+import { SankeyChart } from "@/components/ui/sankey-chart";
+import { BubbleMap } from "@/components/ui/bubble-map";
+import { ChoroplethMap } from "@/components/ui/choropleth-map";
+import { Toasty, ToastProvider } from "@/components/ui/toasty";
+import { Toolbar } from "@/components/ui/toolbar";
+import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
+
+import { PageHeader } from "@/components/page-header";
+import { DeleteResource } from "@/components/delete-resource";
+import { ResourceListPage } from "@/components/resource-list-page";
+import { DataTable } from "@/components/data-table";
+import { FilterBar } from "@/components/filter-bar";
+import { Dashboard } from "@/components/dashboard";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 echarts.use([LineChart, CanvasRenderer, GridComponent, TooltipComponent]);
@@ -103,7 +103,7 @@ const GROUPS = [
     items: [
       ["banner", "Banner"],
       ["loader", "Loader"],
-      ["toast", "Toast"],
+      ["toasty", "Toasty"],
     ],
   },
   {
@@ -112,7 +112,6 @@ const GROUPS = [
     items: [
       ["checkbox", "Checkbox"],
       ["combobox", "Combobox"],
-      ["date-range-picker", "Date range picker"],
       ["field", "Field"],
       ["input", "Input"],
       ["input-area", "Input area"],
@@ -127,7 +126,6 @@ const GROUPS = [
     icon: CompassIcon,
     items: [
       ["command-palette", "Command palette"],
-      ["menu-bar", "Menu bar"],
       ["pagination", "Pagination"],
       ["tabs", "Tabs"],
     ],
@@ -137,7 +135,7 @@ const GROUPS = [
     icon: AppWindowIcon,
     items: [
       ["dialog", "Dialog"],
-      ["dropdown", "Dropdown"],
+      ["dropdown-menu", "Dropdown menu"],
       ["popover", "Popover"],
       ["tooltip", "Tooltip"],
     ],
@@ -147,18 +145,18 @@ const GROUPS = [
     icon: SquaresFourIcon,
     items: [
       ["grid", "Grid"],
-      ["surface", "Surface"],
       ["page-header", "Page header"],
-      ["resource-list", "Resource list"],
+      ["resource-list-page", "Resource list page"],
     ],
   },
   {
     title: "Data visualization",
     icon: ChartLineIcon,
     items: [
-      ["timeseries", "Timeseries"],
-      ["maps", "Maps"],
-      ["sankey", "Sankey"],
+      ["timeseries-chart", "Timeseries chart"],
+      ["sankey-chart", "Sankey chart"],
+      ["bubble-map", "Bubble map"],
+      ["choropleth-map", "Choropleth map"],
     ],
   },
   {
@@ -166,7 +164,6 @@ const GROUPS = [
     icon: DotsThreeOutlineIcon,
     items: [
       ["autocomplete", "Autocomplete"],
-      ["cloudflare-logo", "Cloudflare logo"],
       ["date-picker", "Date picker"],
       ["label", "Label"],
       ["link", "Link"],
@@ -175,13 +172,22 @@ const GROUPS = [
       ["table", "Table"],
       ["table-of-contents", "Table of contents"],
       ["toolbar", "Toolbar"],
-      ["flow", "Flow"],
       ["delete-resource", "Delete resource"],
+    ],
+  },
+  {
+    title: "Patterns",
+    icon: SquaresFourIcon,
+    items: [
+      ["data-table", "Data table"],
+      ["filter-bar", "Filter bar"],
+      ["dashboard", "Dashboard"],
     ],
   },
 ];
 
 type Slug = string;
+
 function Canvas({
   slug,
   dialogOpen,
@@ -226,7 +232,7 @@ function Canvas({
       return (
         <Banner
           title="Notice"
-          description="Official @cloudflare/kumo 2.13.0 catalog."
+          description="Official @therealtinhtute/ui component catalog."
         />
       );
     case "breadcrumbs":
@@ -239,8 +245,6 @@ function Canvas({
       );
     case "clipboard-text":
       return <ClipboardText text="0c239dd2" />;
-    case "cloudflare-logo":
-      return <CloudflareLogo />;
     case "code":
       return <Code code={`const greeting = "hello";`} />;
     case "collapsible":
@@ -253,14 +257,18 @@ function Canvas({
     case "empty":
       return <Empty title="No items" description="Nothing here yet." />;
     case "layer-card":
-      return <Text>Surface for grouping related content.</Text>;
+      return (
+        <LayerCard>
+          <Text>Surface for grouping related content.</Text>
+        </LayerCard>
+      );
     case "meter":
       return <Meter label="Storage used" value={65} />;
     case "text":
       return <Text>Content text is 14px.</Text>;
     case "loader":
       return <Loader />;
-    case "toast":
+    case "toasty":
       return (
         <Toasty>
           <Text>Toast viewport is mounted.</Text>
@@ -337,15 +345,8 @@ function Canvas({
       );
     case "date-picker":
       return <DatePicker mode="single" />;
-    case "date-range-picker":
-      return (
-        <DateRangePicker
-          onStartDateChange={() => undefined}
-          onEndDateChange={() => undefined}
-        />
-      );
     case "link":
-      return <Link href="https://kumo-ui.com">kumo-ui.com</Link>;
+      return <Link href="https://github.com">GitHub Repository</Link>;
     case "grid":
       return (
         <Grid>
@@ -356,12 +357,6 @@ function Canvas({
             <Text>B</Text>
           </GridItem>
         </Grid>
-      );
-    case "surface":
-      return (
-        <Surface>
-          <Text>Deprecated surface — still in the 2.13 catalog.</Text>
-        </Surface>
       );
     case "tabs":
       return (
@@ -379,8 +374,6 @@ function Canvas({
           <Pagination.Controls />
         </Pagination>
       );
-    case "menu-bar":
-      return <MenuBar isActive={false} options={[]} />;
     case "toolbar":
       return (
         <Toolbar>
@@ -432,7 +425,7 @@ function Canvas({
       );
     case "tooltip":
       return (
-        <Tooltip content="Official Kumo tooltip">
+        <Tooltip content="Official tooltip">
           <Text>Hover me</Text>
         </Tooltip>
       );
@@ -447,7 +440,7 @@ function Canvas({
           </Popover.Content>
         </Popover>
       );
-    case "dropdown":
+    case "dropdown-menu":
       return (
         <DropdownMenu>
           <DropdownMenu.Trigger
@@ -467,7 +460,7 @@ function Canvas({
           />
           <Dialog>
             <Dialog.Title>Confirm</Dialog.Title>
-            <Dialog.Description>Official Kumo dialog.</Dialog.Description>
+            <Dialog.Description>Custom dialog description.</Dialog.Description>
           </Dialog>
         </Dialog.Root>
       );
@@ -493,16 +486,7 @@ function Canvas({
           </CommandPalette.Root>
         </div>
       );
-    case "flow":
-      return (
-        <Flow>
-          <Flow.Node>Start</Flow.Node>
-          <Flow.Node>Finish</Flow.Node>
-        </Flow>
-      );
-    case "timeseries":
-    case "sankey":
-    case "maps":
+    case "timeseries-chart":
       return (
         <div className="h-48">
           <TimeseriesChart
@@ -521,36 +505,66 @@ function Canvas({
           />
         </div>
       );
-    case "page-header":
+    case "sankey-chart":
       return (
-        <div className="grid gap-3">
-          <Breadcrumbs>
-            <Breadcrumbs.Link href="/">Account</Breadcrumbs.Link>
-            <Breadcrumbs.Separator />
-            <Breadcrumbs.Current>Workers</Breadcrumbs.Current>
-          </Breadcrumbs>
-          <Text as="h1" variant="heading1">
-            Workers
-          </Text>
-          <Text>Deploy and manage Cloudflare Workers.</Text>
+        <div className="h-48">
+          <SankeyChart
+            echarts={echarts}
+            nodes={[{ name: "Ingress" }, { name: "Workers" }, { name: "Origin" }]}
+            links={[
+              { source: 0, target: 1, value: 80 },
+              { source: 1, target: 2, value: 75 },
+            ]}
+          />
         </div>
       );
-    case "resource-list":
+    case "bubble-map":
       return (
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.Head>Name</Table.Head>
-              <Table.Head>Status</Table.Head>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>api-gateway</Table.Cell>
-              <Table.Cell>Active</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+        <LayerCard>
+          <Text>BubbleMap: requires consumer GeoJSON dataset.</Text>
+        </LayerCard>
+      );
+    case "choropleth-map":
+      return (
+        <LayerCard>
+          <Text>ChoroplethMap: requires consumer GeoJSON dataset.</Text>
+        </LayerCard>
+      );
+    case "page-header":
+      return (
+        <PageHeader
+          breadcrumbs={
+            <Breadcrumbs>
+              <Breadcrumbs.Link href="/">Account</Breadcrumbs.Link>
+              <Breadcrumbs.Separator />
+              <Breadcrumbs.Current>Workers</Breadcrumbs.Current>
+            </Breadcrumbs>
+          }
+          title="Workers"
+          description="Deploy and manage Cloudflare Workers."
+        />
+      );
+    case "resource-list-page":
+      return (
+        <ResourceListPage
+          title="Workers"
+          description="Manage workers deployed to the edge."
+        >
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.Head>Name</Table.Head>
+                <Table.Head>Status</Table.Head>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>api-gateway</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </ResourceListPage>
       );
     case "delete-resource":
       return (
@@ -558,14 +572,21 @@ function Canvas({
           <Dialog.Trigger
             render={<Button variant="destructive">Delete worker</Button>}
           />
-          <Dialog>
-            <Dialog.Title>Delete worker</Dialog.Title>
-            <Dialog.Description>
-              This action cannot be undone.
-            </Dialog.Description>
-          </Dialog>
+          <DeleteResource
+            open={dialogOpen}
+            onOpenChange={setDialogOpen}
+            resourceType="worker"
+            resourceName="api-gateway"
+            onDelete={() => setDialogOpen(false)}
+          />
         </Dialog.Root>
       );
+    case "data-table":
+      return <DataTable columns={[]} data={[]} />;
+    case "filter-bar":
+      return <FilterBar value="" onValueChange={() => undefined} />;
+    case "dashboard":
+      return <Dashboard />;
     default:
       return <Text>Unknown component.</Text>;
   }
@@ -576,18 +597,31 @@ export function Playground() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
+    Action: true,
+  });
 
   useEffect(() => {
-    const fromHash = window.location.hash.replace(/^#/, "") as Slug;
-    const known = GROUPS.some((group) =>
+    const fromHash = window.location.hash.replace(/^#/, "");
+    const foundGroup = GROUPS.find((group) =>
       group.items.some(([id]) => id === fromHash),
     );
-    if (known) setSlug(fromHash);
+    if (foundGroup) {
+      setSlug(fromHash);
+      setOpenGroups((prev) => ({ ...prev, [foundGroup.title]: true }));
+    }
   }, []);
 
   const title =
-    GROUPS.flatMap((group) => [...group.items]).find(([id]) => id === slug)?.[1] ??
+    GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ??
     slug;
+
+  const toggleGroup = (groupTitle: string) => {
+    setOpenGroups((prev) => ({
+      ...prev,
+      [groupTitle]: !prev[groupTitle],
+    }));
+  };
 
   return (
     <TooltipProvider>
@@ -601,48 +635,56 @@ export function Playground() {
                   alt=""
                   className="size-6 shrink-0"
                 />
-                <Text as="h1" variant="heading3">
+                <Text as="h1" variant="heading">
                   mono
                 </Text>
               </div>
             </Sidebar.Header>
             <Sidebar.Content>
-              {GROUPS.map((group) => (
-                <Sidebar.Group key={group.title}>
-                  <Sidebar.Menu>
-                    <Sidebar.MenuItem>
-                      <Sidebar.Collapsible defaultOpen={false}>
-                        <Sidebar.CollapsibleTrigger
-                          render={
-                            <Sidebar.MenuButton
-                              icon={group.icon}
-                              tooltip={group.title}
-                            >
-                              {group.title} <Sidebar.MenuChevron />
-                            </Sidebar.MenuButton>
+              {GROUPS.map((group) => {
+                const isOpen = Boolean(openGroups[group.title]);
+                return (
+                  <Sidebar.Group key={group.title}>
+                    <Sidebar.Menu>
+                      <Sidebar.MenuItem>
+                        <Sidebar.Collapsible
+                          open={isOpen}
+                          onOpenChange={(next) =>
+                            setOpenGroups((prev) => ({
+                              ...prev,
+                              [group.title]: next,
+                            }))
                           }
-                        />
-                        <Sidebar.CollapsibleContent>
-                          <Sidebar.MenuSub>
-                            {group.items.map(([id, label]) => (
-                              <Sidebar.MenuSubButton
-                                key={id}
-                                active={id === slug}
-                                onClick={() => {
-                                  setSlug(id);
-                                  window.location.hash = id;
-                                }}
-                              >
-                                {label}
-                              </Sidebar.MenuSubButton>
-                            ))}
-                          </Sidebar.MenuSub>
-                        </Sidebar.CollapsibleContent>
-                      </Sidebar.Collapsible>
-                    </Sidebar.MenuItem>
-                  </Sidebar.Menu>
-                </Sidebar.Group>
-              ))}
+                        >
+                          <Sidebar.CollapsibleTrigger
+                            render={
+                              <Sidebar.MenuButton icon={group.icon}>
+                                {group.title} <Sidebar.MenuChevron />
+                              </Sidebar.MenuButton>
+                            }
+                          />
+                          <Sidebar.CollapsibleContent>
+                            <Sidebar.MenuSub>
+                              {group.items.map(([id, label]) => (
+                                <Sidebar.MenuSubButton
+                                  key={id}
+                                  active={id === slug}
+                                  onClick={() => {
+                                    setSlug(id);
+                                    window.location.hash = id;
+                                  }}
+                                >
+                                  {label}
+                                </Sidebar.MenuSubButton>
+                              ))}
+                            </Sidebar.MenuSub>
+                          </Sidebar.CollapsibleContent>
+                        </Sidebar.Collapsible>
+                      </Sidebar.MenuItem>
+                    </Sidebar.Menu>
+                  </Sidebar.Group>
+                );
+              })}
             </Sidebar.Content>
             <Sidebar.Footer>
               <Sidebar.Trigger />
@@ -655,11 +697,11 @@ export function Playground() {
             <main className="flex-1 overflow-y-auto px-8 py-8">
               <div className="grid max-w-3xl gap-6">
                 <div className="grid gap-1.5">
-                  <Text as="h2" variant="heading1">
+                  <Text as="h2" variant="heading">
                     {title}
                   </Text>
                   <p className="text-sm text-kumo-subtle">
-                    Live canvas from official @cloudflare/kumo.
+                    Live canvas from local @therealtinhtute/ui.
                   </p>
                 </div>
                 <div className="rounded-lg bg-kumo-base p-6 ring ring-kumo-line">
