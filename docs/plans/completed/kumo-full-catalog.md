@@ -1,7 +1,7 @@
 ---
 title: Kumo full catalog port
-status: active
-updated: 2026-09-03
+status: completed
+completed_at: 2026-09-03
 interviewed: 2026-09-02
 slug: kumo-full-catalog
 id: kumo-full-catalog
@@ -247,7 +247,7 @@ Trademark (`CloudflareLogo`), deprecated (`MenuBar`, `Surface`, `DateRangePicker
 ### Phase 3: E2E Smoke & Plan Closure
 - **Slug**: `e2e-and-close`
 - **Story ID**: `story-e2e-and-close-003`
-- **Status**: `planned`
+- **Status**: `done`
 - **Goal**: Prove end-to-end fresh consumer installation and archive plan to `docs/plans/completed/`.
 - **Waves**:
   - **Wave 3A (E2E Verification)**:
