@@ -2,9 +2,19 @@
 
 import { useEffect, useState } from "react";
 import * as echarts from "echarts/core";
-import { LineChart } from "echarts/charts";
+import {
+  LineChart,
+  SankeyChart as EChartsSankey,
+  MapChart,
+  ScatterChart,
+} from "echarts/charts";
 import { CanvasRenderer } from "echarts/renderers";
-import { GridComponent, TooltipComponent } from "echarts/components";
+import {
+  GridComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+} from "echarts/components";
 import {
   AppWindowIcon,
   ChartLineIcon,
@@ -54,9 +64,9 @@ import { Table } from "@/components/ui/table";
 import { TableOfContents } from "@/components/ui/table-of-contents";
 import { Tabs } from "@/components/ui/tabs";
 import { Text } from "@/components/ui/text";
+import { BubbleMap, type MapGeoJson } from "@/components/ui/bubble-map";
 import { TimeseriesChart } from "@/components/ui/timeseries-chart";
 import { SankeyChart } from "@/components/ui/sankey-chart";
-import { BubbleMap } from "@/components/ui/bubble-map";
 import { ChoroplethMap } from "@/components/ui/choropleth-map";
 import { Toasty, ToastProvider } from "@/components/ui/toasty";
 import { Toolbar } from "@/components/ui/toolbar";
@@ -70,7 +80,57 @@ import { FilterBar } from "@/components/filter-bar";
 import { Dashboard } from "@/components/dashboard";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-echarts.use([LineChart, CanvasRenderer, GridComponent, TooltipComponent]);
+echarts.use([
+  LineChart,
+  EChartsSankey,
+  MapChart,
+  ScatterChart,
+  CanvasRenderer,
+  GridComponent,
+  TooltipComponent,
+  VisualMapComponent,
+  GeoComponent,
+]);
+
+const sampleGeoJson = {
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      id: "US",
+      properties: { name: "United States" },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-125, 25],
+            [-65, 25],
+            [-65, 50],
+            [-125, 50],
+            [-125, 25],
+          ],
+        ],
+      },
+    },
+    {
+      type: "Feature",
+      id: "VN",
+      properties: { name: "Vietnam" },
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [102, 8],
+            [110, 8],
+            [110, 24],
+            [102, 24],
+            [102, 8],
+          ],
+        ],
+      },
+    },
+  ],
+};
 
 const fruits = ["Apple", "Banana", "Cherry"];
 
@@ -520,15 +580,35 @@ function Canvas({
       );
     case "bubble-map":
       return (
-        <LayerCard>
-          <Text>BubbleMap: requires consumer GeoJSON dataset.</Text>
-        </LayerCard>
+        <div className="h-64">
+          <BubbleMap
+            echarts={echarts}
+            geoJson={sampleGeoJson as unknown as MapGeoJson}
+            data={[
+              { city: "San Francisco", lon: -122.4, lat: 37.7, count: 120 },
+              { city: "Hanoi", lon: 105.8, lat: 21.0, count: 85 },
+            ]}
+            lng="lon"
+            lat="lat"
+            name="city"
+            value="count"
+          />
+        </div>
       );
     case "choropleth-map":
       return (
-        <LayerCard>
-          <Text>ChoroplethMap: requires consumer GeoJSON dataset.</Text>
-        </LayerCard>
+        <div className="h-64">
+          <ChoroplethMap
+            echarts={echarts}
+            geoJson={sampleGeoJson as unknown as MapGeoJson}
+            data={[
+              { country: "United States", count: 1200 },
+              { country: "Vietnam", count: 850 },
+            ]}
+            name="country"
+            value="count"
+          />
+        </div>
       );
     case "page-header":
       return (
@@ -602,14 +682,20 @@ export function Playground() {
   });
 
   useEffect(() => {
-    const fromHash = window.location.hash.replace(/^#/, "");
-    const foundGroup = GROUPS.find((group) =>
-      group.items.some(([id]) => id === fromHash),
-    );
-    if (foundGroup) {
-      setSlug(fromHash);
-      setOpenGroups((prev) => ({ ...prev, [foundGroup.title]: true }));
-    }
+    const handleHash = () => {
+      const fromHash = window.location.hash.replace(/^#/, "");
+      const foundGroup = GROUPS.find((group) =>
+        group.items.some(([id]) => id === fromHash),
+      );
+      if (foundGroup) {
+        setSlug(fromHash);
+        setOpenGroups((prev) => ({ ...prev, [foundGroup.title]: true }));
+      }
+    };
+
+    handleHash();
+    window.addEventListener("hashchange", handleHash);
+    return () => window.removeEventListener("hashchange", handleHash);
   }, []);
 
   const title =
@@ -658,7 +744,10 @@ export function Playground() {
                         >
                           <Sidebar.CollapsibleTrigger
                             render={
-                              <Sidebar.MenuButton icon={group.icon}>
+                              <Sidebar.MenuButton
+                                icon={group.icon}
+                                tooltip={group.title}
+                              >
                                 {group.title} <Sidebar.MenuChevron />
                               </Sidebar.MenuButton>
                             }
@@ -691,7 +780,8 @@ export function Playground() {
             </Sidebar.Footer>
           </Sidebar>
           <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
-            <header className="sticky top-0 z-10 flex items-center justify-end border-b border-kumo-line bg-kumo-base px-6 py-3">
+            <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
+              <Sidebar.Trigger />
               <ThemeToggle />
             </header>
             <main className="flex-1 overflow-y-auto px-8 py-8">
