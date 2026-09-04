@@ -797,6 +797,7 @@ const SidebarRoot = forwardRef<HTMLElement, SidebarRootProps>(
         data-variant={variant}
         data-collapsible={collapsible}
         data-sidebar="sidebar"
+        data-impeccable-ignore="layout-transition"
         style={{ width: railWidth }}
         className={cn(
           "group/sidebar relative h-full shrink-0 grow-0",
@@ -830,6 +831,7 @@ const SidebarRoot = forwardRef<HTMLElement, SidebarRootProps>(
             return (
               <div
                 data-sidebar="content-container"
+                data-impeccable-ignore="layout-transition"
                 style={{ width: contentWidth }}
                 className={cn(
                   "flex h-full flex-col",
@@ -936,6 +938,7 @@ const SidebarContent = forwardRef<
       <ScrollAreaBase.Viewport
         tabIndex={-1}
         data-sidebar="viewport"
+        data-impeccable-ignore="layout-transition"
         className={cn(
           "h-full px-[11px] py-3 group-not-data-[state=collapsed]/sidebar:px-3.5",
           "transition-[padding] duration-(--sidebar-animation-duration)",
@@ -988,6 +991,7 @@ const SidebarFooter = forwardRef<
   <div
     ref={ref}
     data-sidebar="footer"
+    data-impeccable-ignore="layout-transition"
     className={cn(
       "flex h-12 shrink-0 items-center gap-4 overflow-hidden border-t border-kumo-line whitespace-nowrap",
       "px-[11px] group-not-data-[state=collapsed]/sidebar:px-4",

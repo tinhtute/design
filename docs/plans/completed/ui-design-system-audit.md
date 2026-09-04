@@ -87,7 +87,7 @@ Execute a structured, multi-pass design audit and polish sequence:
 - **Verification**:
   - `npx impeccable detect app/` returns 0 anti-patterns.
   - `npx impeccable detect packages/registry/src/` returns 0 anti-patterns.
-  - `npx impeccable detect http://localhost:3000` returns 0 anti-patterns (layout-transition rule ignored — sidebar width reflow is inherent to the push-layout pattern; button emphasis scoped).
+  - `npx impeccable detect http://localhost:3000` returns 0 anti-patterns (clean config; data-impeccable-ignore="layout-transition" per-element on sidebar transition elements; solid emphasis cures ai-color-palette at source).
 
 ### Phase 2: Accessibility, Contrast & Focus Audit
 - **Slug**: `a11y-and-contrast`

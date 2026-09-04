@@ -1,28 +1,7 @@
 {
   "detector": {
-    "ignoreRules": [
-      "layout-transition"
-    ],
+    "ignoreRules": [],
     "ignoreFiles": [],
-    "ignoreValues": [
-      {
-        "rule": "ai-color-palette",
-        "value": "*",
-        "files": [
-          "**/button.tsx"
-        ],
-        "createdAt": "2026-09-04T13:23:18.099Z",
-        "reason": "Brand #124b68 emphasis gradient hits hue 200 threshold"
-      },
-      {
-        "rule": "layout-transition",
-        "value": "*",
-        "files": [
-          "**/sidebar.tsx"
-        ],
-        "createdAt": "2026-09-04T13:23:27.115Z",
-        "reason": "Sidebar collapsible width and padding transitions"
-      }
-    ]
+    "ignoreValues": []
   }
 }
