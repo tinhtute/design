@@ -3,7 +3,16 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["node_modules/", "dist/", "public/", "docs/", ".next/", "app/.next/"],
+    ignores: [
+      "node_modules/",
+      "dist/",
+      "public/",
+      "docs/",
+      ".next/",
+      "app/.next/",
+      ".claude/",
+      ".github/",
+    ],
   },
 
   js.configs.recommended,

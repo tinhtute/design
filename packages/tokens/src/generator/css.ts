@@ -23,8 +23,12 @@ function themeInlineVars(theme: Theme): string[] {
     vars.push(`--radius-${key}: calc(var(--radius) * ${mult});`);
   }
   vars.push("--radius: var(--radius);");
-  for (const key of Object.keys(theme.typography?.fontFamily ?? {})) {
-    vars.push(`--font-${key}: var(--font-${key});`);
+  for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
+    if (value.startsWith("var(")) {
+      vars.push(`--font-${key}: ${value};`);
+    } else {
+      vars.push(`--font-${key}: var(--font-${key});`);
+    }
   }
   if (theme.spacing?.base) {
     vars.push(`--spacing: ${theme.spacing.base};`);

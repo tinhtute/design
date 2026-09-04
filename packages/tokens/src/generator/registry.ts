@@ -41,8 +41,12 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
     themeBlock[`--radius-${key}`] = `calc(var(--radius) * ${mult})`;
   }
   themeBlock["--radius"] = "var(--radius)";
-  for (const key of Object.keys(theme.typography?.fontFamily ?? {})) {
-    themeBlock[`--font-${key}`] = `var(--font-${key})`;
+  for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
+    if (value.startsWith("var(")) {
+      themeBlock[`--font-${key}`] = value;
+    } else {
+      themeBlock[`--font-${key}`] = `var(--font-${key})`;
+    }
   }
   if (theme.spacing?.base) {
     themeBlock["--spacing"] = theme.spacing.base;
