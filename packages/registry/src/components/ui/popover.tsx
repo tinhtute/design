@@ -213,7 +213,7 @@ function PopoverContent({
           className={cn(
             "flex origin-(--transform-origin) flex-col rounded-lg bg-kumo-base px-4 py-3 text-sm text-kumo-default",
             "shadow-md outline outline-kumo-line",
-            "transition-[transform,scale,opacity] duration-150",
+            "transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none",
             "data-starting-style:scale-90 data-starting-style:opacity-0",
             "data-ending-style:scale-90 data-ending-style:opacity-0",
             "data-instant:duration-0",

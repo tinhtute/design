@@ -235,10 +235,10 @@ function DialogContent({
 
   return (
     <BasePortal container={container}>
-      <BaseBackdrop className="fixed inset-0 bg-kumo-recessed opacity-80 transition-all duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0" />
+      <BaseBackdrop className="fixed inset-0 bg-kumo-recessed opacity-80 transition-all duration-200 ease-out motion-reduce:transition-none data-ending-style:opacity-0 data-starting-style:opacity-0" />
       <LayerCard
         render={<BasePopup />}
-        className={cn(dialogVariants({ size }), className)}
+        className={cn(dialogVariants({ size }), "duration-200 ease-out motion-reduce:transition-none", className)}
         style={
           {
             transitionProperty: "scale, opacity",

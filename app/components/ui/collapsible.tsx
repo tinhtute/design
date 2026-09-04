@@ -174,7 +174,7 @@ const CollapsibleDefaultTrigger = forwardRef<
           aria-hidden
           size={12}
           weight="bold"
-          className="block size-3 origin-center transition-transform duration-100 ease-out [[data-panel-open]_&]:rotate-180"
+          className="block size-3 origin-center transition-transform duration-200 ease-out motion-reduce:transition-none [[data-panel-open]_&]:rotate-180"
         />
       </span>
     </CollapsibleBase.Trigger>
@@ -216,7 +216,7 @@ const CollapsibleDefaultPanel = forwardRef<
     <CollapsibleBase.Panel
       ref={ref}
       className={cn(
-        "h-[var(--collapsible-panel-height)] overflow-hidden transition-[height,opacity] duration-100 ease-out data-ending-style:h-0 data-ending-style:opacity-0 data-starting-style:h-0 data-starting-style:opacity-0 [&[hidden]:not([hidden='until-found'])]:hidden",
+        "h-[var(--collapsible-panel-height)] overflow-hidden transition-[height,opacity] duration-200 ease-out motion-reduce:transition-none data-ending-style:h-0 data-ending-style:opacity-0 data-starting-style:h-0 data-starting-style:opacity-0 [&[hidden]:not([hidden='until-found'])]:hidden",
         className,
       )}
       {...props}

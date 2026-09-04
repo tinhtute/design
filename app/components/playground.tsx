@@ -550,7 +550,7 @@ function Canvas({
       );
     case "timeseries-chart":
       return (
-        <div className="h-48">
+        <div className="h-48 min-w-0 max-w-full overflow-hidden">
           <TimeseriesChart
             echarts={echarts}
             data={[
@@ -569,7 +569,7 @@ function Canvas({
       );
     case "sankey-chart":
       return (
-        <div className="h-48">
+        <div className="h-48 min-w-0 max-w-full overflow-hidden">
           <SankeyChart
             echarts={echarts}
             nodes={[{ name: "Ingress" }, { name: "Workers" }, { name: "Origin" }]}
@@ -582,7 +582,7 @@ function Canvas({
       );
     case "bubble-map":
       return (
-        <div className="h-64">
+        <div className="h-64 min-w-0 max-w-full overflow-hidden">
           <BubbleMap
             echarts={echarts}
             geoJson={sampleGeoJson}
@@ -599,7 +599,7 @@ function Canvas({
       );
     case "choropleth-map":
       return (
-        <div className="h-64">
+        <div className="h-64 min-w-0 max-w-full overflow-hidden">
           <ChoroplethMap
             echarts={echarts}
             geoJson={sampleGeoJson}
@@ -725,9 +725,9 @@ export function Playground() {
                   alt=""
                   className="size-6 shrink-0"
                 />
-                <Text as="h1" variant="heading" className="text-xl font-bold">
+                <h1 className="text-xl font-bold text-kumo-default">
                   mono
-                </Text>
+                </h1>
               </div>
             </Sidebar.Header>
             <Sidebar.Content>
@@ -791,9 +791,9 @@ export function Playground() {
             <main className="flex-1 overflow-y-auto px-8 py-8">
               <div className="grid max-w-3xl gap-6">
                 <div className="grid gap-1.5">
-                  <Text as="h2" variant="heading" className="text-3xl font-bold tracking-tight">
+                  <h2 className="text-3xl font-bold tracking-tight text-kumo-default">
                     {title}
-                  </Text>
+                  </h2>
                   <p className="text-sm text-kumo-subtle">
                     Live canvas from local @therealtinhtute/ui.
                   </p>

@@ -238,7 +238,7 @@ const renderButtonContent = (
     <>
       <span
         aria-hidden="true"
-        className="absolute inset-0 rounded-[inherit] bg-linear-to-b from-(--kumo-button-emphasis-gradient-start) to-(--kumo-button-emphasis-gradient-end) shadow-[inset_0_1px_0_0_var(--kumo-button-emphasis-bg)] group-hover:from-(--kumo-button-emphasis-bg)"
+        className="absolute inset-0 rounded-[inherit] bg-(--kumo-button-emphasis-gradient-end) shadow-[inset_0_1px_0_0_var(--kumo-button-emphasis-bg)] transition-all duration-150 ease-out group-hover:brightness-105"
       />
       <span className="relative flex items-center gap-1.5">
         {iconNode}
