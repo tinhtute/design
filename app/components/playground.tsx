@@ -92,7 +92,7 @@ echarts.use([
   GeoComponent,
 ]);
 
-const sampleGeoJson = {
+const sampleGeoJson: MapGeoJson = {
   type: "FeatureCollection",
   features: [
     {
@@ -583,7 +583,7 @@ function Canvas({
         <div className="h-64">
           <BubbleMap
             echarts={echarts}
-            geoJson={sampleGeoJson as unknown as MapGeoJson}
+            geoJson={sampleGeoJson}
             data={[
               { city: "San Francisco", lon: -122.4, lat: 37.7, count: 120 },
               { city: "Hanoi", lon: 105.8, lat: 21.0, count: 85 },
@@ -600,7 +600,7 @@ function Canvas({
         <div className="h-64">
           <ChoroplethMap
             echarts={echarts}
-            geoJson={sampleGeoJson as unknown as MapGeoJson}
+            geoJson={sampleGeoJson}
             data={[
               { country: "United States", count: 1200 },
               { country: "Vietnam", count: 850 },
