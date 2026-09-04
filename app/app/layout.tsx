@@ -13,6 +13,7 @@ const fontMono = Google_Sans_Code({
   variable: "--font-mono",
   display: "swap",
   adjustFontFallback: false,
+  fallback: ["ui-monospace", "monospace"],
 });
 
 const fontSerif = Xanh_Mono({
