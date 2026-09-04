@@ -3,8 +3,8 @@ id: plan-audit-polish-20260904
 intake_id: intake-audit-polish-20260904
 slug: ui-design-system-audit
 title: UI Design System & Showroom Audit and Polish Pass
-status: active
-lane: normal
+status: completed
+completed_at: 2026-09-04
 created: 2026-09-04
 updated: 2026-09-04
 authority: impeccable.style
@@ -78,7 +78,7 @@ Execute a structured, multi-pass design audit and polish sequence:
 ### Phase 1: Anti-pattern Elimination & Motion Standards
 - **Slug**: `anti-patterns-and-motion`
 - **Story ID**: `story-audit-motion-001`
-- **Status**: `planned`
+- **Status**: `done`
 - **Goal**: Eliminate all detector anti-patterns and enforce decelerated motion across components.
 - **Tasks**:
   - [ ] Replace `animate-bounce-in` in `app/components/ui/empty.tsx` with smooth scale/fade transition (`scale-100 opacity-100 transition-all duration-150 ease-out`).
@@ -89,7 +89,7 @@ Execute a structured, multi-pass design audit and polish sequence:
   - `npx impeccable detect packages/registry/src/` returns 0 anti-patterns.
 
 ### Phase 2: Accessibility, Contrast & Focus Audit
-- **Slug**: `a11y-and-contrast`
+- **Status**: `done`
 - **Story ID**: `story-audit-a11y-002`
 - **Status**: `planned`
 - **Goal**: Guarantee WCAG 2.1 AA compliance and visible keyboard focus rings across all 53 items.
@@ -101,7 +101,7 @@ Execute a structured, multi-pass design audit and polish sequence:
   - Browser DOM probe passes contrast check (≥ 4.5:1 text, ≥ 3:1 graphical controls).
   - Keyboard tab sequence through the showroom displays persistent visible focus rings.
 
-### Phase 3: Responsive Layout & Showroom Polish
+- **Status**: `done`
 - **Slug**: `responsive-and-showroom`
 - **Story ID**: `story-audit-responsive-003`
 - **Status**: `planned`
@@ -116,7 +116,7 @@ Execute a structured, multi-pass design audit and polish sequence:
 ### Phase 4: Gate Verification & Closure
 - **Slug**: `gate-verification`
 - **Story ID**: `story-audit-gate-004`
-- **Status**: `planned`
+- **Status**: `done`
 - **Goal**: Run complete monorepo gate verification and archive the audit plan.
 - **Tasks**:
   - [ ] Run `pnpm -r build` and `pnpm --filter app typecheck`.

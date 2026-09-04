@@ -164,7 +164,10 @@ function CodeComponent({
   style,
 }: CodeProps) {
   return (
-    <pre className={cn(codeVariants({ lang }), className)} style={style}>
+    <pre
+      className={cn("overflow-x-auto", codeVariants({ lang }), className)}
+      style={style}
+    >
       {code}
     </pre>
   );

@@ -468,20 +468,22 @@ function Canvas({
       );
     case "table":
       return (
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.Head>Name</Table.Head>
-              <Table.Head>Status</Table.Head>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>Worker A</Table.Cell>
-              <Table.Cell>Active</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-        </Table>
+        <div className="overflow-x-auto">
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.Head>Name</Table.Head>
+                <Table.Head>Status</Table.Head>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell>Worker A</Table.Cell>
+                <Table.Cell>Active</Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </div>
       );
     case "tooltip":
       return (
@@ -630,20 +632,22 @@ function Canvas({
           title="Workers"
           description="Manage workers deployed to the edge."
         >
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.Head>Name</Table.Head>
-                <Table.Head>Status</Table.Head>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell>api-gateway</Table.Cell>
-                <Table.Cell>Active</Table.Cell>
-              </Table.Row>
-            </Table.Body>
-          </Table>
+          <div className="overflow-x-auto">
+            <Table>
+              <Table.Header>
+                <Table.Row>
+                  <Table.Head>Name</Table.Head>
+                  <Table.Head>Status</Table.Head>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell>api-gateway</Table.Cell>
+                  <Table.Cell>Active</Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          </div>
         </ResourceListPage>
       );
     case "delete-resource":
@@ -721,7 +725,7 @@ export function Playground() {
                   alt=""
                   className="size-6 shrink-0"
                 />
-                <Text as="h1" variant="heading">
+                <Text as="h1" variant="heading" className="text-xl font-bold">
                   mono
                 </Text>
               </div>
@@ -787,7 +791,7 @@ export function Playground() {
             <main className="flex-1 overflow-y-auto px-8 py-8">
               <div className="grid max-w-3xl gap-6">
                 <div className="grid gap-1.5">
-                  <Text as="h2" variant="heading">
+                  <Text as="h2" variant="heading" className="text-3xl font-bold tracking-tight">
                     {title}
                   </Text>
                   <p className="text-sm text-kumo-subtle">
