@@ -176,6 +176,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.3
+      '@therealtinhtute/registry':
+        specifier: workspace:*
+        version: link:../packages/registry
       '@types/d3-geo':
         specifier: ^3.1.1
         version: 3.1.1

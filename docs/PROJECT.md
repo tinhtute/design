@@ -12,7 +12,7 @@
 - Closed npm UI package distribution.
 
 ## How do we run the tests?
-- `pnpm -r build`
+- `pnpm build`
 - `pnpm --filter app typecheck`
 - `pnpm --filter @therealtinhtute/registry validate && pnpm --filter @therealtinhtute/registry validate:build`
 - `pnpm --filter @therealtinhtute/registry e2e`
