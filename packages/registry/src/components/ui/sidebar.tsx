@@ -496,7 +496,7 @@ function SidebarProvider({
           } as CSSProperties
         }
         className={cn(
-          "group/sidebar-wrapper relative isolate flex w-full [--sidebar-active-bg:var(--color-kumo-tint)] [--sidebar-bg:var(--color-kumo-base)]",
+          "group/sidebar-wrapper relative isolate flex w-full [--sidebar-active-bg:var(--color-sidebar-accent)] [--sidebar-bg:var(--color-kumo-base)]",
           !contained && !isMobile && "min-h-svh",
           "has-data-[variant=inset]:bg-kumo-recessed",
           isResizing && "select-none",
