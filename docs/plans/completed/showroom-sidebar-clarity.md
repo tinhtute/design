@@ -3,11 +3,11 @@ id: plan-showroom-sidebar-202609152133
 intake_id: intake-showroom-sidebar-202609152133
 slug: showroom-sidebar-clarity
 title: Showroom Sidebar State Clarity and Component Descriptions
-status: active
+status: completed
 lane: normal
 input_type: change-request
 created: 2026-09-15
-updated: 2026-09-15
+updated: 2026-09-16
 ---
 
 # Showroom Sidebar State Clarity and Component Descriptions
@@ -76,7 +76,7 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ### Phase 1: Sidebar State Classes
 - **Slug**: `sidebar-state-classes`
 - **Story ID**: `story-sidebar-states-202609152133`
-- **Status**: `checked`
+- **Status**: `done`
 - **Goal**: Make resting, hover, and active states of Sidebar menu buttons distinguishable (R1, R2).
 - **Dependencies**: none
 - **Allowed surfaces**: `app/components/ui/sidebar.tsx`, `packages/registry/src/components/ui/sidebar.tsx`
@@ -99,7 +99,7 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ### Phase 2: Showroom Nav and Descriptions
 - **Slug**: `showroom-nav-and-descriptions`
 - **Story ID**: `story-showroom-nav-202609152133`
-- **Status**: `checked` (final phase — independent `check full` APPROVED 2026-09-16T13:58Z under the amended plan)
+- **Status**: `done` (final phase — independent `check full` APPROVED 2026-09-16T13:58Z under the amended plan)
 - **Goal**: One flat nav treatment with full offcanvas collapse, and registry descriptions on every page (R3, R4, R5, R6).
 - **Dependencies**: none (ordered after `sidebar-state-classes` so screenshots reflect final states)
 - **Allowed surfaces**: `app/components/playground.tsx`
@@ -126,14 +126,14 @@ The showroom sidebar reads cleanly and every component page explains itself:
 
 ## Current State and Next Action
 
-- active_phase: showroom-nav-and-descriptions
-- lifecycle_status: checked
+- active_phase: none
+- lifecycle_status: done
 - planning_status: planned
-- latest_progress: 2026-09-16T13:42Z phase showroom-nav-and-descriptions reconciliation wave done (plan amended per owner ruling; static + browser re-verification passed on e03f78d)
+- latest_progress: 2026-09-16T14:01Z handoff closed both phases; initiative complete
 - latest_validation: 2026-09-16T13:58Z APPROVED (independent `check full`, phase showroom-nav-and-descriptions, amended plan)
 - blockers: none
-- open_items: commit the plan file and the uncommitted harness-docs update before close-out
-- exact_next_action: `git` to commit the plan + harness-docs churn (separate commits), then `handoff`/`git` to close the initiative
+- open_items: none
+- exact_next_action: initiative closed — push/merge `fix/sidebar-kumo-parity` to `main` at owner discretion
 
 ## Progress
 
@@ -148,10 +148,12 @@ The showroom sidebar reads cleanly and every component page explains itself:
 - 2026-09-16T13:42Z | phase: showroom-nav-and-descriptions | wave: reconciliation | task: plan-amendment | task_status: done | summary: Owner ruling — keep the shipped approach (e03f78d). Amended Outcome 1, R1, Non-goals, phase-1 tasks (T1.1→`--sidebar-active-bg` re-point, T1.2→verification-only), phase-2 tasks (T2.2→per-item icons, new T2.4→consumer className) and both Verification lists. | surfaces: docs/plans/active/showroom-sidebar-clarity.md
 - 2026-09-16T13:42Z | phase: showroom-nav-and-descriptions | wave: reconciliation | task: reverify-static | task_status: done | summary: Amended proofs re-run on committed state — `cmp` identical (R2); `--sidebar-active-bg:var(--color-sidebar-accent)` at sidebar.tsx:499; banned-pattern grep empty (R3, "Live canvas" gone); `collapsible="offcanvas"` at :742 (R4); `icon={Icon}` at :765; consumer className `text-kumo-subtle hover:text-kumo-default` at :769; no `font-medium` in playground.tsx (uniform weight). | surfaces: app/components/playground.tsx, app/components/ui/sidebar.tsx, packages/registry/src/components/ui/sidebar.tsx
 - 2026-09-16T13:42Z | phase: showroom-nav-and-descriptions | wave: reconciliation | task: reverify-browser | task_status: done | summary: Live probe on e03f78d (`pnpm --filter app dev` + agent-browser): `#sidebar` → h2 + registry description; active item fw500 / default text / wash bg, inactive fw500 / subtle text / transparent bg; hover on inactive → bg tint + default text, weight stays 500 (amended R1 verified in computed styles); all 49 nav items render a leading icon; click Badge → `#badge`, h2, description, and active state update; footer collapse → sidebar width 0 (offcanvas, no rail), header trigger reopens to 260px; at 482px no horizontal overflow, sidebar opens as full-height drawer over dimmed content. Screenshots: `/tmp/monoui-full-{1280-light,1280-dark,482-light,482-dark,482-drawer}.png`. | surfaces: none (read-only probe)
+- 2026-09-16T14:01Z | phase: showroom-nav-and-descriptions | wave: closure | task_status: done | summary: `handoff` closed both phases (`sidebar-state-classes`, `showroom-nav-and-descriptions` → `done`); plan frontmatter `status: completed`; moved to `docs/plans/completed/`.
 
 ## Decisions
 
 - 2026-09-15T16:10Z | phase: showroom-nav-and-descriptions | task: T2.2 | type: plan-correction | summary: Plan text claimed `SquaresFourIcon` "stays; it is used elsewhere." Grep (`grep -c` per icon name across `app/components/playground.tsx`) showed all 9 GROUPS icons — including `SquaresFourIcon` — appear only as `icon:` field values (used twice, for "Layout" and "Patterns") plus once in the import; none appear in any `Canvas` render branch. All 9 were removed from the import, not the 8 the plan named. `PlusIcon` was left untouched (used in `Canvas()`'s `case "button":`). Verified post-edit: `pnpm --filter app typecheck` and `pnpm lint` both pass with no unused-import errors.
+- 2026-09-16T14:01Z | phase: closure | type: absorb | summary: absorb: none — the plan-vs-diff divergence class is already guarded by the required independent `check full`; the owner ruling is initiative-specific, needing no new rule, ADR, or guard.
 - 2026-09-16T13:35Z | phase: showroom-nav-and-descriptions | task: reconciliation | type: owner-ruling / plan-amendment | summary: Independent `check full` returned REQUEST_CHANGES on e03f78d — the committed diff implements a different approach than the recorded tasks (text hierarchy lives in the showroom consumer `className`, not in-primitive conditional classes; per-item icons were added, not removed; `--sidebar-active-bg` was re-pointed to `--color-sidebar-accent`). Owner ruled: keep the shipped approach. Amended accordingly: Outcome 1 (single-signal, uniform weight), R1 (primitive owns bg, consumer owns text shade), Non-goals (per-item icons in scope; `--sidebar-active-bg` binding re-point in scope — theme.css/tokens still untouched), Phase 1 tasks (T1.1→var re-point, T1.2→verification-only), Phase 2 tasks (T2.2→per-item icons; new T2.4→consumer className) and both phases' Verification lists. Original Progress/Validation entries remain as history; this amendment supersedes them for what shipped. Re-verification on the committed state follows in Progress.
 
 ## Validation
