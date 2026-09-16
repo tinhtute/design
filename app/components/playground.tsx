@@ -15,17 +15,55 @@ import {
   VisualMapComponent,
   GeoComponent,
 } from "echarts/components";
+import type { Icon } from "@phosphor-icons/react";
 import {
-  AppWindowIcon,
-  ChartLineIcon,
-  CompassIcon,
-  DotsThreeOutlineIcon,
-  KeyboardIcon,
-  LightningIcon,
-  MegaphoneIcon,
   PlusIcon,
-  SquaresFourIcon,
+  CursorClickIcon,
+  ClipboardTextIcon,
   TagIcon,
+  CaretRightIcon,
+  CodeIcon,
+  CaretDownIcon,
+  TrayIcon,
+  StackIcon,
+  GaugeIcon,
+  TextAaIcon,
+  MegaphoneIcon,
+  SpinnerGapIcon,
+  BellIcon,
+  CheckSquareIcon,
+  ListMagnifyingGlassIcon,
+  TextboxIcon,
+  TextTIcon,
+  TextAlignLeftIcon,
+  RowsIcon,
+  RadioButtonIcon,
+  CaretUpDownIcon,
+  ToggleLeftIcon,
+  MagnifyingGlassIcon,
+  DotsThreeIcon,
+  BrowsersIcon,
+  FrameCornersIcon,
+  ListBulletsIcon,
+  ChatCircleTextIcon,
+  InfoIcon,
+  GridFourIcon,
+  LayoutIcon,
+  ListDashesIcon,
+  ChartLineIcon,
+  TreeStructureIcon,
+  MapPinIcon,
+  GlobeIcon,
+  FunnelSimpleIcon,
+  CalendarBlankIcon,
+  LinkIcon,
+  EyeSlashIcon,
+  SidebarSimpleIcon,
+  TableIcon,
+  ListNumbersIcon,
+  ToolboxIcon,
+  TrashIcon,
+  SquaresFourIcon,
 } from "@phosphor-icons/react";
 
 import { Autocomplete } from "@/components/ui/autocomplete";
@@ -79,6 +117,11 @@ import { DataTable } from "@/components/data-table";
 import { FilterBar } from "@/components/filter-bar";
 import { Dashboard } from "@/components/dashboard";
 import { ThemeToggle } from "@/components/theme-toggle";
+import registry from "../../packages/registry/registry.json";
+
+const DESCRIPTIONS = new Map(
+  registry.items.map((item) => [item.name, item.description]),
+);
 
 echarts.use([
   LineChart,
@@ -134,114 +177,106 @@ const sampleGeoJson: MapGeoJson = {
 
 const fruits = ["Apple", "Banana", "Cherry"];
 
-const GROUPS = [
+type NavItem = readonly [id: string, label: string, icon: Icon];
+
+const GROUPS: { title: string; items: NavItem[] }[] = [
   {
     title: "Action",
-    icon: LightningIcon,
     items: [
-      ["button", "Button"],
-      ["clipboard-text", "Clipboard text"],
+      ["button", "Button", CursorClickIcon],
+      ["clipboard-text", "Clipboard text", ClipboardTextIcon],
     ],
   },
   {
     title: "Display",
-    icon: TagIcon,
     items: [
-      ["badge", "Badge"],
-      ["breadcrumbs", "Breadcrumbs"],
-      ["code", "Code"],
-      ["collapsible", "Collapsible"],
-      ["empty", "Empty"],
-      ["layer-card", "Layer card"],
-      ["meter", "Meter"],
-      ["text", "Text"],
+      ["badge", "Badge", TagIcon],
+      ["breadcrumbs", "Breadcrumbs", CaretRightIcon],
+      ["code", "Code", CodeIcon],
+      ["collapsible", "Collapsible", CaretDownIcon],
+      ["empty", "Empty", TrayIcon],
+      ["layer-card", "Layer card", StackIcon],
+      ["meter", "Meter", GaugeIcon],
+      ["text", "Text", TextAaIcon],
     ],
   },
   {
     title: "Feedback",
-    icon: MegaphoneIcon,
     items: [
-      ["banner", "Banner"],
-      ["loader", "Loader"],
-      ["toasty", "Toasty"],
+      ["banner", "Banner", MegaphoneIcon],
+      ["loader", "Loader", SpinnerGapIcon],
+      ["toasty", "Toasty", BellIcon],
     ],
   },
   {
     title: "Input",
-    icon: KeyboardIcon,
     items: [
-      ["checkbox", "Checkbox"],
-      ["combobox", "Combobox"],
-      ["field", "Field"],
-      ["input", "Input"],
-      ["input-area", "Input area"],
-      ["input-group", "Input group"],
-      ["radio", "Radio"],
-      ["select", "Select"],
-      ["switch", "Switch"],
+      ["checkbox", "Checkbox", CheckSquareIcon],
+      ["combobox", "Combobox", ListMagnifyingGlassIcon],
+      ["field", "Field", TextboxIcon],
+      ["input", "Input", TextTIcon],
+      ["input-area", "Input area", TextAlignLeftIcon],
+      ["input-group", "Input group", RowsIcon],
+      ["radio", "Radio", RadioButtonIcon],
+      ["select", "Select", CaretUpDownIcon],
+      ["switch", "Switch", ToggleLeftIcon],
     ],
   },
   {
     title: "Navigation",
-    icon: CompassIcon,
     items: [
-      ["command-palette", "Command palette"],
-      ["pagination", "Pagination"],
-      ["tabs", "Tabs"],
+      ["command-palette", "Command palette", MagnifyingGlassIcon],
+      ["pagination", "Pagination", DotsThreeIcon],
+      ["tabs", "Tabs", BrowsersIcon],
     ],
   },
   {
     title: "Overlay",
-    icon: AppWindowIcon,
     items: [
-      ["dialog", "Dialog"],
-      ["dropdown-menu", "Dropdown menu"],
-      ["popover", "Popover"],
-      ["tooltip", "Tooltip"],
+      ["dialog", "Dialog", FrameCornersIcon],
+      ["dropdown-menu", "Dropdown menu", ListBulletsIcon],
+      ["popover", "Popover", ChatCircleTextIcon],
+      ["tooltip", "Tooltip", InfoIcon],
     ],
   },
   {
     title: "Layout",
-    icon: SquaresFourIcon,
     items: [
-      ["grid", "Grid"],
-      ["page-header", "Page header"],
-      ["resource-list-page", "Resource list page"],
+      ["grid", "Grid", GridFourIcon],
+      ["page-header", "Page header", LayoutIcon],
+      ["resource-list-page", "Resource list page", ListDashesIcon],
     ],
   },
   {
     title: "Data visualization",
-    icon: ChartLineIcon,
     items: [
-      ["timeseries-chart", "Timeseries chart"],
-      ["sankey-chart", "Sankey chart"],
-      ["bubble-map", "Bubble map"],
-      ["choropleth-map", "Choropleth map"],
+      ["timeseries-chart", "Timeseries chart", ChartLineIcon],
+      ["sankey-chart", "Sankey chart", TreeStructureIcon],
+      ["bubble-map", "Bubble map", MapPinIcon],
+      ["choropleth-map", "Choropleth map", GlobeIcon],
     ],
   },
   {
     title: "Other",
-    icon: DotsThreeOutlineIcon,
     items: [
-      ["autocomplete", "Autocomplete"],
-      ["date-picker", "Date picker"],
-      ["label", "Label"],
-      ["link", "Link"],
-      ["sensitive-input", "Sensitive input"],
-      ["sidebar", "Sidebar"],
-      ["table", "Table"],
-      ["table-of-contents", "Table of contents"],
-      ["toolbar", "Toolbar"],
-      ["delete-resource", "Delete resource"],
+      ["autocomplete", "Autocomplete", FunnelSimpleIcon],
+      ["date-picker", "Date picker", CalendarBlankIcon],
+      ["label", "Label", TagIcon],
+      ["link", "Link", LinkIcon],
+      ["sensitive-input", "Sensitive input", EyeSlashIcon],
+      ["sidebar", "Sidebar", SidebarSimpleIcon],
+      ["table", "Table", TableIcon],
+      ["table-of-contents", "Table of contents", ListNumbersIcon],
+      ["toolbar", "Toolbar", ToolboxIcon],
+      ["delete-resource", "Delete resource", TrashIcon],
     ],
   },
   {
     title: "Patterns",
-    icon: SquaresFourIcon,
     items: [
-      ["data-table", "Data table"],
-      ["filter-bar", "Filter bar"],
-      ["dashboard", "Dashboard"],
+      ["data-table", "Data table", TableIcon],
+      ["filter-bar", "Filter bar", FunnelSimpleIcon],
+      ["dashboard", "Dashboard", SquaresFourIcon],
     ],
   },
 ];
@@ -681,19 +716,14 @@ export function Playground() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
-    Action: true,
-  });
 
   useEffect(() => {
     const handleHash = () => {
       const fromHash = window.location.hash.replace(/^#/, "");
-      const foundGroup = GROUPS.find((group) =>
-        group.items.some(([id]) => id === fromHash),
-      );
-      if (foundGroup) {
+      if (
+        GROUPS.some((group) => group.items.some(([id]) => id === fromHash))
+      ) {
         setSlug(fromHash);
-        setOpenGroups((prev) => ({ ...prev, [foundGroup.title]: true }));
       }
     };
 
@@ -706,17 +736,10 @@ export function Playground() {
     GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ??
     slug;
 
-  const toggleGroup = (groupTitle: string) => {
-    setOpenGroups((prev) => ({
-      ...prev,
-      [groupTitle]: !prev[groupTitle],
-    }));
-  };
-
   return (
     <TooltipProvider>
       <ToastProvider>
-        <Sidebar.Provider defaultOpen className="h-dvh">
+        <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
           <Sidebar>
             <Sidebar.Header>
               <div className="flex min-w-0 items-center gap-2">
@@ -731,53 +754,32 @@ export function Playground() {
               </div>
             </Sidebar.Header>
             <Sidebar.Content>
-              {GROUPS.map((group) => {
-                const isOpen = Boolean(openGroups[group.title]);
-                return (
-                  <Sidebar.Group key={group.title}>
-                    <Sidebar.Menu>
-                      <Sidebar.MenuItem>
-                        <Sidebar.Collapsible
-                          open={isOpen}
-                          onOpenChange={(next) =>
-                            setOpenGroups((prev) => ({
-                              ...prev,
-                              [group.title]: next,
-                            }))
+              {GROUPS.map((group) => (
+                <Sidebar.Group key={group.title}>
+                  <Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
+                  <Sidebar.Menu>
+                    {group.items.map(([id, label, Icon]) => (
+                      <Sidebar.MenuItem key={id}>
+                        <Sidebar.MenuButton
+                          active={id === slug}
+                          icon={Icon}
+                          className={
+                            id === slug
+                              ? undefined
+                              : "text-kumo-subtle hover:text-kumo-default"
                           }
+                          onClick={() => {
+                            setSlug(id);
+                            window.location.hash = id;
+                          }}
                         >
-                          <Sidebar.CollapsibleTrigger
-                            render={
-                              <Sidebar.MenuButton
-                                icon={group.icon}
-                                tooltip={group.title}
-                              >
-                                {group.title} <Sidebar.MenuChevron />
-                              </Sidebar.MenuButton>
-                            }
-                          />
-                          <Sidebar.CollapsibleContent>
-                            <Sidebar.MenuSub>
-                              {group.items.map(([id, label]) => (
-                                <Sidebar.MenuSubButton
-                                  key={id}
-                                  active={id === slug}
-                                  onClick={() => {
-                                    setSlug(id);
-                                    window.location.hash = id;
-                                  }}
-                                >
-                                  {label}
-                                </Sidebar.MenuSubButton>
-                              ))}
-                            </Sidebar.MenuSub>
-                          </Sidebar.CollapsibleContent>
-                        </Sidebar.Collapsible>
+                          {label}
+                        </Sidebar.MenuButton>
                       </Sidebar.MenuItem>
-                    </Sidebar.Menu>
-                  </Sidebar.Group>
-                );
-              })}
+                    ))}
+                  </Sidebar.Menu>
+                </Sidebar.Group>
+              ))}
             </Sidebar.Content>
             <Sidebar.Footer>
               <Sidebar.Trigger />
@@ -795,7 +797,7 @@ export function Playground() {
                     {title}
                   </h2>
                   <p className="text-sm text-kumo-subtle">
-                    Live canvas from local @therealtinhtute/ui.
+                    {DESCRIPTIONS.get(slug)}
                   </p>
                 </div>
                 <div className="rounded-lg bg-kumo-base p-6 ring ring-kumo-line">
