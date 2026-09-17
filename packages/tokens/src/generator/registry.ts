@@ -1,9 +1,12 @@
 import {
   colorNames,
+  KUMO_UTILITY_CSS,
   kumoModeVars,
   kumoThemeInlineVars,
+  textKumoColorAliasVars,
   textKumoModeVars,
   textKumoThemeInlineVars,
+  type CssTree,
 } from "./shared";
 import type { Theme } from "./types";
 
@@ -18,6 +21,7 @@ export interface RegistryThemeItem {
     light: Record<string, string>;
     dark: Record<string, string>;
   };
+  css?: CssTree;
   files: never[];
 }
 
@@ -37,6 +41,10 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [name, value] of textKumoThemeInlineVars()) {
     themeBlock[name] = value;
   }
+  for (const [name, value] of textKumoColorAliasVars()) {
+    themeBlock[name] = value;
+  }
+  themeBlock["--animate-refresh"] = "refresh 0.5s ease-in-out infinite";
   for (const [key, mult] of Object.entries(theme.radiusScale ?? {})) {
     themeBlock[`--radius-${key}`] = `calc(var(--radius) * ${mult})`;
   }
@@ -94,6 +102,7 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
     title: titleCase(theme.name),
     description: theme.description,
     cssVars: { theme: themeBlock, light, dark },
+    css: KUMO_UTILITY_CSS,
     files: [],
   };
 }

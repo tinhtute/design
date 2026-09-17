@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import { plugin as shadcn } from "@shadcn/lint";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
@@ -17,6 +18,50 @@ export default tseslint.config(
 
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    plugins: { shadcn },
+    settings: {
+      shadcn: {
+        note: "See DESIGN.md for design rules and approved exceptions.",
+      },
+    },
+    rules: {
+      "shadcn/no-restyle": [
+        "error",
+        {
+          allow: ["layout"],
+          contracts: [
+            { pattern: "^SidebarMenuButton$", allow: ["layout", "text-kumo-*"] },
+          ],
+        },
+      ],
+      "shadcn/no-raw-colors": "error",
+      "shadcn/no-arbitrary-values": "error",
+      "shadcn/no-inline-styles": "error",
+      "shadcn/no-unknown-classes": ["error", { allow: ["rdp-*", "keeper-ignore"] }],
+      "shadcn/require-static-classes": "error",
+    },
+  },
+  {
+    files: [
+      "packages/registry/src/components/**",
+      "app/components/ui/**",
+    ],
+    rules: {
+      "shadcn/no-restyle": "off",
+      "shadcn/no-raw-colors": "off",
+      "shadcn/no-arbitrary-values": "off",
+      "shadcn/no-inline-styles": "off",
+      "shadcn/require-static-classes": "off",
+    },
+  },
+  {
+    files: ["packages/registry/**"],
+    rules: {
+      "shadcn/no-unknown-classes": "off",
+    },
+  },
   {
     rules: {
       "@typescript-eslint/no-unused-vars": [

@@ -68,11 +68,10 @@ export function DataTable<TData, TValue>({
               .map((column) => (
                 <DropdownMenu.CheckboxItem
                   key={column.id}
-                  className="capitalize"
                   checked={column.getIsVisible()}
                   onCheckedChange={(value) => column.toggleVisibility(!!value)}
                 >
-                  {column.id}
+                  <span className="capitalize">{column.id}</span>
                 </DropdownMenu.CheckboxItem>
               ))}
           </DropdownMenu.Content>
@@ -83,18 +82,20 @@ export function DataTable<TData, TValue>({
           <Table.Header>
             {table.getHeaderGroups().map((headerGroup) => (
               <Table.Row key={headerGroup.id}>
-                <Table.Head className="w-10 leading-none">
-                  <Checkbox
-                    checked={table.getIsAllPageRowsSelected()}
-                    indeterminate={
-                      table.getIsSomePageRowsSelected() &&
-                      !table.getIsAllPageRowsSelected()
-                    }
-                    onCheckedChange={(checked) =>
-                      table.toggleAllPageRowsSelected(!!checked)
-                    }
-                    aria-label="Select all"
-                  />
+                <Table.Head className="w-10">
+                  <div className="leading-none">
+                    <Checkbox
+                      checked={table.getIsAllPageRowsSelected()}
+                      indeterminate={
+                        table.getIsSomePageRowsSelected() &&
+                        !table.getIsAllPageRowsSelected()
+                      }
+                      onCheckedChange={(checked) =>
+                        table.toggleAllPageRowsSelected(!!checked)
+                      }
+                      aria-label="Select all"
+                    />
+                  </div>
                 </Table.Head>
                 {headerGroup.headers.map((header) => (
                   <Table.Head key={header.id}>
@@ -116,14 +117,16 @@ export function DataTable<TData, TValue>({
                   key={row.id}
                   variant={row.getIsSelected() ? "selected" : "default"}
                 >
-                  <Table.Cell className="w-10 leading-none">
-                    <Checkbox
-                      checked={row.getIsSelected()}
-                      onCheckedChange={(checked) =>
-                        row.toggleSelected(!!checked)
-                      }
-                      aria-label="Select row"
-                    />
+                  <Table.Cell className="w-10">
+                    <div className="leading-none">
+                      <Checkbox
+                        checked={row.getIsSelected()}
+                        onCheckedChange={(checked) =>
+                          row.toggleSelected(!!checked)
+                        }
+                        aria-label="Select row"
+                      />
+                    </div>
                   </Table.Cell>
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell key={cell.id}>

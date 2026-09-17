@@ -1,7 +1,10 @@
 import {
   colorNames,
+  cssTreeToString,
+  KUMO_UTILITY_CSS,
   kumoModeVars,
   kumoThemeInlineVars,
+  textKumoColorAliasVars,
   textKumoModeVars,
   textKumoThemeInlineVars,
 } from "./shared";
@@ -19,6 +22,10 @@ function themeInlineVars(theme: Theme): string[] {
   for (const [name, value] of textKumoThemeInlineVars()) {
     vars.push(`${name}: ${value};`);
   }
+  for (const [name, value] of textKumoColorAliasVars()) {
+    vars.push(`${name}: ${value};`);
+  }
+  vars.push("--animate-refresh: refresh 0.5s ease-in-out infinite;");
   for (const [key, mult] of Object.entries(theme.radiusScale ?? {})) {
     vars.push(`--radius-${key}: calc(var(--radius) * ${mult});`);
   }
@@ -92,5 +99,6 @@ export function buildThemeCss(theme: Theme): string {
   for (const v of darkVars(theme)) lines.push(`  ${v}`);
   lines.push("}");
   lines.push("");
+  lines.push(cssTreeToString(KUMO_UTILITY_CSS));
   return lines.join("\n");
 }

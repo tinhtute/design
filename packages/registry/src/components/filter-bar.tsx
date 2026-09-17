@@ -3,7 +3,7 @@
 import * as React from "react";
 import { MagnifyingGlass, X } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { InputGroup } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 
 interface FilterBarProps extends React.ComponentProps<"div"> {
@@ -25,28 +25,26 @@ export function FilterBar({
 }: FilterBarProps) {
   return (
     <div className={cn("flex items-center gap-2", className)} {...props}>
-      <div className="relative w-full max-w-sm">
-        <MagnifyingGlass className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-kumo-subtle" />
-        <Input
+      <InputGroup className="w-full max-w-sm">
+        <InputGroup.Addon align="start">
+          <MagnifyingGlass />
+        </InputGroup.Addon>
+        <InputGroup.Input
           value={value}
           onChange={(event) => onValueChange(event.target.value)}
           placeholder={placeholder}
           aria-label={placeholder}
-          className="pl-8"
         />
         {value ? (
-          <Button
-            type="button"
-            shape="square"
-            size="sm"
-            variant="ghost"
-            icon={X}
-            aria-label="Clear search"
-            onClick={() => onValueChange("")}
-            className="absolute top-1/2 right-1 -translate-y-1/2"
-          />
+          <InputGroup.Addon align="end">
+            <InputGroup.Button
+              icon={X}
+              aria-label="Clear search"
+              onClick={() => onValueChange("")}
+            />
+          </InputGroup.Addon>
         ) : null}
-      </div>
+      </InputGroup>
       <Button type="button" onClick={onFilter}>
         {filterLabel}
       </Button>
