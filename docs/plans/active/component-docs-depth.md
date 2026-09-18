@@ -112,7 +112,7 @@ Success looks like:
 ### Phase 2: Migrate All Demos + Substance Fixes
 - **Slug**: `migrate-all-demos`
 - **Story ID**: `story-migrate-demos-202609180251`
-- **Status**: `planned`
+- **Status**: `in-progress`
 - **Goal**: Every showroom slug lives in `app/demos/` with `Demo` + `notes`; stub demos get real content; `chart` resolved (R1–R5).
 - **Dependencies**: `demo-doc-modules`
 - **Allowed surfaces**: `app/demos/**`, `app/components/playground.tsx` (nav `GROUPS` + Canvas removal)
@@ -155,14 +155,14 @@ Success looks like:
 
 ## Current State and Next Action
 
-- active_phase: none (phase `demo-doc-modules` checked)
-- lifecycle_status: checked
+- active_phase: migrate-all-demos
+- lifecycle_status: in-progress (blocked on e2e owner ruling)
 - planning_status: planned
-- latest_progress: 2026-09-18T03:30Z phase demo-doc-modules both waves done; in-session gate APPROVED
+- latest_progress: 2026-09-18T04:10Z phase migrate-all-demos all tasks done; 50/50 slug pages verified by browser probe; awaiting owner ruling on stale e2e assertion before gate
 - latest_validation: 2026-09-18T03:30Z APPROVED (in-session gate, phase demo-doc-modules)
-- blockers: none
-- open_items: owner may still rule `chart` exclusion (R5 fallback) before phase `migrate-all-demos` T2.2
-- exact_next_action: work full — start phase `migrate-all-demos` (candidate for fanned-out sub-agents on T2.1)
+- blockers: `pnpm --filter @therealtinhtute/registry e2e` fails 2 checks on PRE-EXISTING stale token assertions (`--background` expects old Kumo `oklch(100%|1) 0 0` / `oklch(14.5%|0.145) 0 0`; theme ships Walter `oklch(0.9798…)`/`oklch(0.2679…)` since commit 70774eb). Fix lives in `packages/registry/scripts/e2e-smoke.sh` — outside phase-2 allowed surfaces; owner ruling required
+- open_items: owner ruling — update e2e-smoke.sh token assertions (recommended: assert values match theme item, not hardcoded) or accept known-failure
+- exact_next_action: escalate e2e blocker to owner; then gate phase `migrate-all-demos`
 
 ## Progress
 
@@ -171,11 +171,18 @@ Success looks like:
 - 2026-09-18T03:12Z | phase: demo-doc-modules | wave: 1 | task: T1.2 | task_status: done | summary: `app/app/page.tsx` reads `app/demos/*.tsx` via `readdirSync`/`readFileSync` at `path.join(process.cwd(), "demos")`, passes `sources` map into `<Playground>`; stays a server component. | surfaces: app/app/page.tsx
 - 2026-09-18T03:20Z | phase: demo-doc-modules | wave: 2 | task: T1.3 | task_status: done | summary: `playground.tsx` takes `sources` prop, looks up `DEMOS[slug]` — migrated slugs render `<entry.Demo/>` + notes paragraph + `ClipboardText` install command + `Code.Block` of the module's own source; unmigrated slugs keep `Canvas` fallback. | surfaces: app/components/playground.tsx
 - 2026-09-18T03:25Z | phase: demo-doc-modules | wave: summary | task_status: done | summary: Both waves complete; `pnpm --filter app typecheck` ✓ `pnpm lint` ✓ `pnpm -r build` ✓ (page prerenders static, fs read works at build); `ls app/demos/*.tsx` = 4, `grep -l 'export const notes'` = 4. Browser probe (playwright-core + headless chromium, port 3100 — agent-browser absent in env): 10/10 PASS — notes render, install cmd text, code block byte-equals `app/demos/button.tsx`, dialog own-state open/Escape-close, hash nav switches slug+title, echarts canvas mounts, non-migrated `#input` still renders Canvas fallback, no 482px overflow. | surfaces: app/demos/, app/app/page.tsx, app/components/playground.tsx
+- 2026-09-18T03:40Z | phase: migrate-all-demos | wave: 1 | task: phase-start | task_status: in-progress | summary: Run anchor; phase set in-progress. Execution strategy: 6 background sub-agents write disjoint `app/demos/{slug}.tsx` batches; orchestrator owns manifest/GROUPS/Canvas-removal/gates. | surfaces: docs/plans/active/component-docs-depth.md
+- 2026-09-18T04:00Z | phase: migrate-all-demos | wave: 1 | task: T2.1 | task_status: done | summary: 46 demo modules written by 6 parallel sub-agents (disjoint file sets, pilot convention). Agents verified props against component sources; flagged findings recorded in Decisions. Orchestrator fixed 5 @shadcn/lint errors (`h-[560px]`→`h-140`, `p-4` off LayerCard, `text-kumo-subtle` off TableCell). | surfaces: app/demos/ (46 new files)
+- 2026-09-18T04:02Z | phase: migrate-all-demos | wave: 1 | task: T2.2 | task_status: done | summary: `chart` added to GROUPS (Data visualization, ChartBarIcon) with `app/demos/chart.tsx` minimal EChart line demo + notes — owner inclusion path per R5, not exclusion. | surfaces: app/demos/chart.tsx, app/components/playground.tsx
+- 2026-09-18T04:05Z | phase: migrate-all-demos | wave: 2 | task: T2.3 | task_status: done | summary: `Canvas()` deleted; playground.tsx 840→290 lines; all 50 slugs resolve via `DEMOS`; shared dialog/palette/page state and dead imports removed; `index.ts` manifest registers all 50 modules. | surfaces: app/components/playground.tsx, app/demos/index.ts
+- 2026-09-18T04:10Z | phase: migrate-all-demos | wave: summary | task_status: done | summary: `typecheck` ✓ `lint` ✓ `build` ✓; dead-prop grep clean; `function Canvas` count = 0; 50/50 files have notes+Demo and manifest entries. Browser probe (playwright-core, /tmp/pw/probe2.mjs, :3100): all 50 pages render notes + install cmd + code block byte-equal to module source; data-table 10 rows; filter-bar applies query to visible list; toasty fires real "Worker deployed" toast; #chart h2+canvas mount; zero page errors. BLOCKER: `pnpm --filter @therealtinhtute/registry e2e` fails 2 checks on stale `--background` assertions predating this diff (see blockers). | surfaces: app/demos/, app/components/playground.tsx
 
 ## Decisions
 
 - 2026-09-18T03:25Z | phase: demo-doc-modules | task: verification | type: tooling-substitution | summary: Plan named `agent-browser` for the browser probe; binary absent in this env. Substituted `playwright-core` + headless Chromium (`/tmp/pw/probe.mjs`, dev server on :3100 — :3000 is an unrelated Dokploy container). Same assertions executed; probe script is a scratchpad artifact, not committed.
 - 2026-09-18T03:10Z | phase: demo-doc-modules | task: T1.1 | type: convention | summary: `notes` lives inside each demo module (not in the manifest or registry.json) so one file = demo + description + its own displayed source; `DEMOS` typed as `Record<string, DemoModule>` for direct slug lookup in `playground.tsx`.
+- 2026-09-18T04:00Z | phase: migrate-all-demos | task: T2.1 | type: api-findings | summary: Sub-agent discoveries while writing modules: `Radio` requires `Radio.Item` inside `Radio.Group` (old `Canvas` case used a wrong shape); `CommandPalette` demo keeps its own `Results`/filter state; `Chart` prop is `options` (not `option`) and needs explicit height; `BubbleMap`/`ChoroplethMap` require correct echarts module sets (map/scatter/geo/visualMap); `DataTable` sorting uses `column.toggleSorting`; `FilterBar` uses `onFilter` for apply-on-click; `Code` declares a `values` prop its implementation never reads — demo avoids it.
+- 2026-09-18T04:10Z | phase: migrate-all-demos | task: wave-summary | type: blocker | summary: Registry e2e fails only on `--background` token greps hardcoded to pre-Walter Kumo values; commit 70774eb regenerated the theme item with Walter `oklch(0.9798…)`/`oklch(0.2679…)` after the last green e2e run, so the failure predates this diff. `packages/registry/scripts/e2e-smoke.sh` is outside phase allowed surfaces — escalated to owner rather than edited (contract-drift guard).
 
 ## Validation
 
