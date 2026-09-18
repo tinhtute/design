@@ -136,7 +136,7 @@ Success looks like:
 ### Phase 3: JSDoc Parity + README
 - **Slug**: `jsdoc-readme`
 - **Story ID**: `story-jsdoc-readme-202609180251`
-- **Status**: `planned`
+- **Status**: `checked`
 - **Goal**: Pattern/block components get catalog-convention JSDoc; root README becomes a real quickstart (R6, R7).
 - **Dependencies**: none (independent of phases 1–2; sequenced last)
 - **Allowed surfaces**: `packages/registry/src/components/{dashboard,data-table,filter-bar,page-header,resource-list-page}.tsx`, their `app/components/` mirrors, `README.md`
@@ -156,13 +156,13 @@ Success looks like:
 ## Current State and Next Action
 
 - active_phase: jsdoc-readme
-- lifecycle_status: in-progress
+- lifecycle_status: checked
 - planning_status: planned
-- latest_progress: 2026-09-18T04:30Z phase migrate-all-demos CHECKED — e2e blocker resolved via owner-approved scope add (assertions now theme-derived); full e2e green
-- latest_validation: 2026-09-18T04:30Z APPROVED (in-session gate, phase migrate-all-demos)
+- latest_progress: 2026-09-18T04:55Z phase jsdoc-readme CHECKED — JSDoc mirrored byte-identical, README written, all gates green
+- latest_validation: 2026-09-18T04:55Z APPROVED (in-session gate, phase jsdoc-readme)
 - blockers: none
-- open_items: none
-- exact_next_action: work full — start phase `jsdoc-readme` (JSDoc 5 files + mirror + README)
+- open_items: final closure requires one `mode: full` validation with `judge: independent` (complete Security/Performance/Architecture/Code-Quality review) per handoff.md step 6 — work never performs it
+- exact_next_action: run independent full-mode review of the initiative diff, append `mode: full` Validation entry, then handoff closes all phases
 
 ## Progress
 
@@ -178,6 +178,9 @@ Success looks like:
 - 2026-09-18T04:10Z | phase: migrate-all-demos | wave: summary | task_status: done | summary: `typecheck` ✓ `lint` ✓ `build` ✓; dead-prop grep clean; `function Canvas` count = 0; 50/50 files have notes+Demo and manifest entries. Browser probe (playwright-core, /tmp/pw/probe2.mjs, :3100): all 50 pages render notes + install cmd + code block byte-equal to module source; data-table 10 rows; filter-bar applies query to visible list; toasty fires real "Worker deployed" toast; #chart h2+canvas mount; zero page errors. BLOCKER: `pnpm --filter @therealtinhtute/registry e2e` fails 2 checks on stale `--background` assertions predating this diff (see blockers). | surfaces: app/demos/, app/components/playground.tsx
 - 2026-09-18T04:25Z | phase: migrate-all-demos | wave: gate | task: e2e-fix | task_status: done | summary: Owner approved scope add for `packages/registry/scripts/e2e-smoke.sh`. Replaced hardcoded Kumo `--background` values with assertions that read expected values from the consumer's installed `globals.css` and compare numerically (handles LightningCSS `%`/leading-zero/`deg` normalization) — self-updating, cannot go stale on palette changes. `pnpm --filter @therealtinhtute/registry e2e` → all checks passed. | surfaces: packages/registry/scripts/e2e-smoke.sh
 - 2026-09-18T04:30Z | phase: migrate-all-demos | wave: gate | task: phase-gate | task_status: checked | summary: In-session gate APPROVED; full gate suite green including previously-failing e2e. Phase status → checked (non-final phase per playbook). | surfaces: docs/plans/active/component-docs-depth.md
+- 2026-09-18T04:35Z | phase: jsdoc-readme | wave: 1 | task: phase-start | task_status: in-progress | summary: Run anchor; phase set in-progress per work-full step 3. | surfaces: docs/plans/active/component-docs-depth.md
+- 2026-09-18T04:45Z | phase: jsdoc-readme | wave: 1 | task: T3.1 | task_status: done | summary: File-level docblocks (purpose + composition + usage) added to `data-table`, `dashboard`, `filter-bar`; ported `page-header`/`resource-list-page` keep MIT license header with enriched pattern doc; all five got per-prop `/** */` docs on exported props interfaces. Each file `cp`-mirrored to `app/components/`; `cmp` exits 0 for all five. `grep -c '/\*\*' data-table.tsx` = 6 (≥2 required). | surfaces: packages/registry/src/components/{dashboard,data-table,filter-bar,page-header,resource-list-page}.tsx, app/components/ mirrors
+- 2026-09-18T04:50Z | phase: jsdoc-readme | wave: 1 | task: T3.2 | task_status: done | summary: Root `README.md` replaced `# UI` stub with product identity, install commands (`pnpm dlx shadcn add @therealtinhtute/{component}`), showroom dev command, and validation gates pointing to `docs/PROJECT.md`. | surfaces: README.md
 
 ## Decisions
 
@@ -231,3 +234,24 @@ APPROVED
 - not_independently_verified: no independent reviewer; demo *content quality* (variant coverage per component) asserted via probe presence checks, not human design review; dark-mode visuals not screenshotted this phase
 - receipt: context_sources=docs/plans/active/component-docs-depth.md,app/demos/,app/components/playground.tsx,packages/registry/scripts/e2e-smoke.sh / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=1 (e2e stale-assertion fix) / rollback_point=commit 048568a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: no unit-test harness (declared risk); probe substituted for agent-browser
+
+APPROVED
+- phase: jsdoc-readme
+- scope: on target
+- depth: standard
+- proof:
+  - `cmp packages/registry/src/components/{dashboard,data-table,filter-bar,page-header,resource-list-page}.tsx app/components/{…}.tsx` -> identical for all five
+  - `grep -c '/\*\*' packages/registry/src/components/data-table.tsx` -> 6 (>= 2 required)
+  - `grep -n 'shadcn add' README.md` -> lines 17-18 present; `# UI` stub removed
+  - `pnpm --filter app typecheck` -> pass
+  - `pnpm lint` -> pass
+  - `pnpm -r build` -> pass (registry build regenerated public/r with JSDoc)
+  - `pnpm --filter @therealtinhtute/registry validate` / `validate:build` / `e2e` -> all pass
+  - `git status` -> only the five registry files, five app mirrors, README.md, plan file — inside allowed surfaces
+- review: APPROVED
+- judge: same-session
+- judge_model: swe-2-max
+- blockers: 0
+- not_independently_verified: no independent reviewer; JSDoc *wording quality* reviewed only by author; docblock content not rendered anywhere (source-level only)
+- receipt: context_sources=docs/plans/active/component-docs-depth.md,packages/registry/src/components/,app/components/,README.md / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=0 / rollback_point=commit 9da00f0 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
+- proof_gaps: none beyond declared no-unit-test risk
