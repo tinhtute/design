@@ -179,6 +179,145 @@ export function textKumoThemeInlineVars(): [string, string][] {
   ]);
 }
 
+/**
+ * `--color-kumo-*` aliases for text-bridge names that lack a surface twin.
+ * Tailwind resolves `text-kumo-default` through `--text-color-kumo-default`,
+ * but token scanners (e.g. @shadcn/lint) only read `--color-*`; the alias keeps
+ * both views consistent. Names shared with KUMO_COMPAT (`brand`, `link`,
+ * status, badge tones) keep their separate surface/text values.
+ */
+export function textKumoColorAliasVars(): [string, string][] {
+  return Object.keys(TEXT_KUMO_COMPAT)
+    .filter((name) => !(name in KUMO_COMPAT))
+    .map((name) => [
+      `--color-kumo-${name}`,
+      `var(--text-color-kumo-${name})`,
+    ]);
+}
+
+/** Structured CSS tree — shadcn registry `css` field shape. */
+export type CssTree = { [key: string]: string | CssTree };
+
+/**
+ * Kumo utility layer, vendored verbatim from
+ * @cloudflare/kumo@2.13.0 dist/styles (kumo-standalone.css). These classes are
+ * referenced by ported components; without them they generate no CSS.
+ * Kept as a CssTree so it can ship both as theme.css text and as the
+ * structured `css` field on the registry theme item.
+ */
+export const KUMO_UTILITY_CSS: CssTree = {
+  "@keyframes refresh": {
+    to: { transform: "rotate(360deg) scale(0.9)" },
+  },
+  "@keyframes shimmer": {
+    "0%": { transform: "translate(-100%)" },
+    to: { transform: "translate(100%)" },
+  },
+  "@keyframes toast-bump": {
+    "0%": { transform: "scale(1)" },
+    "20%": { transform: "scale(1.02)" },
+    to: { transform: "scale(1)" },
+  },
+  "@keyframes clipboard-toast-bump": {
+    "0%": { transform: "scale(1)" },
+    "35%": { transform: "scale(1.04)" },
+    to: { transform: "scale(1)" },
+  },
+  ".animate-toast-bump": {
+    "transform-origin": "50%",
+    animation: "0.4s cubic-bezier(0.34, 1.56, 0.64, 1) toast-bump",
+  },
+  ".animate-clipboard-toast-bump": {
+    "transform-origin": "50%",
+    animation: "0.35s cubic-bezier(0.34, 1.56, 0.64, 1) clipboard-toast-bump",
+  },
+  ".kumo-chart-shimmer": {
+    "transform-box": "fill-box",
+    animation: "1.8s ease-in-out infinite shimmer",
+  },
+  ".kumo-input-placeholder::placeholder": {
+    color: "var(--text-color-kumo-placeholder)",
+  },
+  '[data-mode="dark"] .kumo-tooltip-popup,\n[data-mode="dark"] .kumo-popover-popup':
+    {
+      "outline-offset": "-1px",
+    },
+  ".kumo-tabs-list": {
+    "overscroll-behavior-x": "contain",
+  },
+  "@supports (animation-timeline: scroll())": {
+    ".kumo-tabs-list": {
+      "scrollbar-width": "none",
+      "-ms-overflow-style": "none",
+    },
+    ".kumo-tabs-list::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
+  ".no-scrollbar": {
+    "-ms-overflow-style": "none",
+    "scrollbar-width": "none",
+  },
+  ".no-scrollbar::-webkit-scrollbar": {
+    display: "none",
+  },
+  ".skeleton-line": {
+    height: "0.5rem",
+    width: "var(--skeleton-width)",
+    "background-color": "#f3f4f6",
+    "border-radius": "2px",
+    position: "relative",
+    overflow: "hidden",
+  },
+  ".skeleton-line::after": {
+    animation:
+      "shimmer var(--shimmer-duration, 1.5s) var(--shimmer-delay, 0s) infinite ease-in-out",
+    content: '""',
+    background: "linear-gradient(90deg, #0000 0%, #00000014 50%, #0000 100%)",
+    position: "absolute",
+    inset: "0",
+  },
+  '[data-mode="dark"] .skeleton-line': {
+    "background-color": "#ffffff0f",
+  },
+  '[data-mode="dark"] .skeleton-line::after': {
+    background: "linear-gradient(90deg, #fff0 0%, #ffffff0d 50%, #fff0 100%)",
+  },
+  ".link-external-icon": {
+    "stroke-width": "1.75px",
+  },
+  '[data-mode="dark"] .link-external-icon': {
+    "stroke-width": "2px",
+  },
+  "@media (prefers-reduced-motion: reduce)": {
+    ".kumo-chart-shimmer": {
+      animation: "none",
+      transform: "none",
+    },
+    ".animate-clipboard-toast-bump": {
+      animation: "none",
+    },
+  },
+};
+
+/** Serializes a CssTree to a stylesheet string (declarations before nested blocks). */
+export function cssTreeToString(tree: CssTree, indent = ""): string {
+  const lines: string[] = [];
+  for (const [key, value] of Object.entries(tree)) {
+    if (typeof value === "string") {
+      lines.push(`${indent}${key}: ${value};`);
+    }
+  }
+  for (const [key, value] of Object.entries(tree)) {
+    if (typeof value !== "string") {
+      lines.push(`${indent}${key} {`);
+      lines.push(cssTreeToString(value, `${indent}  `));
+      lines.push(`${indent}}`);
+    }
+  }
+  return lines.filter((l) => l !== "").join("\n");
+}
+
 /** Runtime `--kumo-*` definitions for one mode. */
 export function kumoModeVars(mode: Mode): [string, string][] {
   return Object.entries(KUMO_COMPAT).map(

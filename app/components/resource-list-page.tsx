@@ -33,7 +33,7 @@ export function ResourceListPage({
     <div
       className={cn("h-full min-h-screen w-full bg-kumo-overlay", className)}
     >
-      <div className="mx-auto flex max-w-[1400px] flex-col p-6 md:gap-4 md:p-8 lg:px-10 lg:py-9 xl:gap-6">
+      <div className="mx-auto flex max-w-350 flex-col p-6 md:gap-4 md:p-8 lg:px-10 lg:py-9 xl:gap-6">
         <div className="flex flex-col">
           <div className="mb-1.5 flex items-center gap-1.5">
             {icon}
@@ -51,7 +51,7 @@ export function ResourceListPage({
 
           {(usage || additionalContent) && (
             <div
-              className={`top-22 flex h-fit w-full shrink-0 flex-col gap-4 xl:sticky xl:w-[380px]`}
+              className="top-22 flex h-fit w-full shrink-0 flex-col gap-4 xl:sticky xl:w-95"
             >
               {usage}
 

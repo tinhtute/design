@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import {
   CheckIcon,
   CopyIcon,
@@ -111,11 +110,9 @@ export function DeleteResource({
 
   return (
     <DialogRoot open={open} onOpenChange={onOpenChange}>
-      <Dialog size={size} className={cn("p-0", className)}>
+      <Dialog size={size} className={className}>
         <div className="flex items-center justify-between border-b border-kumo-line px-6 py-4">
-          <DialogTitle className="text-lg font-semibold">
-            Delete {resourceName}
-          </DialogTitle>
+          <DialogTitle>Delete {resourceName}</DialogTitle>
           <DialogClose
             render={(props) => (
               <Button

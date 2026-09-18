@@ -107,7 +107,7 @@ export function Dashboard() {
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {stats.map((stat) => (
-              <LayerCard key={stat.label} className="p-4">
+              <LayerCard key={stat.label}>
                 <p className="text-sm text-kumo-subtle">{stat.label}</p>
                 <p className="text-2xl font-semibold">{stat.value}</p>
                 <p className="text-sm text-kumo-subtle">{stat.change}</p>
