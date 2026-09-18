@@ -13,7 +13,7 @@ export const notes =
 export function Demo() {
   return (
     <div className="h-48 overflow-hidden ring ring-kumo-line">
-      <SidebarProvider>
+      <SidebarProvider contained>
         <Sidebar>
           <Sidebar.Header>Catalog</Sidebar.Header>
           <Sidebar.Content>

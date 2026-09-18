@@ -255,3 +255,36 @@ APPROVED
 - not_independently_verified: no independent reviewer; JSDoc *wording quality* reviewed only by author; docblock content not rendered anywhere (source-level only)
 - receipt: context_sources=docs/plans/active/component-docs-depth.md,packages/registry/src/components/,app/components/,README.md / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=0 / rollback_point=commit 9da00f0 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: none beyond declared no-unit-test risk
+
+APPROVE_WITH_REQUESTS
+- mode: full
+- phase: jsdoc-readme (final-phase validation covering the whole initiative diff 70774eb..HEAD)
+- scope: on target
+- depth: standard
+- review: complete Security/Performance/Architecture/Code-Quality review by fresh-context subagent (did not author the diff)
+- independent findings:
+  - Security: clean — `readDemoSources` reads only `process.cwd()/demos` filtered `.tsx`, no user input (no traversal); all rendered strings are React text children (no dangerouslySetInnerHTML); hash used only in GROUPS membership test.
+  - Performance: acceptable — ~54KB sources serialized into RSC payload (new cost, justified for docs); 50 demos in one client chunk is NOT a regression vs. deleted Canvas() (same imports); echarts imported modularly via `echarts/core`.
+  - Architecture: sound — server/client boundary correct; demos self-contained; GROUPS↔DEMOS↔files verified 50/50 aligned; `switch: switch_` registered; unknown-slug and DEMOS-miss fallbacks graceful.
+  - Code Quality: all R1–R8 falsifiable checks verified under inspection.
+- findings: 0 critical, 0 major, 3 minor, 8 nit
+  - minor-1 RESOLVED: demo-source dependency gap (~14 demos import items beyond featured item's registryDependencies) → added `DemoModule.deps?: string[]`; install command now renders `pnpm dlx shadcn add @therealtinhtute/{slug} @therealtinhtute/{dep}...`; 14 demos annotated with true gaps (imports − registryDependencies).
+  - minor-2 RESOLVED: e2e-smoke.sh silent-skip — python3 failure left `TOKEN_RESULTS` empty and assertions vanished → added `${#TOKEN_RESULTS[@]} -ne 2` fail guard.
+  - minor-3 RESOLVED: delete-resource demo nested `Dialog.Root` inside `Dialog.Root` → replaced with plain Button + bare `DeleteResource` (idiomatic).
+  - nits addressed: label demo `aria-label`×2 removed (was overriding the `htmlFor` association the demo teaches); sidebar demo uses `contained` (on `SidebarProvider`); page-header `children` JSDoc notes tabs-only rendering; README itemizes `theme-default`/`third-party-licenses`/`utils`.
+  - nits deferred (pre-existing or inherent, recorded): `Code.values` dead prop (pre-existing, already in Decisions); e2e scaffold `type ColumnDef` import (pre-existing, outside diff); link-demo placeholder hrefs mutate hash (inherent); `DEMOS` keyof typing (defensive code already correct).
+- proof (post-resolution re-runs):
+  - `pnpm --filter app typecheck` -> pass
+  - `pnpm lint` -> pass
+  - `pnpm -r build` -> pass
+  - `pnpm --filter @therealtinhtute/registry e2e` -> all checks passed (includes new TOKEN_RESULTS guard on success path)
+  - `bash -n packages/registry/scripts/e2e-smoke.sh` -> syntax OK
+  - `node /tmp/pw/probe3.mjs` -> install cmd renders `...data-table @therealtinhtute/badge`; delete-resource dialog opens via plain Button; sidebar renders with contained
+  - `cmp` page-header mirror -> identical after JSDoc tweak
+- review: APPROVE_WITH_REQUESTS (all requests resolved + re-verified above)
+- judge: independent (fresh-context read-only subagent; author of diff not involved in review)
+- judge_model: swe-2-max (independent session)
+- blockers: 0
+- not_independently_verified: subagent could not execute commands — gate results are parent's captured outputs; commit-range boundary 70774eb..HEAD asserted by parent; browser probe claims consistent with code but not re-executed by reviewer
+- receipt: context_sources=docs/plans/active/component-docs-depth.md,app/demos/,app/components/playground.tsx,app/app/page.tsx,packages/registry/scripts/e2e-smoke.sh,packages/registry/src/components/,README.md / policy=docs/playbooks/check.md / judge=independent / judge_model=swe-2-max / retries=1 (post-review fixes) / rollback_point=commit 05b45d5 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
+- proof_gaps: independent review was static-only (subagent had no exec); visual dark-mode screenshot not taken this initiative

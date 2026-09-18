@@ -6,6 +6,8 @@ import { Popover } from "@/components/ui/popover";
 export const notes =
   "Non-modal panel anchored to a trigger for contextual details or small forms. Compose `Popover` + `.Trigger` + `.Content` (`side`, `align`, `sideOffset`) with `.Title`/`.Description`; Escape and outside click dismiss.";
 
+export const deps = ["button"];
+
 export function Demo() {
   return (
     <Popover>

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog } from "@/components/ui/dialog";
 import { DeleteResource } from "@/components/delete-resource";
 
 export const notes =
@@ -12,10 +11,10 @@ export function Demo() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger
-        render={<Button variant="destructive">Delete worker</Button>}
-      />
+    <>
+      <Button variant="destructive" onClick={() => setOpen(true)}>
+        Delete worker
+      </Button>
       <DeleteResource
         open={open}
         onOpenChange={setOpen}
@@ -23,6 +22,6 @@ export function Demo() {
         resourceName="api-gateway"
         onDelete={() => setOpen(false)}
       />
-    </Dialog.Root>
+    </>
   );
 }

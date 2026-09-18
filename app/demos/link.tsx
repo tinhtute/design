@@ -6,6 +6,8 @@ import { Text } from "@/components/ui/text";
 export const notes =
   "Inline text link for navigation inside prose or UI. `variant` controls decoration (inline, current, plain); for external destinations add `Link.ExternalIcon` with target=_blank and rel=noopener. Use `render` or a LinkProvider to plug in your router.";
 
+export const deps = ["text"];
+
 export function Demo() {
   return (
     <Text>

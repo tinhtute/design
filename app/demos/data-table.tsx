@@ -152,6 +152,8 @@ const workers: Worker[] = [
   },
 ];
 
+export const deps = ["badge"];
+
 export function Demo() {
   return <DataTable columns={columns} data={workers} />;
 }

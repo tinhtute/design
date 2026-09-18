@@ -524,6 +524,9 @@ for sel, name in ((":root", ":root"), (".dark", ".dark")):
     print(f"{name}\t{verdict}\t{exp}\t{got}")
 PY
 )
+if [ "${#TOKEN_RESULTS[@]}" -ne 2 ]; then
+  fail "theme token extraction produced ${#TOKEN_RESULTS[@]}/2 results (python3 or globals.css missing)"
+fi
 for line in "${TOKEN_RESULTS[@]}"; do
   IFS=$'\t' read -r sel verdict exp got <<<"$line"
   if [ "$verdict" = "ok" ]; then

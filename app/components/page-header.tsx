@@ -64,7 +64,7 @@ export interface PageHeaderProps extends KumoPageHeaderVariantsProps {
   onValueChange?: (value: string) => void;
   /** Additional CSS classes on the header container */
   className?: string;
-  /** Actions slot rendered to the right of the tabs */
+  /** Actions slot rendered to the right of the tabs; only rendered when `tabs` is set */
   children?: React.ReactNode;
 }
 
