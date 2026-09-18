@@ -1,3 +1,19 @@
+/**
+ * DataTable — TanStack Table-powered data grid with row selection,
+ * sorting, column visibility, and pagination.
+ *
+ * Composes the registry's `Table`, `Checkbox`, `DropdownMenu`, and `Button`
+ * primitives into a drop-in pattern for resource lists. Provide `columns`
+ * (TanStack `ColumnDef`) and `data`; all interactive state is managed
+ * internally. Pass a `toolbar` node (e.g. `FilterBar`) to render controls
+ * above the table.
+ *
+ * @example
+ * ```tsx
+ * const columns: ColumnDef<Row>[] = [{ accessorKey: "name", header: "Name" }];
+ * <DataTable columns={columns} data={rows} toolbar={<FilterBar ... />} />
+ * ```
+ */
 "use client";
 
 import * as React from "react";
@@ -17,12 +33,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
 import { Table } from "@/components/ui/table";
 
+/** DataTable component props. */
 interface DataTableProps<TData, TValue> {
+  /** Column definitions (TanStack `ColumnDef`), including optional header/cell renderers */
   columns: ColumnDef<TData, TValue>[];
+  /** Row data; selection, sorting, filtering, and pagination derive from this array */
   data: TData[];
+  /** Optional controls rendered left of the Columns menu (e.g. `FilterBar`) */
   toolbar?: React.ReactNode;
 }
 
+/**
+ * Renders a data grid with a toolbar row, selectable rows, sortable headers,
+ * a column-visibility menu, and Previous/Next pagination.
+ */
 export function DataTable<TData, TValue>({
   columns,
   data,

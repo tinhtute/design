@@ -1,3 +1,11 @@
+/**
+ * Dashboard — full-page admin dashboard block.
+ *
+ * Composes `Button`, `Badge`, `LayerCard`, and `DataTable` into a ready-made
+ * app shell: top bar, icon-nav sidebar, stat cards, and a recent-orders
+ * table. Ships with sample data so it renders standalone; swap the
+ * `navItems`, `stats`, `columns`, and `orders` constants for real data.
+ */
 "use client";
 
 import * as React from "react";
@@ -68,6 +76,7 @@ const orders: Order[] = [
   },
 ];
 
+/** Renders the complete dashboard page with sample data (no props). */
 export function Dashboard() {
   return (
     <div className="min-h-screen bg-kumo-canvas">

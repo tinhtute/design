@@ -1,5 +1,11 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
+ *
+ * PageHeader — page-level header combining breadcrumbs, title/description,
+ * and an optional tab bar with an actions slot. `breadcrumbs` is a required
+ * node (render the registry's `Breadcrumbs`); `tabs` accepts `TabsItem[]`
+ * rendered through `Tabs`; `children` lands in the actions slot to the
+ * right of the tabs. `spacing` controls vertical rhythm.
  */
 import { ReactNode } from "react";
 import { Tabs, type TabsItem } from "@/components/ui/tabs";
@@ -42,14 +48,23 @@ export function pageHeaderVariants({
   );
 }
 
+/** PageHeader component props. */
 export interface PageHeaderProps extends KumoPageHeaderVariantsProps {
+  /** Breadcrumb trail (required) — render the registry's `Breadcrumbs` component */
   breadcrumbs: ReactNode;
+  /** Page heading (h1) */
   title?: string;
+  /** Supporting paragraph under the title */
   description?: string;
+  /** Optional tab items rendered as page navigation */
   tabs?: TabsItem[];
+  /** Initially selected tab value */
   defaultTab?: string;
+  /** Called with the new tab value when the user switches tabs */
   onValueChange?: (value: string) => void;
+  /** Additional CSS classes on the header container */
   className?: string;
+  /** Actions slot rendered to the right of the tabs */
   children?: React.ReactNode;
 }
 
