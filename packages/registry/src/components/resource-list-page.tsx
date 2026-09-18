@@ -1,24 +1,35 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
+ *
+ * ResourceListPage — layout shell for resource list pages. Provides the
+ * standard page scaffold: icon + title + description header, a flexible
+ * main column for `children` (typically a `DataTable`), and a sticky aside
+ * for `usage` / `additionalContent` that collapses below the xl breakpoint.
  */
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
+/** ResourceListPage component props. */
 export interface ResourceListPageProps {
+  /** Page heading (h1) */
   title?: string;
+  /** Subtitle paragraph under the title (hidden below md) */
   description?: string;
+  /** Leading icon rendered before the title */
   icon?: ReactNode;
+  /** Aside slot — usage/quota content, sticky at xl */
   usage?: ReactNode;
+  /** Aside slot below `usage`; moves under the main column below xl */
   additionalContent?: ReactNode;
+  /** Main column content — typically a DataTable or card list */
   children: ReactNode;
+  /** Additional CSS classes on the page container */
   className?: string;
 }
 
 /**
- * ResourceListPage - A layout component for resource list pages
- *
- * Layouts are page-level components that provide consistent structure
- * for common page patterns like resource lists, dashboards, and settings.
+ * Renders the resource list page scaffold. `children` fills the main
+ * column; `usage` and `additionalContent` render in the aside.
  */
 export function ResourceListPage({
   title,
