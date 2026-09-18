@@ -112,7 +112,7 @@ Success looks like:
 ### Phase 2: Migrate All Demos + Substance Fixes
 - **Slug**: `migrate-all-demos`
 - **Story ID**: `story-migrate-demos-202609180251`
-- **Status**: `in-progress`
+- **Status**: `checked`
 - **Goal**: Every showroom slug lives in `app/demos/` with `Demo` + `notes`; stub demos get real content; `chart` resolved (R1–R5).
 - **Dependencies**: `demo-doc-modules`
 - **Allowed surfaces**: `app/demos/**`, `app/components/playground.tsx` (nav `GROUPS` + Canvas removal)
@@ -155,14 +155,14 @@ Success looks like:
 
 ## Current State and Next Action
 
-- active_phase: migrate-all-demos
-- lifecycle_status: in-progress (blocked on e2e owner ruling)
+- active_phase: jsdoc-readme
+- lifecycle_status: in-progress
 - planning_status: planned
-- latest_progress: 2026-09-18T04:10Z phase migrate-all-demos all tasks done; 50/50 slug pages verified by browser probe; awaiting owner ruling on stale e2e assertion before gate
-- latest_validation: 2026-09-18T03:30Z APPROVED (in-session gate, phase demo-doc-modules)
-- blockers: `pnpm --filter @therealtinhtute/registry e2e` fails 2 checks on PRE-EXISTING stale token assertions (`--background` expects old Kumo `oklch(100%|1) 0 0` / `oklch(14.5%|0.145) 0 0`; theme ships Walter `oklch(0.9798…)`/`oklch(0.2679…)` since commit 70774eb). Fix lives in `packages/registry/scripts/e2e-smoke.sh` — outside phase-2 allowed surfaces; owner ruling required
-- open_items: owner ruling — update e2e-smoke.sh token assertions (recommended: assert values match theme item, not hardcoded) or accept known-failure
-- exact_next_action: escalate e2e blocker to owner; then gate phase `migrate-all-demos`
+- latest_progress: 2026-09-18T04:30Z phase migrate-all-demos CHECKED — e2e blocker resolved via owner-approved scope add (assertions now theme-derived); full e2e green
+- latest_validation: 2026-09-18T04:30Z APPROVED (in-session gate, phase migrate-all-demos)
+- blockers: none
+- open_items: none
+- exact_next_action: work full — start phase `jsdoc-readme` (JSDoc 5 files + mirror + README)
 
 ## Progress
 
@@ -176,6 +176,8 @@ Success looks like:
 - 2026-09-18T04:02Z | phase: migrate-all-demos | wave: 1 | task: T2.2 | task_status: done | summary: `chart` added to GROUPS (Data visualization, ChartBarIcon) with `app/demos/chart.tsx` minimal EChart line demo + notes — owner inclusion path per R5, not exclusion. | surfaces: app/demos/chart.tsx, app/components/playground.tsx
 - 2026-09-18T04:05Z | phase: migrate-all-demos | wave: 2 | task: T2.3 | task_status: done | summary: `Canvas()` deleted; playground.tsx 840→290 lines; all 50 slugs resolve via `DEMOS`; shared dialog/palette/page state and dead imports removed; `index.ts` manifest registers all 50 modules. | surfaces: app/components/playground.tsx, app/demos/index.ts
 - 2026-09-18T04:10Z | phase: migrate-all-demos | wave: summary | task_status: done | summary: `typecheck` ✓ `lint` ✓ `build` ✓; dead-prop grep clean; `function Canvas` count = 0; 50/50 files have notes+Demo and manifest entries. Browser probe (playwright-core, /tmp/pw/probe2.mjs, :3100): all 50 pages render notes + install cmd + code block byte-equal to module source; data-table 10 rows; filter-bar applies query to visible list; toasty fires real "Worker deployed" toast; #chart h2+canvas mount; zero page errors. BLOCKER: `pnpm --filter @therealtinhtute/registry e2e` fails 2 checks on stale `--background` assertions predating this diff (see blockers). | surfaces: app/demos/, app/components/playground.tsx
+- 2026-09-18T04:25Z | phase: migrate-all-demos | wave: gate | task: e2e-fix | task_status: done | summary: Owner approved scope add for `packages/registry/scripts/e2e-smoke.sh`. Replaced hardcoded Kumo `--background` values with assertions that read expected values from the consumer's installed `globals.css` and compare numerically (handles LightningCSS `%`/leading-zero/`deg` normalization) — self-updating, cannot go stale on palette changes. `pnpm --filter @therealtinhtute/registry e2e` → all checks passed. | surfaces: packages/registry/scripts/e2e-smoke.sh
+- 2026-09-18T04:30Z | phase: migrate-all-demos | wave: gate | task: phase-gate | task_status: checked | summary: In-session gate APPROVED; full gate suite green including previously-failing e2e. Phase status → checked (non-final phase per playbook). | surfaces: docs/plans/active/component-docs-depth.md
 
 ## Decisions
 
@@ -183,6 +185,7 @@ Success looks like:
 - 2026-09-18T03:10Z | phase: demo-doc-modules | task: T1.1 | type: convention | summary: `notes` lives inside each demo module (not in the manifest or registry.json) so one file = demo + description + its own displayed source; `DEMOS` typed as `Record<string, DemoModule>` for direct slug lookup in `playground.tsx`.
 - 2026-09-18T04:00Z | phase: migrate-all-demos | task: T2.1 | type: api-findings | summary: Sub-agent discoveries while writing modules: `Radio` requires `Radio.Item` inside `Radio.Group` (old `Canvas` case used a wrong shape); `CommandPalette` demo keeps its own `Results`/filter state; `Chart` prop is `options` (not `option`) and needs explicit height; `BubbleMap`/`ChoroplethMap` require correct echarts module sets (map/scatter/geo/visualMap); `DataTable` sorting uses `column.toggleSorting`; `FilterBar` uses `onFilter` for apply-on-click; `Code` declares a `values` prop its implementation never reads — demo avoids it.
 - 2026-09-18T04:10Z | phase: migrate-all-demos | task: wave-summary | type: blocker | summary: Registry e2e fails only on `--background` token greps hardcoded to pre-Walter Kumo values; commit 70774eb regenerated the theme item with Walter `oklch(0.9798…)`/`oklch(0.2679…)` after the last green e2e run, so the failure predates this diff. `packages/registry/scripts/e2e-smoke.sh` is outside phase allowed surfaces — escalated to owner rather than edited (contract-drift guard).
+- 2026-09-18T04:25Z | phase: migrate-all-demos | task: e2e-fix | type: scope-add (owner-approved) | summary: Owner ruled option 1 — fix the stale assertion. `e2e-smoke.sh` step 9 now extracts expected `--background` from the consumer's installed `globals.css` and compares to built CSS numerically (python3, normalizing LightningCSS `%`/leading-zero/`deg` forms). Test is theme-derived and cannot go stale on future palette changes.
 
 ## Validation
 
@@ -205,3 +208,26 @@ APPROVED
 - not_independently_verified: no independent reviewer examined the diff; probe covered pilot slugs plus one unmigrated fallback, not every hash/slug combination; visual styling of the docs panel (notes/code spacing) was asserted via DOM text, not human screenshot review
 - receipt: context_sources=docs/plans/active/component-docs-depth.md,app/demos/,app/app/page.tsx,app/components/playground.tsx / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=0 / rollback_point=pre-phase-1 commit 70774eb / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: `app` has no unit-test harness (declared in plan risk); probe substituted for agent-browser (tooling-substitution decision recorded)
+
+APPROVED
+- phase: migrate-all-demos
+- scope: on target (plus one owner-approved scope add: `packages/registry/scripts/e2e-smoke.sh` step 9)
+- depth: standard
+- proof:
+  - `pnpm --filter app typecheck` -> pass (all 50 demo modules)
+  - `pnpm lint` -> pass (5 @shadcn/lint errors found+fixed: arbitrary `h-[560px]`, child-owned `p-4`/`text-kumo-subtle`)
+  - `pnpm -r build` -> pass
+  - `pnpm --filter @therealtinhtute/registry validate` / `validate:build` -> pass
+  - `pnpm --filter @therealtinhtute/registry e2e` -> all checks passed (after owner-approved assertion fix; earlier run failed 2 stale token greps predating this diff)
+  - dead-prop grep (`columns={[]}`/`data={[]}`/no-op `onValueChange`) -> no matches
+  - `grep -c 'function Canvas' app/components/playground.tsx` -> 0; file 840->290 lines
+  - 50/50 `app/demos/*.tsx` export `notes` + `Demo`; 50/50 manifest entries; `chart` in GROUPS
+  - Browser probe `node /tmp/pw/probe2.mjs` (:3100) -> all PASS: every slug page renders notes + install command + code block byte-equal to its module source; data-table 10 rows; filter-bar applies query to visible list; toasty fires real toast "Worker deployed"; `#chart` mounts canvas; zero page errors across all 50 pages
+  - `git status` -> only `app/demos/**`, `app/components/playground.tsx`, plan file, `e2e-smoke.sh` (approved) changed
+- review: APPROVED
+- judge: same-session
+- judge_model: swe-2-max
+- blockers: 0
+- not_independently_verified: no independent reviewer; demo *content quality* (variant coverage per component) asserted via probe presence checks, not human design review; dark-mode visuals not screenshotted this phase
+- receipt: context_sources=docs/plans/active/component-docs-depth.md,app/demos/,app/components/playground.tsx,packages/registry/scripts/e2e-smoke.sh / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=1 (e2e stale-assertion fix) / rollback_point=commit 048568a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
+- proof_gaps: no unit-test harness (declared risk); probe substituted for agent-browser
