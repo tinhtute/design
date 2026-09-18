@@ -3,11 +3,11 @@ id: plan-component-docs-202609180251
 intake_id: intake-component-docs-202609180251
 slug: component-docs-depth
 title: Component Docs Depth — Code Samples, Real Demos, Install Instructions, Usage Notes
-status: active
+status: completed
 lane: normal
 input_type: change-request
 created: 2026-09-18
-updated: 2026-09-18
+updated: 2026-09-18T05:20Z
 ---
 
 # Component Docs Depth — Code Samples, Real Demos, Install Instructions, Usage Notes
@@ -91,7 +91,7 @@ Success looks like:
 ### Phase 1: Demo-Doc Module Pipeline
 - **Slug**: `demo-doc-modules`
 - **Story ID**: `story-demo-modules-202609180251`
-- **Status**: `checked`
+- **Status**: `done`
 - **Goal**: Stand up the `app/demos/` module convention, notes/source plumbing, and the docs panel UI (R1, R2, R3) proven on pilot slugs.
 - **Dependencies**: none
 - **Allowed surfaces**: `app/demos/**` (new), `app/components/playground.tsx`, `app/app/page.tsx`
@@ -112,7 +112,7 @@ Success looks like:
 ### Phase 2: Migrate All Demos + Substance Fixes
 - **Slug**: `migrate-all-demos`
 - **Story ID**: `story-migrate-demos-202609180251`
-- **Status**: `checked`
+- **Status**: `done`
 - **Goal**: Every showroom slug lives in `app/demos/` with `Demo` + `notes`; stub demos get real content; `chart` resolved (R1–R5).
 - **Dependencies**: `demo-doc-modules`
 - **Allowed surfaces**: `app/demos/**`, `app/components/playground.tsx` (nav `GROUPS` + Canvas removal)
@@ -136,7 +136,7 @@ Success looks like:
 ### Phase 3: JSDoc Parity + README
 - **Slug**: `jsdoc-readme`
 - **Story ID**: `story-jsdoc-readme-202609180251`
-- **Status**: `checked`
+- **Status**: `done`
 - **Goal**: Pattern/block components get catalog-convention JSDoc; root README becomes a real quickstart (R6, R7).
 - **Dependencies**: none (independent of phases 1–2; sequenced last)
 - **Allowed surfaces**: `packages/registry/src/components/{dashboard,data-table,filter-bar,page-header,resource-list-page}.tsx`, their `app/components/` mirrors, `README.md`
@@ -155,14 +155,14 @@ Success looks like:
 
 ## Current State and Next Action
 
-- active_phase: jsdoc-readme
-- lifecycle_status: checked
+- active_phase: none — all phases done
+- lifecycle_status: completed
 - planning_status: planned
-- latest_progress: 2026-09-18T04:55Z phase jsdoc-readme CHECKED — JSDoc mirrored byte-identical, README written, all gates green
-- latest_validation: 2026-09-18T04:55Z APPROVED (in-session gate, phase jsdoc-readme)
+- latest_progress: 2026-09-18T05:20Z initiative complete — 3/3 phases done; independent full review APPROVE_WITH_REQUESTS with all requests resolved and re-verified
+- latest_validation: 2026-09-18T05:10Z APPROVE_WITH_REQUESTS (mode: full, judge: independent, phase jsdoc-readme — whole-initiative review)
 - blockers: none
-- open_items: final closure requires one `mode: full` validation with `judge: independent` (complete Security/Performance/Architecture/Code-Quality review) per handoff.md step 6 — work never performs it
-- exact_next_action: run independent full-mode review of the initiative diff, append `mode: full` Validation entry, then handoff closes all phases
+- open_items: none
+- exact_next_action: archive — plan moved to docs/plans/completed/component-docs-depth.md; branch feat/shadcn-lint-baseline ready for owner PR/merge decision
 
 ## Progress
 
@@ -189,6 +189,8 @@ Success looks like:
 - 2026-09-18T04:00Z | phase: migrate-all-demos | task: T2.1 | type: api-findings | summary: Sub-agent discoveries while writing modules: `Radio` requires `Radio.Item` inside `Radio.Group` (old `Canvas` case used a wrong shape); `CommandPalette` demo keeps its own `Results`/filter state; `Chart` prop is `options` (not `option`) and needs explicit height; `BubbleMap`/`ChoroplethMap` require correct echarts module sets (map/scatter/geo/visualMap); `DataTable` sorting uses `column.toggleSorting`; `FilterBar` uses `onFilter` for apply-on-click; `Code` declares a `values` prop its implementation never reads — demo avoids it.
 - 2026-09-18T04:10Z | phase: migrate-all-demos | task: wave-summary | type: blocker | summary: Registry e2e fails only on `--background` token greps hardcoded to pre-Walter Kumo values; commit 70774eb regenerated the theme item with Walter `oklch(0.9798…)`/`oklch(0.2679…)` after the last green e2e run, so the failure predates this diff. `packages/registry/scripts/e2e-smoke.sh` is outside phase allowed surfaces — escalated to owner rather than edited (contract-drift guard).
 - 2026-09-18T04:25Z | phase: migrate-all-demos | task: e2e-fix | type: scope-add (owner-approved) | summary: Owner ruled option 1 — fix the stale assertion. `e2e-smoke.sh` step 9 now extracts expected `--background` from the consumer's installed `globals.css` and compares to built CSS numerically (python3, normalizing LightningCSS `%`/leading-zero/`deg` forms). Test is theme-derived and cannot go stale on future palette changes.
+- 2026-09-18T05:10Z | phase: jsdoc-readme | task: full-review | type: convention | summary: `DemoModule.deps` closes the demo-source dependency gap — install command renders every registry item a pasted demo needs; future demo authors must annotate demo-only imports (imports − registryDependencies). Convention lives in the type itself; no ADR needed.
+- absorb: none
 
 ## Validation
 
