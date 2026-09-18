@@ -54,6 +54,8 @@ import * as tooltip from "./tooltip";
 export interface DemoModule {
   Demo: ComponentType;
   notes: string;
+  /** Extra registry items the demo imports beyond the featured item's registryDependencies */
+  deps?: string[];
 }
 
 export const DEMOS: Record<string, DemoModule> = {

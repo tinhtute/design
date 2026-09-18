@@ -6,6 +6,8 @@ import { Table } from "@/components/ui/table";
 export const notes =
   "Page-level layout for resource lists — heading with optional `icon`, `usage`/`additionalContent` sidebar slots, and a main content area that typically holds a `Table`.";
 
+export const deps = ["table"];
+
 export function Demo() {
   return (
     <ResourceListPage

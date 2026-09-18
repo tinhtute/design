@@ -6,7 +6,8 @@ design-token theme (`#124b68` brand). Components install directly into your
 source tree; there is no runtime dependency on `@cloudflare/kumo`.
 
 The registry ships 53 items: 44 UI primitives, 4 blocks, 2 patterns
-(`data-table`, `filter-bar`), the default theme, and shared utilities.
+(`data-table`, `filter-bar`), the `theme-default` theme, the
+`third-party-licenses` attribution file, and the `utils` helper lib.
 
 ## Install
 

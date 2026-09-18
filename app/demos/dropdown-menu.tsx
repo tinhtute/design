@@ -12,6 +12,8 @@ import { DropdownMenu } from "@/components/ui/dropdown-menu";
 export const notes =
   "Anchored menu for contextual actions on a resource. Compose `DropdownMenu` + `.Trigger` + `.Content` with `.Item` (`icon`, `variant=\"danger\"`) and `.Separator`; keyboard navigable with managed focus.";
 
+export const deps = ["button"];
+
 export function Demo() {
   return (
     <DropdownMenu>

@@ -6,6 +6,8 @@ import { Breadcrumbs } from "@/components/ui/breadcrumbs";
 export const notes =
   "Page-level header composing `Breadcrumbs`, title, description, and optional `tabs` plus action children. Sits at the top of resource pages to orient navigation.";
 
+export const deps = ["breadcrumbs"];
+
 export function Demo() {
   return (
     <PageHeader

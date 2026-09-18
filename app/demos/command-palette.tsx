@@ -9,6 +9,8 @@ const fruits = ["Apple", "Banana", "Cherry"];
 export const notes =
   "Spotlight-style command/search overlay for keyboard-driven workflows. Drive `open`/`onOpenChange` on `CommandPalette.Root`, pass `items` plus a `filter` for arrow-key navigation and search, and compose `Input`, `List`, `Results`, and `Empty` inside. Escape closes the palette.";
 
+export const deps = ["button"];
+
 export function Demo() {
   const [open, setOpen] = useState(false);
 

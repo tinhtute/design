@@ -7,6 +7,8 @@ import { Tooltip, TooltipProvider } from "@/components/ui/tooltip";
 export const notes =
   "Hint shown on hover or keyboard focus. Pass `content` and wrap a trigger element, or use `render` for button triggers; `side`, `align`, and `delay` tune behavior. Wrap the app in `TooltipProvider` for shared delay grouping.";
 
+export const deps = ["button", "text"];
+
 export function Demo() {
   return (
     <TooltipProvider>

@@ -29,6 +29,8 @@ const workers: Worker[] = [
   { name: "rate-limiter", status: "Error", requests: "75K" },
 ];
 
+export const deps = ["badge", "table"];
+
 export function Demo() {
   const [value, setValue] = useState("");
   const [query, setQuery] = useState("");

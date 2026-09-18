@@ -277,7 +277,7 @@ export function Playground({ sources }: { sources: Record<string, string> }) {
                 {entry ? (
                   <div className="grid gap-4">
                     <ClipboardText
-                      text={`pnpm dlx shadcn add @therealtinhtute/${slug}`}
+                      text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join("")}`}
                     />
                     <div className="max-h-96 overflow-auto rounded-md">
                       <Code.Block code={sources[slug] ?? ""} lang="tsx" />
