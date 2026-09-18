@@ -117,6 +117,7 @@ import { DataTable } from "@/components/data-table";
 import { FilterBar } from "@/components/filter-bar";
 import { Dashboard } from "@/components/dashboard";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { DEMOS } from "@/demos";
 import registry from "../../packages/registry/registry.json";
 
 const DESCRIPTIONS = new Map(
@@ -711,7 +712,7 @@ function Canvas({
   }
 }
 
-export function Playground() {
+export function Playground({ sources }: { sources: Record<string, string> }) {
   const [slug, setSlug] = useState<Slug>("button");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -735,6 +736,8 @@ export function Playground() {
   const title =
     GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ??
     slug;
+
+  const entry = DEMOS[slug];
 
   return (
     <TooltipProvider>
@@ -799,18 +802,37 @@ export function Playground() {
                   <p className="text-sm text-kumo-subtle">
                     {DESCRIPTIONS.get(slug)}
                   </p>
+                  {entry ? (
+                    <p className="text-sm leading-6 text-kumo-default">
+                      {entry.notes}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="rounded-lg bg-kumo-base p-6 ring ring-kumo-line">
-                  <Canvas
-                    slug={slug}
-                    dialogOpen={dialogOpen}
-                    setDialogOpen={setDialogOpen}
-                    paletteOpen={paletteOpen}
-                    setPaletteOpen={setPaletteOpen}
-                    page={page}
-                    setPage={setPage}
-                  />
+                  {entry ? (
+                    <entry.Demo />
+                  ) : (
+                    <Canvas
+                      slug={slug}
+                      dialogOpen={dialogOpen}
+                      setDialogOpen={setDialogOpen}
+                      paletteOpen={paletteOpen}
+                      setPaletteOpen={setPaletteOpen}
+                      page={page}
+                      setPage={setPage}
+                    />
+                  )}
                 </div>
+                {entry ? (
+                  <div className="grid gap-4">
+                    <ClipboardText
+                      text={`pnpm dlx shadcn add @therealtinhtute/${slug}`}
+                    />
+                    <div className="max-h-96 overflow-auto rounded-md">
+                      <Code.Block code={sources[slug] ?? ""} lang="tsx" />
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </main>
           </div>
