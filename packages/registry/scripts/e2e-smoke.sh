@@ -492,17 +492,46 @@ ok "consumer build passed"
 # --- 9. assert :root (light) + .dark token blocks in built CSS ---------------
 step "assert theme tokens in built CSS"
 CSS_FILE="$(ls "$CONSUMER"/dist/assets/*.css | head -1)"
-# Tailwind v4 (LightningCSS) normalizes oklch: oklch(1 0 0) -> oklch(100% 0 0).
-if grep -qE -- ':root\{[^}]*--background:\s*oklch\((100%|1) 0 0\)' "$CSS_FILE"; then
-  ok ":root --background = light oklch(100% 0 0)"
-else
-  fail ":root --background token missing in built CSS"
-fi
-if grep -qE -- '\.dark\{[^}]*--background:\s*oklch\((14\.5%|0\.145) 0 0\)' "$CSS_FILE"; then
-  ok ".dark --background = dark oklch(14.5% 0 0)"
-else
-  fail ".dark --background token missing in built CSS"
-fi
+# Expected values are read back from the theme the consumer just installed —
+# never hardcode palette values here. LightningCSS normalizes oklch
+# (lightness -> %, drops leading zeros, may suffix `deg`), so compare
+# numerically via python3.
+mapfile -t TOKEN_RESULTS < <(
+  python3 - "$CONSUMER/src/globals.css" "$CSS_FILE" <<'PY'
+import re, sys
+src = open(sys.argv[1]).read()
+built = open(sys.argv[2]).read()
+
+def bg(css, sel):
+    m = re.search(re.escape(sel) + r"\s*\{([^}]*)\}", css)
+    inner = m.group(1) if m else ""
+    m = re.search(r"--background:\s*([^;}]+)", inner)
+    return m.group(1).strip() if m else None
+
+def norm(v):
+    m = re.match(
+        r"oklch\(\s*([\d.]+)\s*(%?)\s+([\d.]+)\s+([\d.]+)\s*(?:deg)?\s*\)",
+        v or "",
+    )
+    if not m:
+        return v
+    l = float(m.group(1)) / (100 if m.group(2) == "%" else 1)
+    return f"{l:g} {float(m.group(3)):g} {float(m.group(4)):g}"
+
+for sel, name in ((":root", ":root"), (".dark", ".dark")):
+    exp, got = norm(bg(src, sel)), norm(bg(built, sel))
+    verdict = "ok" if exp is not None and exp == got else "mismatch"
+    print(f"{name}\t{verdict}\t{exp}\t{got}")
+PY
+)
+for line in "${TOKEN_RESULTS[@]}"; do
+  IFS=$'\t' read -r sel verdict exp got <<<"$line"
+  if [ "$verdict" = "ok" ]; then
+    ok "$sel --background = $got"
+  else
+    fail "$sel --background token missing or mismatched in built CSS (expected $exp, got $got)"
+  fi
+done
 if grep -q -- '--kumo-brand' "$CSS_FILE"; then
   ok "runtime var --kumo-brand present"
 else
