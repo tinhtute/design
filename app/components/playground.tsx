@@ -174,7 +174,13 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
 
 type Slug = string;
 
-export function Playground({ sources }: { sources: Record<string, string> }) {
+export function Playground({
+  sources,
+  highlighted,
+}: {
+  sources: Record<string, string>;
+  highlighted: Record<string, string>;
+}) {
   const [slug, setSlug] = useState<Slug>("button");
 
   useEffect(() => {
@@ -279,9 +285,12 @@ export function Playground({ sources }: { sources: Record<string, string> }) {
                     <ClipboardText
                       text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join("")}`}
                     />
-                    <div className="max-h-96 overflow-auto rounded-md">
-                      <Code.Block code={sources[slug] ?? ""} lang="tsx" />
-                    </div>
+                    <Code.Block
+                      html={highlighted[slug]}
+                      code={sources[slug] ?? ""}
+                      lang="tsx"
+                      title={`${slug}.tsx`}
+                    />
                   </div>
                 ) : null}
               </div>

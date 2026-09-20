@@ -1,6 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { Playground } from "@/components/playground";
+import { highlightCode } from "@/lib/highlight";
 
 function readDemoSources(): Record<string, string> {
   const dir = path.join(process.cwd(), "demos");
@@ -16,6 +17,13 @@ function readDemoSources(): Record<string, string> {
   return sources;
 }
 
-export default function Home() {
-  return <Playground sources={readDemoSources()} />;
+export default async function Home() {
+  const sources = readDemoSources();
+  const highlighted: Record<string, string> = {};
+  await Promise.all(
+    Object.entries(sources).map(async ([slug, source]) => {
+      highlighted[slug] = await highlightCode(source, "tsx");
+    }),
+  );
+  return <Playground sources={sources} highlighted={highlighted} />;
 }

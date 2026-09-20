@@ -1,0 +1,88 @@
+/* ============================================================
+   mono code blocks — Shiki dual-theme token colors, line
+   numbers, and docs annotations.
+   Shipped with the `code` registry item; import it once in your
+   app (e.g. from `globals.css`) when using CodeBlock.
+   ============================================================ */
+
+/* Dual-theme token colors.
+   Shiki renders with `defaultColor: false`, so every token carries
+   `--shiki-light` / `--shiki-dark` CSS variables and nothing else.
+   The design system's dark mode is `data-mode="dark"` + `.dark`. */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+
+html[data-mode="dark"] .shiki,
+html[data-mode="dark"] .shiki span,
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark);
+}
+
+/* Container styling for server-rendered Shiki HTML inside the
+   CodeBlock component (client mode renders the same markup). */
+.mono-codeblock .shiki {
+  margin: 0;
+  padding: 0.625rem; /* p-2.5 */
+  background-color: transparent;
+}
+
+/* Lines paint full-width so diff/highlight backgrounds read. */
+.mono-codeblock .shiki .line {
+  display: block;
+  width: 100%;
+}
+
+/* Line numbers via CSS counters — no JS, no re-render. */
+.mono-codeblock[data-line-numbers] .shiki code {
+  counter-reset: mono-code-line;
+}
+
+.mono-codeblock[data-line-numbers] .line {
+  counter-increment: mono-code-line;
+}
+
+.mono-codeblock[data-line-numbers] .line::before {
+  content: counter(mono-code-line);
+  display: inline-block;
+  width: 2rem;
+  margin-right: 1rem;
+  padding-right: 0.5rem;
+  text-align: right;
+  color: var(--text-color-kumo-inactive);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Docs annotations — emitted by @shikijs/transformers
+   ([!code diff|highlight|focus|error|warning|info]) via the rehype
+   pipeline. CSS-only; no transformer dependency in the component. */
+.shiki .line.diff.add {
+  background-color: var(--kumo-success-tint);
+}
+
+.shiki .line.diff.remove {
+  background-color: var(--kumo-danger-tint);
+}
+
+.shiki .line.highlighted {
+  background-color: var(--kumo-info-tint);
+}
+
+.shiki .line.focused {
+  background-color: var(--kumo-warning-tint);
+}
+
+.shiki .line.error {
+  background-color: var(--kumo-danger-tint);
+}
+
+.shiki .line.warning {
+  background-color: var(--kumo-warning-tint);
+}
+
+.shiki .line.info {
+  background-color: var(--kumo-info-tint);
+}

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "./theme.css";
+@import "../components/ui/code.css";
 
 html {
   color-scheme: light;

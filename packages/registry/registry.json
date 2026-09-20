@@ -685,7 +685,7 @@
       "name": "code",
       "type": "registry:ui",
       "title": "Code",
-      "description": "Monospace code snippet without syntax highlighting. Adapted from Cloudflare Kumo.",
+      "description": "Monospace code snippets and Shiki-highlighted code blocks with mono dual themes. Adapted from Cloudflare Kumo.",
       "registryDependencies": [
         "@therealtinhtute/third-party-licenses",
         "@therealtinhtute/utils"
@@ -695,7 +695,22 @@
           "path": "src/components/ui/code.tsx",
           "type": "registry:ui",
           "target": "components/ui/code.tsx"
+        },
+        {
+          "path": "src/components/ui/code-themes.ts",
+          "type": "registry:lib",
+          "target": "components/ui/code-themes.ts"
+        },
+        {
+          "path": "src/components/ui/code.css",
+          "type": "registry:lib",
+          "target": "components/ui/code.css"
         }
+      ],
+      "dependencies": [
+        "shiki",
+        "@shikijs/langs",
+        "@phosphor-icons/react"
       ]
     },
     {

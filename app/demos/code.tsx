@@ -3,23 +3,33 @@
 import { Code } from "@/components/ui/code";
 
 export const notes =
-  "Monospace code snippet without syntax highlighting. Pass the source string via `code` and a `lang` hint (ts, tsx, jsonc, bash, css); use `Code.Block` when the snippet needs a bordered surface.";
+  "Plain monospace snippets via `Code`; `Code.Block` adds Shiki syntax highlighting with the mono dual themes, a filename title bar, line numbers, and a copy button. Pass pre-highlighted `html` for server-rendered docs, or `code` only to highlight lazily in the browser.";
 
 export function Demo() {
   return (
     <div className="flex flex-col gap-4">
       <Code lang="bash" code="npx wrangler deploy --minify" />
       <Code.Block
+        title="worker.ts"
         lang="ts"
-        code={`export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
-    const url = new URL(request.url);
-    const cached = await env.CACHE.get(url.pathname);
-    return cached
-      ? new Response(cached, { headers: { "x-cache": "hit" } })
-      : fetch(request);
-  },
-};`}
+        code={`import { AutoRouter } from "itty-router";
+
+const router = AutoRouter();
+
+router.get("/hello", () => new Response("Hello, mono!"));
+
+export default router;`}
+      />
+      <Code.Block
+        title="wrangler.jsonc"
+        lang="jsonc"
+        showLineNumbers={false}
+        code={`{
+  // Deployment config for the mono worker
+  "name": "mono-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-09-20"
+}`}
       />
     </div>
   );
