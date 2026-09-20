@@ -26,4 +26,4 @@
 - entrypoints: Showroom at `app/app/page.tsx`, registry distribution endpoint at `packages/registry/public/r/`.
 
 ## What are we working on right now?
-- plan: none active — latest completed: docs/plans/completed/showroom-sidebar-clarity.md
+- plan: none active — latest completed: docs/plans/completed/shiki-codeblock-integration.md
