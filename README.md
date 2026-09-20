@@ -1,4 +1,4 @@
-# @therealtinhtute/ui
+# @therealtinhtute/design
 
 A source-first [shadcn](https://ui.shadcn.com) registry porting the Cloudflare
 Kumo component catalog — built on Base UI primitives and Phosphor icons, with a

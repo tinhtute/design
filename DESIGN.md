@@ -3,7 +3,7 @@
 <!-- impeccable:design-schema 1 -->
 
 ## Brand Identity
-- Project: `mono` / `@therealtinhtute/ui`
+- Project: `mono` / `@therealtinhtute/design`
 - Primary Brand: `#124b68` (`oklch(0.3917 0.0748 236.055)`)
 - Focus Ring: `oklch(0.708 0 0)` / `--kumo-focus`
 - Border & Line: `oklch(0.922 0 0)` / `--kumo-line`

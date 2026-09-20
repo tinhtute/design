@@ -1,6 +1,6 @@
 {
   "name": "default",
-  "description": "Default @therealtinhtute/ui theme — Walter palette from tweakcn, Archivo + Google Sans Code + Xanh Mono, light + dark.",
+  "description": "Default @therealtinhtute/design theme — Walter palette from tweakcn, Archivo + Google Sans Code + Xanh Mono, light + dark.",
   "radius": "0.625rem",
   "radiusScale": {
     "sm": 0.6,

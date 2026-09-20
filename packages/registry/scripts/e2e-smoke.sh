@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# e2e-smoke.sh — prove a fresh consumer can install the full @therealtinhtute/ui
+# e2e-smoke.sh — prove a fresh consumer can install the full @therealtinhtute/design
 # catalog from the locally built registry and render it with the theme.
 #
 # Flow: build+validate the registry -> exact-set of 53 names -> serve public/

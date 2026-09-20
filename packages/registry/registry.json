@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "therealtinhtute-ui",
+  "name": "@therealtinhtute/design",
   "homepage": "https://therealtinhtute-ui.pages.dev",
   "items": [
     {
@@ -8,7 +8,7 @@
       "name": "theme-default",
       "type": "registry:theme",
       "title": "Default",
-      "description": "Default @therealtinhtute/ui theme — Walter palette from tweakcn, Archivo + Google Sans Code + Xanh Mono, light + dark.",
+      "description": "Default @therealtinhtute/design theme — Walter palette from tweakcn, Archivo + Google Sans Code + Xanh Mono, light + dark.",
       "cssVars": {
         "theme": {
           "--color-background": "var(--background)",

@@ -3,7 +3,7 @@
   "name": "theme-default",
   "type": "registry:theme",
   "title": "Default",
-  "description": "Default @therealtinhtute/ui theme — neutral palette, shadcn/ui compatible, light + dark.",
+  "description": "Default @therealtinhtute/design theme — neutral palette, shadcn/ui compatible, light + dark.",
   "cssVars": {
     "theme": {
       "--color-background": "var(--background)",

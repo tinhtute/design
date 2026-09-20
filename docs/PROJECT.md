@@ -2,7 +2,7 @@
 # brainstorm lock; keep the whole file at or under 50 lines)
 
 ## What is this project?
-- `@therealtinhtute/ui` is an open-source, source-first shadcn/ui registry and design system porting the full Kumo component catalog with custom `#124b68` brand tokens.
+- `@therealtinhtute/design` is an open-source, source-first shadcn/ui registry and design system porting the full Kumo component catalog with custom `#124b68` brand tokens.
 
 ## Who is it for?
 - Frontend engineers and product teams building modern web applications who want enterprise-grade Base UI + Phosphor components via standard `shadcn add`.

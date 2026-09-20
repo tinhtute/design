@@ -10,7 +10,7 @@ web
 Frontend developers and product teams building modern web applications who need accessible, production-ready design system primitives installable via shadcn CLI.
 
 ## Product Purpose
-Deliver an accessible, high-craft shadcn/ui registry and design system (`@therealtinhtute/ui`) based on Kumo's component catalog with custom `#124b68` brand aesthetics and zero runtime vendor dependencies.
+Deliver an accessible, high-craft shadcn/ui registry and design system (`@therealtinhtute/design`) based on Kumo's component catalog with custom `#124b68` brand aesthetics and zero runtime vendor dependencies.
 
 ## Positioning
 The only source-code-first shadcn registry porting Kumo's enterprise-grade Base UI + Phosphor component catalog with a customizable tokenized theme system.
@@ -26,7 +26,7 @@ Developers install components via `pnpm dlx shadcn add @therealtinhtute/{compone
 - Primary brand color: `#124b68` (`oklch(0.3917 0.0748 236.055)`).
 
 ## Brand Commitments
-- Name: `@therealtinhtute/ui` / `mono`
+- Name: `@therealtinhtute/design` / `mono`
 - Brand accent: `#124b68` deep ocean blue
 - Neutral foundation with accessible light/dark mode contrast
 
