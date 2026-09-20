@@ -1,0 +1,58 @@
+import rehypeShikiFromHighlighter from '@shikijs/rehype/core';
+import {
+  transformerNotationDiff,
+  transformerNotationErrorLevel,
+  transformerNotationFocus,
+  transformerNotationHighlight,
+} from '@shikijs/transformers';
+import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+import { unified } from 'unified';
+import { monoDarkTheme, monoLightTheme } from '@/components/ui/code-themes';
+import { getHighlighter } from './highlight';
+
+/**
+ * Server-side Markdown → HTML pipeline for docs content.
+ *
+ * `remark-parse` → `remark-rehype` → Shiki (mono dual themes via the
+ * shared highlighter singleton, `defaultColor: false` so `code.css`
+ * drives token colors) → `rehype-stringify`.
+ *
+ * Features:
+ * - Fenced code blocks with the docs annotation transformers:
+ *   `[!code highlight]`, `[!code ++]` / `[!code --]`, `[!code focus]`,
+ *   `[!code error|warning|info]`
+ * - Inline code highlighting via the trailing-curly-colon marker:
+ *   `` `npx shadcn add x{:bash}` ``
+ *
+ * The output is rendered with `dangerouslySetInnerHTML` inside a
+ * `.mono-doc` wrapper (see `app/app/docs.css`).
+ */
+export async function renderMarkdown(markdown: string): Promise<string> {
+  // The rehype plugin types its parameter as `HighlighterGeneric<any, any>`;
+  // a core highlighter (langs loaded dynamically) is not directly
+  // assignable due to generic variance, so widen at this boundary.
+  const highlighter = (await getHighlighter()) as unknown as Parameters<
+    typeof rehypeShikiFromHighlighter
+  >[0];
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkRehype)
+    .use(rehypeShikiFromHighlighter, highlighter, {
+      themes: { light: monoLightTheme, dark: monoDarkTheme },
+      defaultColor: false,
+      inline: 'tailing-curly-colon',
+      transformers: [
+        transformerNotationDiff(),
+        transformerNotationHighlight(),
+        transformerNotationFocus(),
+        transformerNotationErrorLevel(),
+      ],
+    })
+    .use(rehypeStringify)
+    .process(markdown);
+  return String(file);
+}

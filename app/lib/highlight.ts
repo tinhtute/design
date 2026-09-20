@@ -1,7 +1,7 @@
-import type { HighlighterCore, LanguageRegistration } from "shiki/core";
-import { createHighlighterCore } from "shiki/core";
-import { createOnigurumaEngine } from "shiki/engine/oniguruma";
-import { monoDarkTheme, monoLightTheme } from "@/components/ui/code-themes";
+import type { HighlighterCore, LanguageRegistration } from 'shiki/core';
+import { createHighlighterCore } from 'shiki/core';
+import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
+import { monoDarkTheme, monoLightTheme } from '@/components/ui/code-themes';
 
 /**
  * Server-side Shiki highlighter for docs/showroom content.
@@ -15,73 +15,76 @@ import { monoDarkTheme, monoLightTheme } from "@/components/ui/code-themes";
  */
 
 const LANG_IDS = [
-  "typescript",
-  "tsx",
-  "jsx",
-  "javascript",
-  "json",
-  "jsonc",
-  "css",
-  "html",
-  "bash",
-  "shellscript",
-  "diff",
-  "markdown",
-  "mdx",
+  'typescript',
+  'tsx',
+  'jsx',
+  'javascript',
+  'json',
+  'jsonc',
+  'css',
+  'html',
+  'bash',
+  'shellscript',
+  'diff',
+  'markdown',
+  'mdx',
 ] as const;
 
 /** Alias map from markdown fence ids to canonical Shiki grammar ids. */
 const LANG_ALIASES: Record<string, string> = {
-  ts: "typescript",
-  tsx: "tsx",
-  js: "javascript",
-  jsx: "jsx",
-  json: "json",
-  jsonc: "jsonc",
-  css: "css",
-  html: "html",
-  bash: "bash",
-  sh: "shellscript",
-  diff: "diff",
-  md: "markdown",
-  mdx: "mdx",
-  txt: "text",
-  text: "text",
-  plaintext: "text",
+  ts: 'typescript',
+  tsx: 'tsx',
+  js: 'javascript',
+  jsx: 'jsx',
+  json: 'json',
+  jsonc: 'jsonc',
+  css: 'css',
+  html: 'html',
+  bash: 'bash',
+  sh: 'shellscript',
+  diff: 'diff',
+  md: 'markdown',
+  mdx: 'mdx',
+  txt: 'text',
+  text: 'text',
+  plaintext: 'text',
 };
 
 type LangLoader = () => Promise<{ default: LanguageRegistration[] }>;
 
 /** Statically-analyzable dynamic imports — same set as the client path. */
 const LANG_LOADERS: Record<string, LangLoader> = {
-  typescript: () => import("@shikijs/langs/typescript"),
-  tsx: () => import("@shikijs/langs/tsx"),
-  jsx: () => import("@shikijs/langs/jsx"),
-  javascript: () => import("@shikijs/langs/javascript"),
-  json: () => import("@shikijs/langs/json"),
-  jsonc: () => import("@shikijs/langs/jsonc"),
-  css: () => import("@shikijs/langs/css"),
-  html: () => import("@shikijs/langs/html"),
-  bash: () => import("@shikijs/langs/bash"),
-  shellscript: () => import("@shikijs/langs/shellscript"),
-  diff: () => import("@shikijs/langs/diff"),
-  markdown: () => import("@shikijs/langs/markdown"),
-  mdx: () => import("@shikijs/langs/mdx"),
+  typescript: () => import('@shikijs/langs/typescript'),
+  tsx: () => import('@shikijs/langs/tsx'),
+  jsx: () => import('@shikijs/langs/jsx'),
+  javascript: () => import('@shikijs/langs/javascript'),
+  json: () => import('@shikijs/langs/json'),
+  jsonc: () => import('@shikijs/langs/jsonc'),
+  css: () => import('@shikijs/langs/css'),
+  html: () => import('@shikijs/langs/html'),
+  bash: () => import('@shikijs/langs/bash'),
+  shellscript: () => import('@shikijs/langs/shellscript'),
+  diff: () => import('@shikijs/langs/diff'),
+  markdown: () => import('@shikijs/langs/markdown'),
+  mdx: () => import('@shikijs/langs/mdx'),
 };
 
 let highlighterPromise: Promise<HighlighterCore> | null = null;
 
-function getHighlighter(): Promise<HighlighterCore> {
+/**
+ * Shared server-side highlighter singleton (Oniguruma WASM, mono dual
+ * themes). Consumed by `highlightCode` and the markdown pipeline
+ * (`@shikijs/rehype/core`) so grammars and themes load once per process.
+ */
+export function getHighlighter(): Promise<HighlighterCore> {
   highlighterPromise ??= (async () => {
     const langs = (
-      await Promise.all(
-        LANG_IDS.map((id) => LANG_LOADERS[id]().then((m) => m.default)),
-      )
+      await Promise.all(LANG_IDS.map((id) => LANG_LOADERS[id]().then((m) => m.default)))
     ).flat();
     return createHighlighterCore({
       themes: [monoLightTheme, monoDarkTheme],
       langs,
-      engine: createOnigurumaEngine(() => import("shiki/wasm")),
+      engine: createOnigurumaEngine(() => import('shiki/wasm')),
     });
   })();
   return highlighterPromise;
@@ -93,16 +96,11 @@ function getHighlighter(): Promise<HighlighterCore> {
  * `--shiki-dark` CSS variables, applied by `code.css`).
  * Unknown languages fall back to plain text.
  */
-export async function highlightCode(
-  code: string,
-  lang = "tsx",
-): Promise<string> {
+export async function highlightCode(code: string, lang = 'tsx'): Promise<string> {
   const highlighter = await getHighlighter();
   const canonical = LANG_ALIASES[lang] ?? lang;
   return highlighter.codeToHtml(code, {
-    lang: highlighter.getLoadedLanguages().includes(canonical)
-      ? canonical
-      : "text",
+    lang: highlighter.getLoadedLanguages().includes(canonical) ? canonical : 'text',
     themes: { light: monoLightTheme, dark: monoDarkTheme },
     defaultColor: false,
   });

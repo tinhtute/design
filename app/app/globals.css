@@ -1,12 +1,13 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "./theme.css";
-@import "../components/ui/code.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './theme.css';
+@import '../components/ui/code.css';
+@import './docs/docs.css';
 
 html {
   color-scheme: light;
 }
 
-html[data-mode="dark"] {
+html[data-mode='dark'] {
   color-scheme: dark;
 }

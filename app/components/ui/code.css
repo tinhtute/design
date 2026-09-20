@@ -14,8 +14,8 @@
   color: var(--shiki-light);
 }
 
-html[data-mode="dark"] .shiki,
-html[data-mode="dark"] .shiki span,
+html[data-mode='dark'] .shiki,
+html[data-mode='dark'] .shiki span,
 .dark .shiki,
 .dark .shiki span {
   color: var(--shiki-dark);
@@ -29,8 +29,9 @@ html[data-mode="dark"] .shiki span,
   background-color: transparent;
 }
 
-/* Lines paint full-width so diff/highlight backgrounds read. */
-.mono-codeblock .shiki .line {
+/* Lines paint full-width so diff/highlight backgrounds read —
+   in the CodeBlock component and in docs pages rendering Shiki HTML. */
+.shiki .line {
   display: block;
   width: 100%;
 }
