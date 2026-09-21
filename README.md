@@ -49,3 +49,6 @@ pnpm --filter @therealtinhtute/registry validate:build  # validate built output
 pnpm --filter @therealtinhtute/registry e2e             # consumer-install smoke test
 pnpm --filter app typecheck && pnpm lint && pnpm -r build
 ```
+
+
+----
