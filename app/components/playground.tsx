@@ -61,7 +61,9 @@ import { ToastProvider } from '@/components/ui/toasty';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import { ThemeToggle } from '@/components/theme-toggle';
+import { PropsTable } from '@/components/props-table';
 import { DEMOS } from '@/demos';
+import type { PropsBySlug } from '@/lib/props';
 import registry from '../../packages/registry/registry.json';
 
 const DESCRIPTIONS = new Map(registry.items.map((item) => [item.name, item.description]));
@@ -176,9 +178,11 @@ type Slug = string;
 export function Playground({
   sources,
   highlighted,
+  props,
 }: {
   sources: Record<string, string>;
   highlighted: Record<string, string>;
+  props: PropsBySlug;
 }) {
   const [slug, setSlug] = useState<Slug>('button');
 
@@ -278,6 +282,7 @@ export function Playground({
                     />
                   </div>
                 ) : null}
+                <PropsTable docs={props[slug] ?? []} />
               </div>
             </main>
           </div>

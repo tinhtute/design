@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { Playground } from '@/components/playground';
 import { highlightCode } from '@/lib/highlight';
+import { getPropsBySlug } from '@/lib/props';
 
 function readDemoSources(): Record<string, string> {
   const dir = path.join(process.cwd(), 'demos');
@@ -22,5 +23,5 @@ export default async function Home() {
       highlighted[slug] = await highlightCode(source, 'tsx');
     }),
   );
-  return <Playground sources={sources} highlighted={highlighted} />;
+  return <Playground sources={sources} highlighted={highlighted} props={getPropsBySlug()} />;
 }
