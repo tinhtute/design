@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+.next/
+out/
+dist/
+.turbo/
+coverage/
+
+# generated artifacts
+packages/registry/public/
+app/public/r/
+
+# vendored skill installs (managed by skill installers, not repo source)
+.claude/
+.github/agents/
+.github/skills/
+.github/hooks/
+
+# harness / tooling state
+.kit/
+.zharness/
+harness.db*
+*.tsbuildinfo
+
+# lockfile (managed by pnpm)
+pnpm-lock.yaml
