@@ -1,14 +1,14 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import { forwardRef, useCallback, useEffect, useRef, useState } from "react";
-import { Toast } from "@base-ui/react/toast";
-import { Tooltip } from "@base-ui/react/tooltip";
-import { Button } from "@/components/ui/button";
-import { inputVariants } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { Toast } from '@base-ui/react/toast';
+import { Tooltip } from '@base-ui/react/tooltip';
+import { Button } from '@/components/ui/button';
+import { inputVariants } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 // External manager — same-id re-adds update + reset timeout in Base UI's store
 const clipboardToastManager = Toast.createToastManager();
@@ -19,39 +19,38 @@ const COPIED_FEEDBACK_MS = 1500;
 export const KUMO_CLIPBOARD_TEXT_VARIANTS = {
   size: {
     sm: {
-      classes: "text-xs",
-      buttonSize: "sm" as const,
-      description: "Small clipboard text for compact UIs",
+      classes: 'text-xs',
+      buttonSize: 'sm' as const,
+      description: 'Small clipboard text for compact UIs',
     },
     base: {
-      classes: "text-sm",
-      buttonSize: "base" as const,
-      description: "Default clipboard text size",
+      classes: 'text-sm',
+      buttonSize: 'base' as const,
+      description: 'Default clipboard text size',
     },
     lg: {
-      classes: "text-sm",
-      buttonSize: "lg" as const,
-      description: "Large clipboard text for prominent display",
+      classes: 'text-sm',
+      buttonSize: 'lg' as const,
+      description: 'Large clipboard text for prominent display',
     },
   },
 } as const;
 
 export const KUMO_CLIPBOARD_TEXT_DEFAULT_VARIANTS = {
-  size: "lg",
+  size: 'lg',
 } as const;
 
 const clipboardTextAnimations = {
   slide: {
     initial:
-      "pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 translate-y-full",
-    animate: "translate-y-0 opacity-100",
-    end: "pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 -translate-y-full",
+      'pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 translate-y-full',
+    animate: 'translate-y-0 opacity-100',
+    end: 'pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 -translate-y-full',
   },
 } as const;
 
 // Derived types from KUMO_CLIPBOARD_TEXT_VARIANTS
-export type KumoClipboardTextSize =
-  keyof typeof KUMO_CLIPBOARD_TEXT_VARIANTS.size;
+export type KumoClipboardTextSize = keyof typeof KUMO_CLIPBOARD_TEXT_VARIANTS.size;
 
 export interface KumoClipboardTextVariantsProps {
   /**
@@ -69,7 +68,7 @@ export function clipboardTextVariants({
 }: KumoClipboardTextVariantsProps = {}) {
   return cn(
     // Base styles
-    "flex items-center overflow-hidden bg-kumo-base px-0 font-mono",
+    'flex items-center overflow-hidden bg-kumo-base px-0 font-mono',
     // Apply size styles from KUMO_CLIPBOARD_TEXT_VARIANTS
     resolveVariant(
       KUMO_CLIPBOARD_TEXT_VARIANTS.size,
@@ -116,7 +115,7 @@ export interface ClipboardTextProps extends KumoClipboardTextVariantsProps {
     /** Text shown in toast after copying. @default "Copied" */
     copiedText?: string;
     /** Tooltip/toast placement. @default "top" */
-    side?: "top" | "bottom" | "left" | "right";
+    side?: 'top' | 'bottom' | 'left' | 'right';
   };
   /** Accessible labels for i18n. */
   labels?: {
@@ -141,9 +140,9 @@ function AnchoredToasts() {
               key={updateKey}
               toast={toast}
               className={cn(
-                "flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-3 py-1.5 font-sans text-xs text-kumo-default",
-                "shadow-lg outline outline-kumo-line",
-                updateKey > 0 && "animate-clipboard-toast-bump",
+                'flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-3 py-1.5 font-sans text-xs text-kumo-default',
+                'shadow-lg outline outline-kumo-line',
+                updateKey > 0 && 'animate-clipboard-toast-bump',
               )}
             >
               <Toast.Description />
@@ -186,7 +185,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
       size = KUMO_CLIPBOARD_TEXT_DEFAULT_VARIANTS.size,
       onCopy,
       tooltip,
-      labels: { copyAction = "Copy to clipboard" } = {},
+      labels: { copyAction = 'Copy to clipboard' } = {},
     },
     ref,
   ) => {
@@ -202,9 +201,9 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
 
     // Destructure tooltip config with defaults
     const {
-      text: tooltipText = "Copy",
-      copiedText = "Copied",
-      side: tooltipSide = "top",
+      text: tooltipText = 'Copy',
+      copiedText = 'Copied',
+      side: tooltipSide = 'top',
     } = tooltip ?? {};
 
     useEffect(() => {
@@ -228,26 +227,24 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
     const copyToClipboard = useCallback(async () => {
       try {
         if (
-          typeof navigator !== "undefined" &&
+          typeof navigator !== 'undefined' &&
           navigator.clipboard &&
-          typeof navigator.clipboard.writeText === "function"
+          typeof navigator.clipboard.writeText === 'function'
         ) {
           await navigator.clipboard.writeText(textToCopy ?? text);
-        } else if (typeof document !== "undefined") {
+        } else if (typeof document !== 'undefined') {
           // Fallback for older browsers
-          const textarea = document.createElement("textarea");
+          const textarea = document.createElement('textarea');
           textarea.value = textToCopy ?? text;
-          textarea.setAttribute("readonly", "");
-          textarea.style.position = "absolute";
-          textarea.style.left = "-9999px";
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'absolute';
+          textarea.style.left = '-9999px';
           document.body.appendChild(textarea);
           const selection = document.getSelection();
-          const previousRange = selection?.rangeCount
-            ? selection.getRangeAt(0)
-            : null;
+          const previousRange = selection?.rangeCount ? selection.getRangeAt(0) : null;
           textarea.select();
           try {
-            document.execCommand("copy");
+            document.execCommand('copy');
           } finally {
             document.body.removeChild(textarea);
             if (previousRange) {
@@ -282,17 +279,9 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
 
         onCopy?.();
       } catch (error) {
-        console.warn("Clipboard copy failed", error);
+        console.warn('Clipboard copy failed', error);
       }
-    }, [
-      text,
-      textToCopy,
-      onCopy,
-      tooltip,
-      copiedText,
-      tooltipSide,
-      scheduleCopiedReset,
-    ]);
+    }, [text, textToCopy, onCopy, tooltip, copiedText, tooltipSide, scheduleCopiedReset]);
 
     const copyButton = (
       <Button
@@ -300,29 +289,25 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
         size={sizeConfig.buttonSize}
         variant="ghost"
         className={cn(
-          "relative isolate overflow-hidden rounded-l-none rounded-r-[inherit] border-l! border-kumo-line! px-3 transition-all duration-200",
-          "focus:ring-kumo-focus/50 focus:ring-inset",
-          "focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset",
+          'relative isolate overflow-hidden rounded-l-none rounded-r-[inherit] border-l! border-kumo-line! px-3 transition-all duration-200',
+          'focus:ring-kumo-focus/50 focus:ring-inset',
+          'focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
         )}
         onClick={copyToClipboard}
         aria-label={copyAction}
       >
         <span
           className={cn(
-            "flex items-center gap-1 transition-all duration-200",
-            copied
-              ? clipboardTextAnimations.slide.animate
-              : clipboardTextAnimations.slide.initial,
+            'flex items-center gap-1 transition-all duration-200',
+            copied ? clipboardTextAnimations.slide.animate : clipboardTextAnimations.slide.initial,
           )}
         >
           <CheckIcon />
         </span>
         <span
           className={cn(
-            "flex items-center justify-center transition-all duration-200",
-            copied
-              ? clipboardTextAnimations.slide.end
-              : clipboardTextAnimations.slide.animate,
+            'flex items-center justify-center transition-all duration-200',
+            copied ? clipboardTextAnimations.slide.end : clipboardTextAnimations.slide.animate,
           )}
         >
           <CopyIcon />
@@ -346,7 +331,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
               disabled={copied}
               onOpenChange={(open, eventDetails) => {
                 // Prevent tooltip from closing when button is clicked
-                if (eventDetails.reason === "trigger-press") {
+                if (eventDetails.reason === 'trigger-press') {
                   eventDetails.cancel();
                 }
               }}
@@ -356,8 +341,8 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
                 <Tooltip.Positioner side={tooltipSide} sideOffset={8}>
                   <Tooltip.Popup
                     className={cn(
-                      "flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-3 py-1.5 text-xs text-kumo-default",
-                      "shadow-md outline outline-kumo-line",
+                      'flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-3 py-1.5 text-xs text-kumo-default',
+                      'shadow-md outline outline-kumo-line',
                     )}
                   >
                     {tooltipText}
@@ -370,11 +355,11 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
           copyButton
         )}
         <span className="sr-only" aria-live="polite">
-          {copied ? copiedText : ""}
+          {copied ? copiedText : ''}
         </span>
       </div>
     );
   },
 );
 
-ClipboardText.displayName = "ClipboardText";
+ClipboardText.displayName = 'ClipboardText';

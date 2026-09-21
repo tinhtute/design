@@ -1,32 +1,32 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import React, { useMemo } from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+import React, { useMemo } from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 /** Loader size variant definitions mapping sizes to their pixel values. */
 export const KUMO_LOADER_VARIANTS = {
   size: {
     sm: {
       value: 16,
-      description: "Small loader for inline use",
+      description: 'Small loader for inline use',
     },
     base: {
       value: 24,
-      description: "Default loader size",
+      description: 'Default loader size',
     },
     lg: {
       value: 32,
-      description: "Large loader for prominent loading states",
+      description: 'Large loader for prominent loading states',
     },
   },
 } as const;
 
 export const KUMO_LOADER_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
 // Derived types from KUMO_LOADER_VARIANTS
@@ -46,12 +46,8 @@ export interface KumoLoaderVariantsProps {
 export function loaderVariants({
   size = KUMO_LOADER_DEFAULT_VARIANTS.size,
 }: KumoLoaderVariantsProps = {}): number {
-  if (typeof size === "number") return size;
-  return resolveVariant(
-    KUMO_LOADER_VARIANTS.size,
-    size,
-    KUMO_LOADER_DEFAULT_VARIANTS.size,
-  ).value;
+  if (typeof size === 'number') return size;
+  return resolveVariant(KUMO_LOADER_VARIANTS.size, size, KUMO_LOADER_DEFAULT_VARIANTS.size).value;
 }
 
 /**
@@ -80,7 +76,7 @@ export interface LoaderProps {
    * Pass a translated string for internationalization.
    * @default "Loading"
    */
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 /**
@@ -94,7 +90,7 @@ export interface LoaderProps {
 export const Loader = ({
   className,
   size = KUMO_LOADER_DEFAULT_VARIANTS.size,
-  "aria-label": ariaLabel = "Loading",
+  'aria-label': ariaLabel = 'Loading',
 }: LoaderProps) => {
   const sizeValue = loaderVariants({ size });
   return (
@@ -109,14 +105,7 @@ export const Loader = ({
       role="status"
       aria-label={ariaLabel}
     >
-      <circle
-        cx="12"
-        cy="12"
-        r="9.5"
-        fill="none"
-        strokeWidth="2"
-        strokeLinecap="round"
-      >
+      <circle cx="12" cy="12" r="9.5" fill="none" strokeWidth="2" strokeLinecap="round">
         <animateTransform
           attributeName="transform"
           type="rotate"
@@ -156,8 +145,7 @@ export const Loader = ({
 const getRandomWidth = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
-const getRandomFloat = (min: number, max: number) =>
-  (Math.random() * (max - min) + min).toFixed(2);
+const getRandomFloat = (min: number, max: number) => (Math.random() * (max - min) + min).toFixed(2);
 
 export const SkeletonLine = ({
   minWidth = 30,
@@ -187,18 +175,15 @@ export const SkeletonLine = ({
   }, [minWidth, maxWidth, minDuration, maxDuration, minDelay, maxDelay]);
 
   const lineStyle: React.CSSProperties & { [key: string]: string } = {
-    "--skeleton-width": `${width}%`,
-    "--shimmer-duration": `${duration}s`,
-    "--shimmer-delay": `${delay}s`,
+    '--skeleton-width': `${width}%`,
+    '--shimmer-duration': `${duration}s`,
+    '--shimmer-delay': `${delay}s`,
   };
 
-  const line = (
-    <div className={cn("skeleton-line", className)} style={lineStyle}></div>
-  );
+  const line = <div className={cn('skeleton-line', className)} style={lineStyle}></div>;
 
   if (blockHeight !== undefined) {
-    const height =
-      typeof blockHeight === "number" ? `${blockHeight}px` : blockHeight;
+    const height = typeof blockHeight === 'number' ? `${blockHeight}px` : blockHeight;
     return (
       <div className="flex items-center" style={{ height }}>
         {line}

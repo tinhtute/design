@@ -1,55 +1,55 @@
-import type { ComponentType } from "react";
+import type { ComponentType } from 'react';
 
-import * as autocomplete from "./autocomplete";
-import * as badge from "./badge";
-import * as banner from "./banner";
-import * as breadcrumbs from "./breadcrumbs";
-import * as bubbleMap from "./bubble-map";
-import * as button from "./button";
-import * as chart from "./chart";
-import * as checkbox from "./checkbox";
-import * as choroplethMap from "./choropleth-map";
-import * as clipboardText from "./clipboard-text";
-import * as code from "./code";
-import * as collapsible from "./collapsible";
-import * as combobox from "./combobox";
-import * as commandPalette from "./command-palette";
-import * as dashboard from "./dashboard";
-import * as dataTable from "./data-table";
-import * as datePicker from "./date-picker";
-import * as deleteResource from "./delete-resource";
-import * as dialog from "./dialog";
-import * as dropdownMenu from "./dropdown-menu";
-import * as empty from "./empty";
-import * as field from "./field";
-import * as filterBar from "./filter-bar";
-import * as grid from "./grid";
-import * as input from "./input";
-import * as inputArea from "./input-area";
-import * as inputGroup from "./input-group";
-import * as label from "./label";
-import * as layerCard from "./layer-card";
-import * as link from "./link";
-import * as loader from "./loader";
-import * as meter from "./meter";
-import * as pageHeader from "./page-header";
-import * as pagination from "./pagination";
-import * as popover from "./popover";
-import * as radio from "./radio";
-import * as resourceListPage from "./resource-list-page";
-import * as sankeyChart from "./sankey-chart";
-import * as select from "./select";
-import * as sensitiveInput from "./sensitive-input";
-import * as sidebar from "./sidebar";
-import * as switch_ from "./switch";
-import * as table from "./table";
-import * as tableOfContents from "./table-of-contents";
-import * as tabs from "./tabs";
-import * as text from "./text";
-import * as timeseriesChart from "./timeseries-chart";
-import * as toasty from "./toasty";
-import * as toolbar from "./toolbar";
-import * as tooltip from "./tooltip";
+import * as autocomplete from './autocomplete';
+import * as badge from './badge';
+import * as banner from './banner';
+import * as breadcrumbs from './breadcrumbs';
+import * as bubbleMap from './bubble-map';
+import * as button from './button';
+import * as chart from './chart';
+import * as checkbox from './checkbox';
+import * as choroplethMap from './choropleth-map';
+import * as clipboardText from './clipboard-text';
+import * as code from './code';
+import * as collapsible from './collapsible';
+import * as combobox from './combobox';
+import * as commandPalette from './command-palette';
+import * as dashboard from './dashboard';
+import * as dataTable from './data-table';
+import * as datePicker from './date-picker';
+import * as deleteResource from './delete-resource';
+import * as dialog from './dialog';
+import * as dropdownMenu from './dropdown-menu';
+import * as empty from './empty';
+import * as field from './field';
+import * as filterBar from './filter-bar';
+import * as grid from './grid';
+import * as input from './input';
+import * as inputArea from './input-area';
+import * as inputGroup from './input-group';
+import * as label from './label';
+import * as layerCard from './layer-card';
+import * as link from './link';
+import * as loader from './loader';
+import * as meter from './meter';
+import * as pageHeader from './page-header';
+import * as pagination from './pagination';
+import * as popover from './popover';
+import * as radio from './radio';
+import * as resourceListPage from './resource-list-page';
+import * as sankeyChart from './sankey-chart';
+import * as select from './select';
+import * as sensitiveInput from './sensitive-input';
+import * as sidebar from './sidebar';
+import * as switch_ from './switch';
+import * as table from './table';
+import * as tableOfContents from './table-of-contents';
+import * as tabs from './tabs';
+import * as text from './text';
+import * as timeseriesChart from './timeseries-chart';
+import * as toasty from './toasty';
+import * as toolbar from './toolbar';
+import * as tooltip from './tooltip';
 
 export interface DemoModule {
   Demo: ComponentType;
@@ -63,49 +63,49 @@ export const DEMOS: Record<string, DemoModule> = {
   badge,
   banner,
   breadcrumbs,
-  "bubble-map": bubbleMap,
+  'bubble-map': bubbleMap,
   button,
   chart,
   checkbox,
-  "choropleth-map": choroplethMap,
-  "clipboard-text": clipboardText,
+  'choropleth-map': choroplethMap,
+  'clipboard-text': clipboardText,
   code,
   collapsible,
   combobox,
-  "command-palette": commandPalette,
+  'command-palette': commandPalette,
   dashboard,
-  "data-table": dataTable,
-  "date-picker": datePicker,
-  "delete-resource": deleteResource,
+  'data-table': dataTable,
+  'date-picker': datePicker,
+  'delete-resource': deleteResource,
   dialog,
-  "dropdown-menu": dropdownMenu,
+  'dropdown-menu': dropdownMenu,
   empty,
   field,
-  "filter-bar": filterBar,
+  'filter-bar': filterBar,
   grid,
   input,
-  "input-area": inputArea,
-  "input-group": inputGroup,
+  'input-area': inputArea,
+  'input-group': inputGroup,
   label,
-  "layer-card": layerCard,
+  'layer-card': layerCard,
   link,
   loader,
   meter,
-  "page-header": pageHeader,
+  'page-header': pageHeader,
   pagination,
   popover,
   radio,
-  "resource-list-page": resourceListPage,
-  "sankey-chart": sankeyChart,
+  'resource-list-page': resourceListPage,
+  'sankey-chart': sankeyChart,
   select,
-  "sensitive-input": sensitiveInput,
+  'sensitive-input': sensitiveInput,
   sidebar,
   switch: switch_,
   table,
-  "table-of-contents": tableOfContents,
+  'table-of-contents': tableOfContents,
   tabs,
   text,
-  "timeseries-chart": timeseriesChart,
+  'timeseries-chart': timeseriesChart,
   toasty,
   toolbar,
   tooltip,

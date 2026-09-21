@@ -1,39 +1,36 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Menu as DropdownMenuPrimitive } from "@base-ui/react/menu";
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { useLinkComponent } from "@/lib/link-provider";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Menu as DropdownMenuPrimitive } from '@base-ui/react/menu';
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { useLinkComponent } from '@/lib/link-provider';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 import {
   CaretRightIcon as CaretRight,
   CheckIcon,
   CheckIcon as Check,
   type Icon,
-} from "@phosphor-icons/react";
+} from '@phosphor-icons/react';
 
 /** Dropdown item variant definitions (default and danger styles). */
 export const KUMO_DROPDOWN_VARIANTS = {
   variant: {
     default: {
-      classes: "",
-      description: "Default dropdown item appearance",
+      classes: '',
+      description: 'Default dropdown item appearance',
     },
     danger: {
       classes:
-        "text-kumo-danger data-highlighted:bg-kumo-danger/5 data-highlighted:text-kumo-danger",
-      description: "Destructive action item",
+        'text-kumo-danger data-highlighted:bg-kumo-danger/5 data-highlighted:text-kumo-danger',
+      description: 'Destructive action item',
     },
   },
 } as const;
 
 export const KUMO_DROPDOWN_DEFAULT_VARIANTS = {
-  variant: "default",
+  variant: 'default',
 } as const;
 
 // Derived types from KUMO_DROPDOWN_VARIANTS
@@ -53,19 +50,14 @@ export function dropdownVariants({
   variant = KUMO_DROPDOWN_DEFAULT_VARIANTS.variant,
 }: KumoDropdownVariantsProps = {}) {
   return cn(
-    resolveVariant(
-      KUMO_DROPDOWN_VARIANTS.variant,
-      variant,
-      KUMO_DROPDOWN_DEFAULT_VARIANTS.variant,
-    ).classes,
+    resolveVariant(KUMO_DROPDOWN_VARIANTS.variant, variant, KUMO_DROPDOWN_DEFAULT_VARIANTS.variant)
+      .classes,
   );
 }
 
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubmenuTrigger>,
-  React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.SubmenuTrigger
-  > & {
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubmenuTrigger> & {
     inset?: boolean;
     icon?: Icon;
   }
@@ -75,11 +67,11 @@ const DropdownMenuSubTrigger = React.forwardRef<
     data-kumo-component="DropdownMenu"
     data-kumo-part="submenu-trigger"
     className={cn(
-      "flex cursor-default items-center rounded-sm text-base outline-hidden select-none", // base styles
-      "px-2 py-1.5", // spacing
-      "focus:bg-kumo-tint focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand", // focus state
-      "data-[state=open]:bg-kumo-tint", // open state
-      inset && "pl-8", // conditional inset
+      'flex cursor-default items-center rounded-sm text-base outline-hidden select-none', // base styles
+      'px-2 py-1.5', // spacing
+      'focus:bg-kumo-tint focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand', // focus state
+      'data-[state=open]:bg-kumo-tint', // open state
+      inset && 'pl-8', // conditional inset
       className,
     )}
     {...props}
@@ -90,8 +82,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   </DropdownMenuPrimitive.SubmenuTrigger>
 ));
 
-DropdownMenuSubTrigger.displayName =
-  DropdownMenuPrimitive.SubmenuTrigger.displayName;
+DropdownMenuSubTrigger.displayName = DropdownMenuPrimitive.SubmenuTrigger.displayName;
 
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Positioner>,
@@ -103,43 +94,34 @@ const DropdownMenuContent = React.forwardRef<
      */
     container?: PortalContainer;
   }
->(
-  (
-    { className, sideOffset = 8, children, container: containerProp, ...props },
-    ref,
-  ) => {
-    const contextContainer = usePortalContainer();
-    const container = containerProp ?? contextContainer ?? undefined;
+>(({ className, sideOffset = 8, children, container: containerProp, ...props }, ref) => {
+  const contextContainer = usePortalContainer();
+  const container = containerProp ?? contextContainer ?? undefined;
 
-    return (
-      <DropdownMenuPrimitive.Portal container={container}>
-        <DropdownMenuPrimitive.Positioner
-          ref={ref}
-          sideOffset={sideOffset}
-          {...props}
+  return (
+    <DropdownMenuPrimitive.Portal container={container}>
+      <DropdownMenuPrimitive.Positioner ref={ref} sideOffset={sideOffset} {...props}>
+        <DropdownMenuPrimitive.Popup
+          className={cn(
+            'overflow-hidden bg-kumo-control text-kumo-default', // background
+            'max-h-[var(--available-height)] overflow-y-auto', // limit height when list is too long and might go off screen
+            'rounded-lg shadow-lg ring ring-kumo-line', // border part
+            'min-w-36 p-1.5', // spacing
+            'data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95', // open animation
+            'data-[side=bottom]:slide-in-from-top-2', // bottom side animation
+            'data-[side=left]:slide-in-from-right-2', // left side animation
+            'data-[side=right]:slide-in-from-left-2', // right side animation
+            'data-[side=top]:slide-in-from-bottom-2', // top side animation
+            'data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95', // close animation
+            className,
+          )}
         >
-          <DropdownMenuPrimitive.Popup
-            className={cn(
-              "overflow-hidden bg-kumo-control text-kumo-default", // background
-              "max-h-[var(--available-height)] overflow-y-auto", // limit height when list is too long and might go off screen
-              "rounded-lg shadow-lg ring ring-kumo-line", // border part
-              "min-w-36 p-1.5", // spacing
-              "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95", // open animation
-              "data-[side=bottom]:slide-in-from-top-2", // bottom side animation
-              "data-[side=left]:slide-in-from-right-2", // left side animation
-              "data-[side=right]:slide-in-from-left-2", // right side animation
-              "data-[side=top]:slide-in-from-bottom-2", // top side animation
-              "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95", // close animation
-              className,
-            )}
-          >
-            {children}
-          </DropdownMenuPrimitive.Popup>
-        </DropdownMenuPrimitive.Positioner>
-      </DropdownMenuPrimitive.Portal>
-    );
-  },
-);
+          {children}
+        </DropdownMenuPrimitive.Popup>
+      </DropdownMenuPrimitive.Positioner>
+    </DropdownMenuPrimitive.Portal>
+  );
+});
 
 const renderIconNode = (IconComponent?: Icon | React.ReactNode) => {
   if (!IconComponent) return null;
@@ -171,7 +153,7 @@ const DropdownMenuItem = React.forwardRef<
      * This prop will be removed in a future major version.
      */
     href?: string;
-    variant?: "default" | "danger";
+    variant?: 'default' | 'danger';
   }
 >(
   (
@@ -183,7 +165,7 @@ const DropdownMenuItem = React.forwardRef<
       selected,
       render,
       href,
-      variant = "default",
+      variant = 'default',
       ...props
     },
     ref,
@@ -213,14 +195,14 @@ const DropdownMenuItem = React.forwardRef<
       // Matches http://, https://, or protocol-relative //
       const isExternal = /^(https?:)?\/\//.test(href);
       const styles = cn(
-        "flex items-center",
-        variant === "danger" &&
-          "text-kumo-danger data-highlighted:bg-kumo-danger/5 data-highlighted:text-kumo-danger",
+        'flex items-center',
+        variant === 'danger' &&
+          'text-kumo-danger data-highlighted:bg-kumo-danger/5 data-highlighted:text-kumo-danger',
       );
       if (isExternal) {
         return (
           <a
-            className={cn(styles, "w-full text-inherit! no-underline!")}
+            className={cn(styles, 'w-full text-inherit! no-underline!')}
             href={href}
             target="_blank"
             rel="noreferrer"
@@ -232,7 +214,7 @@ const DropdownMenuItem = React.forwardRef<
       }
       return (
         <LinkComponent
-          className={cn(styles, "w-full text-inherit! no-underline!")}
+          className={cn(styles, 'w-full text-inherit! no-underline!')}
           href={href}
           to={href}
           onClick={(e) => e.stopPropagation()}
@@ -252,8 +234,8 @@ const DropdownMenuItem = React.forwardRef<
         data-kumo-component="DropdownMenu"
         data-kumo-part="item"
         className={cn(
-          "relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-overlay",
-          inset && "pl-8",
+          'relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-overlay',
+          inset && 'pl-8',
           dropdownVariants({ variant }),
           className,
         )}
@@ -297,43 +279,31 @@ const DropdownMenuLinkItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.LinkItem> & {
     inset?: boolean;
     icon?: Icon | React.ReactNode;
-    variant?: "default" | "danger";
+    variant?: 'default' | 'danger';
   }
->(
-  (
-    {
-      className,
-      inset,
-      icon: IconComponent,
-      children,
-      variant = "default",
-      ...props
-    },
-    ref,
-  ) => {
-    return (
-      <DropdownMenuPrimitive.LinkItem
-        ref={ref}
-        data-kumo-component="DropdownMenu"
-        data-kumo-part="link-item"
-        className={cn(
-          "relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none",
-          "focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-overlay",
-          "text-inherit no-underline",
-          inset && "pl-8",
-          dropdownVariants({ variant }),
-          className,
-        )}
-        {...props}
-      >
-        {IconComponent && renderIconNode(IconComponent)}
-        {children}
-      </DropdownMenuPrimitive.LinkItem>
-    );
-  },
-);
+>(({ className, inset, icon: IconComponent, children, variant = 'default', ...props }, ref) => {
+  return (
+    <DropdownMenuPrimitive.LinkItem
+      ref={ref}
+      data-kumo-component="DropdownMenu"
+      data-kumo-part="link-item"
+      className={cn(
+        'relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none',
+        'focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-overlay',
+        'text-inherit no-underline',
+        inset && 'pl-8',
+        dropdownVariants({ variant }),
+        className,
+      )}
+      {...props}
+    >
+      {IconComponent && renderIconNode(IconComponent)}
+      {children}
+    </DropdownMenuPrimitive.LinkItem>
+  );
+});
 
-DropdownMenuLinkItem.displayName = "DropdownMenuLinkItem";
+DropdownMenuLinkItem.displayName = 'DropdownMenuLinkItem';
 
 const DropdownMenuCheckboxItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.CheckboxItem>,
@@ -344,7 +314,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     data-kumo-component="DropdownMenu"
     data-kumo-part="checkbox-item"
     className={cn(
-      "relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-base outline-hidden transition-colors select-none focus:bg-kumo-tint focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50",
+      'relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-base outline-hidden transition-colors select-none focus:bg-kumo-tint focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:ring-2 focus-visible:ring-kumo-brand data-disabled:pointer-events-none data-disabled:opacity-50',
       className,
     )}
     checked={checked}
@@ -356,8 +326,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
 ));
-DropdownMenuCheckboxItem.displayName =
-  DropdownMenuPrimitive.CheckboxItem.displayName;
+DropdownMenuCheckboxItem.displayName = DropdownMenuPrimitive.CheckboxItem.displayName;
 
 const DropdownMenuLabel = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.GroupLabel>,
@@ -367,11 +336,7 @@ const DropdownMenuLabel = React.forwardRef<
 >(({ className, inset, ...props }, ref) => (
   <DropdownMenuPrimitive.GroupLabel
     ref={ref}
-    className={cn(
-      "px-2 py-1.5 text-base font-semibold",
-      inset && "pl-8",
-      className,
-    )}
+    className={cn('px-2 py-1.5 text-base font-semibold', inset && 'pl-8', className)}
     {...props}
   />
 ));
@@ -383,24 +348,18 @@ const DropdownMenuSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DropdownMenuPrimitive.Separator
     ref={ref}
-    className={cn("-mx-1 my-1 h-px bg-kumo-hairline", className)}
+    className={cn('-mx-1 my-1 h-px bg-kumo-hairline', className)}
     {...props}
   />
 ));
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
-const DropdownMenuShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
+const DropdownMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return (
-    <span
-      className={cn("ml-auto text-xs tracking-widest opacity-60", className)}
-      {...props}
-    />
+    <span className={cn('ml-auto text-xs tracking-widest opacity-60', className)} {...props} />
   );
 };
-DropdownMenuShortcut.displayName = "DropdownMenuShortcut";
+DropdownMenuShortcut.displayName = 'DropdownMenuShortcut';
 
 const DropdownMenuRadioItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.RadioItem>,
@@ -414,9 +373,9 @@ const DropdownMenuRadioItem = React.forwardRef<
     data-kumo-component="DropdownMenu"
     data-kumo-part="radio-item"
     className={cn(
-      "relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none",
-      "data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-tint",
-      inset && "pl-8",
+      'relative flex cursor-default items-center rounded-md px-2 py-1.5 text-base outline-hidden select-none',
+      'data-disabled:pointer-events-none data-disabled:opacity-50 data-highlighted:bg-kumo-tint',
+      inset && 'pl-8',
       className,
     )}
     {...props}
@@ -425,23 +384,21 @@ const DropdownMenuRadioItem = React.forwardRef<
     {children}
   </DropdownMenuPrimitive.RadioItem>
 ));
-DropdownMenuRadioItem.displayName = "DropdownMenuRadioItem";
+DropdownMenuRadioItem.displayName = 'DropdownMenuRadioItem';
 
 const DropdownMenuRadioItemIndicator = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.RadioItemIndicator>,
-  React.ComponentPropsWithoutRef<
-    typeof DropdownMenuPrimitive.RadioItemIndicator
-  >
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.RadioItemIndicator>
 >(({ className, children, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioItemIndicator
     ref={ref}
-    className={cn("ml-auto", className)}
+    className={cn('ml-auto', className)}
     {...props}
   >
     {children ?? <Check className="h-4 w-4" />}
   </DropdownMenuPrimitive.RadioItemIndicator>
 ));
-DropdownMenuRadioItemIndicator.displayName = "DropdownMenuRadioItemIndicator";
+DropdownMenuRadioItemIndicator.displayName = 'DropdownMenuRadioItemIndicator';
 
 /**
  * Custom Trigger that converts a single child element to the `render` prop
@@ -478,7 +435,7 @@ const DropdownMenuTrigger = React.forwardRef<
     </DropdownMenuPrimitive.Trigger>
   );
 });
-DropdownMenuTrigger.displayName = "DropdownMenuTrigger";
+DropdownMenuTrigger.displayName = 'DropdownMenuTrigger';
 
 /**
  * DropdownMenu — accessible dropdown menu anchored to a trigger.

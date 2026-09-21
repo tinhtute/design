@@ -7,13 +7,13 @@ import {
   textKumoModeVars,
   textKumoThemeInlineVars,
   type CssTree,
-} from "./shared";
-import type { Theme } from "./types";
+} from './shared';
+import type { Theme } from './types';
 
 export interface RegistryThemeItem {
   $schema: string;
   name: string;
-  type: "registry:theme";
+  type: 'registry:theme';
   title: string;
   description?: string;
   cssVars: {
@@ -44,20 +44,20 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [name, value] of textKumoColorAliasVars()) {
     themeBlock[name] = value;
   }
-  themeBlock["--animate-refresh"] = "refresh 0.5s ease-in-out infinite";
+  themeBlock['--animate-refresh'] = 'refresh 0.5s ease-in-out infinite';
   for (const [key, mult] of Object.entries(theme.radiusScale ?? {})) {
     themeBlock[`--radius-${key}`] = `calc(var(--radius) * ${mult})`;
   }
-  themeBlock["--radius"] = "var(--radius)";
+  themeBlock['--radius'] = 'var(--radius)';
   for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
-    if (value.startsWith("var(")) {
+    if (value.startsWith('var(')) {
       themeBlock[`--font-${key}`] = value;
     } else {
       themeBlock[`--font-${key}`] = `var(--font-${key})`;
     }
   }
   if (theme.spacing?.base) {
-    themeBlock["--spacing"] = theme.spacing.base;
+    themeBlock['--spacing'] = theme.spacing.base;
   }
   for (const [key, value] of Object.entries(theme.shadows ?? {})) {
     themeBlock[`--shadow-${key}`] = value;
@@ -73,13 +73,13 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [key, value] of Object.entries(theme.colors.light)) {
     light[`--${key}`] = value;
   }
-  for (const [name, value] of kumoModeVars("light")) {
+  for (const [name, value] of kumoModeVars('light')) {
     light[name] = value;
   }
-  for (const [name, value] of textKumoModeVars("light")) {
+  for (const [name, value] of textKumoModeVars('light')) {
     light[name] = value;
   }
-  light["--radius"] = theme.radius;
+  light['--radius'] = theme.radius;
   for (const [key, value] of Object.entries(theme.typography?.fontFamily ?? {})) {
     light[`--font-${key}`] = value;
   }
@@ -88,17 +88,17 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   for (const [key, value] of Object.entries(theme.colors.dark)) {
     dark[`--${key}`] = value;
   }
-  for (const [name, value] of kumoModeVars("dark")) {
+  for (const [name, value] of kumoModeVars('dark')) {
     dark[name] = value;
   }
-  for (const [name, value] of textKumoModeVars("dark")) {
+  for (const [name, value] of textKumoModeVars('dark')) {
     dark[name] = value;
   }
 
   return {
-    $schema: "https://ui.shadcn.com/schema/registry-item.json",
+    $schema: 'https://ui.shadcn.com/schema/registry-item.json',
     name: `theme-${theme.name}`,
-    type: "registry:theme",
+    type: 'registry:theme',
     title: titleCase(theme.name),
     description: theme.description,
     cssVars: { theme: themeBlock, light, dark },

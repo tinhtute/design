@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Code } from "@/components/ui/code";
+import { Code } from '@/components/ui/code';
 
 export const notes =
-  "Plain monospace snippets via `Code`; `Code.Block` adds Shiki syntax highlighting with the mono dual themes, a filename title bar, line numbers, and a copy button. Pass pre-highlighted `html` for server-rendered docs, or `code` only to highlight lazily in the browser.";
+  'Plain monospace snippets via `Code`; `Code.Block` adds Shiki syntax highlighting with the mono dual themes, a filename title bar, line numbers, and a copy button. Pass pre-highlighted `html` for server-rendered docs, or `code` only to highlight lazily in the browser.';
 
 export function Demo() {
   return (

@@ -450,10 +450,7 @@
       "type": "registry:lib",
       "title": "Utils",
       "description": "Utility helpers — cn(), resolveVariant, LinkProvider, KumoPortalProvider.",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
+      "dependencies": ["clsx", "tailwind-merge"],
       "files": [
         {
           "path": "src/lib/utils.ts",
@@ -472,9 +469,7 @@
           "type": "registry:lib"
         }
       ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses"
-      ]
+      "registryDependencies": ["@therealtinhtute/third-party-licenses"]
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
@@ -482,9 +477,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Primary action trigger with variants, sizes, shapes, icons, loading state, and LinkButton.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/loader",
         "@therealtinhtute/third-party-licenses",
@@ -505,9 +498,7 @@
       "type": "registry:ui",
       "title": "Input",
       "description": "Text input with sizes, error styling, optional Field wrapper, and password-manager ignore.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/third-party-licenses",
@@ -527,13 +518,8 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "Small status label for categorizing or highlighting content.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/badge.tsx",
@@ -568,10 +554,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Single checkbox and checkbox group with optional labels, error state, and indeterminate support.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/label",
         "@therealtinhtute/third-party-licenses",
@@ -591,15 +574,8 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Accessible dropdown menu anchored to a trigger. Adapted from Cloudflare Kumo.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react",
-        "tw-animate-css"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react", "tw-animate-css"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/dropdown-menu.tsx",
@@ -617,9 +593,7 @@
       "type": "registry:component",
       "title": "Data Table",
       "description": "A composable data table with sorting, selection, column visibility, and pagination, built on @tanstack/react-table.",
-      "dependencies": [
-        "@tanstack/react-table@^8.21.2"
-      ],
+      "dependencies": ["@tanstack/react-table@^8.21.2"],
       "registryDependencies": [
         "@therealtinhtute/table",
         "@therealtinhtute/button",
@@ -640,9 +614,7 @@
       "type": "registry:component",
       "title": "Filter Bar",
       "description": "A search input with clear button and a filter action — a reusable list-filtering pattern.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/input-group",
@@ -662,10 +634,7 @@
       "type": "registry:block",
       "title": "Dashboard",
       "description": "A dashboard shell — sidebar navigation, stat cards, and a recent-orders data table.",
-      "dependencies": [
-        "@phosphor-icons/react",
-        "@tanstack/react-table"
-      ],
+      "dependencies": ["@phosphor-icons/react", "@tanstack/react-table"],
       "registryDependencies": [
         "@therealtinhtute/layer-card",
         "@therealtinhtute/button",
@@ -686,10 +655,7 @@
       "type": "registry:ui",
       "title": "Code",
       "description": "Monospace code snippets and Shiki-highlighted code blocks with mono dual themes. Adapted from Cloudflare Kumo.",
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/code.tsx",
@@ -707,11 +673,7 @@
           "target": "components/ui/code.css"
         }
       ],
-      "dependencies": [
-        "shiki",
-        "@shikijs/langs",
-        "@phosphor-icons/react"
-      ]
+      "dependencies": ["shiki", "@shikijs/langs", "@phosphor-icons/react"]
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
@@ -719,14 +681,8 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "A composable disclosure component for showing and hiding content.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/collapsible.tsx",
@@ -741,14 +697,8 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "A date selection calendar built on react-day-picker. Supports single, multiple, and range modes.",
-      "dependencies": [
-        "@phosphor-icons/react",
-        "react-day-picker"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@phosphor-icons/react", "react-day-picker"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/date-picker.tsx",
@@ -764,10 +714,7 @@
       "title": "Grid",
       "description": "Responsive CSS grid layout container with preset column configurations.",
       "dependencies": [],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/grid.tsx",
@@ -782,13 +729,8 @@
       "type": "registry:ui",
       "title": "Layer Card",
       "description": "Card container for both simple surfaces and layered layouts.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/layer-card.tsx",
@@ -803,13 +745,8 @@
       "type": "registry:ui",
       "title": "Link",
       "description": "Presentational inline text link with variants, render-prop composition, and LinkProvider routing.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/link.tsx",
@@ -825,10 +762,7 @@
       "title": "Loader",
       "description": "Animated circular spinner and skeleton line for indicating loading states.",
       "dependencies": [],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/loader.tsx",
@@ -843,13 +777,8 @@
       "type": "registry:ui",
       "title": "Meter",
       "description": "Progress bar showing a measured value within a known range (e.g. quota usage).",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/meter.tsx",
@@ -864,13 +793,8 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Accessible popup content anchored to a trigger, adapted from Cloudflare Kumo.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/popover.tsx",
@@ -885,13 +809,8 @@
       "type": "registry:ui",
       "title": "Radio",
       "description": "Radio button group for single-select choices, with optional card appearance.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/radio.tsx",
@@ -907,10 +826,7 @@
       "title": "Table of Contents",
       "description": "Presentational section navigation with an optional scrollspy hook for the active heading.",
       "dependencies": [],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/table-of-contents.tsx",
@@ -925,13 +841,8 @@
       "type": "registry:ui",
       "title": "Tabs",
       "description": "Tab navigation with segmented or underline style, built on Base UI Tabs with an animated active indicator.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/tabs.tsx",
@@ -947,10 +858,7 @@
       "title": "Text",
       "description": "Typography component for rendering text with consistent styling.",
       "dependencies": [],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/text.tsx",
@@ -965,13 +873,8 @@
       "type": "registry:ui",
       "title": "Tooltip",
       "description": "Accessible popup that shows additional information on hover or focus.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/ui/tooltip.tsx",
@@ -986,9 +889,7 @@
       "type": "registry:ui",
       "title": "Dialog",
       "description": "Modal dialog overlay with backdrop, adapted from Cloudflare Kumo.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/layer-card",
         "@therealtinhtute/third-party-licenses",
@@ -1028,10 +929,7 @@
       "type": "registry:ui",
       "title": "Command Palette",
       "description": "Accessible command palette / spotlight search overlay.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/layer-card",
         "@therealtinhtute/loader",
@@ -1052,9 +950,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Form field label with optional indicator and info tooltip.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -1075,9 +971,7 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "Placeholder shown when a list, table, or page has no content to display.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -1097,9 +991,7 @@
       "type": "registry:ui",
       "title": "Breadcrumbs",
       "description": "Navigation breadcrumb trail with Link, Current, Separator, and Clipboard compound parts.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/loader",
@@ -1141,10 +1033,7 @@
       "type": "registry:ui",
       "title": "Toasty",
       "description": "Toast notification provider and viewport with stacking, swipe-to-dismiss, and variant styles.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -1164,10 +1053,7 @@
       "type": "registry:ui",
       "title": "Sidebar",
       "description": "Responsive navigation panel with expand/collapse, peek, resize, and mobile sheet support.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/loader",
@@ -1189,9 +1075,7 @@
       "type": "registry:ui",
       "title": "Field",
       "description": "Form field wrapper that provides a label, optional description, and error display around any form control.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/label",
         "@therealtinhtute/third-party-licenses",
@@ -1211,9 +1095,7 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Single switch and switch group with optional labels, sizes, and variants.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/third-party-licenses",
@@ -1233,9 +1115,7 @@
       "type": "registry:ui",
       "title": "Input Area",
       "description": "Auto-resizing textarea with sizes, error styling, and optional Field wrapper.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1279,10 +1159,7 @@
       "type": "registry:ui",
       "title": "Sensitive Input",
       "description": "Password/secret input that masks its value by default, reveals on click, and copies to clipboard on hover.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1303,10 +1180,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "Dropdown for selecting a value from a list of options, with Field integration, sizes, and grouping.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/field",
@@ -1330,10 +1204,7 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "Autocomplete input with a filterable dropdown list, single- or multi-select chips, and optional Field wrapper.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1354,10 +1225,7 @@
       "type": "registry:ui",
       "title": "Autocomplete",
       "description": "Free-form text input with an optional filtered suggestion list.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1378,10 +1246,7 @@
       "type": "registry:ui",
       "title": "Clipboard Text",
       "description": "Read-only text field with a one-click copy-to-clipboard button.",
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/input",
@@ -1402,9 +1267,7 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation controls with page count display, page size selector, and compound or legacy APIs.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/input-group",
         "@therealtinhtute/select",
@@ -1425,9 +1288,7 @@
       "type": "registry:ui",
       "title": "Toolbar",
       "description": "Grouped toolbar controls as one compact card, with button, link, input, and input-group items.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/input",
@@ -1449,9 +1310,7 @@
       "type": "registry:block",
       "title": "Delete Resource",
       "description": "Confirmation dialog that requires typing the resource name before deleting.",
-      "dependencies": [
-        "@phosphor-icons/react"
-      ],
+      "dependencies": ["@phosphor-icons/react"],
       "registryDependencies": [
         "@therealtinhtute/banner",
         "@therealtinhtute/button",
@@ -1475,10 +1334,7 @@
       "title": "Resource List Page",
       "description": "Page-level layout for resource lists with title, description, optional usage sidebar, and additional content.",
       "dependencies": [],
-      "registryDependencies": [
-        "@therealtinhtute/third-party-licenses",
-        "@therealtinhtute/utils"
-      ],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
           "path": "src/components/resource-list-page.tsx",
@@ -1493,10 +1349,7 @@
       "type": "registry:ui",
       "title": "Chart",
       "description": "Low-level Apache ECharts wrapper with shared palette, legend items, and GeoJSON map charts.",
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ],
+      "dependencies": ["d3-geo", "echarts"],
       "registryDependencies": [
         "@therealtinhtute/loader",
         "@therealtinhtute/third-party-licenses",
@@ -1541,9 +1394,7 @@
       "type": "registry:ui",
       "title": "Sankey Chart",
       "description": "Sankey flow diagram built on the shared chart ECharts wrapper.",
-      "dependencies": [
-        "echarts"
-      ],
+      "dependencies": ["echarts"],
       "registryDependencies": [
         "@therealtinhtute/chart",
         "@therealtinhtute/third-party-licenses",
@@ -1563,10 +1414,7 @@
       "type": "registry:ui",
       "title": "Timeseries Chart",
       "description": "Time-series line or bar chart with markers, thresholds, and a cursor-following tooltip.",
-      "dependencies": [
-        "@base-ui/react",
-        "echarts"
-      ],
+      "dependencies": ["@base-ui/react", "echarts"],
       "registryDependencies": [
         "@therealtinhtute/chart",
         "@therealtinhtute/third-party-licenses",
@@ -1586,10 +1434,7 @@
       "type": "registry:ui",
       "title": "Bubble Map",
       "description": "GeoJSON scatter/bubble map built on the shared chart ECharts wrapper.",
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ],
+      "dependencies": ["d3-geo", "echarts"],
       "registryDependencies": [
         "@therealtinhtute/chart",
         "@therealtinhtute/third-party-licenses",
@@ -1609,10 +1454,7 @@
       "type": "registry:ui",
       "title": "Choropleth Map",
       "description": "GeoJSON choropleth map chart built on Apache ECharts.",
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ],
+      "dependencies": ["d3-geo", "echarts"],
       "registryDependencies": [
         "@therealtinhtute/chart",
         "@therealtinhtute/third-party-licenses",

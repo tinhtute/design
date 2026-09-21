@@ -1,55 +1,47 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ReactNode,
-} from "react";
-import { Input as BaseInput } from "@base-ui/react/input";
-import {
-  Field,
-  normalizeFieldError,
-  type FieldErrorMatch,
-} from "@/components/ui/field";
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react';
+import { Input as BaseInput } from '@base-ui/react/input';
+import { Field, normalizeFieldError, type FieldErrorMatch } from '@/components/ui/field';
 
 /** Input size and variant definitions mapping names to their Tailwind classes. */
 export const KUMO_INPUT_VARIANTS = {
   size: {
     xs: {
-      classes: "h-5 gap-1 rounded-sm px-1.5 text-xs",
-      description: "Extra small input for compact UIs",
+      classes: 'h-5 gap-1 rounded-sm px-1.5 text-xs',
+      description: 'Extra small input for compact UIs',
     },
     sm: {
-      classes: "h-6.5 gap-1 rounded-md px-2 text-xs",
-      description: "Small input for secondary fields",
+      classes: 'h-6.5 gap-1 rounded-md px-2 text-xs',
+      description: 'Small input for secondary fields',
     },
     base: {
-      classes: "h-9 gap-1.5 rounded-lg px-3 text-base",
-      description: "Default input size",
+      classes: 'h-9 gap-1.5 rounded-lg px-3 text-base',
+      description: 'Default input size',
     },
     lg: {
-      classes: "h-10 gap-2 rounded-lg px-4 text-base",
-      description: "Large input for prominent fields",
+      classes: 'h-10 gap-2 rounded-lg px-4 text-base',
+      description: 'Large input for prominent fields',
     },
   },
   variant: {
     default: {
-      classes: "focus:ring-kumo-focus/50 focus:ring-[1.5px]",
-      description: "Default input appearance",
+      classes: 'focus:ring-kumo-focus/50 focus:ring-[1.5px]',
+      description: 'Default input appearance',
     },
     error: {
-      classes: "!ring-kumo-danger focus:ring-kumo-danger/50 focus:ring-[1.5px]",
-      description: "Error state for validation failures",
+      classes: '!ring-kumo-danger focus:ring-kumo-danger/50 focus:ring-[1.5px]',
+      description: 'Error state for validation failures',
     },
   },
 } as const;
 
 export const KUMO_INPUT_DEFAULT_VARIANTS = {
-  size: "base",
-  variant: "default",
+  size: 'base',
+  variant: 'default',
 } as const;
 
 export const KUMO_INPUT_STYLING = {
@@ -66,15 +58,15 @@ export const KUMO_INPUT_STYLING = {
     lg: { height: 40, paddingX: 16, fontSize: 16, borderRadius: 8, width: 320 },
   },
   baseTokens: {
-    background: "color-secondary",
-    text: "text-color-surface",
-    placeholder: "text-color-muted",
-    ring: "color-border",
+    background: 'color-secondary',
+    text: 'text-color-surface',
+    placeholder: 'text-color-muted',
+    ring: 'color-border',
   },
   stateTokens: {
-    focus: { ring: "color-active" },
-    error: { ring: "color-error" },
-    disabled: { opacity: 0.5, text: "text-color-muted" },
+    focus: { ring: 'color-active' },
+    error: { ring: 'color-error' },
+    disabled: { opacity: 0.5, text: 'text-color-muted' },
   },
 } as const;
 
@@ -104,7 +96,7 @@ export interface KumoInputVariantsProps {
 }
 
 // Omit native `size` attribute (number) to avoid conflict with our custom `size` variant
-type BaseInputProps = Omit<ComponentPropsWithoutRef<typeof BaseInput>, "size">;
+type BaseInputProps = Omit<ComponentPropsWithoutRef<typeof BaseInput>, 'size'>;
 
 export function inputVariants({
   variant = KUMO_INPUT_DEFAULT_VARIANTS.variant,
@@ -114,37 +106,30 @@ export function inputVariants({
 }: KumoInputVariantsProps = {}) {
   return cn(
     // Base styles
-    "border-0 bg-kumo-control text-kumo-default ring ring-kumo-line outline-none focus:outline-none",
+    'border-0 bg-kumo-control text-kumo-default ring ring-kumo-line outline-none focus:outline-none',
     // Disabled state and placeholder styles (using vanilla CSS class for Chrome compatibility)
-    "kumo-input-placeholder disabled:text-kumo-disabled",
+    'kumo-input-placeholder disabled:text-kumo-disabled',
     // Apply size styles from KUMO_INPUT_VARIANTS
-    resolveVariant(
-      KUMO_INPUT_VARIANTS.size,
-      size,
-      KUMO_INPUT_DEFAULT_VARIANTS.size,
-    ).classes,
+    resolveVariant(KUMO_INPUT_VARIANTS.size, size, KUMO_INPUT_DEFAULT_VARIANTS.size).classes,
     // Apply variant styles from KUMO_INPUT_VARIANTS
-    resolveVariant(
-      KUMO_INPUT_VARIANTS.variant,
-      variant,
-      KUMO_INPUT_DEFAULT_VARIANTS.variant,
-    ).classes,
+    resolveVariant(KUMO_INPUT_VARIANTS.variant, variant, KUMO_INPUT_DEFAULT_VARIANTS.variant)
+      .classes,
     // Focus state handling
     parentFocusIndicator &&
-      (variant === "error"
-        ? "focus-within:ring-[1.5px] focus-within:ring-kumo-danger/50"
-        : "focus-within:ring-[1.5px] focus-within:ring-kumo-focus/50"),
+      (variant === 'error'
+        ? 'focus-within:ring-[1.5px] focus-within:ring-kumo-danger/50'
+        : 'focus-within:ring-[1.5px] focus-within:ring-kumo-focus/50'),
     focusIndicator &&
-      (variant === "error"
-        ? "focus:ring-[1.5px] focus:ring-kumo-danger/50"
-        : "focus:ring-[1.5px] focus:ring-kumo-focus/50"),
+      (variant === 'error'
+        ? 'focus:ring-[1.5px] focus:ring-kumo-danger/50'
+        : 'focus:ring-[1.5px] focus:ring-kumo-focus/50'),
   );
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     className,
-    size = "base",
+    size = 'base',
     variant: variantProp,
     label,
     labelTooltip,
@@ -155,33 +140,33 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   } = props;
 
   // Deprecation warning for variant="error"
-  if (process.env.NODE_ENV !== "production" && variantProp === "error") {
+  if (process.env.NODE_ENV !== 'production' && variantProp === 'error') {
     console.warn(
       '[Kumo Input]: variant="error" is deprecated. ' +
-        "Error styling is now automatically applied when the `error` prop is truthy. " +
-        "Simply remove the variant prop and pass an error message instead.",
+        'Error styling is now automatically applied when the `error` prop is truthy. ' +
+        'Simply remove the variant prop and pass an error message instead.',
     );
   }
 
   // Auto-apply error styling when error prop is truthy
   // Explicit variant prop takes precedence for backwards compatibility
-  const variant = variantProp ?? (error ? "error" : "default");
+  const variant = variantProp ?? (error ? 'error' : 'default');
 
   // Extract required from inputProps to pass to Field for label decoration
   const { required } = inputProps;
 
   // A11y enforcement: warn in dev if no accessible name provided
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     const hasLabel = Boolean(label);
-    const hasAriaLabel = Boolean(inputProps["aria-label"]);
-    const hasAriaLabelledBy = Boolean(inputProps["aria-labelledby"]);
+    const hasAriaLabel = Boolean(inputProps['aria-label']);
+    const hasAriaLabelledBy = Boolean(inputProps['aria-labelledby']);
 
     if (!hasLabel && !hasAriaLabel && !hasAriaLabelledBy) {
       console.warn(
-        "[Kumo Input]: Input must have an accessible name. Provide either:\n" +
+        '[Kumo Input]: Input must have an accessible name. Provide either:\n' +
           "  - label prop: <Input label='Email' />\n" +
           "  - aria-label: <Input aria-label='Email address' />\n" +
-          "  - aria-labelledby for custom label association",
+          '  - aria-labelledby for custom label association',
       );
     }
   }
@@ -191,15 +176,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       ref={ref}
       className={cn(
         inputVariants({ size, variant, focusIndicator: true }),
-        passwordManagerIgnore && "keeper-ignore",
+        passwordManagerIgnore && 'keeper-ignore',
         className,
       )}
       {...(passwordManagerIgnore
         ? {
-            "data-1p-ignore": "true",
-            "data-bwignore": "true",
-            "data-form-type": "other",
-            "data-lpignore": "true",
+            'data-1p-ignore': 'true',
+            'data-bwignore': 'true',
+            'data-form-type': 'other',
+            'data-lpignore': 'true',
           }
         : {})}
       {...inputProps}
@@ -225,7 +210,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   return input;
 });
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 /**
  * Input component props with accessibility guidance.
@@ -258,7 +243,7 @@ Input.displayName = "Input";
  *   error="Password is too short"
  * />
  */
-export type InputProps = Pick<KumoInputVariantsProps, "size" | "variant"> &
+export type InputProps = Pick<KumoInputVariantsProps, 'size' | 'variant'> &
   BaseInputProps & {
     /** Label content for the input (enables Field wrapper) - can be a string or any React node */
     label?: ReactNode;

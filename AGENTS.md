@@ -1,7 +1,7 @@
 # Agents
 
-
 <!-- ZHARNESS:BEGIN -->
+
 ## Harness
 
 Start with the requested outcome and use the repository as the system of record.

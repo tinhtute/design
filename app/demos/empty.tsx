@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { DatabaseIcon, PlusIcon } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/button";
-import { Empty } from "@/components/ui/empty";
+import { DatabaseIcon, PlusIcon } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
+import { Empty } from '@/components/ui/empty';
 
 export const notes =
-  "Placeholder shown when a list, table, or page has no content. Provide `icon`, `title`, and `description`; `commandLine` renders a copyable shell command and `contents` slots in action buttons. `size` adjusts padding for smaller containers.";
+  'Placeholder shown when a list, table, or page has no content. Provide `icon`, `title`, and `description`; `commandLine` renders a copyable shell command and `contents` slots in action buttons. `size` adjusts padding for smaller containers.';
 
 export function Demo() {
   return (

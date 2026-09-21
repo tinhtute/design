@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Grid, GridItem } from "@/components/ui/grid";
-import { LayerCard } from "@/components/ui/layer-card";
-import { Text } from "@/components/ui/text";
+import { Grid, GridItem } from '@/components/ui/grid';
+import { LayerCard } from '@/components/ui/layer-card';
+import { Text } from '@/components/ui/text';
 
 export const notes =
-  "Responsive layout grid with preset column variants (`2up`, `3up`, `4up`, `2-1`…) and `gap` sizes. Place each cell in `GridItem`; columns collapse at smaller breakpoints.";
+  'Responsive layout grid with preset column variants (`2up`, `3up`, `4up`, `2-1`…) and `gap` sizes. Place each cell in `GridItem`; columns collapse at smaller breakpoints.';
 
-export const deps = ["layer-card", "text"];
+export const deps = ['layer-card', 'text'];
 
 export function Demo() {
   return (

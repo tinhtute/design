@@ -1,20 +1,12 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import type * as echarts from "echarts/core";
-import { useMemo, useCallback } from "react";
-import {
-  Chart,
-  ChartPalette,
-  type ChartEvents,
-  type KumoChartOption,
-} from "@/components/ui/chart";
-import {
-  defaultValueFormat,
-  escapeHtml,
-} from "@/components/ui/chart/tooltip-utils";
+import type * as echarts from 'echarts/core';
+import { useMemo, useCallback } from 'react';
+import { Chart, ChartPalette, type ChartEvents, type KumoChartOption } from '@/components/ui/chart';
+import { defaultValueFormat, escapeHtml } from '@/components/ui/chart/tooltip-utils';
 
 export interface SankeyNodeData {
   id?: string;
@@ -37,12 +29,11 @@ export interface SankeyLinkData {
 }
 
 export type DrillTarget =
-  | { type: "node"; nodeId: string }
-  | { type: "link"; sourceId: string; targetId: string };
+  { type: 'node'; nodeId: string } | { type: 'link'; sourceId: string; targetId: string };
 
 export interface DrillSelection {
   id: string;
-  type: "node" | "link";
+  type: 'node' | 'link';
   label: string;
   depth: number;
 }
@@ -59,7 +50,7 @@ export interface SankeyData {
 
 /** Parameters passed to the tooltip formatter */
 export interface SankeyTooltipParams {
-  type: "node" | "link";
+  type: 'node' | 'link';
   name: string;
   node?: SankeyNodeData;
   link?: { source: string; target: string; value: number };
@@ -85,7 +76,7 @@ export interface SankeyChartProps {
    * - 'stacked': value on top, name below (default)
    * - 'inline': "value name" on a single line (better for small nodes)
    */
-  nodeLabelLayout?: "stacked" | "inline";
+  nodeLabelLayout?: 'stacked' | 'inline';
   /** Format function for node values (default: toLocaleString) */
   formatValue?: (value: number) => string;
   /** Custom tooltip formatter. Return HTML string or empty string to hide tooltip. */
@@ -99,7 +90,7 @@ export interface SankeyChartProps {
   /** Right padding of the Sankey layout within the chart container. Accepts a number (px) or percentage string. ECharts default: '5%'. */
   right?: number | string;
   /** Link fill style: 'gradient' blends source to target colors, 'gray' uses flat gray */
-  linkColor?: "gradient" | "gray";
+  linkColor?: 'gradient' | 'gray';
   linkOpacity?: number;
   className?: string;
   isDarkMode?: boolean;
@@ -117,23 +108,22 @@ interface TooltipParams {
 }
 
 function isTooltipParams(params: unknown): params is TooltipParams {
-  return typeof params === "object" && params !== null;
+  return typeof params === 'object' && params !== null;
 }
 
 /**
  * Escape ECharts rich text metacharacters to prevent formatting issues.
  * Rich text syntax uses {styleName|text}, so | and } must be escaped.
  */
-const escapeRichText = (str: string): string =>
-  str.replace(/[{}|]/g, (char) => `\\${char}`);
+const escapeRichText = (str: string): string => str.replace(/[{}|]/g, (char) => `\\${char}`);
 
 /**
  * Sanitize a CSS color value to prevent injection attacks.
  * Only allows valid hex colors, rgb/rgba, hsl/hsla, and named colors.
  */
 const sanitizeColor = (color: string): string => {
-  const fallback = "#666";
-  if (!color || typeof color !== "string") return fallback;
+  const fallback = '#666';
+  if (!color || typeof color !== 'string') return fallback;
 
   // Hex colors: #RGB, #RRGGBB, #RRGGBBAA
   if (/^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i.test(color)) {
@@ -141,20 +131,12 @@ const sanitizeColor = (color: string): string => {
   }
 
   // rgb/rgba: rgb(0,0,0) or rgba(0,0,0,0.5)
-  if (
-    /^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\)$/i.test(
-      color,
-    )
-  ) {
+  if (/^rgba?\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*(?:,\s*[\d.]+\s*)?\)$/i.test(color)) {
     return color;
   }
 
   // hsl/hsla: hsl(0,0%,0%) or hsla(0,0%,0%,0.5)
-  if (
-    /^hsla?\(\s*\d{1,3}\s*,\s*\d{1,3}%\s*,\s*\d{1,3}%\s*(?:,\s*[\d.]+\s*)?\)$/i.test(
-      color,
-    )
-  ) {
+  if (/^hsla?\(\s*\d{1,3}\s*,\s*\d{1,3}%\s*,\s*\d{1,3}%\s*(?:,\s*[\d.]+\s*)?\)$/i.test(color)) {
     return color;
   }
 
@@ -175,13 +157,13 @@ export function SankeyChart({
   nodePadding = 10,
   showTooltip: enableTooltip = true,
   showNodeValues,
-  nodeLabelLayout = "stacked",
+  nodeLabelLayout = 'stacked',
   formatValue = defaultValueFormat,
   tooltipFormatter,
   defaultNodeColor,
   left,
   right,
-  linkColor = "gradient",
+  linkColor = 'gradient',
   linkOpacity = 0.5,
   className,
   isDarkMode,
@@ -190,17 +172,15 @@ export function SankeyChart({
 }: SankeyChartProps) {
   const hasNodeValues = nodes.some((n) => n.value !== undefined);
   const shouldShowValues = showNodeValues ?? hasNodeValues;
-  const isInlineLayout = nodeLabelLayout === "inline";
+  const isInlineLayout = nodeLabelLayout === 'inline';
   const options = useMemo<KumoChartOption>(() => {
-    const labelColor = ChartPalette.text("primary", isDarkMode);
-    const secondaryColor = ChartPalette.text("secondary", isDarkMode);
+    const labelColor = ChartPalette.text('primary', isDarkMode);
+    const secondaryColor = ChartPalette.text('secondary', isDarkMode);
 
     // Compute colors for each node (explicit color > default > categorical)
     const nodeColors = nodes.map(
       (node, index) =>
-        node.color ??
-        defaultNodeColor ??
-        ChartPalette.categorical(index, isDarkMode),
+        node.color ?? defaultNodeColor ?? ChartPalette.categorical(index, isDarkMode),
     );
 
     // Build a map of node name to original node data + computed color for tooltip access
@@ -217,34 +197,32 @@ export function SankeyChart({
     }));
 
     const echartsLinks = links.map((link) => ({
-      source: nodes[link.source]?.name ?? "",
-      target: nodes[link.target]?.name ?? "",
+      source: nodes[link.source]?.name ?? '',
+      target: nodes[link.target]?.name ?? '',
       value: link.value,
     }));
 
     return {
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       animation: true,
       animationDuration: 500,
       animationDurationUpdate: 300,
-      animationEasingUpdate: "cubicInOut",
+      animationEasingUpdate: 'cubicInOut',
       tooltip: enableTooltip
         ? {
-            trigger: "item",
-            triggerOn: "mousemove",
+            trigger: 'item',
+            triggerOn: 'mousemove',
             dangerousHtmlFormatter: (params: unknown) => {
-              if (!isTooltipParams(params)) return "";
+              if (!isTooltipParams(params)) return '';
 
-              if (params.dataType === "node" && params.name) {
+              if (params.dataType === 'node' && params.name) {
                 const nodeData = nodeDataMap.get(params.name);
-                const color = sanitizeColor(
-                  nodeData?.computedColor ?? params.color ?? "#666",
-                );
+                const color = sanitizeColor(nodeData?.computedColor ?? params.color ?? '#666');
 
                 // Use custom formatter if provided
                 if (tooltipFormatter) {
                   return tooltipFormatter({
-                    type: "node",
+                    type: 'node',
                     name: params.name,
                     node: nodeData,
                     color,
@@ -256,35 +234,31 @@ export function SankeyChart({
                 return `<div style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${color}"></span><strong>${safeName}</strong></div>`;
               }
 
-              if (params.dataType === "edge" && params.data) {
+              if (params.dataType === 'edge' && params.data) {
                 const { source, target, value } = params.data;
 
                 // Use custom formatter if provided
                 if (tooltipFormatter) {
                   return tooltipFormatter({
-                    type: "link",
+                    type: 'link',
                     name: `${source} → ${target}`,
                     link: {
-                      source: source ?? "",
-                      target: target ?? "",
+                      source: source ?? '',
+                      target: target ?? '',
                       value: value ?? 0,
                     },
                   });
                 }
 
                 // Get colors for source and target nodes
-                const sourceNode = nodeDataMap.get(source ?? "");
-                const targetNode = nodeDataMap.get(target ?? "");
-                const sourceColor = sanitizeColor(
-                  sourceNode?.computedColor ?? "#666",
-                );
-                const targetColor = sanitizeColor(
-                  targetNode?.computedColor ?? "#666",
-                );
+                const sourceNode = nodeDataMap.get(source ?? '');
+                const targetNode = nodeDataMap.get(target ?? '');
+                const sourceColor = sanitizeColor(sourceNode?.computedColor ?? '#666');
+                const targetColor = sanitizeColor(targetNode?.computedColor ?? '#666');
 
                 // Default link tooltip with colored dots
-                const safeSource = escapeHtml(source ?? "");
-                const safeTarget = escapeHtml(target ?? "");
+                const safeSource = escapeHtml(source ?? '');
+                const safeTarget = escapeHtml(target ?? '');
                 return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
                   <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${sourceColor}"></span>
                   <strong>${safeSource}</strong>
@@ -292,29 +266,29 @@ export function SankeyChart({
                   <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${targetColor}"></span>
                   <strong>${safeTarget}</strong>
                 </div>
-                <strong>${value !== undefined ? escapeHtml(formatValue(value)) : ""}</strong>`;
+                <strong>${value !== undefined ? escapeHtml(formatValue(value)) : ''}</strong>`;
               }
 
-              return "";
+              return '';
             },
           }
         : undefined,
       series: [
         {
-          type: "sankey",
+          type: 'sankey',
           ...(left !== undefined && { left }),
           ...(right !== undefined && { right }),
           data: echartsNodes,
           links: echartsLinks,
           draggable: false,
           emphasis: {
-            focus: "adjacency",
+            focus: 'adjacency',
           },
           nodeWidth,
           nodeGap: nodePadding,
           lineStyle: {
-            color: linkColor === "gradient" ? "source" : "#d1d5db",
-            opacity: linkColor === "gradient" ? linkOpacity : 0.4,
+            color: linkColor === 'gradient' ? 'source' : '#d1d5db',
+            opacity: linkColor === 'gradient' ? linkOpacity : 0.4,
             curveness: 0.5,
           },
           label: {
@@ -323,13 +297,11 @@ export function SankeyChart({
             fontSize: 12,
             formatter: shouldShowValues
               ? (params: { name?: string }) => {
-                  const name = params.name ?? "";
+                  const name = params.name ?? '';
                   const nodeData = nodeDataMap.get(name);
                   const safeName = escapeRichText(name);
                   if (nodeData?.value !== undefined) {
-                    const formattedValue = escapeRichText(
-                      formatValue(nodeData.value),
-                    );
+                    const formattedValue = escapeRichText(formatValue(nodeData.value));
                     // Inline: "name value" on single line; Stacked: value above name
                     return isInlineLayout
                       ? `{name|${safeName}} {value|${formattedValue}}`
@@ -375,8 +347,8 @@ export function SankeyChart({
   ]);
 
   const handleClick = useCallback(
-    (params: Parameters<ChartEvents["click"]>[0]) => {
-      if (params.dataType === "node" && onNodeClick && params.name) {
+    (params: Parameters<ChartEvents['click']>[0]) => {
+      if (params.dataType === 'node' && onNodeClick && params.name) {
         const nodeIndex = nodes.findIndex((n) => n.name === params.name);
         const originalNode = nodeIndex >= 0 ? nodes[nodeIndex] : null;
 
@@ -385,16 +357,12 @@ export function SankeyChart({
           name: params.name,
         };
         onNodeClick(nodeData);
-      } else if (params.dataType === "edge" && onLinkClick && params.data) {
+      } else if (params.dataType === 'edge' && onLinkClick && params.data) {
         const data = params.data;
         const source =
-          typeof data === "object" && data !== null && "source" in data
-            ? String(data.source)
-            : "";
+          typeof data === 'object' && data !== null && 'source' in data ? String(data.source) : '';
         const target =
-          typeof data === "object" && data !== null && "target" in data
-            ? String(data.target)
-            : "";
+          typeof data === 'object' && data !== null && 'target' in data ? String(data.target) : '';
         const sourceIndex = nodes.findIndex((n) => n.name === source);
         const targetIndex = nodes.findIndex((n) => n.name === target);
 
@@ -402,9 +370,9 @@ export function SankeyChart({
 
         const rawValue = params.value;
         const value =
-          typeof rawValue === "number"
+          typeof rawValue === 'number'
             ? rawValue
-            : Array.isArray(rawValue) && typeof rawValue[0] === "number"
+            : Array.isArray(rawValue) && typeof rawValue[0] === 'number'
               ? rawValue[0]
               : 0;
 
@@ -442,4 +410,4 @@ export function SankeyChart({
   );
 }
 
-SankeyChart.displayName = "SankeyChart";
+SankeyChart.displayName = 'SankeyChart';

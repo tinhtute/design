@@ -1,27 +1,20 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import type * as echarts from "echarts/core";
-import type { ForwardedRef, ReactElement, RefAttributes } from "react";
-import {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from "react";
-import { geoMercator } from "d3-geo";
-import { Chart, type ChartEvents, type KumoChartOption } from "./EChart";
-import { ChartPalette } from "./Color";
-import { defaultValueFormat, escapeHtml } from "./tooltip-utils";
+import type * as echarts from 'echarts/core';
+import type { ForwardedRef, ReactElement, RefAttributes } from 'react';
+import { forwardRef, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
+import { geoMercator } from 'd3-geo';
+import { Chart, type ChartEvents, type KumoChartOption } from './EChart';
+import { ChartPalette } from './Color';
+import { defaultValueFormat, escapeHtml } from './tooltip-utils';
 
 export interface MapGeoJson {
-  type: "FeatureCollection";
+  type: 'FeatureCollection';
   features: Array<{
-    type: "Feature";
+    type: 'Feature';
     id?: string | number;
     properties?: Record<string, unknown> | null;
     geometry: unknown;
@@ -37,16 +30,14 @@ type KeysWithValue<T, V> = {
 export type MapAccessor<T, V> = KeysWithValue<T, V> | ((row: T) => V);
 
 function resolve<T, V>(row: T, accessor: MapAccessor<T, V>): V {
-  return typeof accessor === "function" ? accessor(row) : (row[accessor] as V);
+  return typeof accessor === 'function' ? accessor(row) : (row[accessor] as V);
 }
 
 /** Per-datum style value: a constant, or a function of the row. */
 export type MapStyle<T, V> = V | ((row: T) => V);
 
 function resolveStyle<T, V>(row: T, style: MapStyle<T, V>): V {
-  return typeof style === "function"
-    ? (style as (r: T) => V)(row)
-    : (style as V);
+  return typeof style === 'function' ? (style as (r: T) => V)(row) : (style as V);
 }
 
 /**
@@ -73,14 +64,10 @@ const MERCATOR_MAX_LAT = 85.0511;
 const mercatorProjection = geoMercator();
 const DEFAULT_PROJECTION: MapProjection = {
   project: (point) => {
-    const lat = Math.max(
-      -MERCATOR_MAX_LAT,
-      Math.min(MERCATOR_MAX_LAT, point[1]),
-    );
+    const lat = Math.max(-MERCATOR_MAX_LAT, Math.min(MERCATOR_MAX_LAT, point[1]));
     return mercatorProjection([point[0], lat]) ?? [0, 0];
   },
-  unproject: (point) =>
-    mercatorProjection.invert?.(point as [number, number]) ?? [0, 0],
+  unproject: (point) => mercatorProjection.invert?.(point as [number, number]) ?? [0, 0],
 };
 
 /**
@@ -130,7 +117,7 @@ const MAX_ZOOM_FACTOR = 8;
 const geoJsonMapNames = new WeakMap<MapGeoJson, string>();
 
 function sanitizeMapName(name: string) {
-  return name.replace(/[^a-zA-Z0-9_-]/g, "-");
+  return name.replace(/[^a-zA-Z0-9_-]/g, '-');
 }
 
 function hashString(value: string) {
@@ -163,7 +150,7 @@ function buildGeo(opts: {
 }) {
   return {
     map: opts.mapName,
-    nameProperty: "name",
+    nameProperty: 'name',
     roam: opts.roam,
     // Prevent zooming far out into empty space while still allowing users to
     // zoom back to the lesser of ECharts' base scale and the configured zoom.
@@ -329,7 +316,7 @@ function BubbleMapRoot<T>(
     maxRadius = 26,
     bubbleSize,
     bubbleColor,
-    bubbleBorderColor = "transparent",
+    bubbleBorderColor = 'transparent',
     bubbleBorderWidth = 0,
     center,
     zoom = 1.25,
@@ -349,16 +336,10 @@ function BubbleMapRoot<T>(
 ) {
   // ECharts has no public unregisterMap API, so reuse a deterministic
   // registration name for equivalent GeoJSON instead of creating one per mount.
-  const mapName = useMemo(
-    () => getMapName(geoJson, mapNameProp),
-    [geoJson, mapNameProp],
-  );
+  const mapName = useMemo(() => getMapName(geoJson, mapNameProp), [geoJson, mapNameProp]);
   useRegisterMap(ec, mapName, geoJson);
 
-  const palette = useMemo(
-    () => ChartPalette.mapColors(isDarkMode),
-    [isDarkMode],
-  );
+  const palette = useMemo(() => ChartPalette.mapColors(isDarkMode), [isDarkMode]);
 
   // Rebuild `geo` only when the map data or view changes. Depend on `center`'s
   // components, not the array ref, so an inline `center={[x, y]}` doesn't rebuild
@@ -370,10 +351,7 @@ function BubbleMapRoot<T>(
       buildGeo({
         mapName,
         areaColor: palette.area,
-        center:
-          centerX !== undefined && centerY !== undefined
-            ? [centerX, centerY]
-            : undefined,
+        center: centerX !== undefined && centerY !== undefined ? [centerX, centerY] : undefined,
         zoom,
         roam,
         projection: resolveProjection(projection),
@@ -385,10 +363,7 @@ function BubbleMapRoot<T>(
   // frame (no letterboxing). An explicit `height` opts out of aspect sizing.
   const resolvedAspect = useMemo(() => {
     if (height !== undefined) return undefined;
-    return (
-      aspectRatio ??
-      projectedAspect(resolveProjection(projection), DEFAULT_BOUNDING_COORDS)
-    );
+    return aspectRatio ?? projectedAspect(resolveProjection(projection), DEFAULT_BOUNDING_COORDS);
   }, [aspectRatio, height, projection]);
 
   // Apply `geo` only when its identity changes, so refetches don't reset a
@@ -407,7 +382,7 @@ function BubbleMapRoot<T>(
 
   const mergedRef = useCallback(
     (instance: echarts.ECharts | null) => {
-      if (typeof ref === "function") {
+      if (typeof ref === 'function') {
         ref(instance);
       } else if (ref) {
         ref.current = instance;
@@ -443,24 +418,24 @@ function BubbleMapRoot<T>(
     });
 
     return {
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       animation: true,
       animationDuration: 500,
       animationDurationUpdate: 0,
       ...(shouldIncludeGeo ? { geo } : {}),
       tooltip: showTooltip
         ? {
-            trigger: "item",
-            triggerOn: "mousemove",
-            backgroundColor: "var(--color-kumo-base)",
-            borderColor: "var(--color-kumo-line)",
+            trigger: 'item',
+            triggerOn: 'mousemove',
+            backgroundColor: 'var(--color-kumo-base)',
+            borderColor: 'var(--color-kumo-line)',
             borderWidth: 1,
             padding: 8,
             textStyle: {
-              color: "var(--text-color-kumo-default)",
+              color: 'var(--text-color-kumo-default)',
               fontSize: 13,
             },
-            extraCssText: "border-radius: 0.5rem;",
+            extraCssText: 'border-radius: 0.5rem;',
             dangerousHtmlFormatter: (params: unknown) => {
               const p = params as {
                 name?: string;
@@ -474,22 +449,20 @@ function BubbleMapRoot<T>(
               const v = p.value?.[2];
               // Two-line layout: name on top, value muted below (use
               // `valueFormat` to add a unit, e.g. "1.2k requests").
-              const nameStr = p.name
-                ? `<strong>${escapeHtml(p.name)}</strong>`
-                : "";
+              const nameStr = p.name ? `<strong>${escapeHtml(p.name)}</strong>` : '';
               const valueStr =
                 v !== undefined
                   ? `<span style="color:var(--text-color-kumo-subtle)">${escapeHtml(valueFormat(v))}</span>`
-                  : "";
+                  : '';
               return `<div style="display:flex;flex-direction:column;gap:2px;">${nameStr}${valueStr}</div>`;
             },
           }
         : undefined,
       series: [
         {
-          id: "bubbles",
-          type: "scatter",
-          coordinateSystem: "geo",
+          id: 'bubbles',
+          type: 'scatter',
+          coordinateSystem: 'geo',
           data: points,
           itemStyle: { opacity: 0.8 },
           emphasis: { scale: 1.2, itemStyle: { opacity: 1 } },
@@ -517,20 +490,17 @@ function BubbleMapRoot<T>(
     valueFormat,
   ]);
 
-  const handleMouseOver = useCallback(
-    (params: Parameters<ChartEvents["mouseover"]>[0]) => {
-      const datum = (params.data as { datum?: T } | undefined)?.datum;
-      if (datum !== undefined) hoverRef.current?.(datum);
-    },
-    [],
-  );
+  const handleMouseOver = useCallback((params: Parameters<ChartEvents['mouseover']>[0]) => {
+    const datum = (params.data as { datum?: T } | undefined)?.datum;
+    if (datum !== undefined) hoverRef.current?.(datum);
+  }, []);
 
   const handleMouseOut = useCallback(() => {
     hoverRef.current?.(undefined);
   }, []);
 
   const handleClick = useCallback(
-    (params: Parameters<ChartEvents["click"]>[0]) => {
+    (params: Parameters<ChartEvents['click']>[0]) => {
       const datum = (params.data as { datum?: T } | undefined)?.datum;
       if (datum !== undefined) onBubbleClick?.(datum);
     },
@@ -548,13 +518,7 @@ function BubbleMapRoot<T>(
         : {}),
       ...(onBubbleClick ? { click: handleClick } : {}),
     }),
-    [
-      onBubbleHover,
-      handleMouseOver,
-      handleMouseOut,
-      handleClick,
-      onBubbleClick,
-    ],
+    [onBubbleHover, handleMouseOver, handleMouseOut, handleClick, onBubbleClick],
   );
 
   return (
@@ -575,7 +539,7 @@ export const BubbleMap = forwardRef(BubbleMapRoot) as (<T>(
   props: BubbleMapProps<T> & RefAttributes<echarts.ECharts | null>,
 ) => ReactElement | null) & { displayName?: string };
 
-BubbleMap.displayName = "BubbleMap";
+BubbleMap.displayName = 'BubbleMap';
 
 // ===========================================================================
 // ChoroplethMap — GeoJSON regions shaded by value
@@ -712,7 +676,7 @@ function ChoroplethMapRoot<T>(
     data,
     name,
     value,
-    nameProperty = "name",
+    nameProperty = 'name',
     colorRange,
     min,
     max,
@@ -736,16 +700,10 @@ function ChoroplethMapRoot<T>(
 ) {
   // ECharts has no public unregisterMap API, so reuse a deterministic
   // registration name for equivalent GeoJSON instead of creating one per mount.
-  const mapName = useMemo(
-    () => getMapName(geoJson, mapNameProp),
-    [geoJson, mapNameProp],
-  );
+  const mapName = useMemo(() => getMapName(geoJson, mapNameProp), [geoJson, mapNameProp]);
   useRegisterMap(ec, mapName, geoJson);
 
-  const palette = useMemo(
-    () => ChartPalette.mapColors(isDarkMode),
-    [isDarkMode],
-  );
+  const palette = useMemo(() => ChartPalette.mapColors(isDarkMode), [isDarkMode]);
 
   // The view fields (roam/zoom/center) reset the map when re-sent, so memoise
   // them on their primitive components and only re-apply on change — a data
@@ -766,10 +724,7 @@ function ChoroplethMapRoot<T>(
             },
           }
         : {}),
-      center:
-        centerX !== undefined && centerY !== undefined
-          ? [centerX, centerY]
-          : undefined,
+      center: centerX !== undefined && centerY !== undefined ? [centerX, centerY] : undefined,
       zoom,
       // Crop empty poles / Antarctica so land fills the container.
       boundingCoords: DEFAULT_BOUNDING_COORDS,
@@ -784,10 +739,7 @@ function ChoroplethMapRoot<T>(
   // frame (no letterboxing). An explicit `height` opts out of aspect sizing.
   const resolvedAspect = useMemo(() => {
     if (height !== undefined) return undefined;
-    return (
-      aspectRatio ??
-      projectedAspect(resolveProjection(projection), DEFAULT_BOUNDING_COORDS)
-    );
+    return aspectRatio ?? projectedAspect(resolveProjection(projection), DEFAULT_BOUNDING_COORDS);
   }, [aspectRatio, height, projection]);
 
   // Update the applied-view ref post-commit (not during render) so discarded
@@ -804,7 +756,7 @@ function ChoroplethMapRoot<T>(
 
   const mergedRef = useCallback(
     (instance: echarts.ECharts | null) => {
-      if (typeof ref === "function") {
+      if (typeof ref === 'function') {
         ref(instance);
       } else if (ref) {
         ref.current = instance;
@@ -830,42 +782,42 @@ function ChoroplethMapRoot<T>(
     const resolvedMax = max ?? (vmax > vmin ? vmax : vmin + 1);
 
     const visualMap = {
-      type: "continuous" as const,
+      type: 'continuous' as const,
       show: showLegend,
       min: resolvedMin,
       max: resolvedMax,
       calculable: false,
       hoverLink: false,
       inRange: { color: colors },
-      orient: "horizontal" as const,
-      text: ["High", "Low"],
+      orient: 'horizontal' as const,
+      text: ['High', 'Low'],
       left: 0,
       bottom: 8,
       textStyle: {
-        color: ChartPalette.text("primary", isDarkMode),
+        color: ChartPalette.text('primary', isDarkMode),
         fontSize: 11,
       },
     };
 
     return {
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       animation: true,
       animationDuration: 500,
       animationDurationUpdate: 0,
       visualMap,
       tooltip: showTooltip
         ? {
-            trigger: "item",
-            triggerOn: "mousemove",
-            backgroundColor: "var(--color-kumo-base)",
-            borderColor: "var(--color-kumo-line)",
+            trigger: 'item',
+            triggerOn: 'mousemove',
+            backgroundColor: 'var(--color-kumo-base)',
+            borderColor: 'var(--color-kumo-line)',
             borderWidth: 1,
             padding: 8,
             textStyle: {
-              color: "var(--text-color-kumo-default)",
+              color: 'var(--text-color-kumo-default)',
               fontSize: 13,
             },
-            extraCssText: "border-radius: 0.5rem;",
+            extraCssText: 'border-radius: 0.5rem;',
             dangerousHtmlFormatter: (params: unknown) => {
               const p = params as {
                 name?: string;
@@ -874,42 +826,37 @@ function ChoroplethMapRoot<T>(
               };
               const row = p.data?.datum;
               // Suppress the tooltip for regions with no matching data row.
-              if (row === undefined) return "";
+              if (row === undefined) return '';
               if (tooltipFormatter) return tooltipFormatter(row);
-              const v =
-                typeof p.value === "number" && !Number.isNaN(p.value)
-                  ? p.value
-                  : undefined;
-              const nameStr = p.name
-                ? `<strong>${escapeHtml(p.name)}</strong>`
-                : "";
+              const v = typeof p.value === 'number' && !Number.isNaN(p.value) ? p.value : undefined;
+              const nameStr = p.name ? `<strong>${escapeHtml(p.name)}</strong>` : '';
               const valueStr =
                 v !== undefined
                   ? `<span style="color:var(--text-color-kumo-subtle)">${escapeHtml(valueFormat(v))}</span>`
-                  : "";
+                  : '';
               return `<div style="display:flex;flex-direction:column;gap:2px;">${nameStr}${valueStr}</div>`;
             },
           }
         : undefined,
       series: [
         {
-          id: "regions",
-          type: "map",
+          id: 'regions',
+          type: 'map',
           map: mapName,
           nameProperty,
           ...(shouldIncludeView ? view : {}),
           data: regions,
           itemStyle: {
             areaColor: noData,
-            borderColor: "transparent",
+            borderColor: 'transparent',
             borderWidth: 0,
           },
           label: { show: false },
           emphasis: {
-            focus: "self" as const,
+            focus: 'self' as const,
             label: { show: false },
             itemStyle: {
-              areaColor: "inherit",
+              areaColor: 'inherit',
             },
           },
           blur: {
@@ -942,20 +889,17 @@ function ChoroplethMapRoot<T>(
     valueFormat,
   ]);
 
-  const handleMouseOver = useCallback(
-    (params: Parameters<ChartEvents["mouseover"]>[0]) => {
-      const datum = (params.data as { datum?: T } | undefined)?.datum;
-      if (datum !== undefined) hoverRef.current?.(datum);
-    },
-    [],
-  );
+  const handleMouseOver = useCallback((params: Parameters<ChartEvents['mouseover']>[0]) => {
+    const datum = (params.data as { datum?: T } | undefined)?.datum;
+    if (datum !== undefined) hoverRef.current?.(datum);
+  }, []);
 
   const handleMouseOut = useCallback(() => {
     hoverRef.current?.(undefined);
   }, []);
 
   const handleClick = useCallback(
-    (params: Parameters<ChartEvents["click"]>[0]) => {
+    (params: Parameters<ChartEvents['click']>[0]) => {
       const datum = (params.data as { datum?: T } | undefined)?.datum;
       if (datum !== undefined) onRegionClick?.(datum);
     },
@@ -973,13 +917,7 @@ function ChoroplethMapRoot<T>(
         : {}),
       ...(onRegionClick ? { click: handleClick } : {}),
     }),
-    [
-      onRegionHover,
-      handleMouseOver,
-      handleMouseOut,
-      handleClick,
-      onRegionClick,
-    ],
+    [onRegionHover, handleMouseOver, handleMouseOut, handleClick, onRegionClick],
   );
 
   return (
@@ -1000,14 +938,10 @@ export const ChoroplethMap = forwardRef(ChoroplethMapRoot) as (<T>(
   props: ChoroplethMapProps<T> & RefAttributes<echarts.ECharts | null>,
 ) => ReactElement | null) & { displayName?: string };
 
-ChoroplethMap.displayName = "ChoroplethMap";
+ChoroplethMap.displayName = 'ChoroplethMap';
 
 /** Register the GeoJSON with ECharts before the child Chart's setOption runs. */
-function useRegisterMap(
-  ec: typeof echarts,
-  mapName: string,
-  geoJson: MapGeoJson,
-) {
+function useRegisterMap(ec: typeof echarts, mapName: string, geoJson: MapGeoJson) {
   useLayoutEffect(() => {
     ec.registerMap(mapName, geoJson as Parameters<typeof ec.registerMap>[1]);
   }, [ec, mapName, geoJson]);

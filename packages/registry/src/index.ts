@@ -1,1 +1,1 @@
-export const registryVersion = "0.0.0";
+export const registryVersion = '0.0.0';

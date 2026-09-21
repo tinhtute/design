@@ -1,39 +1,36 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Tooltip as TooltipBase } from "@base-ui/react/tooltip";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Tooltip as TooltipBase } from '@base-ui/react/tooltip';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** Tooltip side variant definitions mapping positions to their Tailwind classes. */
 export const KUMO_TOOLTIP_VARIANTS = {
   side: {
     top: {
-      classes: "",
-      description: "Tooltip appears above the trigger",
+      classes: '',
+      description: 'Tooltip appears above the trigger',
     },
     bottom: {
-      classes: "",
-      description: "Tooltip appears below the trigger",
+      classes: '',
+      description: 'Tooltip appears below the trigger',
     },
     left: {
-      classes: "",
-      description: "Tooltip appears to the left of the trigger",
+      classes: '',
+      description: 'Tooltip appears to the left of the trigger',
     },
     right: {
-      classes: "",
-      description: "Tooltip appears to the right of the trigger",
+      classes: '',
+      description: 'Tooltip appears to the right of the trigger',
     },
   },
 } as const;
 
 export const KUMO_TOOLTIP_DEFAULT_VARIANTS = {
-  side: "top",
+  side: 'top',
 } as const;
 
 // Derived types from KUMO_TOOLTIP_VARIANTS
@@ -56,18 +53,14 @@ export function tooltipVariants({
 }: KumoTooltipVariantsProps = {}) {
   return cn(
     // Base styles
-    "flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default",
-    "shadow-md outline-1 outline-kumo-line",
-    "transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none",
-    "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
-    "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
-    "data-[instant]:duration-0",
+    'flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default',
+    'shadow-md outline-1 outline-kumo-line',
+    'transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none',
+    'data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+    'data-[ending-style]:scale-90 data-[ending-style]:opacity-0',
+    'data-[instant]:duration-0',
     // Apply side-specific styles (currently none, but extensible)
-    resolveVariant(
-      KUMO_TOOLTIP_VARIANTS.side,
-      side,
-      KUMO_TOOLTIP_DEFAULT_VARIANTS.side,
-    ).classes,
+    resolveVariant(KUMO_TOOLTIP_VARIANTS.side, side, KUMO_TOOLTIP_DEFAULT_VARIANTS.side).classes,
   );
 }
 
@@ -78,7 +71,7 @@ type BaseTooltipProps = ComponentPropsWithoutRef<typeof TooltipBase.Root>;
 type TriggerProps = ComponentPropsWithoutRef<typeof TooltipBase.Trigger>;
 
 /** Alignment options for tooltip positioning. Source: PositionerProps["align"] */
-type TooltipAlign = "start" | "center" | "end";
+type TooltipAlign = 'start' | 'center' | 'end';
 
 /**
  * Tooltip component props.
@@ -128,7 +121,7 @@ export type TooltipProps = BaseTooltipProps &
      * Element to render as the tooltip trigger. Children are passed to this element.
      * @example `<Tooltip content="Save" render={<Button />}>Save</Tooltip>`
      */
-    render?: TriggerProps["render"];
+    render?: TriggerProps['render'];
   };
 
 /**
@@ -160,8 +153,7 @@ export function Tooltip({
 
   // Support both render prop (preferred) and deprecated asChild pattern
   // When using asChild, children IS the render element, so don't pass it as children
-  const resolvedRender =
-    render ?? (asChild ? (children as TriggerProps["render"]) : undefined);
+  const resolvedRender = render ?? (asChild ? (children as TriggerProps['render']) : undefined);
   const shouldUseRender = resolvedRender !== undefined;
 
   return (
@@ -174,11 +166,11 @@ export function Tooltip({
           // These prevent global button styles from polluting the trigger
           // Consumer styles passed via className will override these.
           !shouldUseRender &&
-            "m-0 inline-flex h-auto min-h-0 items-center border-none bg-transparent p-0 leading-[0] shadow-none",
+            'm-0 inline-flex h-auto min-h-0 items-center border-none bg-transparent p-0 leading-[0] shadow-none',
           // Tooltip triggers are disclosure elements, not actions — override
           // cursor: pointer (e.g. from Button used via render prop) so the
           // trigger doesn't appear clickable
-          "cursor-default",
+          'cursor-default',
           className,
         )}
         render={resolvedRender}
@@ -194,22 +186,22 @@ export function Tooltip({
         >
           <TooltipBase.Popup
             className={cn(
-              "flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default",
-              "shadow-md outline outline-kumo-line",
-              "transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none",
-              "data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
-              "data-[ending-style]:scale-90 data-[ending-style]:opacity-0",
-              "data-[instant]:duration-0",
-              "kumo-tooltip-popup",
+              'flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default',
+              'shadow-md outline outline-kumo-line',
+              'transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none',
+              'data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+              'data-[ending-style]:scale-90 data-[ending-style]:opacity-0',
+              'data-[instant]:duration-0',
+              'kumo-tooltip-popup',
             )}
           >
             <TooltipBase.Arrow
               className={cn(
-                "flex",
-                "data-[side=bottom]:top-[-8px]",
-                "data-[side=left]:right-[-13px] data-[side=left]:rotate-90",
-                "data-[side=right]:left-[-13px] data-[side=right]:-rotate-90",
-                "data-[side=top]:bottom-[-8px] data-[side=top]:rotate-180",
+                'flex',
+                'data-[side=bottom]:top-[-8px]',
+                'data-[side=left]:right-[-13px] data-[side=left]:rotate-90',
+                'data-[side=right]:left-[-13px] data-[side=right]:-rotate-90',
+                'data-[side=top]:bottom-[-8px] data-[side=top]:rotate-180',
               )}
             >
               <ArrowSvg />
@@ -237,7 +229,7 @@ export function Tooltip({
  *
  * @see https://base-ui.com/react/components/tooltip
  */
-function ArrowSvg(props: React.ComponentProps<"svg">) {
+function ArrowSvg(props: React.ComponentProps<'svg'>) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
       <path

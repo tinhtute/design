@@ -6,16 +6,16 @@
  * `onFilter` fires on the apply button — wire it to the actual filtering so
  * typing does not refilter on every keystroke.
  */
-"use client";
+'use client';
 
-import * as React from "react";
-import { MagnifyingGlass, X } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/button";
-import { InputGroup } from "@/components/ui/input-group";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { MagnifyingGlass, X } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
+import { InputGroup } from '@/components/ui/input-group';
+import { cn } from '@/lib/utils';
 
 /** FilterBar component props. */
-interface FilterBarProps extends React.ComponentProps<"div"> {
+interface FilterBarProps extends React.ComponentProps<'div'> {
   /** Current query text (controlled) */
   value: string;
   /** Called with the new query on every keystroke, and with `""` when cleared */
@@ -32,13 +32,13 @@ export function FilterBar({
   value,
   onValueChange,
   onFilter,
-  placeholder = "Search...",
-  filterLabel = "Filter",
+  placeholder = 'Search...',
+  filterLabel = 'Filter',
   className,
   ...props
 }: FilterBarProps) {
   return (
-    <div className={cn("flex items-center gap-2", className)} {...props}>
+    <div className={cn('flex items-center gap-2', className)} {...props}>
       <InputGroup className="w-full max-w-sm">
         <InputGroup.Addon align="start">
           <MagnifyingGlass />
@@ -54,7 +54,7 @@ export function FilterBar({
             <InputGroup.Button
               icon={X}
               aria-label="Clear search"
-              onClick={() => onValueChange("")}
+              onClick={() => onValueChange('')}
             />
           </InputGroup.Addon>
         ) : null}

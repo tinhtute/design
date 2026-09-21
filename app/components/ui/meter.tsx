@@ -1,9 +1,9 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Meter as BaseMeter } from "@base-ui/react/meter";
-import { type ComponentPropsWithoutRef } from "react";
-import { cn } from "@/lib/utils";
+import { Meter as BaseMeter } from '@base-ui/react/meter';
+import { type ComponentPropsWithoutRef } from 'react';
+import { cn } from '@/lib/utils';
 
 /** Meter variant definitions (currently empty, reserved for future additions). */
 export const KUMO_METER_VARIANTS = {
@@ -18,7 +18,7 @@ export interface KumoMeterVariantsProps {}
 export function meterVariants(_props: KumoMeterVariantsProps = {}) {
   return cn(
     // Base styles
-    "flex w-full flex-col gap-2",
+    'flex w-full flex-col gap-2',
   );
 }
 
@@ -71,16 +71,12 @@ export function Meter({
     <BaseMeter.Root
       value={value}
       {...props}
-      className={cn("flex w-full flex-col gap-2", className)}
+      className={cn('flex w-full flex-col gap-2', className)}
     >
       <div className="flex items-center justify-between gap-4">
-        <BaseMeter.Label className="text-xs text-kumo-subtle">
-          {label}
-        </BaseMeter.Label>
+        <BaseMeter.Label className="text-xs text-kumo-subtle">{label}</BaseMeter.Label>
         {customValue ? (
-          <span className="text-sm font-medium text-kumo-default tabular-nums">
-            {customValue}
-          </span>
+          <span className="text-sm font-medium text-kumo-default tabular-nums">{customValue}</span>
         ) : (
           <>
             {showValue && (
@@ -91,13 +87,13 @@ export function Meter({
       </div>
       <BaseMeter.Track
         className={cn(
-          "relative h-2 w-full overflow-hidden rounded-full bg-kumo-fill",
+          'relative h-2 w-full overflow-hidden rounded-full bg-kumo-fill',
           trackClassName,
         )}
       >
         <BaseMeter.Indicator
           className={cn(
-            "absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-kumo-brand via-kumo-brand to-kumo-brand transition-[width] duration-300 ease-out",
+            'absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-kumo-brand via-kumo-brand to-kumo-brand transition-[width] duration-300 ease-out',
             indicatorClassName,
           )}
         />

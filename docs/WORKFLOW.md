@@ -12,14 +12,14 @@ Repository docs, code, tests, and observable runtime behavior define current tru
 
 The lifecycle needs no binary: route through the table and read only the named playbook and any companion it routes you to. `zharness` (install / update / uninstall) scaffolds and updates these managed docs; it plays no part in running a stage.
 
-| Stage | Playbook |
-|---|---|
+| Stage      | Playbook                       |
+| ---------- | ------------------------------ |
 | brainstorm | `docs/playbooks/brainstorm.md` |
-| to-plan | `docs/playbooks/to-plan.md` |
-| work | `docs/playbooks/work.md` |
-| check | `docs/playbooks/check.md` |
-| handoff | `docs/playbooks/handoff.md` |
-| watzup | `docs/playbooks/watzup.md` |
+| to-plan    | `docs/playbooks/to-plan.md`    |
+| work       | `docs/playbooks/work.md`       |
+| check      | `docs/playbooks/check.md`      |
+| handoff    | `docs/playbooks/handoff.md`    |
+| watzup     | `docs/playbooks/watzup.md`     |
 
 `git` and `interview` keep skill-local procedure and are never harness-gated.
 

@@ -7,6 +7,7 @@ We are going to design and build a production-ready shadcn/ui Registry + design 
 Your job is NOT to blindly start coding.
 
 You must first:
+
 1. Understand my goals.
 2. Research the current shadcn/ui Registry architecture and conventions.
 3. Analyze the design-token / theme approach used by tweakcn.
@@ -17,7 +18,9 @@ You must first:
 8. Only then implement step-by-step.
 
 ==================================================
+
 # 1. PRODUCT VISION
+
 ==================================================
 
 I want @therealtinhtute/ui to become my personal reusable frontend design system and shadcn Registry.
@@ -51,13 +54,16 @@ The project name is:
 IMPORTANT:
 Do not assume the exact namespace structure yet.
 We need to discuss whether:
+
 - @therealtinhtute/ui is the registry name
 - @therealtinhtute is the namespace
 - components are referenced as @therealtinhtute/button
 - or another structure is better
 
 ==================================================
+
 # 2. REFERENCES
+
 ==================================================
 
 Use these references as architectural inputs:
@@ -72,6 +78,7 @@ tweakcn:
 https://tweakcn.com/
 
 You should inspect the current documentation and understand:
+
 - registry.json
 - registry item schema
 - registry types
@@ -90,7 +97,9 @@ Do not rely on outdated knowledge.
 Use current documentation/source whenever possible.
 
 ==================================================
+
 # 3. WORKING MODE
+
 ==================================================
 
 Use an interactive architecture-discovery workflow.
@@ -112,12 +121,15 @@ Do not overwhelm me with 20 questions.
 Think like a senior engineer doing architecture discovery with a product owner.
 
 When there are multiple viable approaches:
+
 - recommend one
 - explain why
 - mention the alternative briefly
 
 ==================================================
+
 # 4. BIG QUESTIONS TO SOLVE
+
 ==================================================
 
 We need to collaboratively decide:
@@ -139,6 +151,7 @@ Option D:
 Hybrid architecture
 
 Evaluate:
+
 - simplicity
 - DX
 - scalability
@@ -152,59 +165,65 @@ Evaluate:
 My preference is to keep the first version simple but not paint ourselves into a corner.
 
 ==================================================
+
 # 5. DESIGN SYSTEM ARCHITECTURE
+
 ==================================================
 
 We should decide whether the system should be organized like:
 
 @therealtinhtute/
-    theme
-    button
-    card
-    input
-    data-table
-    ...
-    blocks
+theme
+button
+card
+input
+data-table
+...
+blocks
 
 or:
 
 @therealtinhtute/ui/
-    primitives
-    components
-    patterns
-    blocks
-    themes
+primitives
+components
+patterns
+blocks
+themes
 
 or another better structure.
 
 I want a clear hierarchy such as:
 
 primitive
-   ↓
+↓
 component
-   ↓
+↓
 pattern
-   ↓
+↓
 block
 
 Example:
 
 primitive:
+
 - Button
 - Input
 - Badge
 
 component:
+
 - SearchInput
 - DateRangePicker
 - DataTable
 
 pattern:
+
 - FilterBar
 - SearchToolbar
 - CRUDTable
 
 block:
+
 - LoginPage
 - Dashboard
 - SettingsPage
@@ -212,7 +231,9 @@ block:
 Challenge this hierarchy if you think it is wrong.
 
 ==================================================
+
 # 6. THEME / DESIGN TOKEN SYSTEM
+
 ==================================================
 
 This is very important.
@@ -220,6 +241,7 @@ This is very important.
 I want the project to have a theme system inspired by tweakcn.
 
 Study how tweakcn works conceptually:
+
 - CSS variables
 - semantic colors
 - typography
@@ -232,9 +254,9 @@ Study how tweakcn works conceptually:
 We want something like:
 
 theme/
-    default
-    dark
-    maybe custom themes
+default
+dark
+maybe custom themes
 
 Potential token categories:
 
@@ -265,31 +287,34 @@ Prefer a data-driven token architecture if it provides real value.
 Potential direction:
 
 theme.json
-   ↓
+↓
 generator
-   ↓
+↓
 globals.css
-   ↓
+↓
 consumer project
 
 Example conceptual token:
 
 {
-  "primary": "oklch(...)",
-  "background": "oklch(...)",
-  "foreground": "oklch(...)",
-  "radius": "0.75rem"
+"primary": "oklch(...)",
+"background": "oklch(...)",
+"foreground": "oklch(...)",
+"radius": "0.75rem"
 }
 
 But do not lock this in until we discuss it.
 
 ==================================================
+
 # 7. SHADCN COMPATIBILITY
+
 ==================================================
 
 This must remain strongly compatible with shadcn/ui conventions.
 
 Prefer:
+
 - Tailwind CSS
 - CSS variables
 - shadcn/ui patterns
@@ -298,6 +323,7 @@ Prefer:
 - source-code distribution
 
 Avoid turning this into:
+
 - a giant npm UI framework
 - opaque abstractions
 - highly coupled components
@@ -308,7 +334,9 @@ The consumer should still feel like:
 "this is shadcn/ui, but mine."
 
 ==================================================
+
 # 8. CONSUMER EXPERIENCE
+
 ==================================================
 
 The ideal experience is:
@@ -327,16 +355,18 @@ Example:
 Expected result:
 
 src/
-  components/
-    ui/
-      button.tsx
+components/
+ui/
+button.tsx
 
 and necessary dependencies/config are handled automatically.
 
 We should optimize for this workflow.
 
 ==================================================
+
 # 9. REGISTRY DEPENDENCIES
+
 ==================================================
 
 We need to decide how aggressively to use:
@@ -350,21 +380,23 @@ dependencies
 Example:
 
 data-table
-    ↓
-    table
-    button
-    dropdown-menu
-    checkbox
-    ...
-    ↓
-    @tanstack/react-table
+↓
+table
+button
+dropdown-menu
+checkbox
+...
+↓
+@tanstack/react-table
 
 Understand and use the distinction correctly.
 
 Avoid duplicated source or unnecessary dependencies.
 
 ==================================================
+
 # 10. MONOREPO QUESTION
+
 ==================================================
 
 Evaluate whether the project should use:
@@ -380,26 +412,28 @@ D. another structure
 Potential structure:
 
 apps/
-    docs/
-    registry/
+docs/
+registry/
 
 packages/
-    config/
-    tokens/
-    tooling/
+config/
+tokens/
+tooling/
 
 registry/
-    default/
-        button/
-        card/
-        data-table/
+default/
+button/
+card/
+data-table/
 
 But do not assume this is necessary.
 
 Optimize for the MVP.
 
 ==================================================
+
 # 11. DOCUMENTATION
+
 ==================================================
 
 Eventually I want a docs website similar in spirit to shadcn docs.
@@ -424,7 +458,9 @@ Docs should eventually show:
 But documentation is secondary to getting the Registry architecture right.
 
 ==================================================
+
 # 12. VERSIONING
+
 ==================================================
 
 Think carefully about versioning.
@@ -443,7 +479,9 @@ The MVP should remain simple.
 We should not implement enterprise-level versioning unless there is a clear reason.
 
 ==================================================
+
 # 13. PRIVATE VS PUBLIC
+
 ==================================================
 
 The system may start private/personal and potentially become public later.
@@ -463,7 +501,9 @@ Think about:
 Do not over-engineer auth in MVP.
 
 ==================================================
+
 # 14. CODE QUALITY PRINCIPLES
+
 ==================================================
 
 Use modern tooling.
@@ -486,7 +526,9 @@ Do not add tools just because they are popular.
 Every dependency should have a reason.
 
 ==================================================
+
 # 15. ENGINEERING PRINCIPLES
+
 ==================================================
 
 Follow these rules:
@@ -505,13 +547,16 @@ Follow these rules:
 - easy debugging
 
 Avoid:
+
 - premature abstraction
 - unnecessary monorepo complexity
 - custom framework inside the framework
 - hiding source code behind runtime abstractions
 
 ==================================================
+
 # 16. BRAINSTORM PROCESS
+
 ==================================================
 
 Before implementation, produce:
@@ -527,6 +572,7 @@ Who uses it?
 Why does it exist?
 
 What makes it different from:
+
 - plain shadcn/ui
 - a normal UI npm package
 - tweakcn
@@ -552,15 +598,15 @@ Show a diagram.
 Example:
 
 consumer
-   ↓
+↓
 shadcn CLI
-   ↓
+↓
 registry endpoint
-   ↓
+↓
 registry JSON
-   ↓
+↓
 source files
-   ↓
+↓
 consumer project
 
 ## Step 4 — Repository structure
@@ -606,7 +652,9 @@ I suggest starting with:
 Challenge this scope if needed.
 
 ==================================================
+
 # 17. IMPLEMENTATION MODE
+
 ==================================================
 
 After the architecture is agreed:
@@ -626,7 +674,9 @@ Never make hundreds of unrelated changes in one step.
 Prefer small commits / logical changes.
 
 ==================================================
+
 # 18. FIRST COMPONENTS
+
 ==================================================
 
 Do not start by implementing 50 components.
@@ -634,28 +684,35 @@ Do not start by implementing 50 components.
 Recommended initial set:
 
 Primitive:
+
 - Button
 - Input
 - Badge
 - Card
 
 Useful component:
+
 - DataTable
 
 Pattern:
+
 - FilterBar
 
 Block:
+
 - Dashboard shell
 
 Theme:
+
 - default light
 - default dark
 
 But validate this during brainstorming.
 
 ==================================================
+
 # 19. TESTING
+
 ==================================================
 
 At minimum verify:
@@ -673,27 +730,31 @@ At minimum verify:
 Create a simple end-to-end smoke test if practical.
 
 ==================================================
+
 # 20. CI/CD
+
 ==================================================
 
 Eventually we should support:
 
 git push
-   ↓
+↓
 CI
-   ↓
+↓
 validate registry
-   ↓
+↓
 build registry
-   ↓
+↓
 deploy
-   ↓
+↓
 registry becomes available
 
 But don't overbuild CI during the first iteration.
 
 ==================================================
+
 # 21. IMPORTANT BEHAVIOR
+
 ==================================================
 
 You are allowed to disagree with me.
@@ -710,7 +771,9 @@ However, do not endlessly debate.
 Move toward a concrete decision.
 
 ==================================================
+
 # 22. RESEARCH REQUIREMENT
+
 ==================================================
 
 Before making architecture decisions, inspect:
@@ -725,7 +788,9 @@ When uncertain, verify against source/docs.
 Do not invent APIs.
 
 ==================================================
+
 # 23. START NOW
+
 ==================================================
 
 Do NOT create files yet.

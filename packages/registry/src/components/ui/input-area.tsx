@@ -1,27 +1,20 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { inputVariants } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  type ReactNode,
-} from "react";
-import * as React from "react";
-import { Field as FieldBase } from "@base-ui/react/field";
+import { inputVariants } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { useCallback, useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
+import * as React from 'react';
+import { Field as FieldBase } from '@base-ui/react/field';
 import {
   Field as KumoField,
   normalizeFieldError,
   type FieldErrorMatch,
-} from "@/components/ui/field";
+} from '@/components/ui/field';
 
 // useLayoutEffect warns when rendered with react-dom/server (React 18);
 // fall back to useEffect on the server where neither runs anyway.
-const useIsomorphicLayoutEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 function parsePx(value: string): number {
   const parsed = Number.parseFloat(value);
@@ -52,25 +45,21 @@ function useTextareaAutoResize({
 
   const resize = useCallback(() => {
     const textarea = textareaRef.current;
-    if (!enabledRef.current || !textarea || typeof window === "undefined")
-      return;
+    if (!enabledRef.current || !textarea || typeof window === 'undefined') return;
 
     const style = window.getComputedStyle(textarea);
-    const borders =
-      parsePx(style.borderTopWidth) + parsePx(style.borderBottomWidth);
+    const borders = parsePx(style.borderTopWidth) + parsePx(style.borderBottomWidth);
     const padding = parsePx(style.paddingTop) + parsePx(style.paddingBottom);
-    const isBorderBox = style.boxSizing === "border-box";
+    const isBorderBox = style.boxSizing === 'border-box';
 
     // Collapsing to `auto` lets scrollHeight report the true content height
     // (needed to shrink); measure-then-write happens within a single layout
     // pass, before paint.
-    textarea.style.height = "auto";
+    textarea.style.height = 'auto';
     // scrollHeight = content + padding. Convert to the height the current
     // box-sizing expects: border-box needs borders added, content-box needs
     // padding removed.
-    let height = isBorderBox
-      ? textarea.scrollHeight + borders
-      : textarea.scrollHeight - padding;
+    let height = isBorderBox ? textarea.scrollHeight + borders : textarea.scrollHeight - padding;
 
     const currentMinRows = minRowsRef.current;
     const currentMaxRows = maxRowsRef.current;
@@ -80,9 +69,9 @@ function useTextareaAutoResize({
       const fontSize = parsePx(style.fontSize);
       const rawLineHeight = style.lineHeight;
       const lineHeight =
-        rawLineHeight === "normal" || rawLineHeight === ""
+        rawLineHeight === 'normal' || rawLineHeight === ''
           ? fontSize * 1.2
-          : rawLineHeight.endsWith("px")
+          : rawLineHeight.endsWith('px')
             ? parsePx(rawLineHeight)
             : parsePx(rawLineHeight) * fontSize;
       const boxSpacing = isBorderBox ? padding + borders : 0;
@@ -94,15 +83,15 @@ function useTextareaAutoResize({
         if (height > maxHeight) {
           height = maxHeight;
           // Content exceeds the clamp — it must stay scrollable.
-          textarea.style.overflowY = "auto";
+          textarea.style.overflowY = 'auto';
         } else {
-          textarea.style.overflowY = "hidden";
+          textarea.style.overflowY = 'hidden';
         }
       } else {
-        textarea.style.overflowY = "hidden";
+        textarea.style.overflowY = 'hidden';
       }
     } else {
-      textarea.style.overflowY = "hidden";
+      textarea.style.overflowY = 'hidden';
     }
 
     textarea.style.height = `${height}px`;
@@ -129,7 +118,7 @@ function useTextareaAutoResize({
     // observer and would otherwise cause redundant resize passes.
     let lastWidth = textarea.clientWidth;
     const observer =
-      typeof ResizeObserver !== "undefined"
+      typeof ResizeObserver !== 'undefined'
         ? new ResizeObserver(() => {
             if (textarea.clientWidth !== lastWidth) {
               lastWidth = textarea.clientWidth;
@@ -141,141 +130,139 @@ function useTextareaAutoResize({
 
     return () => {
       observer?.disconnect();
-      textarea.style.height = "";
-      textarea.style.overflowY = "";
+      textarea.style.height = '';
+      textarea.style.overflowY = '';
     };
   }, [enabled, resize]);
 
   return { textareaRef, resize };
 }
 
-export const InputArea = React.forwardRef<HTMLTextAreaElement, InputAreaProps>(
-  (props, ref) => {
-    const {
-      className,
-      onValueChange,
-      size = "base",
-      variant: variantProp,
-      onChange,
-      label,
-      labelTooltip,
-      description,
-      error,
-      autoResize = false,
-      minRows = 1,
-      maxRows,
-      rows,
-      ...inputProps
-    } = props;
+export const InputArea = React.forwardRef<HTMLTextAreaElement, InputAreaProps>((props, ref) => {
+  const {
+    className,
+    onValueChange,
+    size = 'base',
+    variant: variantProp,
+    onChange,
+    label,
+    labelTooltip,
+    description,
+    error,
+    autoResize = false,
+    minRows = 1,
+    maxRows,
+    rows,
+    ...inputProps
+  } = props;
 
-    // Deprecation warning for variant="error"
-    if (process.env.NODE_ENV !== "production" && variantProp === "error") {
-      console.warn(
-        '[Kumo InputArea]: variant="error" is deprecated. ' +
-          "Error styling is now automatically applied when the `error` prop is truthy. " +
-          "Simply remove the variant prop and pass an error message instead.",
-      );
-    }
+  // Deprecation warning for variant="error"
+  if (process.env.NODE_ENV !== 'production' && variantProp === 'error') {
+    console.warn(
+      '[Kumo InputArea]: variant="error" is deprecated. ' +
+        'Error styling is now automatically applied when the `error` prop is truthy. ' +
+        'Simply remove the variant prop and pass an error message instead.',
+    );
+  }
 
-    // Auto-apply error styling when error prop is truthy
-    // Explicit variant prop takes precedence for backwards compatibility
-    const variant = variantProp ?? (error ? "error" : "default");
+  // Auto-apply error styling when error prop is truthy
+  // Explicit variant prop takes precedence for backwards compatibility
+  const variant = variantProp ?? (error ? 'error' : 'default');
 
-    // Extract required from inputProps to pass to Field for label decoration
-    const { required } = inputProps;
-    const { textareaRef, resize } = useTextareaAutoResize({
-      enabled: autoResize,
-      minRows,
-      maxRows,
-    });
+  // Extract required from inputProps to pass to Field for label decoration
+  const { required } = inputProps;
+  const { textareaRef, resize } = useTextareaAutoResize({
+    enabled: autoResize,
+    minRows,
+    maxRows,
+  });
 
-    // Forwarded ref may be a React 19 callback ref returning a cleanup
-    // function — honor it instead of calling ref(null) on detach.
-    const refCleanup = useRef<(() => void) | void>(undefined);
-    const setTextareaRef = useCallback(
-      (node: HTMLTextAreaElement | null) => {
-        textareaRef.current = node;
+  // Forwarded ref may be a React 19 callback ref returning a cleanup
+  // function — honor it instead of calling ref(null) on detach.
+  const refCleanup = useRef<(() => void) | void>(undefined);
+  const setTextareaRef = useCallback(
+    (node: HTMLTextAreaElement | null) => {
+      textareaRef.current = node;
 
-        if (typeof ref === "function") {
-          if (node) {
-            refCleanup.current = ref(node) as (() => void) | void;
-          } else if (refCleanup.current) {
-            refCleanup.current();
-            refCleanup.current = undefined;
-          } else {
-            ref(null);
-          }
-        } else if (ref) {
-          ref.current = node;
+      if (typeof ref === 'function') {
+        if (node) {
+          refCleanup.current = ref(node) as (() => void) | void;
+        } else if (refCleanup.current) {
+          refCleanup.current();
+          refCleanup.current = undefined;
+        } else {
+          ref(null);
         }
-      },
-      [ref, textareaRef],
-    );
+      } else if (ref) {
+        ref.current = node;
+      }
+    },
+    [ref, textareaRef],
+  );
 
-    // Controlled inputs re-render on every keystroke, so the post-render
-    // layout effect already re-measures; resizing here too would force a
-    // second synchronous layout. Uncontrolled inputs don't re-render, so the
-    // change handler is their only resize trigger.
-    const isControlled = inputProps.value !== undefined;
-    const handleChange = useCallback(
-      (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        onChange?.(event);
-        onValueChange?.(event.target.value);
-        if (!isControlled) resize();
-      },
-      [onChange, onValueChange, resize, isControlled],
-    );
+  // Controlled inputs re-render on every keystroke, so the post-render
+  // layout effect already re-measures; resizing here too would force a
+  // second synchronous layout. Uncontrolled inputs don't re-render, so the
+  // change handler is their only resize trigger.
+  const isControlled = inputProps.value !== undefined;
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      onChange?.(event);
+      onValueChange?.(event.target.value);
+      if (!isControlled) resize();
+    },
+    [onChange, onValueChange, resize, isControlled],
+  );
 
-    const textareaClassName = cn(
-      inputVariants({ size, variant, focusIndicator: true }),
-      "h-auto py-2", // Input variant always comes with size, but it does not apply for textarea
-      autoResize &&
-        "field-sizing-content w-full resize-none scroll-pb-2 [scrollbar-color:var(--color-kumo-line)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar-corner]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-kumo-line [&::-webkit-scrollbar-track]:my-2",
-      className,
-    );
+  const textareaClassName = cn(
+    inputVariants({ size, variant, focusIndicator: true }),
+    'h-auto py-2', // Input variant always comes with size, but it does not apply for textarea
+    autoResize &&
+      'field-sizing-content w-full resize-none scroll-pb-2 [scrollbar-color:var(--color-kumo-line)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar-corner]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-kumo-line [&::-webkit-scrollbar-track]:my-2',
+    className,
+  );
 
-    // Render with Field wrapper if label, error, or description is provided
-    // Use FieldBase.Control with render callback to ensure proper label-textarea association.
-    // The render callback receives props with the correct id/aria-labelledby from Field context.
-    if (label || error || description) {
-      return (
-        <KumoField
-          label={label}
-          required={required}
-          labelTooltip={labelTooltip}
-          description={description}
-          error={normalizeFieldError(error)}
-        >
-          <FieldBase.Control
-            render={(controlProps) => (
-              <textarea
-                {...controlProps}
-                ref={setTextareaRef}
-                className={textareaClassName}
-                onChange={handleChange}
-                rows={autoResize ? minRows : rows}
-                {...inputProps}
-              />
-            )}
-          />
-        </KumoField>
-      );
-    }
-
-    // Render bare textarea without Field wrapper
+  // Render with Field wrapper if label, error, or description is provided
+  // Use FieldBase.Control with render callback to ensure proper label-textarea association.
+  // The render callback receives props with the correct id/aria-labelledby from Field context.
+  if (label || error || description) {
     return (
-      <textarea
-        ref={setTextareaRef}
-        className={textareaClassName}
-        onChange={handleChange}
-        rows={autoResize ? minRows : rows}
-        {...inputProps}
-      />
+      <KumoField
+        label={label}
+        required={required}
+        labelTooltip={labelTooltip}
+        description={description}
+        error={normalizeFieldError(error)}
+      >
+        <FieldBase.Control
+          render={(controlProps) => (
+            <textarea
+              {...controlProps}
+              ref={setTextareaRef}
+              className={textareaClassName}
+              onChange={handleChange}
+              rows={autoResize ? minRows : rows}
+              {...inputProps}
+            />
+          )}
+        />
+      </KumoField>
     );
-  },
-);
+  }
 
-InputArea.displayName = "InputArea";
+  // Render bare textarea without Field wrapper
+  return (
+    <textarea
+      ref={setTextareaRef}
+      className={textareaClassName}
+      onChange={handleChange}
+      rows={autoResize ? minRows : rows}
+      {...inputProps}
+    />
+  );
+});
+
+InputArea.displayName = 'InputArea';
 
 /** Alias for InputArea — provided for discoverability when migrating from other libraries */
 export const Textarea = InputArea;
@@ -288,8 +275,8 @@ export const Textarea = InputArea;
  */
 export type InputAreaProps = {
   onValueChange?: (value: string) => void;
-  variant?: "default" | "error";
-  size?: "xs" | "sm" | "base" | "lg";
+  variant?: 'default' | 'error';
+  size?: 'xs' | 'sm' | 'base' | 'lg';
   // Then other custom props
   children?: React.ReactNode;
   className?: string;
@@ -309,4 +296,4 @@ export type InputAreaProps = {
   maxRows?: number;
 
   // Finally, spread the native input props (least important)
-} & Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size">;
+} & Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'>;

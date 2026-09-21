@@ -17,6 +17,7 @@ updated: 2026-09-18T05:20Z
 The showroom becomes a usable docs surface for consumers: every component page lets a visitor read a short usage note, see a real demo, copy the exact code that produces it, and copy the `shadcn add` install command — without leaving the page. Pattern components (`data-table`, `filter-bar`, `dashboard`) carry the same JSDoc conventions as ported components. A consumer landing on the repo README can install a component in one read.
 
 Success looks like:
+
 1. Every showroom page renders a per-component usage note (when to use / primary variants / a11y) under the registry description.
 2. Every one of the 49 showroom pages shows its demo's source in a copyable block, sourced from the same module that renders it — no hand-maintained duplicate JSX strings that can drift.
 3. Every showroom page shows a copyable install command for that item.
@@ -28,6 +29,7 @@ Success looks like:
 ## Authority and Requirements
 
 ### Authoritative Sources
+
 - Owner request (2026-09-18): "hãy lên plan để improve" the component docs, then "Tui muốn code mô tả về mỗi components ở docs của nó" — per-component descriptions must live on each component's docs page, following the read-only docs audit in the same session — findings: zero code samples, stub demos (`data-table` empty render, `filter-bar` dead handler, `toasty` no real toast), JSDoc gaps on the three new pattern components, `README.md` is a `# UI` stub, `chart` has no showroom entry.
 - `packages/registry/registry.json` — names, titles, descriptions of all 53 items (description text itself is not rewritten by this initiative).
 - `PRODUCT.md` — canonical install UX: `pnpm dlx shadcn add @therealtinhtute/{component}`.
@@ -36,6 +38,7 @@ Success looks like:
 - `docs/plans/completed/shadcn-lint-baseline.md` — establishes `packages/registry/src/components` ↔ `app/components` byte-identical mirror; edits land in registry source and mirror to `app/`.
 
 ### Falsifiable Requirements
+
 1. **R1 (usage notes)**: each showroom slug's demo module exports a non-empty `notes` string; the page renders it under the registry description for all 49 slugs (50 if `chart` is added per R5).
 2. **R2 (code samples, single-source)**: each showroom slug renders a copyable code block whose content is the actual source of the displayed demo, produced by the same module that renders it; `playground.tsx` holds no second hand-maintained copy of demo JSX (no duplicated demo-JSX string literals).
 3. **R3 (install command)**: each showroom page displays the item's install command (`pnpm dlx shadcn add @therealtinhtute/{name}`) in copyable form.
@@ -58,18 +61,21 @@ Success looks like:
 ## Approach and Risks
 
 ### Implementation Approach
+
 - **Demo-doc module pattern** (shadcn-docs convention): replace the `Canvas()` switch inside `app/components/playground.tsx` with one self-contained module per slug at `app/demos/{slug}.tsx`. Each module is the docs unit: it exports `Demo` (the live render, owning its own state so the snippet is copy-pasteable) and `notes` (the R1 usage string). A `app/demos/index.ts` manifest maps slug → `{ Demo, notes }`; `playground.tsx` looks the slug up instead of switching.
 - **Single-source code samples**: `app/app/page.tsx` is a server component — it reads each `app/demos/{slug}.tsx` from disk via `node:fs` at render/build time and passes a `{ [slug]: source }` map into `<Playground>`. The code block therefore always shows the file that actually renders the demo; `pnpm dev` re-reads per request so sources never go stale. The code panel and the install command (R3, interpolated per slug) render via the existing `ClipboardText`/`Code` components — dogfooding the catalog.
 - **Stub fixes ride the migration**: `data-table`, `filter-bar`, `toasty` modules are written with real content during the same pass that creates all demo modules; `chart` gets a nav entry plus a minimal `EChart` demo (fallback: owner rules exclusion at review → manifest simply has no `chart` entry and the decision is recorded in Decisions).
 - **JSDoc + README last**: add file-level and exported-props JSDoc to the five pattern/block files in `packages/registry/src/components/` (canonical), `cp` to `app/components/` to preserve byte-identity, then write root `README.md`. Independent of the showroom work; sequenced last because it is lowest-risk.
 
 ### Constraints & Dependencies
+
 - `page.tsx` must stay a server component (it already is) for `fs` source reads; `playground.tsx` stays `"use client"` and receives `sources` as a prop. Serialization cost ≈ 49 × ~2 KB — acceptable for a docs page.
 - `app/tsconfig.json` sets `resolveJsonModule`; the `registry.json` static import for descriptions is already proven in production (prior plan).
 - `packages/registry/public/` and `app/public/r` are gitignored build output; `pnpm -r build` regenerates.
 - Phase `migrate-all-demos` depends on `demo-doc-modules` (the manifest + Playground consumption contract must exist first). Phase `jsdoc-readme` has no dependency on the other two.
 
 ### Rejected Alternatives
+
 - **`react-element-to-jsx-string` runtime serialization**: rejected — adds a runtime dependency, mangles compound-component JSX (`Select.Item` etc.), and the output is not the code a consumer would paste.
 - **Hand-maintained `EXAMPLES: Record<slug, string>`**: rejected — duplicates every demo as a string; guaranteed drift (violates R2's single-source rule).
 - **`import demo from '*.tsx?raw'` / raw-loader**: rejected — Turbopack has no supported raw-import equivalent without custom loaders; `fs` in the server component is the idiomatic Next.js path.
@@ -77,6 +83,7 @@ Success looks like:
 - **Putting `notes` in `registry.json`**: rejected — keeps the published item schema stock shadcn; notes are a showroom-layer concern and travel with the demo module, not the registry payload.
 
 ### Primary Risks & Mitigations
+
 - **Risk**: `fs.readFileSync` path/cwd assumptions break under `turbo` or deployed builds. **Mitigation**: resolve via `path.join(process.cwd(), "demos", ...)` inside `app/`; verification includes `pnpm -r build` (static prerender) plus a dev-mode browser probe — both entry paths exercised.
 - **Risk**: demos lose shared interactivity (dialog/palette open state, pagination page). **Mitigation**: each `Demo` owns `useState` — required anyway so the displayed source is self-contained and paste-able.
 - **Risk**: notes blurbs vary in quality/length across 49 modules. **Mitigation**: one-sentence convention (when-to-use + primary variants + a11y where relevant); spot-check in browser probe; worst case is a text edit, no logic.
@@ -89,6 +96,7 @@ Success looks like:
 ## Phases and Verification
 
 ### Phase 1: Demo-Doc Module Pipeline
+
 - **Slug**: `demo-doc-modules`
 - **Story ID**: `story-demo-modules-202609180251`
 - **Status**: `done`
@@ -110,6 +118,7 @@ Success looks like:
 - **Stop conditions**: `fs` source read fails under `next build` prerender → stop and escalate (do not add webpack/turbopack loaders without owner approval); any gate command fails twice with the same error → escalate.
 
 ### Phase 2: Migrate All Demos + Substance Fixes
+
 - **Slug**: `migrate-all-demos`
 - **Story ID**: `story-migrate-demos-202609180251`
 - **Status**: `done`
@@ -134,6 +143,7 @@ Success looks like:
 - **Stop conditions**: any gate command fails twice with the same error → escalate; a slug cannot be made self-contained (e.g. needs app-level provider not expressible in a module) → stop and escalate rather than reintroducing shared state.
 
 ### Phase 3: JSDoc Parity + README
+
 - **Slug**: `jsdoc-readme`
 - **Story ID**: `story-jsdoc-readme-202609180251`
 - **Status**: `done`
@@ -195,6 +205,7 @@ Success looks like:
 ## Validation
 
 APPROVED
+
 - phase: demo-doc-modules
 - scope: on target
 - depth: standard (new docs pipeline + showroom render path; no shipped component code touched)
@@ -215,6 +226,7 @@ APPROVED
 - proof_gaps: `app` has no unit-test harness (declared in plan risk); probe substituted for agent-browser (tooling-substitution decision recorded)
 
 APPROVED
+
 - phase: migrate-all-demos
 - scope: on target (plus one owner-approved scope add: `packages/registry/scripts/e2e-smoke.sh` step 9)
 - depth: standard
@@ -233,11 +245,12 @@ APPROVED
 - judge: same-session
 - judge_model: swe-2-max
 - blockers: 0
-- not_independently_verified: no independent reviewer; demo *content quality* (variant coverage per component) asserted via probe presence checks, not human design review; dark-mode visuals not screenshotted this phase
+- not_independently_verified: no independent reviewer; demo _content quality_ (variant coverage per component) asserted via probe presence checks, not human design review; dark-mode visuals not screenshotted this phase
 - receipt: context_sources=docs/plans/active/component-docs-depth.md,app/demos/,app/components/playground.tsx,packages/registry/scripts/e2e-smoke.sh / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=1 (e2e stale-assertion fix) / rollback_point=commit 048568a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: no unit-test harness (declared risk); probe substituted for agent-browser
 
 APPROVED
+
 - phase: jsdoc-readme
 - scope: on target
 - depth: standard
@@ -254,11 +267,12 @@ APPROVED
 - judge: same-session
 - judge_model: swe-2-max
 - blockers: 0
-- not_independently_verified: no independent reviewer; JSDoc *wording quality* reviewed only by author; docblock content not rendered anywhere (source-level only)
+- not_independently_verified: no independent reviewer; JSDoc _wording quality_ reviewed only by author; docblock content not rendered anywhere (source-level only)
 - receipt: context_sources=docs/plans/active/component-docs-depth.md,packages/registry/src/components/,app/components/,README.md / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-max / retries=0 / rollback_point=commit 9da00f0 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: none beyond declared no-unit-test risk
 
 APPROVE_WITH_REQUESTS
+
 - mode: full
 - phase: jsdoc-readme (final-phase validation covering the whole initiative diff 70774eb..HEAD)
 - scope: on target

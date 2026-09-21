@@ -44,33 +44,14 @@
   ],
   "items": {
     "autocomplete": {
-      "files": [
-        "components/autocomplete/autocomplete.tsx",
-        "components/autocomplete/index.ts"
-      ],
-      "registryDependencies": [
-        "field",
-        "input",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/autocomplete/autocomplete.tsx", "components/autocomplete/index.ts"],
+      "registryDependencies": ["field", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "badge": {
-      "files": [
-        "components/badge/badge.tsx",
-        "components/badge/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/badge/badge.tsx", "components/badge/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "banner": {
       "files": [
@@ -78,55 +59,23 @@
         "components/banner/banner.tsx",
         "components/banner/index.ts"
       ],
-      "registryDependencies": [
-        "button",
-        "link",
-        "third-party-licenses",
-        "utils"
-      ],
+      "registryDependencies": ["button", "link", "third-party-licenses", "utils"],
       "dependencies": []
     },
     "breadcrumbs": {
-      "files": [
-        "components/breadcrumbs/breadcrumbs.tsx",
-        "components/breadcrumbs/index.ts"
-      ],
-      "registryDependencies": [
-        "button",
-        "loader",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/breadcrumbs/breadcrumbs.tsx", "components/breadcrumbs/index.ts"],
+      "registryDependencies": ["button", "loader", "third-party-licenses", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "bubble-map": {
       "files": [],
-      "registryDependencies": [
-        "chart",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ]
+      "registryDependencies": ["chart", "third-party-licenses", "utils"],
+      "dependencies": ["d3-geo", "echarts"]
     },
     "button": {
-      "files": [
-        "components/button/button.tsx",
-        "components/button/index.ts"
-      ],
-      "registryDependencies": [
-        "loader",
-        "third-party-licenses",
-        "tooltip",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/button/button.tsx", "components/button/index.ts"],
+      "registryDependencies": ["loader", "third-party-licenses", "tooltip", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "chart": {
       "files": [
@@ -137,99 +86,41 @@
         "components/chart/index.ts",
         "components/chart/tooltip-utils.ts"
       ],
-      "registryDependencies": [
-        "loader",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ]
+      "registryDependencies": ["loader", "third-party-licenses", "utils"],
+      "dependencies": ["d3-geo", "echarts"]
     },
     "checkbox": {
-      "files": [
-        "components/checkbox/checkbox.tsx",
-        "components/checkbox/index.ts"
-      ],
-      "registryDependencies": [
-        "label",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/checkbox/checkbox.tsx", "components/checkbox/index.ts"],
+      "registryDependencies": ["label", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "choropleth-map": {
       "files": [],
-      "registryDependencies": [
-        "chart",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "d3-geo",
-        "echarts"
-      ]
+      "registryDependencies": ["chart", "third-party-licenses", "utils"],
+      "dependencies": ["d3-geo", "echarts"]
     },
     "clipboard-text": {
       "files": [
         "components/clipboard-text/clipboard-text.tsx",
         "components/clipboard-text/index.ts"
       ],
-      "registryDependencies": [
-        "button",
-        "input",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "registryDependencies": ["button", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "code": {
-      "files": [
-        "components/code/code.tsx",
-        "components/code/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "files": ["components/code/code.tsx", "components/code/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "collapsible": {
-      "files": [
-        "components/collapsible/collapsible.tsx",
-        "components/collapsible/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/collapsible/collapsible.tsx", "components/collapsible/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "combobox": {
-      "files": [
-        "components/combobox/combobox.tsx",
-        "components/combobox/index.ts"
-      ],
-      "registryDependencies": [
-        "field",
-        "input",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/combobox/combobox.tsx", "components/combobox/index.ts"],
+      "registryDependencies": ["field", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "command-palette": {
       "files": [
@@ -237,36 +128,16 @@
         "components/command-palette/index.ts",
         "components/command-palette/types.ts"
       ],
-      "registryDependencies": [
-        "layer-card",
-        "loader",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "registryDependencies": ["layer-card", "loader", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "date-picker": {
-      "files": [
-        "components/date-picker/date-picker.tsx",
-        "components/date-picker/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react",
-        "react-day-picker"
-      ]
+      "files": ["components/date-picker/date-picker.tsx", "components/date-picker/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@phosphor-icons/react", "react-day-picker"]
     },
     "delete-resource": {
-      "files": [
-        "blocks/delete-resource/delete-resource.tsx",
-        "blocks/delete-resource/index.ts"
-      ],
+      "files": ["blocks/delete-resource/delete-resource.tsx", "blocks/delete-resource/index.ts"],
       "registryDependencies": [
         "banner",
         "button",
@@ -275,103 +146,42 @@
         "third-party-licenses",
         "utils"
       ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "dependencies": ["@phosphor-icons/react"]
     },
     "dialog": {
-      "files": [
-        "components/dialog/dialog.tsx",
-        "components/dialog/index.ts"
-      ],
-      "registryDependencies": [
-        "layer-card",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/dialog/dialog.tsx", "components/dialog/index.ts"],
+      "registryDependencies": ["layer-card", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "dropdown-menu": {
-      "files": [
-        "components/dropdown/dropdown.tsx",
-        "components/dropdown/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/dropdown/dropdown.tsx", "components/dropdown/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "empty": {
-      "files": [
-        "components/empty/empty.tsx",
-        "components/empty/index.ts"
-      ],
-      "registryDependencies": [
-        "button",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/empty/empty.tsx", "components/empty/index.ts"],
+      "registryDependencies": ["button", "third-party-licenses", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "field": {
-      "files": [
-        "components/field/field.tsx",
-        "components/field/index.ts"
-      ],
-      "registryDependencies": [
-        "label",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/field/field.tsx", "components/field/index.ts"],
+      "registryDependencies": ["label", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "grid": {
-      "files": [
-        "components/grid/grid.tsx",
-        "components/grid/index.ts"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "files": ["components/grid/grid.tsx", "components/grid/index.ts"],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "input": {
-      "files": [
-        "components/input/input.tsx"
-      ],
-      "registryDependencies": [
-        "field",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/input/input.tsx"],
+      "registryDependencies": ["field", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "input-area": {
-      "files": [
-        "components/input/input-area.tsx"
-      ],
-      "registryDependencies": [
-        "field",
-        "input",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/input/input-area.tsx"],
+      "registryDependencies": ["field", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "input-group": {
       "files": [
@@ -394,45 +204,19 @@
       "dependencies": []
     },
     "label": {
-      "files": [
-        "components/label/index.ts",
-        "components/label/label.tsx"
-      ],
-      "registryDependencies": [
-        "button",
-        "third-party-licenses",
-        "tooltip",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/label/index.ts", "components/label/label.tsx"],
+      "registryDependencies": ["button", "third-party-licenses", "tooltip", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "layer-card": {
-      "files": [
-        "components/layer-card/index.ts",
-        "components/layer-card/layer-card.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/layer-card/index.ts", "components/layer-card/layer-card.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "link": {
-      "files": [
-        "components/link/index.ts",
-        "components/link/link.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/link/index.ts", "components/link/link.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "loader": {
       "files": [
@@ -440,64 +224,28 @@
         "components/loader/loader.tsx",
         "components/loader/skeleton-line.tsx"
       ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "meter": {
-      "files": [
-        "components/meter/index.ts",
-        "components/meter/meter.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/meter/index.ts", "components/meter/meter.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "page-header": {
-      "files": [
-        "blocks/page-header/index.ts",
-        "blocks/page-header/page-header.tsx"
-      ],
-      "registryDependencies": [
-        "tabs",
-        "third-party-licenses",
-        "utils"
-      ],
+      "files": ["blocks/page-header/index.ts", "blocks/page-header/page-header.tsx"],
+      "registryDependencies": ["tabs", "third-party-licenses", "utils"],
       "dependencies": []
     },
     "pagination": {
-      "files": [
-        "components/pagination/index.ts",
-        "components/pagination/pagination.tsx"
-      ],
-      "registryDependencies": [
-        "input-group",
-        "select",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/pagination/index.ts", "components/pagination/pagination.tsx"],
+      "registryDependencies": ["input-group", "select", "third-party-licenses", "utils"],
+      "dependencies": ["@phosphor-icons/react"]
     },
     "popover": {
-      "files": [
-        "components/popover/index.ts",
-        "components/popover/popover.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/popover/index.ts", "components/popover/popover.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "radio": {
       "files": [
@@ -505,43 +253,21 @@
         "components/radio/radio.tsx",
         "components/radio/radio.type-spec.tsx"
       ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "resource-list-page": {
-      "files": [
-        "blocks/resource-list/index.ts",
-        "blocks/resource-list/resource-list.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "files": ["blocks/resource-list/index.ts", "blocks/resource-list/resource-list.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "sankey-chart": {
-      "files": [
-        "components/chart/SankeyChart.tsx"
-      ],
-      "registryDependencies": [
-        "chart",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "echarts"
-      ]
+      "files": ["components/chart/SankeyChart.tsx"],
+      "registryDependencies": ["chart", "third-party-licenses", "utils"],
+      "dependencies": ["echarts"]
     },
     "select": {
-      "files": [
-        "components/select/index.ts",
-        "components/select/select.tsx"
-      ],
+      "files": ["components/select/index.ts", "components/select/select.tsx"],
       "registryDependencies": [
         "button",
         "field",
@@ -551,68 +277,29 @@
         "third-party-licenses",
         "utils"
       ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "sensitive-input": {
       "files": [
         "components/sensitive-input/index.ts",
         "components/sensitive-input/sensitive-input.tsx"
       ],
-      "registryDependencies": [
-        "field",
-        "input",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "registryDependencies": ["field", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "sidebar": {
-      "files": [
-        "components/sidebar/index.ts",
-        "components/sidebar/sidebar.tsx"
-      ],
-      "registryDependencies": [
-        "button",
-        "loader",
-        "third-party-licenses",
-        "tooltip",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/sidebar/index.ts", "components/sidebar/sidebar.tsx"],
+      "registryDependencies": ["button", "loader", "third-party-licenses", "tooltip", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "switch": {
-      "files": [
-        "components/switch/index.ts",
-        "components/switch/switch.tsx"
-      ],
-      "registryDependencies": [
-        "field",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/switch/index.ts", "components/switch/switch.tsx"],
+      "registryDependencies": ["field", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "table": {
-      "files": [
-        "components/table/index.ts",
-        "components/table/table.tsx"
-      ],
-      "registryDependencies": [
-        "checkbox",
-        "third-party-licenses",
-        "utils"
-      ],
+      "files": ["components/table/index.ts", "components/table/table.tsx"],
+      "registryDependencies": ["checkbox", "third-party-licenses", "utils"],
       "dependencies": []
     },
     "table-of-contents": {
@@ -621,24 +308,13 @@
         "components/table-of-contents/table-of-contents.tsx",
         "components/table-of-contents/use-table-of-contents-active-id.ts"
       ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "tabs": {
-      "files": [
-        "components/tabs/index.ts",
-        "components/tabs/tabs.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/tabs/index.ts", "components/tabs/tabs.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "text": {
       "files": [
@@ -646,10 +322,7 @@
         "components/text/text.tsx",
         "components/text/text.type-spec.tsx"
       ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
+      "registryDependencies": ["third-party-licenses", "utils"],
       "dependencies": []
     },
     "timeseries-chart": {
@@ -659,59 +332,23 @@
         "components/chart/timeseries-thresholds.ts",
         "components/chart/timeseries-tooltip.tsx"
       ],
-      "registryDependencies": [
-        "chart",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "echarts"
-      ]
+      "registryDependencies": ["chart", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "echarts"]
     },
     "toasty": {
-      "files": [
-        "components/toast/index.ts",
-        "components/toast/toast.tsx"
-      ],
-      "registryDependencies": [
-        "button",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "@phosphor-icons/react"
-      ]
+      "files": ["components/toast/index.ts", "components/toast/toast.tsx"],
+      "registryDependencies": ["button", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@phosphor-icons/react"]
     },
     "toolbar": {
-      "files": [
-        "components/toolbar/index.ts",
-        "components/toolbar/toolbar.tsx"
-      ],
-      "registryDependencies": [
-        "button",
-        "input",
-        "input-group",
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/toolbar/index.ts", "components/toolbar/toolbar.tsx"],
+      "registryDependencies": ["button", "input", "input-group", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "tooltip": {
-      "files": [
-        "components/tooltip/index.ts",
-        "components/tooltip/tooltip.tsx"
-      ],
-      "registryDependencies": [
-        "third-party-licenses",
-        "utils"
-      ],
-      "dependencies": [
-        "@base-ui/react"
-      ]
+      "files": ["components/tooltip/index.ts", "components/tooltip/tooltip.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
     },
     "utils": {
       "files": [
@@ -720,9 +357,7 @@
         "utils/link-provider.tsx",
         "utils/portal-provider.tsx"
       ],
-      "registryDependencies": [
-        "third-party-licenses"
-      ],
+      "registryDependencies": ["third-party-licenses"],
       "dependencies": []
     }
   },

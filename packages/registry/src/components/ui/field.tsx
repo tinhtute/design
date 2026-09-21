@@ -1,10 +1,10 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Field as FieldBase } from "@base-ui/react/field";
-import type { ReactNode } from "react";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { Field as FieldBase } from '@base-ui/react/field';
+import type { ReactNode } from 'react';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
 /**
  * Normalizes an error prop that may be a string or structured object
@@ -16,7 +16,7 @@ export function normalizeFieldError(
   error: string | { message: ReactNode; match: FieldErrorMatch } | undefined,
 ): { message: ReactNode; match: FieldErrorMatch } | undefined {
   if (!error) return undefined;
-  if (typeof error === "string") return { message: error, match: true };
+  if (typeof error === 'string') return { message: error, match: true };
   return error;
 }
 
@@ -37,24 +37,22 @@ export interface KumoFieldVariantsProps {
   controlFirst?: boolean;
 }
 
-export function fieldVariants({
-  controlFirst = false,
-}: KumoFieldVariantsProps = {}) {
+export function fieldVariants({ controlFirst = false }: KumoFieldVariantsProps = {}) {
   return cn(
     // Base styles - vertical layout (default)
-    "grid gap-2",
+    'grid gap-2',
 
     // Horizontal layout for checkbox and switch
     // Default: Grid auto-reverses in RTL (desired)
-    "has-[input[type=checkbox]]:grid-cols-[auto_1fr] has-[input[type=checkbox]]:items-center",
-    "has-[[role=switch]]:grid-cols-[auto_1fr] has-[[role=switch]]:items-center",
+    'has-[input[type=checkbox]]:grid-cols-[auto_1fr] has-[input[type=checkbox]]:items-center',
+    'has-[[role=switch]]:grid-cols-[auto_1fr] has-[[role=switch]]:items-center',
 
     // Control first: use flexbox with row-reverse to flip visual order without affecting text direction
     // flex-row-reverse in LTR: Control→Label, in RTL: Label→Control (opposite of grid default)
     controlFirst && [
-      "has-[input[type=checkbox]]:flex has-[input[type=checkbox]]:flex-row-reverse has-[input[type=checkbox]]:flex-wrap has-[input[type=checkbox]]:items-center",
-      "has-[[role=switch]]:flex has-[[role=switch]]:flex-row-reverse has-[[role=switch]]:flex-wrap has-[[role=switch]]:items-center",
-      "[&>label]:flex-1",
+      'has-[input[type=checkbox]]:flex has-[input[type=checkbox]]:flex-row-reverse has-[input[type=checkbox]]:flex-wrap has-[input[type=checkbox]]:items-center',
+      'has-[[role=switch]]:flex has-[[role=switch]]:flex-row-reverse has-[[role=switch]]:flex-wrap has-[[role=switch]]:items-center',
+      '[&>label]:flex-1',
     ],
   );
 }
@@ -66,17 +64,17 @@ export function fieldVariants({
  */
 export type FieldErrorMatch =
   | boolean
-  | "badInput"
-  | "customError"
-  | "patternMismatch"
-  | "rangeOverflow"
-  | "rangeUnderflow"
-  | "stepMismatch"
-  | "tooLong"
-  | "tooShort"
-  | "typeMismatch"
-  | "valid"
-  | "valueMissing";
+  | 'badInput'
+  | 'customError'
+  | 'patternMismatch'
+  | 'rangeOverflow'
+  | 'rangeUnderflow'
+  | 'stepMismatch'
+  | 'tooLong'
+  | 'tooShort'
+  | 'typeMismatch'
+  | 'valid'
+  | 'valueMissing';
 
 /**
  * Field component props — wraps a form control with label, description, and error message.
@@ -160,9 +158,9 @@ export function Field({
       {error ? (
         <FieldBase.Error
           className={cn(
-            "text-sm leading-snug text-kumo-danger",
+            'text-sm leading-snug text-kumo-danger',
             // Span full width in horizontal layout
-            "col-span-full",
+            'col-span-full',
           )}
           match={error.match}
         >
@@ -172,9 +170,9 @@ export function Field({
         description && (
           <FieldBase.Description
             className={cn(
-              "text-sm leading-snug text-kumo-subtle",
+              'text-sm leading-snug text-kumo-subtle',
               // Span full width in horizontal layout
-              "col-span-full",
+              'col-span-full',
             )}
           >
             {description}

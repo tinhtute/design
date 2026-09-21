@@ -3,7 +3,7 @@ title: Fix @shadcn/lint baseline findings
 status: completed
 slug: shadcn-lint-baseline
 id: shadcn-lint-baseline
-upstream: "@cloudflare/kumo@2.13.0"
+upstream: '@cloudflare/kumo@2.13.0'
 ---
 
 # Fix @shadcn/lint baseline findings
@@ -84,7 +84,7 @@ Key facts discovered:
      `xl:w-95`.
    - `playground.tsx` (app-only): `SidebarMenuButton` keeps deliberate inactive
      coloring → `no-restyle` contract `{ pattern: "^SidebarMenuButton$",
-     allow: ["layout", "text-kumo-*"] }` (a contract *replaces* `allow` for the
+allow: ["layout", "text-kumo-*"] }` (a contract _replaces_ `allow` for the
      matched component, so `layout` must be restated to keep it).
 
 ## Outcome

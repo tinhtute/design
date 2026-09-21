@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Dashboard } from "@/components/dashboard";
+import { Dashboard } from '@/components/dashboard';
 
 export const notes =
-  "Full-page dashboard shell composing a header, sidebar nav, stat cards, and a recent-orders data table — a copy-paste starting point rather than a configured component.";
+  'Full-page dashboard shell composing a header, sidebar nav, stat cards, and a recent-orders data table — a copy-paste starting point rather than a configured component.';
 
 export function Demo() {
   return (

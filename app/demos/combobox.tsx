@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { Combobox } from "@/components/ui/combobox";
+import { Combobox } from '@/components/ui/combobox';
 
-const fruits = ["Apple", "Banana", "Cherry", "Mango", "Orange"];
+const fruits = ['Apple', 'Banana', 'Cherry', 'Mango', 'Orange'];
 
 export const notes =
-  "Filterable single-select for picking from a long list — type to narrow options, arrow keys to navigate. `items` feeds the list and `label` wires up a Field wrapper; compose `TriggerInput`, `Content`, `List`, `Item`, and `Empty` for the no-match state.";
+  'Filterable single-select for picking from a long list — type to narrow options, arrow keys to navigate. `items` feeds the list and `label` wires up a Field wrapper; compose `TriggerInput`, `Content`, `List`, `Item`, and `Empty` for the no-match state.';
 
 export function Demo() {
   return (

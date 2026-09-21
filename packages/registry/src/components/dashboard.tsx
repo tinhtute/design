@@ -6,39 +6,32 @@
  * table. Ships with sample data so it renders standalone; swap the
  * `navItems`, `stats`, `columns`, and `orders` constants for real data.
  */
-"use client";
+'use client';
 
-import * as React from "react";
-import type { ColumnDef } from "@tanstack/react-table";
-import {
-  ChartBar,
-  Gear,
-  Package,
-  SquaresFour,
-  Users,
-  type Icon,
-} from "@phosphor-icons/react";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { LayerCard } from "@/components/ui/layer-card";
-import { DataTable } from "@/components/data-table";
+import * as React from 'react';
+import type { ColumnDef } from '@tanstack/react-table';
+import { ChartBar, Gear, Package, SquaresFour, Users, type Icon } from '@phosphor-icons/react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { LayerCard } from '@/components/ui/layer-card';
+import { DataTable } from '@/components/data-table';
 
 const navItems: { icon: Icon; label: string; active?: boolean }[] = [
-  { icon: SquaresFour, label: "Overview", active: true },
-  { icon: ChartBar, label: "Analytics" },
-  { icon: Users, label: "Customers" },
-  { icon: Package, label: "Products" },
-  { icon: Gear, label: "Settings" },
+  { icon: SquaresFour, label: 'Overview', active: true },
+  { icon: ChartBar, label: 'Analytics' },
+  { icon: Users, label: 'Customers' },
+  { icon: Package, label: 'Products' },
+  { icon: Gear, label: 'Settings' },
 ];
 
 const stats = [
   {
-    label: "Total Revenue",
-    value: "$45,231.89",
-    change: "+20.1% from last month",
+    label: 'Total Revenue',
+    value: '$45,231.89',
+    change: '+20.1% from last month',
   },
-  { label: "Active Users", value: "2,350", change: "+180 this week" },
-  { label: "Orders", value: "1,204", change: "+19% from last month" },
+  { label: 'Active Users', value: '2,350', change: '+180 this week' },
+  { label: 'Orders', value: '1,204', change: '+19% from last month' },
 ];
 
 interface Order {
@@ -49,30 +42,30 @@ interface Order {
 }
 
 const columns: ColumnDef<Order>[] = [
-  { accessorKey: "id", header: "Order" },
-  { accessorKey: "customer", header: "Customer" },
-  { accessorKey: "status", header: "Status" },
-  { accessorKey: "total", header: "Total" },
+  { accessorKey: 'id', header: 'Order' },
+  { accessorKey: 'customer', header: 'Customer' },
+  { accessorKey: 'status', header: 'Status' },
+  { accessorKey: 'total', header: 'Total' },
 ];
 
 const orders: Order[] = [
   {
-    id: "ORD-001",
-    customer: "Ada Lovelace",
-    status: "Completed",
-    total: "$129.00",
+    id: 'ORD-001',
+    customer: 'Ada Lovelace',
+    status: 'Completed',
+    total: '$129.00',
   },
   {
-    id: "ORD-002",
-    customer: "Grace Hopper",
-    status: "Processing",
-    total: "$84.50",
+    id: 'ORD-002',
+    customer: 'Grace Hopper',
+    status: 'Processing',
+    total: '$84.50',
   },
   {
-    id: "ORD-003",
-    customer: "Katherine Johnson",
-    status: "Completed",
-    total: "$249.99",
+    id: 'ORD-003',
+    customer: 'Katherine Johnson',
+    status: 'Completed',
+    total: '$249.99',
   },
 ];
 
@@ -93,7 +86,7 @@ export function Dashboard() {
           {navItems.map((item) => (
             <Button
               key={item.label}
-              variant={item.active ? "secondary" : "ghost"}
+              variant={item.active ? 'secondary' : 'ghost'}
               icon={item.icon}
               className="w-full justify-start"
             >
@@ -131,9 +124,7 @@ export function Dashboard() {
               </Badge>
             </LayerCard.Secondary>
             <LayerCard.Primary>
-              <p className="text-sm text-kumo-subtle">
-                Latest activity across your store
-              </p>
+              <p className="text-sm text-kumo-subtle">Latest activity across your store</p>
               <DataTable columns={columns} data={orders} />
             </LayerCard.Primary>
           </LayerCard>

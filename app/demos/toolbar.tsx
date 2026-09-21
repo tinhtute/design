@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import {
   ArrowClockwiseIcon,
   DotsThreeIcon,
   FunnelSimpleIcon,
   PlusIcon,
-} from "@phosphor-icons/react";
-import { Toolbar } from "@/components/ui/toolbar";
+} from '@phosphor-icons/react';
+import { Toolbar } from '@/components/ui/toolbar';
 
 export const notes =
-  "Compact control strip that groups related actions into one card. Compose `Toolbar.Button` (icon + optional label), `Toolbar.Link`, `Toolbar.Input`, and `Toolbar.InputGroup`. Icon-only buttons need `aria-label`; arrow-key roving tabindex is built in.";
+  'Compact control strip that groups related actions into one card. Compose `Toolbar.Button` (icon + optional label), `Toolbar.Link`, `Toolbar.Input`, and `Toolbar.InputGroup`. Icon-only buttons need `aria-label`; arrow-key roving tabindex is built in.';
 
 export function Demo() {
   return (

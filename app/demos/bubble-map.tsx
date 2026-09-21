@@ -1,28 +1,22 @@
-"use client";
+'use client';
 
-import * as echarts from "echarts/core";
-import { MapChart, ScatterChart } from "echarts/charts";
-import { GeoComponent, TooltipComponent } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
-import { BubbleMap, type MapGeoJson } from "@/components/ui/bubble-map";
+import * as echarts from 'echarts/core';
+import { MapChart, ScatterChart } from 'echarts/charts';
+import { GeoComponent, TooltipComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+import { BubbleMap, type MapGeoJson } from '@/components/ui/bubble-map';
 
-echarts.use([
-  MapChart,
-  ScatterChart,
-  GeoComponent,
-  TooltipComponent,
-  CanvasRenderer,
-]);
+echarts.use([MapChart, ScatterChart, GeoComponent, TooltipComponent, CanvasRenderer]);
 
 const sampleGeoJson: MapGeoJson = {
-  type: "FeatureCollection",
+  type: 'FeatureCollection',
   features: [
     {
-      type: "Feature",
-      id: "US",
-      properties: { name: "United States" },
+      type: 'Feature',
+      id: 'US',
+      properties: { name: 'United States' },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [-125, 25],
@@ -35,11 +29,11 @@ const sampleGeoJson: MapGeoJson = {
       },
     },
     {
-      type: "Feature",
-      id: "VN",
-      properties: { name: "Vietnam" },
+      type: 'Feature',
+      id: 'VN',
+      properties: { name: 'Vietnam' },
       geometry: {
-        type: "Polygon",
+        type: 'Polygon',
         coordinates: [
           [
             [102, 8],
@@ -55,7 +49,7 @@ const sampleGeoJson: MapGeoJson = {
 };
 
 export const notes =
-  "Proportional bubbles plotted by lng/lat over a blank GeoJSON land base — good for PoP or traffic maps. `lng`/`lat`/`name`/`value` are key or function accessors on your rows; `minRadius`/`maxRadius`, `roam`, and `projection` tune the view.";
+  'Proportional bubbles plotted by lng/lat over a blank GeoJSON land base — good for PoP or traffic maps. `lng`/`lat`/`name`/`value` are key or function accessors on your rows; `minRadius`/`maxRadius`, `roam`, and `projection` tune the view.';
 
 export function Demo() {
   return (
@@ -64,8 +58,8 @@ export function Demo() {
         echarts={echarts}
         geoJson={sampleGeoJson}
         data={[
-          { city: "San Francisco", lon: -122.4, lat: 37.7, count: 120 },
-          { city: "Hanoi", lon: 105.8, lat: 21.0, count: 85 },
+          { city: 'San Francisco', lon: -122.4, lat: 37.7, count: 120 },
+          { city: 'Hanoi', lon: 105.8, lat: 21.0, count: 85 },
         ]}
         lng="lon"
         lat="lat"

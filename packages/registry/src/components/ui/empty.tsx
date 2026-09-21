@@ -1,32 +1,32 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import { useState, type ReactNode } from "react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { useState, type ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 /** Empty state size variant definitions mapping sizes to their Tailwind classes. */
 export const KUMO_EMPTY_VARIANTS = {
   size: {
     sm: {
-      classes: "px-6 py-8 gap-4",
-      description: "Compact empty state for smaller containers",
+      classes: 'px-6 py-8 gap-4',
+      description: 'Compact empty state for smaller containers',
     },
     base: {
-      classes: "px-10 py-16 gap-6",
-      description: "Default empty state size",
+      classes: 'px-10 py-16 gap-6',
+      description: 'Default empty state size',
     },
     lg: {
-      classes: "px-12 py-20 gap-8",
-      description: "Large empty state for prominent placement",
+      classes: 'px-12 py-20 gap-8',
+      description: 'Large empty state for prominent placement',
     },
   },
 } as const;
 
 export const KUMO_EMPTY_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
 export type KumoEmptySize = keyof typeof KUMO_EMPTY_VARIANTS.size;
@@ -46,12 +46,8 @@ export function emptyVariants({
   size = KUMO_EMPTY_DEFAULT_VARIANTS.size,
 }: KumoEmptyVariantsProps = {}) {
   return cn(
-    "flex w-full flex-col items-center rounded-xl border border-kumo-fill bg-kumo-control text-kumo-default",
-    resolveVariant(
-      KUMO_EMPTY_VARIANTS.size,
-      size,
-      KUMO_EMPTY_DEFAULT_VARIANTS.size,
-    ).classes,
+    'flex w-full flex-col items-center rounded-xl border border-kumo-fill bg-kumo-control text-kumo-default',
+    resolveVariant(KUMO_EMPTY_VARIANTS.size, size, KUMO_EMPTY_DEFAULT_VARIANTS.size).classes,
   );
 }
 
@@ -97,7 +93,7 @@ export function Empty({
   description,
   commandLine,
   contents,
-  size = "base",
+  size = 'base',
   className,
 }: EmptyProps) {
   const [emptyStateCopied, setEmptyStateCopied] = useState<boolean>(false);
@@ -107,17 +103,15 @@ export function Empty({
       {icon}
       <h2 className="text-2xl font-semibold">{title}</h2>
 
-      {description && (
-        <p className="max-w-140 text-center text-kumo-subtle">{description}</p>
-      )}
+      {description && <p className="max-w-140 text-center text-kumo-subtle">{description}</p>}
 
       {commandLine && (
         <div
           className={cn(
-            "group/cmd relative inline-flex h-10 max-w-8/10 transform-gpu items-center gap-2 rounded-lg font-mono shadow-sm",
-            "bg-kumo-overlay pr-2 pl-3",
-            "transition-all duration-300 hover:border-kumo-interact/80 hover:shadow-md",
-            "border border-kumo-fill/60",
+            'group/cmd relative inline-flex h-10 max-w-8/10 transform-gpu items-center gap-2 rounded-lg font-mono shadow-sm',
+            'bg-kumo-overlay pr-2 pl-3',
+            'transition-all duration-300 hover:border-kumo-interact/80 hover:shadow-md',
+            'border border-kumo-fill/60',
           )}
         >
           <span className="text-xs text-kumo-inactive select-none">$</span>
@@ -144,10 +138,7 @@ export function Empty({
                 className="text-kumo-success transition-transform duration-150 ease-out"
               />
             ) : (
-              <CopyIcon
-                size={16}
-                className="text-kumo-inactive group-hover:text-kumo-brand"
-              />
+              <CopyIcon size={16} className="text-kumo-inactive group-hover:text-kumo-brand" />
             )}
           </Button>
         </div>

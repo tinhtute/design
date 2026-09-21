@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { PlusIcon } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/button";
+import { PlusIcon } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
 
 export const notes =
-  "Primary action trigger. Use `variant` for emphasis (primary → destructive), `size` for density, and `icon` for leading glyphs; `loading` swaps content for a spinner and disables interaction.";
+  'Primary action trigger. Use `variant` for emphasis (primary → destructive), `size` for density, and `icon` for leading glyphs; `loading` swaps content for a spinner and disables interaction.';
 
 export function Demo() {
   return (

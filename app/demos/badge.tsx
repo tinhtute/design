@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge';
 
 export const notes =
-  "Compact status label for categorizing content. Pick `variant` by semantics — `success`/`warning`/`error` for states, `primary` for neutral emphasis.";
+  'Compact status label for categorizing content. Pick `variant` by semantics — `success`/`warning`/`error` for states, `primary` for neutral emphasis.';
 
 export function Demo() {
   return (

@@ -10,23 +10,20 @@ import {
   type CSSProperties,
   type ReactNode,
   type InputHTMLAttributes,
-} from "react";
-import { Autocomplete } from "@base-ui/react/autocomplete";
-import { Dialog as DialogBase } from "@base-ui/react/dialog";
+} from 'react';
+import { Autocomplete } from '@base-ui/react/autocomplete';
+import { Dialog as DialogBase } from '@base-ui/react/dialog';
 import {
   MagnifyingGlassIcon,
   ArrowRightIcon,
   ArrowSquareOutIcon,
   CaretRightIcon,
-} from "@phosphor-icons/react";
+} from '@phosphor-icons/react';
 
-import { LayerCard } from "@/components/ui/layer-card";
-import { Loader } from "@/components/ui/loader";
-import { cn } from "@/lib/utils";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { LayerCard } from '@/components/ui/layer-card';
+import { Loader } from '@/components/ui/loader';
+import { cn } from '@/lib/utils';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** A single highlight range within a string [startIndex, endIndex] (inclusive) */
 export type HighlightRange = [number, number];
@@ -196,7 +193,7 @@ export interface CommandPaletteResultItemProps<T = unknown> {
  */
 export interface CommandPaletteInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
-  "children" | "defaultValue" | "defaultChecked" | "color"
+  'children' | 'defaultValue' | 'defaultChecked' | 'color'
 > {
   /** Optional leading content (e.g., back button) */
   leading?: ReactNode;
@@ -335,15 +332,14 @@ function Dialog({
         <LayerCard
           render={<DialogBase.Popup />}
           className={cn(
-            "fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2",
-            "overflow-hidden rounded-lg",
-            "duration-150 data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0",
+            'fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2',
+            'overflow-hidden rounded-lg',
+            'duration-150 data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
           )}
           style={
             {
-              transitionProperty: "scale, opacity",
-              transitionTimingFunction:
-                "var(--default-transition-timing-function)",
+              transitionProperty: 'scale, opacity',
+              transitionTimingFunction: 'var(--default-transition-timing-function)',
             } as CSSProperties
           }
         >
@@ -421,12 +417,7 @@ function InputHeader({
 }) {
   return (
     <div className="flex items-center gap-3 bg-kumo-base px-4 py-3 focus-within:ring-2 focus-within:ring-kumo-brand">
-      {leading ?? (
-        <MagnifyingGlassIcon
-          className="h-4 w-4 text-kumo-subtle"
-          weight="bold"
-        />
-      )}
+      {leading ?? <MagnifyingGlassIcon className="h-4 w-4 text-kumo-subtle" weight="bold" />}
       {children}
       {trailing}
     </div>
@@ -439,24 +430,23 @@ function InputHeader({
  * Wrapper div with proper styling, contains Autocomplete.List internally.
  * Supports ref forwarding for scroll control.
  */
-const List = forwardRef<
-  HTMLDivElement,
-  CommandPaletteListProps & { className?: string }
->(function List({ children, className }, ref) {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "relative min-h-0 flex-1 scroll-py-2 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 ring-1 ring-kumo-hairline",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-});
+const List = forwardRef<HTMLDivElement, CommandPaletteListProps & { className?: string }>(
+  function List({ children, className }, ref) {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          'relative min-h-0 flex-1 scroll-py-2 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 ring-1 ring-kumo-hairline',
+          className,
+        )}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
-List.displayName = "CommandPalette.List";
+List.displayName = 'CommandPalette.List';
 
 /**
  * Group component - Category grouping
@@ -472,7 +462,7 @@ function Group({
   items?: unknown[];
 }) {
   return (
-    <Autocomplete.Group className={cn("space-y-0.5", className)} {...props}>
+    <Autocomplete.Group className={cn('space-y-0.5', className)} {...props}>
       {children}
     </Autocomplete.Group>
   );
@@ -489,10 +479,7 @@ function GroupLabel({
 }: CommandPaletteGroupLabelProps & { className?: string }) {
   return (
     <Autocomplete.GroupLabel
-      className={cn(
-        "mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle",
-        className,
-      )}
+      className={cn('mb-2 px-2 pt-1 text-xs font-semibold text-kumo-subtle', className)}
     >
       {children}
     </Autocomplete.GroupLabel>
@@ -520,10 +507,10 @@ function Item<T>({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "group flex w-full items-center gap-3 px-2 py-1.5 text-left text-base transition-colors",
-        "cursor-pointer data-[highlighted]:bg-kumo-overlay",
-        "rounded-lg",
-        disabled && "cursor-default opacity-50",
+        'group flex w-full items-center gap-3 px-2 py-1.5 text-left text-base transition-colors',
+        'cursor-pointer data-[highlighted]:bg-kumo-overlay',
+        'rounded-lg',
+        disabled && 'cursor-default opacity-50',
         className,
       )}
     >
@@ -541,7 +528,7 @@ function Empty({ children }: CommandPaletteEmptyProps) {
   return (
     <Autocomplete.Empty>
       <div className="p-8 text-center">
-        <p className="text-kumo-subtle">{children ?? "No results found"}</p>
+        <p className="text-kumo-subtle">{children ?? 'No results found'}</p>
       </div>
     </Autocomplete.Empty>
   );
@@ -554,9 +541,7 @@ function Empty({ children }: CommandPaletteEmptyProps) {
  */
 function Loading({ children }: CommandPaletteLoadingProps) {
   return (
-    <div className="flex items-center justify-center p-8">
-      {children ?? <Loader size={24} />}
-    </div>
+    <div className="flex items-center justify-center p-8">{children ?? <Loader size={24} />}</div>
   );
 }
 
@@ -618,10 +603,7 @@ function HighlightedText({
 
     // Add highlighted text (end index is inclusive)
     parts.push(
-      <mark
-        key={`highlight-${i}`}
-        className="rounded-sm bg-kumo-warning/50 text-kumo-default"
-      >
+      <mark key={`highlight-${i}`} className="rounded-sm bg-kumo-warning/50 text-kumo-default">
         {text.slice(start, end + 1)}
       </mark>,
     );
@@ -661,17 +643,11 @@ function ResultItem<T>({
       value={value}
       onClick={nonInteractive ? undefined : (e: React.MouseEvent) => onClick(e)}
       className={cn(
-        "group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left transition-colors",
-        nonInteractive
-          ? "cursor-default"
-          : "cursor-pointer data-[highlighted]:bg-kumo-overlay",
+        'group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left transition-colors',
+        nonInteractive ? 'cursor-default' : 'cursor-pointer data-[highlighted]:bg-kumo-overlay',
       )}
     >
-      {icon && (
-        <div className="flex flex-shrink-0 items-center text-kumo-subtle">
-          {icon}
-        </div>
-      )}
+      {icon && <div className="flex flex-shrink-0 items-center text-kumo-subtle">{icon}</div>}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 truncate">
           {breadcrumbs?.map((crumb, index) => (
@@ -681,10 +657,7 @@ function ResultItem<T>({
                 highlights={breadcrumbHighlights?.[index]}
                 className="text-base text-kumo-default"
               />
-              <CaretRightIcon
-                className="h-3 w-3 flex-shrink-0 text-kumo-subtle"
-                weight="bold"
-              />
+              <CaretRightIcon className="h-3 w-3 flex-shrink-0 text-kumo-subtle" weight="bold" />
             </span>
           ))}
           <HighlightedText
@@ -698,9 +671,7 @@ function ResultItem<T>({
           {description && (
             <>
               <span className="text-kumo-subtle">—</span>
-              <span className="truncate text-sm text-kumo-subtle">
-                {description}
-              </span>
+              <span className="truncate text-sm text-kumo-subtle">{description}</span>
             </>
           )}
         </div>
@@ -715,17 +686,11 @@ function ResultItem<T>({
 /**
  * Container component - Internal styled wrapper.
  */
-function Container({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) {
+function Container({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div
       className={cn(
-        "flex max-h-[60vh] flex-col overflow-hidden rounded-lg bg-kumo-elevated",
+        'flex max-h-[60vh] flex-col overflow-hidden rounded-lg bg-kumo-elevated',
         className,
       )}
     >
@@ -836,10 +801,7 @@ function Panel<TGroup, TItem = TGroup>({
   const highlightedIndexRef = useRef<number>(-1);
 
   const handleItemHighlighted = useCallback(
-    (
-      item: TGroup | undefined,
-      details: { reason: string; event: Event; index: number },
-    ) => {
+    (item: TGroup | undefined, details: { reason: string; event: Event; index: number }) => {
       highlightedIndexRef.current = details.index;
       onItemHighlighted?.(item, details);
     },
@@ -849,7 +811,7 @@ function Panel<TGroup, TItem = TGroup>({
   // Handle Cmd/Ctrl+Enter for new tab selection
   const handleInputKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      const isEnter = e.key === "Enter";
+      const isEnter = e.key === 'Enter';
       const withModifier = e.metaKey || e.ctrlKey;
 
       if (isEnter && withModifier && onSelect && getSelectableItems) {
@@ -911,7 +873,7 @@ function PanelInput({
       if (e.defaultPrevented) return;
 
       // Handle Escape to close the dialog
-      if (e.key === "Escape" && onClose) {
+      if (e.key === 'Escape' && onClose) {
         e.preventDefault();
         onClose();
         return;
@@ -926,8 +888,8 @@ function PanelInput({
       <Autocomplete.Input
         placeholder={placeholder}
         className={cn(
-          "kumo-input-placeholder flex-1 border-none bg-transparent text-base",
-          "outline-none",
+          'kumo-input-placeholder flex-1 border-none bg-transparent text-base',
+          'outline-none',
           className,
         )}
         onKeyDown={handleKeyDown}
@@ -952,11 +914,7 @@ function Results({
   children,
   className,
 }: React.ComponentProps<typeof Autocomplete.List> & { className?: string }) {
-  return (
-    <Autocomplete.List className={cn("space-y-3", className)}>
-      {children}
-    </Autocomplete.List>
-  );
+  return <Autocomplete.List className={cn('space-y-3', className)}>{children}</Autocomplete.List>;
 }
 
 const Items = Autocomplete.Collection;

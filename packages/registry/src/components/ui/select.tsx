@@ -1,20 +1,17 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Select as SelectBase } from "@base-ui/react/select";
-import { CaretUpDownIcon, CheckIcon } from "@phosphor-icons/react";
-import { forwardRef, useId } from "react";
-import type { ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { KUMO_INPUT_VARIANTS, type KumoInputSize } from "@/components/ui/input";
-import { SkeletonLine } from "@/components/ui/loader";
-import { Label } from "@/components/ui/label";
-import { Field, type FieldErrorMatch } from "@/components/ui/field";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Select as SelectBase } from '@base-ui/react/select';
+import { CaretUpDownIcon, CheckIcon } from '@phosphor-icons/react';
+import { forwardRef, useId } from 'react';
+import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from '@/components/ui/button';
+import { KUMO_INPUT_VARIANTS, type KumoInputSize } from '@/components/ui/input';
+import { SkeletonLine } from '@/components/ui/loader';
+import { Label } from '@/components/ui/label';
+import { Field, type FieldErrorMatch } from '@/components/ui/field';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** Select variant definitions. */
 export const KUMO_SELECT_VARIANTS = {
@@ -22,7 +19,7 @@ export const KUMO_SELECT_VARIANTS = {
 } as const;
 
 export const KUMO_SELECT_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
 /**
@@ -34,23 +31,23 @@ export const KUMO_SELECT_STYLING = {
     height: 36, // h-9
     paddingX: 12, // px-3
     borderRadius: 8, // rounded-lg
-    background: "bg-kumo-control",
-    text: "text-color-surface",
-    ring: "color-border",
+    background: 'bg-kumo-control',
+    text: 'text-color-surface',
+    ring: 'color-border',
     fontSize: 16, // text-base
     fontWeight: 400, // font-normal
   },
   stateTokens: {
-    focus: { ring: "color-active" },
+    focus: { ring: 'color-active' },
     disabled: { opacity: 0.5 },
   },
   icons: {
-    caret: { name: "ph-caret-up-down", size: 20 },
-    check: { name: "ph-check", size: 20 },
+    caret: { name: 'ph-caret-up-down', size: 20 },
+    check: { name: 'ph-check', size: 20 },
   },
   popup: {
-    background: "bg-kumo-base",
-    ring: "border-kumo-line",
+    background: 'bg-kumo-base',
+    ring: 'border-kumo-line',
     borderRadius: 8, // rounded-lg
     padding: 6, // p-1.5
   },
@@ -59,7 +56,7 @@ export const KUMO_SELECT_STYLING = {
     paddingY: 6, // py-1.5
     borderRadius: 4, // rounded
     fontSize: 16, // text-base
-    highlightBackground: "color-surface-secondary",
+    highlightBackground: 'color-surface-secondary',
   },
 } as const;
 
@@ -81,19 +78,19 @@ export interface KumoSelectVariantsProps {
 /** Base UI positioning controls forwarded to Select's popup. */
 type SelectPositionerProps = Pick<
   SelectBase.Positioner.Props,
-  | "align"
-  | "alignItemWithTrigger"
-  | "alignOffset"
-  | "anchor"
-  | "arrowPadding"
-  | "collisionAvoidance"
-  | "collisionBoundary"
-  | "collisionPadding"
-  | "disableAnchorTracking"
-  | "positionMethod"
-  | "side"
-  | "sideOffset"
-  | "sticky"
+  | 'align'
+  | 'alignItemWithTrigger'
+  | 'alignOffset'
+  | 'anchor'
+  | 'arrowPadding'
+  | 'collisionAvoidance'
+  | 'collisionBoundary'
+  | 'collisionPadding'
+  | 'disableAnchorTracking'
+  | 'positionMethod'
+  | 'side'
+  | 'sideOffset'
+  | 'sticky'
 >;
 
 export function selectVariants({
@@ -101,20 +98,17 @@ export function selectVariants({
 }: KumoSelectVariantsProps = {}) {
   return cn(
     buttonVariants({ size }),
-    "bg-kumo-control disabled:bg-kumo-control/50 data-[state=open]:bg-kumo-control",
-    "justify-between font-normal",
-    "focus:opacity-100 focus:ring-kumo-focus/50 focus-visible:ring-inset *:in-focus:opacity-100",
+    'bg-kumo-control disabled:bg-kumo-control/50 data-[state=open]:bg-kumo-control',
+    'justify-between font-normal',
+    'focus:opacity-100 focus:ring-kumo-focus/50 focus-visible:ring-inset *:in-focus:opacity-100',
   );
 }
 
-const triggerIconStyles: Record<
-  KumoInputSize,
-  { iconSize: number; className: string }
-> = {
-  xs: { iconSize: 12, className: "text-kumo-subtle" },
-  sm: { iconSize: 14, className: "text-kumo-subtle" },
-  base: { iconSize: 16, className: "text-kumo-subtle" },
-  lg: { iconSize: 18, className: "text-kumo-subtle" },
+const triggerIconStyles: Record<KumoInputSize, { iconSize: number; className: string }> = {
+  xs: { iconSize: 12, className: 'text-kumo-subtle' },
+  sm: { iconSize: 14, className: 'text-kumo-subtle' },
+  base: { iconSize: 16, className: 'text-kumo-subtle' },
+  lg: { iconSize: 18, className: 'text-kumo-subtle' },
 };
 
 /**
@@ -131,18 +125,16 @@ export interface SelectItemDescriptor {
 /** Value type accepted by the `items` object-map prop. */
 export type SelectItemValue = ReactNode | SelectItemDescriptor;
 
-function isItemDescriptor(
-  value: SelectItemValue,
-): value is SelectItemDescriptor {
+function isItemDescriptor(value: SelectItemValue): value is SelectItemDescriptor {
   if (value === null || value === undefined) return false;
-  if (typeof value !== "object" || Array.isArray(value)) return false;
+  if (typeof value !== 'object' || Array.isArray(value)) return false;
   // React elements have $$typeof — exclude them
-  if ("$$typeof" in (value as object)) return false;
+  if ('$$typeof' in (value as object)) return false;
   // Promises are not descriptors
   if (value instanceof Promise) return false;
   // Must have a defined label (not just the key existing)
   const candidate = value as unknown as Record<string, unknown>;
-  return "label" in candidate && candidate.label !== undefined;
+  return 'label' in candidate && candidate.label !== undefined;
 }
 
 /**
@@ -151,9 +143,7 @@ function isItemDescriptor(
  * handle value matching and placeholder display.
  */
 function normalizeItems<T>(
-  items:
-    | Record<string, SelectItemValue>
-    | ReadonlyArray<{ label: ReactNode; value: T }>,
+  items: Record<string, SelectItemValue> | ReadonlyArray<{ label: ReactNode; value: T }>,
 ): ReadonlyArray<{ label: ReactNode; value: T }> {
   if (Array.isArray(items)) {
     return items;
@@ -171,9 +161,7 @@ function normalizeItems<T>(
  * Filters out null values (typically used for placeholders).
  */
 function renderOptionsFromItems<T>(
-  items:
-    | Record<string, SelectItemValue>
-    | ReadonlyArray<{ label: ReactNode; value: T }>,
+  items: Record<string, SelectItemValue> | ReadonlyArray<{ label: ReactNode; value: T }>,
 ): ReactNode {
   const normalizedItems = normalizeItems(items);
 
@@ -194,14 +182,10 @@ function renderOptionsFromItems<T>(
   return normalizedItems
     .filter((item) => item.value !== null)
     .map((item, index) => {
-      const key =
-        typeof item.value === "string" ? item.value : `option-${index}`;
+      const key = typeof item.value === 'string' ? item.value : `option-${index}`;
       // When items is an object-map, value is always a string key from
       // Object.entries. When items is an array, disabledLookup is empty.
-      const meta =
-        typeof item.value === "string"
-          ? disabledLookup.get(item.value)
-          : undefined;
+      const meta = typeof item.value === 'string' ? disabledLookup.get(item.value) : undefined;
 
       return (
         <Option key={key} value={item.value} disabled={meta?.disabled}>
@@ -213,7 +197,7 @@ function renderOptionsFromItems<T>(
 
 type SelectPropsGeneric<T, Multiple extends boolean | undefined = false> = Omit<
   SelectBase.Root.Props<T, Multiple>,
-  "items"
+  'items'
 > &
   KumoSelectVariantsProps & {
     multiple?: Multiple;
@@ -230,7 +214,7 @@ type SelectPropsGeneric<T, Multiple extends boolean | undefined = false> = Omit<
      */
     renderValue?: (value: Multiple extends true ? T[] : T) => ReactNode;
     /** Replaces the trigger element while preserving Select behavior. */
-    render?: SelectBase.Trigger.Props["render"];
+    render?: SelectBase.Trigger.Props['render'];
     className?: string;
     /**
      * Data structure of items rendered in the popup.
@@ -246,9 +230,7 @@ type SelectPropsGeneric<T, Multiple extends boolean | undefined = false> = Omit<
      * }}
      * ```
      */
-    items?:
-      | Record<string, SelectItemValue>
-      | ReadonlyArray<{ label: ReactNode; value: T }>;
+    items?: Record<string, SelectItemValue> | ReadonlyArray<{ label: ReactNode; value: T }>;
     /**
      * Label content for the select.
      * When provided, enables the Field wrapper with a visible label.
@@ -303,7 +285,7 @@ export interface SelectProps extends SelectPositionerProps {
   /** Additional CSS classes merged via `cn()`. */
   className?: string;
   /** Replaces the trigger element while preserving Select behavior. */
-  render?: SelectBase.Trigger.Props["render"];
+  render?: SelectBase.Trigger.Props['render'];
   /** Size of the select trigger. Matches Input component sizes. */
   size?: KumoSelectSize;
   /**
@@ -385,9 +367,9 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   error,
   required,
   container: containerProp,
-  side = "bottom",
+  side = 'bottom',
   sideOffset = 4,
-  align = "start",
+  align = 'start',
   alignOffset,
   alignItemWithTrigger = false,
   anchor,
@@ -404,16 +386,16 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   const contextContainer = usePortalContainer();
   const container = containerProp ?? contextContainer ?? undefined;
   const propLookup = props as Record<string, unknown>;
-  const ariaLabel = propLookup["aria-label"] as string | undefined;
-  const ariaLabelledby = propLookup["aria-labelledby"] as string | undefined;
+  const ariaLabel = propLookup['aria-label'] as string | undefined;
+  const ariaLabelledby = propLookup['aria-labelledby'] as string | undefined;
   // For aria-label, use string label or placeholder (ReactNode labels can't be used for aria-label)
-  const fallbackLabel = typeof label === "string" ? label : placeholder;
+  const fallbackLabel = typeof label === 'string' ? label : placeholder;
 
   // Deprecation warning for hideLabel
-  if (process.env.NODE_ENV !== "production" && hideLabel !== undefined) {
+  if (process.env.NODE_ENV !== 'production' && hideLabel !== undefined) {
     console.warn(
-      "[Kumo Select]: `hideLabel` is deprecated. For hidden labels, use `aria-label` instead of `label` + `hideLabel={true}`.\n" +
-        "  Migration:\n" +
+      '[Kumo Select]: `hideLabel` is deprecated. For hidden labels, use `aria-label` instead of `label` + `hideLabel={true}`.\n' +
+        '  Migration:\n' +
         '  - For visible labels: <Select label="Country" /> (hideLabel no longer needed)\n' +
         '  - For hidden labels: <Select aria-label="Select a country" /> (remove label and hideLabel)',
     );
@@ -425,8 +407,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   const triggerLabelledBy = useFieldWrapper
     ? undefined
     : (ariaLabelledby ?? (label ? labelId : undefined));
-  const triggerAriaLabel =
-    ariaLabel ?? (!triggerLabelledBy ? fallbackLabel : undefined);
+  const triggerAriaLabel = ariaLabel ?? (!triggerLabelledBy ? fallbackLabel : undefined);
 
   // Normalize items to array format for Base UI compatibility
   // This fixes placeholder not showing with object map items
@@ -445,11 +426,9 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   const valueChildrenFn = renderValue
     ? (value: unknown) => {
         const placeholderNode =
-          placeholder != null ? (
-            <span className="text-kumo-placeholder">{placeholder}</span>
-          ) : null;
+          placeholder != null ? <span className="text-kumo-placeholder">{placeholder}</span> : null;
 
-        if (value == null || value === "") {
+        if (value == null || value === '') {
           return placeholderNode;
         }
 
@@ -473,11 +452,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   const showOptional = required === false;
   const selectLabelNode = label ? (
     <SelectBase.Label className="m-0 text-base font-medium text-kumo-default select-none">
-      <Label
-        showOptional={showOptional}
-        tooltip={hideLabel ? undefined : labelTooltip}
-        asContent
-      >
+      <Label showOptional={showOptional} tooltip={hideLabel ? undefined : labelTooltip} asContent>
         {label}
       </Label>
     </SelectBase.Label>
@@ -490,9 +465,8 @@ export function Select<T, Multiple extends boolean | undefined = false>({
       render={render}
       className={cn(
         selectVariants({ size }),
-        props.disabled && "cursor-not-allowed opacity-50",
-        error &&
-          "!ring-kumo-danger focus:ring-[1.5px] focus:ring-kumo-danger/50",
+        props.disabled && 'cursor-not-allowed opacity-50',
+        error && '!ring-kumo-danger focus:ring-[1.5px] focus:ring-kumo-danger/50',
         className,
       )}
       aria-label={triggerAriaLabel}
@@ -509,15 +483,9 @@ export function Select<T, Multiple extends boolean | undefined = false>({
         </SelectBase.Value>
       )}
       <SelectBase.Icon
-        className={cn(
-          "flex shrink-0 items-center",
-          triggerIconStyles[size].className,
-        )}
+        className={cn('flex shrink-0 items-center', triggerIconStyles[size].className)}
       >
-        <CaretUpDownIcon
-          size={triggerIconStyles[size].iconSize}
-          className="fill-current"
-        />
+        <CaretUpDownIcon size={triggerIconStyles[size].iconSize} className="fill-current" />
       </SelectBase.Icon>
     </SelectBase.Trigger>
   );
@@ -557,15 +525,15 @@ export function Select<T, Multiple extends boolean | undefined = false>({
         >
           <SelectBase.Popup
             className={cn(
-              "flex flex-col",
-              "max-h-[var(--available-height)] bg-kumo-base text-kumo-default",
-              "rounded-lg shadow-lg ring ring-kumo-line",
-              "max-w-(--available-width) min-w-(--anchor-width) py-1.5",
+              'flex flex-col',
+              'max-h-[var(--available-height)] bg-kumo-base text-kumo-default',
+              'rounded-lg shadow-lg ring ring-kumo-line',
+              'max-w-(--available-width) min-w-(--anchor-width) py-1.5',
             )}
           >
             <SelectBase.List
               className={cn(
-                "min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-none",
+                'min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-none',
               )}
             >
               {renderedChildren}
@@ -585,11 +553,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
         labelTooltip={labelTooltip}
         description={description}
         error={
-          error
-            ? typeof error === "string"
-              ? { message: error, match: true }
-              : error
-            : undefined
+          error ? (typeof error === 'string' ? { message: error, match: true } : error) : undefined
         }
         hideLabel
       >
@@ -601,7 +565,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   // Render with standalone label when label is hidden (sr-only)
   // Still show description/error for accessibility and UX
   const normalizedError = error
-    ? typeof error === "string"
+    ? typeof error === 'string'
       ? { message: error, match: true as const }
       : error
     : undefined;
@@ -615,15 +579,9 @@ export function Select<T, Multiple extends boolean | undefined = false>({
       )}
       {selectControl}
       {normalizedError ? (
-        <span className="text-sm text-kumo-danger">
-          {normalizedError.message}
-        </span>
+        <span className="text-sm text-kumo-danger">{normalizedError.message}</span>
       ) : (
-        description && (
-          <span className="text-sm leading-snug text-kumo-subtle">
-            {description}
-          </span>
-        )
+        description && <span className="text-sm leading-snug text-kumo-subtle">{description}</span>
       )}
     </div>
   );
@@ -646,10 +604,10 @@ function Option<T>({ children, value, disabled, className }: OptionProps<T>) {
       value={value}
       disabled={disabled}
       className={cn(
-        "group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-base outline-none",
-        "focus-visible:z-50 focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset",
-        "data-highlighted:bg-kumo-tint",
-        "data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+        'group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-base outline-none',
+        'focus-visible:z-50 focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
+        'data-highlighted:bg-kumo-tint',
+        'data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
         className,
       )}
     >
@@ -681,14 +639,12 @@ type GroupProps = {
  * </Select.Group>
  * ```
  */
-const Group = forwardRef<HTMLDivElement, GroupProps>(
-  ({ children, className }, ref) => (
-    <SelectBase.Group ref={ref} className={cn(className)}>
-      {children}
-    </SelectBase.Group>
-  ),
-);
-Group.displayName = "Select.Group";
+const Group = forwardRef<HTMLDivElement, GroupProps>(({ children, className }, ref) => (
+  <SelectBase.Group ref={ref} className={cn(className)}>
+    {children}
+  </SelectBase.Group>
+));
+Group.displayName = 'Select.Group';
 
 // --- Select.GroupLabel ---
 
@@ -710,20 +666,15 @@ type GroupLabelProps = {
  * </Select.Group>
  * ```
  */
-const GroupLabel = forwardRef<HTMLDivElement, GroupLabelProps>(
-  ({ children, className }, ref) => (
-    <SelectBase.GroupLabel
-      ref={ref}
-      className={cn(
-        "px-3.5 py-1.5 text-sm font-semibold text-kumo-subtle",
-        className,
-      )}
-    >
-      {children}
-    </SelectBase.GroupLabel>
-  ),
-);
-GroupLabel.displayName = "Select.GroupLabel";
+const GroupLabel = forwardRef<HTMLDivElement, GroupLabelProps>(({ children, className }, ref) => (
+  <SelectBase.GroupLabel
+    ref={ref}
+    className={cn('px-3.5 py-1.5 text-sm font-semibold text-kumo-subtle', className)}
+  >
+    {children}
+  </SelectBase.GroupLabel>
+));
+GroupLabel.displayName = 'Select.GroupLabel';
 
 // --- Select.Separator ---
 
@@ -742,15 +693,10 @@ type SeparatorProps = {
  * <Select.Option value="b">Option B</Select.Option>
  * ```
  */
-const Separator = forwardRef<HTMLDivElement, SeparatorProps>(
-  ({ className }, ref) => (
-    <SelectBase.Separator
-      ref={ref}
-      className={cn("-mx-1 my-1 h-px bg-kumo-hairline", className)}
-    />
-  ),
-);
-Separator.displayName = "Select.Separator";
+const Separator = forwardRef<HTMLDivElement, SeparatorProps>(({ className }, ref) => (
+  <SelectBase.Separator ref={ref} className={cn('-mx-1 my-1 h-px bg-kumo-hairline', className)} />
+));
+Separator.displayName = 'Select.Separator';
 
 // --- Assign sub-components ---
 
@@ -759,4 +705,4 @@ Select.Group = Group;
 Select.GroupLabel = GroupLabel;
 Select.Separator = Separator;
 
-(Select.Option as { displayName?: string }).displayName = "Select.Option";
+(Select.Option as { displayName?: string }).displayName = 'Select.Option';

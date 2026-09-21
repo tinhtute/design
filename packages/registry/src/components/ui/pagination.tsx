@@ -9,22 +9,21 @@ import {
   useState,
   type KeyboardEvent,
   type ReactNode,
-} from "react";
-import { InputGroup } from "@/components/ui/input-group";
+} from 'react';
+import { InputGroup } from '@/components/ui/input-group';
 import {
   CaretDoubleLeftIcon,
   CaretDoubleRightIcon,
   CaretLeftIcon,
   CaretRightIcon,
-} from "@phosphor-icons/react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { Select } from "@/components/ui/select";
+} from '@phosphor-icons/react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { Select } from '@/components/ui/select';
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [25, 50, 100, 250] as const;
 
-const clamp = (value: number, min: number, max: number) =>
-  Math.min(Math.max(value, min), max);
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
 
 // ============================================================================
 // i18n Labels
@@ -56,36 +55,34 @@ export interface PaginationLabels {
 }
 
 const DEFAULT_LABELS: Required<PaginationLabels> = {
-  navigation: "Pagination",
-  firstPage: "First page",
-  previousPage: "Previous page",
-  nextPage: "Next page",
-  lastPage: "Last page",
-  pageNumber: "Page number",
-  pageSize: "Page size",
+  navigation: 'Pagination',
+  firstPage: 'First page',
+  previousPage: 'Previous page',
+  nextPage: 'Next page',
+  lastPage: 'Last page',
+  pageNumber: 'Page number',
+  pageSize: 'Page size',
 };
 
 /** Pagination controls variant definitions. */
 export const KUMO_PAGINATION_VARIANTS = {
   controls: {
     full: {
-      classes: "",
+      classes: '',
       description:
-        "Full pagination controls with first, previous, page input, next, and last buttons",
+        'Full pagination controls with first, previous, page input, next, and last buttons',
     },
     simple: {
-      classes: "",
-      description:
-        "Simple pagination controls with only previous and next buttons",
+      classes: '',
+      description: 'Simple pagination controls with only previous and next buttons',
     },
   },
 } as const;
 
-export type KumoPaginationControls =
-  keyof typeof KUMO_PAGINATION_VARIANTS.controls;
+export type KumoPaginationControls = keyof typeof KUMO_PAGINATION_VARIANTS.controls;
 
 export const KUMO_PAGINATION_DEFAULT_VARIANTS = {
-  controls: "full",
+  controls: 'full',
 } as const;
 
 export interface KumoPaginationVariantsProps {
@@ -96,7 +93,7 @@ export function paginationVariants({
   controls = KUMO_PAGINATION_DEFAULT_VARIANTS.controls,
 }: KumoPaginationVariantsProps = {}) {
   return cn(
-    "flex items-center justify-between gap-2",
+    'flex items-center justify-between gap-2',
     resolveVariant(
       KUMO_PAGINATION_VARIANTS.controls,
       controls,
@@ -127,9 +124,7 @@ const PaginationContext = createContext<PaginationContextValue | null>(null);
 function usePaginationContext() {
   const context = useContext(PaginationContext);
   if (!context) {
-    throw new Error(
-      "Pagination compound components must be used within a Pagination component",
-    );
+    throw new Error('Pagination compound components must be used within a Pagination component');
   }
   return context;
 }
@@ -151,29 +146,25 @@ export interface PaginationInfoProps {
 }
 
 function PaginationInfo({ children, className }: PaginationInfoProps) {
-  const { page, perPage, totalCount, pageShowingRange } =
-    usePaginationContext();
+  const { page, perPage, totalCount, pageShowingRange } = usePaginationContext();
 
   const content = children ? (
     children({ page, perPage, totalCount, pageShowingRange })
   ) : totalCount && totalCount > 0 ? (
     <>
-      Showing <span className="tabular-nums">{pageShowingRange}</span> of{" "}
+      Showing <span className="tabular-nums">{pageShowingRange}</span> of{' '}
       <span className="tabular-nums">{totalCount}</span>
     </>
   ) : null;
 
   return (
-    <div
-      data-slot="pagination-info"
-      className={cn("text-sm text-kumo-subtle", className)}
-    >
+    <div data-slot="pagination-info" className={cn('text-sm text-kumo-subtle', className)}>
       {content}
     </div>
   );
 }
 
-PaginationInfo.displayName = "Pagination.Info";
+PaginationInfo.displayName = 'Pagination.Info';
 
 // ============================================================================
 // Pagination.PageSize
@@ -199,16 +190,13 @@ function PaginationPageSize({
   value,
   onChange,
   options = DEFAULT_PAGE_SIZE_OPTIONS as unknown as number[],
-  label = "Per page:",
+  label = 'Per page:',
   className,
 }: PaginationPageSizeProps) {
   const { labels } = usePaginationContext();
 
   return (
-    <div
-      data-slot="pagination-page-size"
-      className={cn("flex items-center gap-2", className)}
-    >
+    <div data-slot="pagination-page-size" className={cn('flex items-center gap-2', className)}>
       {label && <span className="text-sm text-kumo-subtle">{label}</span>}
       <Select
         aria-label={labels.pageSize}
@@ -225,7 +213,7 @@ function PaginationPageSize({
   );
 }
 
-PaginationPageSize.displayName = "Pagination.PageSize";
+PaginationPageSize.displayName = 'Pagination.PageSize';
 
 // ============================================================================
 // Pagination.Controls
@@ -241,38 +229,25 @@ export interface PaginationControlsProps extends KumoPaginationVariantsProps {
    * suited for small page counts. For large datasets (hundreds of pages or
    * more) prefer `"input"` to avoid rendering performance overhead.
    */
-  pageSelector?: "input" | "dropdown";
+  pageSelector?: 'input' | 'dropdown';
   /** Additional CSS classes */
   className?: string;
 }
 
 function PaginationControls({
   controls = KUMO_PAGINATION_DEFAULT_VARIANTS.controls,
-  pageSelector = "input",
+  pageSelector = 'input',
   className,
 }: PaginationControlsProps) {
-  const {
-    page,
-    totalCount,
-    hasNextPage,
-    maxPage,
-    setPage,
-    editingPage,
-    setEditingPage,
-    labels,
-  } = usePaginationContext();
+  const { page, totalCount, hasNextPage, maxPage, setPage, editingPage, setEditingPage, labels } =
+    usePaginationContext();
   const hasKnownTotal = totalCount != null;
   const isUnknownTotal = !hasKnownTotal && hasNextPage !== undefined;
-  const showFullControls = controls === "full" && !isUnknownTotal;
-  const isNextDisabled = hasKnownTotal
-    ? page === maxPage
-    : hasNextPage !== true;
+  const showFullControls = controls === 'full' && !isUnknownTotal;
+  const isNextDisabled = hasKnownTotal ? page === maxPage : hasNextPage !== true;
 
   return (
-    <div
-      data-slot="pagination-controls"
-      className={cn("flex grow flex-col items-end", className)}
-    >
+    <div data-slot="pagination-controls" className={cn('flex grow flex-col items-end', className)}>
       <nav aria-label={labels.navigation}>
         <InputGroup>
           {showFullControls && (
@@ -301,7 +276,7 @@ function PaginationControls({
             <CaretLeftIcon size={16} />
           </InputGroup.Button>
           {showFullControls &&
-            (pageSelector === "dropdown" ? (
+            (pageSelector === 'dropdown' ? (
               <Select
                 aria-label={labels.pageNumber}
                 className="rounded-none ring-kumo-hairline"
@@ -333,7 +308,7 @@ function PaginationControls({
                   setEditingPage(clamped);
                 }}
                 onKeyDown={(e: KeyboardEvent) => {
-                  if (e.key === "Enter") {
+                  if (e.key === 'Enter') {
                     const clamped = clamp(editingPage, 1, maxPage);
                     setPage(clamped);
                     setEditingPage(clamped);
@@ -351,9 +326,7 @@ function PaginationControls({
             aria-label={labels.nextPage}
             disabled={isNextDisabled}
             onClick={() => {
-              const nextPage = hasKnownTotal
-                ? Math.min(page + 1, maxPage)
-                : page + 1;
+              const nextPage = hasKnownTotal ? Math.min(page + 1, maxPage) : page + 1;
               setPage(nextPage);
               setEditingPage(nextPage);
             }}
@@ -379,7 +352,7 @@ function PaginationControls({
   );
 }
 
-PaginationControls.displayName = "Pagination.Controls";
+PaginationControls.displayName = 'Pagination.Controls';
 
 // ============================================================================
 // Pagination.Separator
@@ -394,12 +367,12 @@ function PaginationSeparator({ className }: PaginationSeparatorProps) {
   return (
     <div
       data-slot="pagination-separator"
-      className={cn("mx-2 h-6 border-l border-kumo-hairline", className)}
+      className={cn('mx-2 h-6 border-l border-kumo-hairline', className)}
     />
   );
 }
 
-PaginationSeparator.displayName = "Pagination.Separator";
+PaginationSeparator.displayName = 'Pagination.Separator';
 
 // ============================================================================
 // Pagination Root
@@ -489,8 +462,7 @@ export interface PaginationCompoundProps extends PaginationBaseProps {
  * <Pagination page={page} setPage={setPage} perPage={10} totalCount={100} />
  * ```
  */
-export interface PaginationLegacyProps
-  extends PaginationBaseProps, KumoPaginationVariantsProps {
+export interface PaginationLegacyProps extends PaginationBaseProps, KumoPaginationVariantsProps {
   children?: never;
   /** @deprecated Use Pagination.Info with children prop instead */
   text?: (props: {
@@ -551,9 +523,9 @@ function PaginationRoot(props: PaginationProps) {
   } = props;
 
   // Extract legacy props (only present when children is not provided)
-  const text = "text" in props ? props.text : undefined;
+  const text = 'text' in props ? props.text : undefined;
   const controls =
-    "controls" in props
+    'controls' in props
       ? (props.controls ?? KUMO_PAGINATION_DEFAULT_VARIANTS.controls)
       : KUMO_PAGINATION_DEFAULT_VARIANTS.controls;
   const [editingPage, setEditingPage] = useState<number>(1);
@@ -599,10 +571,7 @@ function PaginationRoot(props: PaginationProps) {
   if (children) {
     return (
       <PaginationContext.Provider value={contextValue}>
-        <div
-          data-slot="pagination"
-          className={cn("flex w-full items-center gap-2", className)}
-        >
+        <div data-slot="pagination" className={cn('flex w-full items-center gap-2', className)}>
           {children}
         </div>
       </PaginationContext.Provider>
@@ -616,7 +585,7 @@ function PaginationRoot(props: PaginationProps) {
     } else if (totalCount && totalCount > 0) {
       return (
         <>
-          Showing <span className="tabular-nums">{pageShowingRange}</span> of{" "}
+          Showing <span className="tabular-nums">{pageShowingRange}</span> of{' '}
           <span className="tabular-nums">{totalCount}</span>
         </>
       );
@@ -626,10 +595,7 @@ function PaginationRoot(props: PaginationProps) {
 
   return (
     <PaginationContext.Provider value={contextValue}>
-      <div
-        data-slot="pagination"
-        className={cn("flex w-full items-center gap-2", className)}
-      >
+      <div data-slot="pagination" className={cn('flex w-full items-center gap-2', className)}>
         <div
           aria-live="polite"
           aria-atomic="true"
@@ -644,7 +610,7 @@ function PaginationRoot(props: PaginationProps) {
   );
 }
 
-PaginationRoot.displayName = "Pagination";
+PaginationRoot.displayName = 'Pagination';
 
 // ============================================================================
 // Compound Component Export
@@ -657,9 +623,4 @@ export const Pagination = Object.assign(PaginationRoot, {
   Separator: PaginationSeparator,
 });
 
-export {
-  PaginationInfo,
-  PaginationPageSize,
-  PaginationControls,
-  PaginationSeparator,
-};
+export { PaginationInfo, PaginationPageSize, PaginationControls, PaginationSeparator };

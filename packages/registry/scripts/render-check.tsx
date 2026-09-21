@@ -8,12 +8,12 @@
  *
  * Uses the consumer's `@/*` path alias (tsconfig paths), which tsx resolves.
  */
-import { renderToString } from "react-dom/server";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { FilterBar } from "@/components/filter-bar";
-import { DataTable, type ColumnDef } from "@/components/data-table";
-import { Dashboard } from "@/components/dashboard";
+import { renderToString } from 'react-dom/server';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { FilterBar } from '@/components/filter-bar';
+import { DataTable, type ColumnDef } from '@/components/data-table';
+import { Dashboard } from '@/components/dashboard';
 
 interface Row {
   id: string;
@@ -21,13 +21,13 @@ interface Row {
 }
 
 const columns: ColumnDef<Row>[] = [
-  { accessorKey: "id", header: "ID" },
-  { accessorKey: "name", header: "Name" },
+  { accessorKey: 'id', header: 'ID' },
+  { accessorKey: 'name', header: 'Name' },
 ];
 
 const rows: Row[] = [
-  { id: "1", name: "Ada" },
-  { id: "2", name: "Grace" },
+  { id: '1', name: 'Ada' },
+  { id: '2', name: 'Grace' },
 ];
 
 const html = renderToString(
@@ -41,14 +41,14 @@ const html = renderToString(
 );
 
 const expected = [
-  "Click me", // Kumo Button
-  "v1", // Kumo Badge
-  "Apply filter", // filter-bar
-  "Ada", // data-table row
-  "Grace", // data-table row
-  "Dashboard", // dashboard block
-  "Recent orders", // dashboard layer-card
-  "ORD-001", // dashboard recent-orders table
+  'Click me', // Kumo Button
+  'v1', // Kumo Badge
+  'Apply filter', // filter-bar
+  'Ada', // data-table row
+  'Grace', // data-table row
+  'Dashboard', // dashboard block
+  'Recent orders', // dashboard layer-card
+  'ORD-001', // dashboard recent-orders table
 ];
 
 let failed = 0;
@@ -62,4 +62,4 @@ for (const needle of expected) {
 }
 
 if (failed > 0) process.exit(1);
-console.log("render-check: all expected strings present in SSR output");
+console.log('render-check: all expected strings present in SSR output');

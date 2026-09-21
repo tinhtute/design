@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 
 export const notes =
-  "Single-line text field. Pass `label` to get the full Field treatment (helper `description`, `error` message) or `aria-label` for bare inputs — an accessible name is required; a truthy `error` auto-applies danger styling and `size` runs xs → lg.";
+  'Single-line text field. Pass `label` to get the full Field treatment (helper `description`, `error` message) or `aria-label` for bare inputs — an accessible name is required; a truthy `error` auto-applies danger styling and `size` runs xs → lg.';
 
 export function Demo() {
   return (

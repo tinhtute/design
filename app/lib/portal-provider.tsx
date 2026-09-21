@@ -1,22 +1,14 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import {
-  createContext,
-  useContext,
-  type ReactNode,
-  type RefObject,
-} from "react";
+import { createContext, useContext, type ReactNode, type RefObject } from 'react';
 
 /**
  * Portal container type - matches Base UI's FloatingPortal container prop.
  * Supports HTMLElement, ShadowRoot, or a ref to either.
  */
 export type PortalContainer =
-  | HTMLElement
-  | ShadowRoot
-  | null
-  | RefObject<HTMLElement | ShadowRoot | null>;
+  HTMLElement | ShadowRoot | null | RefObject<HTMLElement | ShadowRoot | null>;
 
 const PortalContainerContext = createContext<PortalContainer>(null);
 
@@ -66,9 +58,7 @@ export function KumoPortalProvider({
   children: ReactNode;
 }) {
   return (
-    <PortalContainerContext.Provider value={container}>
-      {children}
-    </PortalContainerContext.Provider>
+    <PortalContainerContext.Provider value={container}>{children}</PortalContainerContext.Provider>
   );
 }
 

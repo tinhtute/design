@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Autocomplete } from "@/components/ui/autocomplete";
+import { Autocomplete } from '@/components/ui/autocomplete';
 
-const fruits = ["Apple", "Banana", "Cherry"];
+const fruits = ['Apple', 'Banana', 'Cherry'];
 
 export const notes =
   "Free-form text input with filterable suggestions — the entered value isn't constrained to the list (use Combobox for strict selection). Compose `Autocomplete.InputGroup` + `Content` + `List` with an item render function; `label` wires up the Field wrapper.";

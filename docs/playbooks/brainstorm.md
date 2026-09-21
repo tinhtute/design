@@ -8,12 +8,12 @@ Explore a decision in the response, or lock/refine the durable initiative at `do
 
 Choose from the request shape; ask only when mode or scope is genuinely ambiguous.
 
-| Mode | Input | Durable effect |
-|---|---|---|
-| `explore` | Trade-off or recommendation request without lock intent | None; answer in the response only |
-| `lock-from-idea` | Raw idea or bounded initiative | Create one active plan |
-| `lock-from-files` | Authoritative source files | Create one active plan |
-| `refine` | Existing active plan needs scope changes | Update the same plan; preserve its IDs |
+| Mode              | Input                                                   | Durable effect                         |
+| ----------------- | ------------------------------------------------------- | -------------------------------------- |
+| `explore`         | Trade-off or recommendation request without lock intent | None; answer in the response only      |
+| `lock-from-idea`  | Raw idea or bounded initiative                          | Create one active plan                 |
+| `lock-from-files` | Authoritative source files                              | Create one active plan                 |
+| `refine`          | Existing active plan needs scope changes                | Update the same plan; preserve its IDs |
 
 **Zero-write rule:** explore creates no plans, reports, changesets, or markdown artifacts. IF exploration reaches lock intent → switch modes explicitly before writing.
 

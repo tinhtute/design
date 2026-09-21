@@ -1,15 +1,12 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { forwardRef, useEffect, type SVGProps } from "react";
-import { useRender } from "@base-ui/react/use-render";
-import { mergeProps } from "@base-ui/react/merge-props";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import {
-  useLinkComponent,
-  type LinkComponentProps,
-} from "@/lib/link-provider";
+import { forwardRef, useEffect, type SVGProps } from 'react';
+import { useRender } from '@base-ui/react/use-render';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { useLinkComponent, type LinkComponentProps } from '@/lib/link-provider';
 
 /**
  * ExternalIcon - Visual indicator for links that open in a new tab/window.
@@ -39,7 +36,7 @@ const ExternalIcon = (props: SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-ExternalIcon.displayName = "Link.ExternalIcon";
+ExternalIcon.displayName = 'Link.ExternalIcon';
 
 /** Link variant definitions mapping variant names to their Tailwind classes. */
 export const KUMO_LINK_VARIANTS = {
@@ -47,25 +44,25 @@ export const KUMO_LINK_VARIANTS = {
     inline: {
       classes:
         // text-kumo-link provides defensive color that won't be overridden by global `a` styles
-        "text-kumo-link underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors",
-      description: "Inline text link that flows with content",
+        'text-kumo-link underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors',
+      description: 'Inline text link that flows with content',
     },
     current: {
       classes:
-        "text-current underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors",
-      description: "Link that inherits color from parent text",
+        'text-current underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors',
+      description: 'Link that inherits color from parent text',
     },
     plain: {
       classes:
         // text-kumo-link provides defensive color that won't be overridden by global `a` styles
-        "text-kumo-link hover:text-kumo-link/70 transition-colors",
-      description: "Link without underline decoration",
+        'text-kumo-link hover:text-kumo-link/70 transition-colors',
+      description: 'Link without underline decoration',
     },
   },
 } as const;
 
 export const KUMO_LINK_DEFAULT_VARIANTS = {
-  variant: "inline",
+  variant: 'inline',
 } as const;
 
 export type KumoLinkVariant = keyof typeof KUMO_LINK_VARIANTS.variant;
@@ -85,11 +82,7 @@ export function linkVariants({
   variant = KUMO_LINK_DEFAULT_VARIANTS.variant,
 }: KumoLinkVariantsProps = {}) {
   return cn(
-    resolveVariant(
-      KUMO_LINK_VARIANTS.variant,
-      variant,
-      KUMO_LINK_DEFAULT_VARIANTS.variant,
-    ).classes,
+    resolveVariant(KUMO_LINK_VARIANTS.variant, variant, KUMO_LINK_DEFAULT_VARIANTS.variant).classes,
   );
 }
 
@@ -116,9 +109,7 @@ export function linkVariants({
  * <Link render={<RouterLink to="/dashboard" />}>Dashboard</Link>
  * ```
  */
-export type LinkProps = useRender.ComponentProps<"a"> &
-  LinkComponentProps &
-  KumoLinkVariantsProps;
+export type LinkProps = useRender.ComponentProps<'a'> & LinkComponentProps & KumoLinkVariantsProps;
 
 /**
  * Link component for consistent inline text links.
@@ -162,21 +153,21 @@ export type LinkProps = useRender.ComponentProps<"a"> &
  * ```
  */
 const LinkBase = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { className, variant = "inline", render, ...props },
+  { className, variant = 'inline', render, ...props },
   ref,
 ) {
   const LinkComponent = useLinkComponent();
 
-  if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== 'production') {
     // Dev-only deprecation warning; conditional is stable (NODE_ENV)
     useEffect(() => {
-      if ("to" in props && props.to !== undefined) {
+      if ('to' in props && props.to !== undefined) {
         console.warn(
-          "[kumo] Link: The `to` prop is deprecated. Use `href` instead.\n\n" +
-            "If your app uses a client-side router, configure a LinkProvider that\n" +
+          '[kumo] Link: The `to` prop is deprecated. Use `href` instead.\n\n' +
+            'If your app uses a client-side router, configure a LinkProvider that\n' +
             "maps `href` to your router's navigation prop. See:\n" +
-            "https://kumo.cfops.it/utilities/link-provider\n\n" +
-            "Migration example:\n" +
+            'https://kumo.cfops.it/utilities/link-provider\n\n' +
+            'Migration example:\n' +
             '  Before: <Link to="/page">…</Link>\n' +
             '  After:  <Link href="/page">…</Link>',
         );
@@ -185,23 +176,20 @@ const LinkBase = forwardRef<HTMLAnchorElement, LinkProps>(function Link(
   }
 
   const defaultProps = {
-    "data-kumo-component": "Link",
-    className: cn(
-      linkVariants({ variant }),
-      "group/link inline-flex items-center gap-[0.1875em]",
-    ),
-  } as useRender.ElementProps<"a">;
+    'data-kumo-component': 'Link',
+    className: cn(linkVariants({ variant }), 'group/link inline-flex items-center gap-[0.1875em]'),
+  } as useRender.ElementProps<'a'>;
 
   const element = useRender({
     render: render ?? <LinkComponent />,
     ref,
-    props: mergeProps<"a">(defaultProps, props, { className }),
+    props: mergeProps<'a'>(defaultProps, props, { className }),
   });
 
   return element;
 });
 
-LinkBase.displayName = "Link";
+LinkBase.displayName = 'Link';
 
 // Compound component with ExternalIcon subcomponent
 export const Link = Object.assign(LinkBase, {

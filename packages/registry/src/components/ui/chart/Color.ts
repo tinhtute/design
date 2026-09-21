@@ -7,24 +7,24 @@
  * by index (e.g. the first series gets Blue, the second gets Violet, etc.).
  */
 enum ChartCategoricalLightColors {
-  Blue = "#4290F0",
-  Yellow = "#F5B647",
-  Pink = "#E8649D",
-  Purple = "#8D58EE",
-  Teal = "#50C3B6",
-  Orange = "#D37536",
+  Blue = '#4290F0',
+  Yellow = '#F5B647',
+  Pink = '#E8649D',
+  Purple = '#8D58EE',
+  Teal = '#50C3B6',
+  Orange = '#D37536',
 }
 
 /**
  * Categorical colors for dark mode
  */
 enum ChartCategoricalDarkColors {
-  Blue = "#4290F0",
-  Yellow = "#EEB720",
-  Pink = "#E8649D",
-  Purple = "#8D58EE",
-  Teal = "#50C3B6",
-  Orange = "#D37536",
+  Blue = '#4290F0',
+  Yellow = '#EEB720',
+  Pink = '#E8649D',
+  Purple = '#8D58EE',
+  Teal = '#50C3B6',
+  Orange = '#D37536',
 }
 
 /**
@@ -32,41 +32,41 @@ enum ChartCategoricalDarkColors {
  * rather than just distinguishing series. Use via `ChartPalette.semantic()`.
  */
 enum ChartSemanticLightColors {
-  Attention = "#FC574A",
-  Warning = "#F8A054",
-  Success = "#00A63E",
-  Neutral = "#B9D6FF",
-  Disabled = "#CBCBCB",
-  Skeleton = "#DDDDDD",
+  Attention = '#FC574A',
+  Warning = '#F8A054',
+  Success = '#00A63E',
+  Neutral = '#B9D6FF',
+  Disabled = '#CBCBCB',
+  Skeleton = '#DDDDDD',
 }
 
 /**
  * Semantic colors for dark mode
  */
 enum ChartSemanticDarkColors {
-  Attention = "#FC574A",
-  Warning = "#F8A054",
-  Success = "#00A63E",
-  Neutral = "#8EC5FF",
-  Disabled = "#878787",
-  Skeleton = "#5C5C5C",
+  Attention = '#FC574A',
+  Warning = '#F8A054',
+  Success = '#00A63E',
+  Neutral = '#8EC5FF',
+  Disabled = '#878787',
+  Skeleton = '#5C5C5C',
 }
 
 export type ChartSemanticColorName =
-  "Attention" | "Warning" | "Success" | "Neutral" | "Disabled" | "Skeleton";
+  'Attention' | 'Warning' | 'Success' | 'Neutral' | 'Disabled' | 'Skeleton';
 
 /**
  * Sequential color palettes for light mode with the colour in position #2 of the array as the base.
  */
 const sequentialLight = {
-  blues: ["#E1EAF4", "#8EBCF6", "#4290F0", "#0E58B4", "#03254F"],
+  blues: ['#E1EAF4', '#8EBCF6', '#4290F0', '#0E58B4', '#03254F'],
 };
 
 /**
  * Sequential color palettes for dark mode. These are the reverse of the light mode palettes using the same base color (position 2).
  */
 const sequentialDark = {
-  blues: ["#03254F", "#0E58B4", "#4290F0", "#A6BFDD", "#E1EAF4"],
+  blues: ['#03254F', '#0E58B4', '#4290F0', '#A6BFDD', '#E1EAF4'],
 };
 
 /** Colours for GeoJSON-based map charts. */
@@ -86,8 +86,8 @@ export interface MapColors {
 
 /** Neutral land fill per mode; bubbles use the shared categorical palette. */
 const mapAreaByMode = {
-  light: "#E5E7EB",
-  dark: "#2B2C31",
+  light: '#E5E7EB',
+  dark: '#2B2C31',
 } as const;
 
 /**
@@ -97,8 +97,8 @@ const mapAreaByMode = {
  * distinct from the neutral no-data fill in both modes.
  */
 const mapScaleByMode = {
-  light: ["#C8DEFB", "#8FBDF6", "#4290F0", "#1E60BE", "#0A3A7A"],
-  dark: ["#26456C", "#2C68BE", "#4290F0", "#79AEF4", "#BBD6FA"],
+  light: ['#C8DEFB', '#8FBDF6', '#4290F0', '#1E60BE', '#0A3A7A'],
+  dark: ['#26456C', '#2C68BE', '#4290F0', '#79AEF4', '#BBD6FA'],
 } as const;
 
 /**
@@ -141,13 +141,8 @@ export namespace ChartPalette {
    * ChartPalette.semantic("Warning", true)       // "#F8A054" (dark)
    * ```
    */
-  export function semantic(
-    name: ChartSemanticColorName,
-    isDarkMode = false,
-  ): string {
-    return isDarkMode
-      ? ChartSemanticDarkColors[name]
-      : ChartSemanticLightColors[name];
+  export function semantic(name: ChartSemanticColorName, isDarkMode = false): string {
+    return isDarkMode ? ChartSemanticDarkColors[name] : ChartSemanticLightColors[name];
   }
 
   /**
@@ -176,13 +171,8 @@ export namespace ChartPalette {
    * ChartPalette.sequential("blues", true)  // 5-step array (dark)
    * ```
    */
-  export function sequential(
-    palette: keyof typeof sequentialLight,
-    isDarkMode = false,
-  ): string[] {
-    return isDarkMode
-      ? [...sequentialDark[palette]]
-      : [...sequentialLight[palette]];
+  export function sequential(palette: keyof typeof sequentialLight, isDarkMode = false): string[] {
+    return isDarkMode ? [...sequentialDark[palette]] : [...sequentialLight[palette]];
   }
 
   /**
@@ -195,17 +185,17 @@ export namespace ChartPalette {
    * ChartPalette.text("secondary")      // "#9CA3AF" (light)
    * ```
    */
-  export function text(variant: "primary" | "secondary", isDarkMode = false) {
+  export function text(variant: 'primary' | 'secondary', isDarkMode = false) {
     const colors = {
-      light: { primary: "#6B7280", secondary: "#9CA3AF" },
-      dark: { primary: "#9CA3AF", secondary: "#6B7280" },
+      light: { primary: '#6B7280', secondary: '#9CA3AF' },
+      dark: { primary: '#9CA3AF', secondary: '#6B7280' },
     };
     return isDarkMode ? colors.dark[variant] : colors.light[variant];
   }
 
   /** Returns colors for GeoJSON-based map charts. */
   export function mapColors(isDarkMode = false): MapColors {
-    const mode = isDarkMode ? "dark" : "light";
+    const mode = isDarkMode ? 'dark' : 'light';
 
     return {
       area: mapAreaByMode[mode],

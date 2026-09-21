@@ -1,7 +1,7 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Eye, EyeSlash } from "@phosphor-icons/react";
+import { Eye, EyeSlash } from '@phosphor-icons/react';
 import {
   forwardRef,
   useCallback,
@@ -11,25 +11,25 @@ import {
   useState,
   type ComponentPropsWithoutRef,
   type ReactNode,
-} from "react";
-import { cn } from "@/lib/utils";
-import { Input as BaseInput } from "@base-ui/react/input";
+} from 'react';
+import { cn } from '@/lib/utils';
+import { Input as BaseInput } from '@base-ui/react/input';
 import {
   inputVariants,
   KUMO_INPUT_VARIANTS,
   type KumoInputSize,
   type KumoInputVariant,
-} from "@/components/ui/input";
-import { Field, type FieldErrorMatch } from "@/components/ui/field";
+} from '@/components/ui/input';
+import { Field, type FieldErrorMatch } from '@/components/ui/field';
 
 export const KUMO_SENSITIVE_INPUT_VARIANTS = KUMO_INPUT_VARIANTS;
 
 export const KUMO_SENSITIVE_INPUT_DEFAULT_VARIANTS = {
-  size: "base",
-  variant: "default",
+  size: 'base',
+  variant: 'default',
 } as const;
 
-type Mode = "masked" | "revealed" | "empty";
+type Mode = 'masked' | 'revealed' | 'empty';
 
 /**
  * SensitiveInput component props.
@@ -41,8 +41,8 @@ type Mode = "masked" | "revealed" | "empty";
  * ```
  */
 export interface SensitiveInputProps extends Omit<
-  ComponentPropsWithoutRef<"input">,
-  "size" | "type" | "value" | "defaultValue"
+  ComponentPropsWithoutRef<'input'>,
+  'size' | 'type' | 'value' | 'defaultValue'
 > {
   /** Controlled value */
   value?: string;
@@ -91,7 +91,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
   (
     {
       value: controlledValue,
-      defaultValue = "",
+      defaultValue = '',
       onChange,
       onValueChange,
       onCopy,
@@ -100,7 +100,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
       disabled = false,
       readOnly = false,
       id,
-      autoComplete = "off",
+      autoComplete = 'off',
       className,
       label,
       labelTooltip,
@@ -112,28 +112,25 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     ref,
   ) => {
     // Deprecation warning for variant="error"
-    if (process.env.NODE_ENV !== "production" && variantProp === "error") {
+    if (process.env.NODE_ENV !== 'production' && variantProp === 'error') {
       console.warn(
         '[Kumo SensitiveInput]: variant="error" is deprecated. ' +
-          "Error styling is now automatically applied when the `error` prop is truthy. " +
-          "Simply remove the variant prop and pass an error message instead.",
+          'Error styling is now automatically applied when the `error` prop is truthy. ' +
+          'Simply remove the variant prop and pass an error message instead.',
       );
     }
 
     // Auto-apply error styling when error prop is truthy
     // Explicit variant prop takes precedence for backwards compatibility
-    const variant = variantProp ?? (error ? "error" : "default");
+    const variant = variantProp ?? (error ? 'error' : 'default');
     // For aria-label, only use string labels (ReactNode labels can't be used for aria-label)
-    const ariaLabelFallback =
-      typeof label === "string" ? label : "Sensitive value";
+    const ariaLabelFallback = typeof label === 'string' ? label : 'Sensitive value';
     const isControlled = controlledValue !== undefined;
     const [internalValue, setInternalValue] = useState(defaultValue);
     const value = isControlled ? controlledValue : internalValue;
     const hasValue = value.length > 0;
 
-    const [mode, setMode] = useState<Mode>(() =>
-      hasValue ? "masked" : "empty",
-    );
+    const [mode, setMode] = useState<Mode>(() => (hasValue ? 'masked' : 'empty'));
 
     const [copied, setCopied] = useState(false);
 
@@ -147,7 +144,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     const mergedRef = useCallback(
       (node: HTMLInputElement | null) => {
         inputRef.current = node;
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref(node);
         } else if (ref) {
           ref.current = node;
@@ -169,9 +166,9 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         e.stopPropagation();
         try {
           if (
-            typeof navigator !== "undefined" &&
+            typeof navigator !== 'undefined' &&
             navigator.clipboard &&
-            typeof navigator.clipboard.writeText === "function"
+            typeof navigator.clipboard.writeText === 'function'
           ) {
             await navigator.clipboard.writeText(value);
             setCopied(true);
@@ -182,24 +179,22 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           // Fall through to manual fallback
         }
 
-        if (typeof document !== "undefined") {
-          const textarea = document.createElement("textarea");
+        if (typeof document !== 'undefined') {
+          const textarea = document.createElement('textarea');
           textarea.value = value;
-          textarea.setAttribute("readonly", "");
-          textarea.style.position = "absolute";
-          textarea.style.left = "-9999px";
+          textarea.setAttribute('readonly', '');
+          textarea.style.position = 'absolute';
+          textarea.style.left = '-9999px';
           document.body.appendChild(textarea);
           const selection = document.getSelection();
-          const previousRange = selection?.rangeCount
-            ? selection.getRangeAt(0)
-            : null;
+          const previousRange = selection?.rangeCount ? selection.getRangeAt(0) : null;
           textarea.select();
           try {
-            document.execCommand("copy");
+            document.execCommand('copy');
             setCopied(true);
             onCopy?.();
           } catch (error) {
-            console.warn("Clipboard copy failed", error);
+            console.warn('Clipboard copy failed', error);
           } finally {
             document.body.removeChild(textarea);
             if (previousRange) {
@@ -216,8 +211,8 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     const prevHasValueRef = useRef(hasValue);
     if (prevHasValueRef.current !== hasValue) {
       prevHasValueRef.current = hasValue;
-      if (!hasValue && mode === "masked") {
-        setMode("empty");
+      if (!hasValue && mode === 'masked') {
+        setMode('empty');
       }
     }
 
@@ -235,8 +230,8 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
             e.clientY <= rect.bottom;
           if (!isClickInsideContainer) return;
         }
-        if (mode === "masked" && hasValue) {
-          setMode("revealed");
+        if (mode === 'masked' && hasValue) {
+          setMode('revealed');
           if (!readOnly) {
             setTimeout(() => inputRef.current?.focus(), 0);
           }
@@ -248,10 +243,10 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     const handleToggleVisibility = useCallback(
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
-        if (mode === "revealed") {
-          setMode("masked");
-        } else if (mode === "empty" && hasValue) {
-          setMode("revealed");
+        if (mode === 'revealed') {
+          setMode('masked');
+        } else if (mode === 'empty' && hasValue) {
+          setMode('revealed');
         }
       },
       [mode, hasValue],
@@ -265,8 +260,8 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         }
         // When typing into an empty field, switch to revealed mode
         // so the input shows as type="text" instead of type="password"
-        if (mode === "empty" && newValue.length > 0) {
-          setMode("revealed");
+        if (mode === 'empty' && newValue.length > 0) {
+          setMode('revealed');
         }
         onChange?.(e);
         onValueChange?.(newValue);
@@ -285,7 +280,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           return;
         }
         if (hasValue) {
-          setMode("masked");
+          setMode('masked');
         }
       },
       [hasValue],
@@ -294,10 +289,10 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     const handleContainerKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (disabled) return;
-        if (mode === "masked" && hasValue) {
-          if (e.key === "Enter" || e.key === " ") {
+        if (mode === 'masked' && hasValue) {
+          if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
-            setMode("revealed");
+            setMode('revealed');
             if (!readOnly) {
               setTimeout(() => inputRef.current?.focus(), 0);
             }
@@ -309,8 +304,8 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
 
     const handleInputKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (mode === "revealed" && e.key === "Escape") {
-          setMode("masked");
+        if (mode === 'revealed' && e.key === 'Escape') {
+          setMode('masked');
           // Move focus to container to avoid focus trap (input becomes tabIndex={-1})
           setTimeout(() => containerRef.current?.focus(), 0);
         }
@@ -318,20 +313,19 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
       [mode],
     );
 
-    const isMaskedWithValue = mode === "masked" && hasValue;
-    const showEyeButton =
-      !disabled && (mode === "revealed" || (mode === "empty" && hasValue));
+    const isMaskedWithValue = mode === 'masked' && hasValue;
+    const showEyeButton = !disabled && (mode === 'revealed' || (mode === 'empty' && hasValue));
 
     // Icon sizes matching input sizes
-    const iconSize = size === "xs" || size === "sm" ? "size-3" : "size-4";
+    const iconSize = size === 'xs' || size === 'sm' ? 'size-3' : 'size-4';
 
     const containerClassName = cn(
       inputVariants({ size, variant, parentFocusIndicator: true }),
-      "group/container relative flex w-full items-center",
+      'group/container relative flex w-full items-center',
       // Show browser-native focus outline on container when child input is focused
-      "focus-within:outline-2 focus-within:outline-kumo-focus",
-      isMaskedWithValue && !disabled && "cursor-pointer",
-      disabled && "cursor-not-allowed",
+      'focus-within:outline-2 focus-within:outline-kumo-focus',
+      isMaskedWithValue && !disabled && 'cursor-pointer',
+      disabled && 'cursor-not-allowed',
       className,
     );
 
@@ -341,7 +335,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         <BaseInput
           ref={mergedRef}
           id={inputId}
-          type={mode === "revealed" ? "text" : "password"}
+          type={mode === 'revealed' ? 'text' : 'password'}
           value={value}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -351,12 +345,12 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           autoComplete={autoComplete}
           tabIndex={isMaskedWithValue ? -1 : 0}
           className={cn(
-            "kumo-input-placeholder w-full border-0 bg-transparent p-0 text-kumo-default ring-0 outline-none disabled:cursor-not-allowed disabled:text-kumo-subtle",
-            size === "xs" && "pr-5",
-            size === "sm" && "pr-6",
-            size === "base" && "pr-8",
-            size === "lg" && "pr-10",
-            isMaskedWithValue && "pointer-events-none text-transparent",
+            'kumo-input-placeholder w-full border-0 bg-transparent p-0 text-kumo-default ring-0 outline-none disabled:cursor-not-allowed disabled:text-kumo-subtle',
+            size === 'xs' && 'pr-5',
+            size === 'sm' && 'pr-6',
+            size === 'base' && 'pr-8',
+            size === 'lg' && 'pr-10',
+            isMaskedWithValue && 'pointer-events-none text-transparent',
           )}
           aria-hidden={isMaskedWithValue}
           {...inputProps}
@@ -365,25 +359,25 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         {/* Mask overlay - absolutely positioned, doesn't affect layout */}
         <span
           className={cn(
-            "pointer-events-none absolute inset-y-0 left-0 flex items-center overflow-hidden select-none",
+            'pointer-events-none absolute inset-y-0 left-0 flex items-center overflow-hidden select-none',
             // Match input pr padding (space for icon)
-            size === "xs" && "right-5",
-            size === "sm" && "right-6",
-            size === "base" && "right-8",
-            size === "lg" && "right-10",
+            size === 'xs' && 'right-5',
+            size === 'sm' && 'right-6',
+            size === 'base' && 'right-8',
+            size === 'lg' && 'right-10',
             // Match the padding from inputVariants
-            size === "xs" && "px-1.5",
-            size === "sm" && "px-2",
-            size === "base" && "px-3",
-            size === "lg" && "px-4",
+            size === 'xs' && 'px-1.5',
+            size === 'sm' && 'px-2',
+            size === 'base' && 'px-3',
+            size === 'lg' && 'px-4',
             // Hidden when not masked
-            !isMaskedWithValue && "invisible",
+            !isMaskedWithValue && 'invisible',
             // When masked: enable pointer events
-            isMaskedWithValue && "pointer-events-auto",
+            isMaskedWithValue && 'pointer-events-auto',
             // Text color - use text-kumo-default to contrast with bg-kumo-control input background
-            "text-kumo-default",
+            'text-kumo-default',
             // Hover state - pure CSS, no React state (group for children)
-            "group/mask",
+            'group/mask',
           )}
           aria-hidden="true"
         >
@@ -393,7 +387,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
               className={cn(
                 isMaskedWithValue &&
                   !disabled &&
-                  "group-focus-within/container:invisible group-hover/mask:invisible",
+                  'group-focus-within/container:invisible group-hover/mask:invisible',
               )}
             >
               ••••••••
@@ -413,26 +407,22 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           data-kumo-part="toggle-visibility"
           onClick={handleToggleVisibility}
           onKeyDown={(e) => e.stopPropagation()}
-          aria-label={mode === "revealed" ? "Hide value" : "Reveal value"}
+          aria-label={mode === 'revealed' ? 'Hide value' : 'Reveal value'}
           tabIndex={showEyeButton ? 0 : -1}
           className={cn(
-            "absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer text-kumo-subtle hover:text-kumo-default focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-kumo-brand",
+            'absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer text-kumo-subtle hover:text-kumo-default focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-kumo-brand',
             // Defensive styles to prevent global CSS pollution (e.g., button { background: gray })
-            "m-0 inline-flex h-auto min-h-0 items-center justify-center border-none bg-transparent p-0 shadow-none",
+            'm-0 inline-flex h-auto min-h-0 items-center justify-center border-none bg-transparent p-0 shadow-none',
             // Match right padding from inputVariants
-            size === "xs" && "right-1.5",
-            size === "sm" && "right-2",
-            size === "base" && "right-3",
-            size === "lg" && "right-4",
+            size === 'xs' && 'right-1.5',
+            size === 'sm' && 'right-2',
+            size === 'base' && 'right-3',
+            size === 'lg' && 'right-4',
             iconSize,
-            !showEyeButton && "pointer-events-none opacity-0",
+            !showEyeButton && 'pointer-events-none opacity-0',
           )}
         >
-          {mode === "revealed" ? (
-            <EyeSlash className="size-full" />
-          ) : (
-            <Eye className="size-full" />
-          )}
+          {mode === 'revealed' ? <EyeSlash className="size-full" /> : <Eye className="size-full" />}
         </button>
 
         {/* Copy tab - appears on hover/focus at top right (hidden when disabled) */}
@@ -443,14 +433,14 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
             data-kumo-part="copy"
             onClick={copyToClipboard}
             onKeyDown={(e) => e.stopPropagation()}
-            aria-label={copied ? "Copied" : "Copy to clipboard"}
+            aria-label={copied ? 'Copied' : 'Copy to clipboard'}
             className={cn(
-              "absolute -top-px right-2 -translate-y-full cursor-pointer rounded-t-md bg-kumo-brand px-2 py-0.5 text-xs text-white opacity-0 transition-opacity group-focus-within/container:opacity-100 group-hover/container:opacity-100 hover:brightness-120 focus:ring-kumo-focus/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand",
+              'absolute -top-px right-2 -translate-y-full cursor-pointer rounded-t-md bg-kumo-brand px-2 py-0.5 text-xs text-white opacity-0 transition-opacity group-focus-within/container:opacity-100 group-hover/container:opacity-100 hover:brightness-120 focus:ring-kumo-focus/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand',
               // Defensive styles to prevent global CSS pollution
-              "m-0 h-auto min-h-0 border-none shadow-none",
+              'm-0 h-auto min-h-0 border-none shadow-none',
             )}
           >
-            {copied ? "Copied" : "Copy"}
+            {copied ? 'Copied' : 'Copy'}
           </button>
         )}
       </>
@@ -488,8 +478,8 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           </span>
         )}
         <span id={liveRegionId} className="sr-only" aria-live="polite">
-          {mode === "masked" && hasValue && "Value hidden"}
-          {copied && "Copied to clipboard"}
+          {mode === 'masked' && hasValue && 'Value hidden'}
+          {copied && 'Copied to clipboard'}
         </span>
       </div>
     );
@@ -504,7 +494,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
           description={description}
           error={
             error
-              ? typeof error === "string"
+              ? typeof error === 'string'
                 ? { message: error, match: true }
                 : error
               : undefined
@@ -520,4 +510,4 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
   },
 );
 
-SensitiveInput.displayName = "SensitiveInput";
+SensitiveInput.displayName = 'SensitiveInput';

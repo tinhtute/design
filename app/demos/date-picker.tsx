@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { DatePicker } from "@/components/ui/date-picker";
+import { useState } from 'react';
+import { DatePicker } from '@/components/ui/date-picker';
 
 export const notes =
-  "Calendar date picker built on react-day-picker. `mode` selects single, multiple, or range; control the value with `selected` + `onChange`. Days are keyboard navigable.";
+  'Calendar date picker built on react-day-picker. `mode` selects single, multiple, or range; control the value with `selected` + `onChange`. Days are keyboard navigable.';
 
 export function Demo() {
   const [date, setDate] = useState<Date>();

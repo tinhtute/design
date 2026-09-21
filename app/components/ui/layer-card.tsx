@@ -9,19 +9,19 @@ import {
   type ComponentPropsWithoutRef,
   type ReactElement,
   type ReactNode,
-} from "react";
-import { mergeProps } from "@base-ui/react/merge-props";
-import { useRender } from "@base-ui/react/use-render";
-import { cn } from "@/lib/utils";
+} from 'react';
+import { mergeProps } from '@base-ui/react/merge-props';
+import { useRender } from '@base-ui/react/use-render';
+import { cn } from '@/lib/utils';
 
 const LAYER_CARD_SURFACE_CLASSES =
-  "overflow-hidden rounded-lg bg-kumo-base shadow-xs ring ring-kumo-line";
+  'overflow-hidden rounded-lg bg-kumo-base shadow-xs ring ring-kumo-line';
 const LAYER_CARD_LAYERED_ROOT_CLASSES =
-  "flex w-full flex-col overflow-hidden rounded-lg bg-kumo-elevated text-base ring ring-kumo-hairline";
+  'flex w-full flex-col overflow-hidden rounded-lg bg-kumo-elevated text-base ring ring-kumo-hairline';
 const LAYER_CARD_SECONDARY_CLASSES =
-  "-my-2 flex items-center gap-2 bg-kumo-elevated p-4 text-base font-medium text-kumo-subtle";
+  '-my-2 flex items-center gap-2 bg-kumo-elevated p-4 text-base font-medium text-kumo-subtle';
 const LAYER_CARD_PRIMARY_CLASSES =
-  "relative flex flex-col gap-2 overflow-hidden rounded-lg bg-kumo-base p-4 pr-3 text-inherit no-underline ring ring-kumo-fill";
+  'relative flex flex-col gap-2 overflow-hidden rounded-lg bg-kumo-base p-4 pr-3 text-inherit no-underline ring ring-kumo-fill';
 
 /** LayerCard variant definitions (currently empty, reserved for future additions). */
 export const KUMO_LAYER_CARD_VARIANTS = {
@@ -71,10 +71,9 @@ function hasLayerCardSections(children: ReactNode): boolean {
  * </LayerCard>
  * ```
  */
-export type LayerCardProps = useRender.ComponentProps<"div"> &
-  KumoLayerCardVariantsProps;
+export type LayerCardProps = useRender.ComponentProps<'div'> & KumoLayerCardVariantsProps;
 
-export type LayerCardSectionProps = ComponentPropsWithoutRef<"div">;
+export type LayerCardSectionProps = ComponentPropsWithoutRef<'div'>;
 
 /**
  * Card container for both simple surfaces and layered layouts.
@@ -95,33 +94,28 @@ export type LayerCardSectionProps = ComponentPropsWithoutRef<"div">;
  * </LayerCard>
  * ```
  */
-const LayerCardRoot = forwardRef<HTMLDivElement, LayerCardProps>(
-  function LayerCard({ children, className, render, ...props }, ref) {
-    const hasStructuredLayers = hasLayerCardSections(children);
+const LayerCardRoot = forwardRef<HTMLDivElement, LayerCardProps>(function LayerCard(
+  { children, className, render, ...props },
+  ref,
+) {
+  const hasStructuredLayers = hasLayerCardSections(children);
 
-    const defaultProps: useRender.ElementProps<"div"> = {
-      className: cn(
-        hasStructuredLayers
-          ? LAYER_CARD_LAYERED_ROOT_CLASSES
-          : layerCardVariants(),
-        className,
-      ),
-    };
+  const defaultProps: useRender.ElementProps<'div'> = {
+    className: cn(
+      hasStructuredLayers ? LAYER_CARD_LAYERED_ROOT_CLASSES : layerCardVariants(),
+      className,
+    ),
+  };
 
-    return useRender({
-      defaultTagName: "div",
-      render,
-      ref,
-      props: mergeProps<"div">(defaultProps, props, { children }),
-    });
-  },
-);
+  return useRender({
+    defaultTagName: 'div',
+    render,
+    ref,
+    props: mergeProps<'div'>(defaultProps, props, { children }),
+  });
+});
 
-function LayerCardSecondary({
-  children,
-  className,
-  ...props
-}: LayerCardSectionProps) {
+function LayerCardSecondary({ children, className, ...props }: LayerCardSectionProps) {
   return (
     <div className={cn(LAYER_CARD_SECONDARY_CLASSES, className)} {...props}>
       {children}
@@ -129,11 +123,7 @@ function LayerCardSecondary({
   );
 }
 
-function LayerCardPrimary({
-  children,
-  className,
-  ...props
-}: LayerCardSectionProps) {
+function LayerCardPrimary({ children, className, ...props }: LayerCardSectionProps) {
   return (
     <div className={cn(LAYER_CARD_PRIMARY_CLASSES, className)} {...props}>
       {children}
@@ -141,9 +131,9 @@ function LayerCardPrimary({
   );
 }
 
-LayerCardRoot.displayName = "LayerCard";
-LayerCardSecondary.displayName = "LayerCard.Secondary";
-LayerCardPrimary.displayName = "LayerCard.Primary";
+LayerCardRoot.displayName = 'LayerCard';
+LayerCardSecondary.displayName = 'LayerCard.Secondary';
+LayerCardPrimary.displayName = 'LayerCard.Primary';
 
 type LayerCardComponent = typeof LayerCardRoot & {
   Primary: typeof LayerCardPrimary;

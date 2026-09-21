@@ -15,6 +15,7 @@ updated: 2026-09-16
 ## Outcome
 
 The showroom sidebar reads cleanly and every component page explains itself:
+
 1. A resting, a hovered, and the active sidebar item are visually distinguishable from each other without relying on pointer position — single-signal Kumo parity (amended 2026-09-16, owner ruling): text weight stays constant at `font-medium`; resting renders `text-kumo-subtle`, hover renders `text-kumo-default` plus a background tint, and active renders `text-kumo-default` plus the persistent `--sidebar-active-bg` wash.
 2. The showroom nav uses one button treatment for every component item (no mixed trigger/leaf button styles) under plain category labels.
 3. Every component page in the showroom shows that component's registry description under its title instead of the generic "Live canvas from local @therealtinhtute/ui." subtitle.
@@ -22,12 +23,14 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ## Authority and Requirements
 
 ### Authoritative Sources
+
 - Owner request (2026-09-15, via `/think`): sidebar has unclear active/inactive/hover states and uneven highlighting; component pages lack descriptions.
 - Cloudflare Kumo docs-site nav `packages/kumo-docs-astro/src/components/SidebarNav.tsx` (MIT, pinned commit `a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf`): inactive `text-kumo-subtle`, hover `hover:text-kumo-default hover:bg-kumo-tint`, active `font-medium text-kumo-default bg-kumo-tint`; flat item lists per section.
 - Kumo Sidebar demo convention: `Sidebar.Group` + `Sidebar.GroupLabel` + flat `Sidebar.MenuButton`; `Sidebar.Collapsible` only for genuine per-item sub-hierarchy.
 - `packages/registry/registry.json` — `name` and `description` for all 53 items (the 49 showroom slugs in `GROUPS` all resolve).
 
 ### Falsifiable Requirements
+
 1. **R1 (state differentiation — amended 2026-09-16, owner ruling)**: the `Sidebar` primitive keeps uniform `font-medium text-kumo-default` on menu buttons and owns only the background signal (`!active` → `hover:bg-(--sidebar-active-bg)`, `active` → `bg-(--sidebar-active-bg)`); the showroom nav applies the text hierarchy via consumer `className` (inactive `text-kumo-subtle hover:text-kumo-default`, active default). Resting/hover/active are distinguishable by background wash plus text shade, not weight.
 2. **R2 (registry parity)**: `app/components/ui/sidebar.tsx` and `packages/registry/src/components/ui/sidebar.tsx` remain byte-identical (`cmp` exits 0).
 3. **R3 (single nav treatment)**: `app/components/playground.tsx` renders each category as `Sidebar.Group` + `Sidebar.GroupLabel` with one `Sidebar.MenuButton` per component; it contains no `Sidebar.Collapsible`, `Sidebar.CollapsibleTrigger`, `Sidebar.CollapsibleContent`, `Sidebar.MenuSub`, or `Sidebar.MenuSubButton` in the nav.
@@ -48,21 +51,25 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ## Approach and Risks
 
 ### Implementation Approach
+
 - **Registry component first**: fix the hover/active ambiguity at its source — both Sidebar button parts currently apply the same `bg-(--sidebar-active-bg)` to hover and active with an unconditional `text-kumo-default`. Adopt Kumo's docs-nav text treatment (color + weight) in `SidebarMenuButton` and `SidebarMenuSubButton`, applying the identical edit to the app copy and the registry source so they stay byte-identical, then rebuild the registry payloads.
 - **Showroom second**: flatten the nav in `playground.tsx` to Group/GroupLabel/MenuButton, switch to `collapsible="offcanvas"` (flat items carry no icons, so the default `icon` rail would be empty), delete the now-dead collapsible state, and render descriptions from a static import of `packages/registry/registry.json`.
 
 ### Constraints & Dependencies
+
 - Phase `showroom-nav-and-descriptions` benefits from, but does not require, phase `sidebar-state-classes`; each phase leaves the showroom working.
 - Turbopack resolves modules only inside the project root, which Next.js auto-detects from the monorepo-root `pnpm-lock.yaml` (`app/node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/turbopack.md`, "Root directory"); `packages/registry/registry.json` is inside that root, and `app/tsconfig.json` sets `resolveJsonModule: true`.
 - `packages/registry/public/` and `app/public/r` are gitignored build output; `pnpm -r build` regenerates them.
 
 ### Rejected Alternatives
+
 - **Read descriptions from `app/public/r/{slug}.json`**: rejected — only created by `app`'s `build` script (`dev` does not sync, and the path is gitignored), so a fresh `pnpm dev` would 404.
 - **Hand-copy 49 descriptions into `GROUPS` tuples**: rejected — duplicates `registry.json` and drifts.
 - **Override classes only in `playground.tsx` via `className`**: rejected — leaves the hover/active ambiguity in the distributed Sidebar for every consumer.
 - **Add an active indicator bar or new color**: rejected — introduces visual language Kumo does not use; color + weight is Kumo's established treatment.
 
 ### Primary Risks & Mitigations
+
 - **Risk**: dropping base `font-medium` changes the look of every consumer's Sidebar items. **Mitigation**: intended contract change; recorded in Decisions at execution; `pnpm --filter @therealtinhtute/registry e2e` proves consumer install/build still pass.
 - **Risk**: inactive items (`text-kumo-subtle`, normal weight) read too close to `Sidebar.GroupLabel` (`text-kumo-subtle`, `font-medium`). **Mitigation**: screenshot inspection in both themes; IF labels and items are not distinguishable → stop and escalate to the owner (GroupLabel styling is a non-goal).
 - **Risk**: `text-kumo-subtle` contrast. **Mitigation**: `Sidebar.GroupLabel` already renders `text-kumo-subtle` on the same sidebar background and passed the prior audit's 4.5:1 probe; the DOM probe below re-measures an inactive item.
@@ -74,6 +81,7 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ## Phases and Verification
 
 ### Phase 1: Sidebar State Classes
+
 - **Slug**: `sidebar-state-classes`
 - **Story ID**: `story-sidebar-states-202609152133`
 - **Status**: `done`
@@ -97,6 +105,7 @@ The showroom sidebar reads cleanly and every component page explains itself:
 - **Stop conditions**: any gate command fails twice with the same error → escalate; labels and items indistinguishable in screenshots → escalate.
 
 ### Phase 2: Showroom Nav and Descriptions
+
 - **Slug**: `showroom-nav-and-descriptions`
 - **Story ID**: `story-showroom-nav-202609152133`
 - **Status**: `done` (final phase — independent `check full` APPROVED 2026-09-16T13:58Z under the amended plan)
@@ -159,6 +168,7 @@ The showroom sidebar reads cleanly and every component page explains itself:
 ## Validation
 
 APPROVED
+
 - phase: sidebar-state-classes
 - scope: on target
 - depth: standard (shared Sidebar primitive affects every registry consumer; change is CSS-class only)
@@ -181,6 +191,7 @@ APPROVED
 - proof_gaps: `app` has no unit-test harness (declared in plan risk); the CSS-state behavior was proven via the registry's automated suite plus a live browser DOM/visual probe, not a unit test
 
 APPROVED
+
 - phase: showroom-nav-and-descriptions
 - scope: on target
 - depth: standard (single-file showroom change; behavior-visible via nav flattening, offcanvas collapse, and description wiring)
@@ -204,6 +215,7 @@ APPROVED
 - proof_gaps: `app` has no unit-test harness (declared in plan risk); all other plan-named verification steps (including the 482px screenshots) were captured this pass
 
 REQUEST_CHANGES
+
 - timestamp: 2026-09-16T12:49Z
 - phase: showroom-nav-and-descriptions
 - mode: full
@@ -240,6 +252,7 @@ REQUEST_CHANGES
 - proof_gaps: `app` has no unit-test harness (declared plan risk); no browser probe exists on the committed diff (recorded probe predates the approach change); security/performance reviewed manually — no issues beyond F5
 
 APPROVED
+
 - timestamp: 2026-09-16T13:58Z
 - phase: showroom-nav-and-descriptions
 - mode: full

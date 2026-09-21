@@ -1,15 +1,15 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Autocomplete as AutocompleteBase } from "@base-ui/react/autocomplete";
-import { CheckIcon } from "@phosphor-icons/react";
-import { createContext, useContext, type ReactNode } from "react";
-import { inputVariants, KUMO_INPUT_VARIANTS } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { Field, type FieldErrorMatch } from "@/components/ui/field";
+import { Autocomplete as AutocompleteBase } from '@base-ui/react/autocomplete';
+import { CheckIcon } from '@phosphor-icons/react';
+import { createContext, useContext, type ReactNode } from 'react';
+import { inputVariants, KUMO_INPUT_VARIANTS } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { Field, type FieldErrorMatch } from '@/components/ui/field';
 
-export type { AutocompleteFilter } from "@base-ui/react/autocomplete";
+export type { AutocompleteFilter } from '@base-ui/react/autocomplete';
 
 const AutocompleteContext = createContext<{ hasError: boolean }>({
   hasError: false,
@@ -21,7 +21,7 @@ export const KUMO_AUTOCOMPLETE_VARIANTS = {
 } as const;
 
 export const KUMO_AUTOCOMPLETE_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
 // Derived types from KUMO_AUTOCOMPLETE_VARIANTS
@@ -43,11 +43,7 @@ export function autocompleteVariants({
   size = KUMO_AUTOCOMPLETE_DEFAULT_VARIANTS.size,
 }: KumoAutocompleteVariantsProps = {}) {
   return cn(
-    resolveVariant(
-      KUMO_INPUT_VARIANTS.size,
-      size,
-      KUMO_AUTOCOMPLETE_DEFAULT_VARIANTS.size,
-    ).classes,
+    resolveVariant(KUMO_INPUT_VARIANTS.size, size, KUMO_AUTOCOMPLETE_DEFAULT_VARIANTS.size).classes,
   );
 }
 
@@ -78,11 +74,11 @@ export interface AutocompleteProps {
   /** The uncontrolled default input value */
   defaultValue?: string | number | string[];
   /** Callback when the input value changes */
-  onValueChange?: AutocompleteBase.Root.Props<unknown>["onValueChange"];
+  onValueChange?: AutocompleteBase.Root.Props<unknown>['onValueChange'];
   /** Whether the popup is open (controlled) */
   open?: boolean;
   /** Callback when the popup opens or closes */
-  onOpenChange?: AutocompleteBase.Root.Props<unknown>["onOpenChange"];
+  onOpenChange?: AutocompleteBase.Root.Props<unknown>['onOpenChange'];
   /** Autocomplete content (input group, popup content) */
   children: ReactNode;
   /** Additional CSS classes */
@@ -114,10 +110,7 @@ function Root<ItemValue>({
   description?: ReactNode;
   error?: string | { message: ReactNode; match: FieldErrorMatch };
 }) {
-  const rootProps = props as Omit<
-    AutocompleteBase.Root.Props<ItemValue>,
-    "items"
-  > & {
+  const rootProps = props as Omit<AutocompleteBase.Root.Props<ItemValue>, 'items'> & {
     items?: readonly ItemValue[];
   };
   const control = (
@@ -134,11 +127,7 @@ function Root<ItemValue>({
         labelTooltip={labelTooltip}
         description={description}
         error={
-          error
-            ? typeof error === "string"
-              ? { message: error, match: true }
-              : error
-            : undefined
+          error ? (typeof error === 'string' ? { message: error, match: true } : error) : undefined
         }
       >
         {control}
@@ -164,10 +153,10 @@ function InputGroup({
       className={cn(
         inputVariants({
           size,
-          variant: hasError ? "error" : "default",
+          variant: hasError ? 'error' : 'default',
           focusIndicator: true,
         }),
-        "w-full",
+        'w-full',
         className,
       )}
       placeholder={placeholder}
@@ -178,17 +167,17 @@ function InputGroup({
 function Content({
   children,
   className,
-  align = "start",
+  align = 'start',
   sideOffset = 4,
   alignOffset,
   side,
 }: {
   children?: ReactNode;
   className?: string;
-  align?: AutocompleteBase.Positioner.Props["align"];
-  alignOffset?: AutocompleteBase.Positioner.Props["alignOffset"];
-  side?: AutocompleteBase.Positioner.Props["side"];
-  sideOffset?: AutocompleteBase.Positioner.Props["sideOffset"];
+  align?: AutocompleteBase.Positioner.Props['align'];
+  alignOffset?: AutocompleteBase.Positioner.Props['alignOffset'];
+  side?: AutocompleteBase.Positioner.Props['side'];
+  sideOffset?: AutocompleteBase.Positioner.Props['sideOffset'];
 }) {
   return (
     <AutocompleteBase.Portal>
@@ -202,11 +191,11 @@ function Content({
         <AutocompleteBase.Popup
           className={(state: AutocompleteBase.Popup.State) =>
             cn(
-              "flex flex-col",
-              "max-h-[min(var(--available-height),24rem)] max-w-(--available-width) min-w-(--anchor-width) py-1.5",
-              "bg-kumo-control text-kumo-default",
-              "rounded-lg shadow-lg ring ring-kumo-line",
-              state.empty && "hidden",
+              'flex flex-col',
+              'max-h-[min(var(--available-height),24rem)] max-w-(--available-width) min-w-(--anchor-width) py-1.5',
+              'bg-kumo-control text-kumo-default',
+              'rounded-lg shadow-lg ring ring-kumo-line',
+              state.empty && 'hidden',
               className,
             )
           }
@@ -218,15 +207,12 @@ function Content({
   );
 }
 
-function List({
-  className,
-  ...props
-}: AutocompleteBase.List.Props & { className?: string }) {
+function List({ className, ...props }: AutocompleteBase.List.Props & { className?: string }) {
   return (
     <AutocompleteBase.List
       {...props}
       className={cn(
-        "min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain",
+        'min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain',
         className,
       )}
     />
@@ -253,10 +239,7 @@ function GroupLabel(props: AutocompleteBase.GroupLabel.Props) {
   return (
     <AutocompleteBase.GroupLabel
       {...props}
-      className={cn(
-        "mx-1.5 px-2 py-1.5 text-sm text-kumo-strong",
-        props.className,
-      )}
+      className={cn('mx-1.5 px-2 py-1.5 text-sm text-kumo-strong', props.className)}
     />
   );
 }
@@ -274,18 +257,18 @@ function Separator(props: AutocompleteBase.Separator.Props) {
   return (
     <AutocompleteBase.Separator
       {...props}
-      className={cn("mx-0 my-1 h-px bg-kumo-line", props.className)}
+      className={cn('mx-0 my-1 h-px bg-kumo-line', props.className)}
     />
   );
 }
 
-Root.displayName = "Autocomplete.Root";
-InputGroup.displayName = "Autocomplete.InputGroup";
-Content.displayName = "Autocomplete.Content";
-Item.displayName = "Autocomplete.Item";
-GroupLabel.displayName = "Autocomplete.GroupLabel";
-Group.displayName = "Autocomplete.Group";
-Separator.displayName = "Autocomplete.Separator";
+Root.displayName = 'Autocomplete.Root';
+InputGroup.displayName = 'Autocomplete.InputGroup';
+Content.displayName = 'Autocomplete.Content';
+Item.displayName = 'Autocomplete.Item';
+GroupLabel.displayName = 'Autocomplete.GroupLabel';
+Group.displayName = 'Autocomplete.Group';
+Separator.displayName = 'Autocomplete.Separator';
 
 /**
  * Autocomplete — free-form text input with an optional filtered suggestion list.

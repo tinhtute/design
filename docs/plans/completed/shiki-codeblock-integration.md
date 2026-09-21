@@ -74,7 +74,7 @@ Node ≥ 24):
    `var(--shiki-dark)` under `html[data-mode="dark"]` / `.dark`, scoped to `.shiki` spans, without
    `!important`.
 5. **R5 (registry payload)**: `registry.json` `code` item lists `dependencies: ["shiki",
-   "@shikijs/langs", "@phosphor-icons/react"]` and three files — `code.tsx` (`registry:ui`),
+"@shikijs/langs", "@phosphor-icons/react"]` and three files — `code.tsx` (`registry:ui`),
    `code-themes.ts` (`registry:lib`), `code.css` (`registry:css`); `shadcn build` succeeds;
    `THIRD_PARTY_LICENSES.md` contains the Shiki (MIT, © Pine Wu / Anthony Fu) entry.
 6. **R6 (parity)**: `app/components/ui/code.tsx`, `code-themes.ts`, `code.css` are byte-identical

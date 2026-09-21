@@ -1,17 +1,13 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import type * as echarts from "echarts/core";
-import type {
-  EChartsOption,
-  SetOptionOpts,
-  TooltipComponentOption,
-} from "echarts";
-import { forwardRef, useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
-import { CHART_DARK_COLORS, CHART_LIGHT_COLORS } from "./Color";
+import type * as echarts from 'echarts/core';
+import type { EChartsOption, SetOptionOpts, TooltipComponentOption } from 'echarts';
+import { forwardRef, useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { CHART_DARK_COLORS, CHART_LIGHT_COLORS } from './Color';
 
 /** Parameters passed to mouse event handlers on chart elements */
 type EChartsMouseEventParams = {
@@ -41,18 +37,18 @@ type EChartsMouseEventParams = {
  * Tooltip options with the `formatter` property removed and replaced with
  * `dangerousHtmlFormatter` to make the security implications more explicit.
  */
-export type SafeTooltipOption = Omit<TooltipComponentOption, "formatter"> & {
+export type SafeTooltipOption = Omit<TooltipComponentOption, 'formatter'> & {
   /**
    * USE WITH CAUTION: Use this only for trusted HTML content.
    * When building tooltip HTML with user-provided data, always sanitize
    * the input to prevent XSS vulnerabilities. Recommended: use
    * `encodeHTML` from `echarts/format` to escape HTML special characters.
    */
-  dangerousHtmlFormatter?: TooltipComponentOption["formatter"];
+  dangerousHtmlFormatter?: TooltipComponentOption['formatter'];
 };
 
 export type KumoChartOption = {
-  [K in keyof EChartsOption]: K extends "tooltip"
+  [K in keyof EChartsOption]: K extends 'tooltip'
     ? SafeTooltipOption | SafeTooltipOption[] | undefined
     : EChartsOption[K];
 };
@@ -78,20 +74,11 @@ export interface ChartEvents {
   // Legend events
   /** Map of series name → selected state for all legend items */
   /** Fired on legend toggle (`legendToggleSelect` action or a legend UI click) */
-  legendselectchanged: (params: {
-    name: string;
-    selected: Record<string, boolean>;
-  }) => void;
+  legendselectchanged: (params: { name: string; selected: Record<string, boolean> }) => void;
   /** Fired by the `legendSelect` action. Carries the full `selected` map. */
-  legendselected: (params: {
-    name: string;
-    selected: Record<string, boolean>;
-  }) => void;
+  legendselected: (params: { name: string; selected: Record<string, boolean> }) => void;
   /** Fired by the `legendUnSelect` action. Carries the full `selected` map. */
-  legendunselected: (params: {
-    name: string;
-    selected: Record<string, boolean>;
-  }) => void;
+  legendunselected: (params: { name: string; selected: Record<string, boolean> }) => void;
   legendscroll: (params: any) => void;
 
   // Data zoom / timeline events
@@ -186,7 +173,7 @@ const prepareChartOptions = ({
   isDarkMode?: boolean;
 }): EChartsOption => {
   const withDefaults: EChartsOption = {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     color: isDarkMode ? CHART_DARK_COLORS : CHART_LIGHT_COLORS,
     ...options,
   };
@@ -253,10 +240,10 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
   useEffect(() => {
     if (!elRef.current) return;
 
-    const chart = echarts.init(elRef.current, isDarkMode ? "dark" : undefined);
+    const chart = echarts.init(elRef.current, isDarkMode ? 'dark' : undefined);
     chartRef.current = chart;
 
-    if (typeof ref === "function") ref(chart);
+    if (typeof ref === 'function') ref(chart);
     else if (ref) ref.current = chart;
 
     return () => {
@@ -265,7 +252,7 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
         if (wrapper) chart.off(event, wrapper);
       }
       boundEventsRef.current.clear();
-      if (typeof ref === "function") ref(null);
+      if (typeof ref === 'function') ref(null);
       else if (ref) ref.current = null;
       chartRef.current = null;
       chart.dispose();
@@ -300,15 +287,12 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
     const nextBound = new Set<string>();
 
     for (const [event, handler] of Object.entries(onEvents ?? {})) {
-      if (typeof handler !== "function") continue;
+      if (typeof handler !== 'function') continue;
       nextBound.add(event);
 
       if (!wrappersRef.current[event]) {
         wrappersRef.current[event] = (params: any) => {
-          const current = handlersRef.current as Record<
-            string,
-            ((p: any) => void) | undefined
-          >;
+          const current = handlersRef.current as Record<string, ((p: any) => void) | undefined>;
           current[event]?.(params);
         };
       }
@@ -354,16 +338,12 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
   return (
     <div
       ref={elRef}
-      className={cn("w-full", className)}
-      style={
-        aspectRatio !== undefined
-          ? { aspectRatio: String(aspectRatio) }
-          : { height }
-      }
+      className={cn('w-full', className)}
+      style={aspectRatio !== undefined ? { aspectRatio: String(aspectRatio) } : { height }}
       tabIndex={options.aria?.enabled ? 0 : undefined}
-      role={options.aria?.enabled ? "img" : undefined}
+      role={options.aria?.enabled ? 'img' : undefined}
     />
   );
 });
 
-Chart.displayName = "Chart";
+Chart.displayName = 'Chart';

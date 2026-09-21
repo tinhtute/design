@@ -1,26 +1,19 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import {
-  Toast,
-  ToastManagerAddOptions,
-  ToastObject,
-} from "@base-ui/react/toast";
-import type React from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { Button, ButtonProps } from "@/components/ui/button";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Toast, ToastManagerAddOptions, ToastObject } from '@base-ui/react/toast';
+import type React from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { Button, ButtonProps } from '@/components/ui/button';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 import {
   CheckCircleIcon,
   InfoIcon,
   WarningIcon,
   WarningOctagonIcon,
   XIcon,
-} from "@phosphor-icons/react/dist/ssr";
+} from '@phosphor-icons/react/dist/ssr';
 
 export { Toast };
 
@@ -30,57 +23,55 @@ export { Toast };
  */
 export const KUMO_TOAST_VARIANTS = {
   root: {
-    classes:
-      "rounded-lg border border-kumo-fill bg-kumo-control p-4 shadow-lg text-kumo-default",
-    description: "Toast container with background, border, and shadow",
+    classes: 'rounded-lg border border-kumo-fill bg-kumo-control p-4 shadow-lg text-kumo-default',
+    description: 'Toast container with background, border, and shadow',
   },
   title: {
-    classes: "text-[0.975rem] leading-5 font-medium text-kumo-default",
-    description: "Toast title with primary text color",
+    classes: 'text-[0.975rem] leading-5 font-medium text-kumo-default',
+    description: 'Toast title with primary text color',
   },
   description: {
-    classes: "text-[0.925rem] leading-5 text-kumo-subtle",
-    description: "Toast description with muted text color",
+    classes: 'text-[0.925rem] leading-5 text-kumo-subtle',
+    description: 'Toast description with muted text color',
   },
   close: {
-    classes:
-      "absolute top-2 right-2 size-5 rounded text-kumo-subtle hover:bg-current/15",
-    description: "Button-based close control with variant-aware hover tint",
+    classes: 'absolute top-2 right-2 size-5 rounded text-kumo-subtle hover:bg-current/15',
+    description: 'Button-based close control with variant-aware hover tint',
   },
   variant: {
     default: {
-      classes: "border-kumo-fill bg-kumo-base",
-      description: "Default toast style",
+      classes: 'border-kumo-fill bg-kumo-base',
+      description: 'Default toast style',
     },
     success: {
       classes:
-        "ring-[0.3px] ring-kumo-success bg-kumo-base [&_[data-toast-icon]]:text-kumo-success [&_[data-toast-title]]:text-kumo-success",
-      description: "Success toast for confirmations and positive outcomes",
+        'ring-[0.3px] ring-kumo-success bg-kumo-base [&_[data-toast-icon]]:text-kumo-success [&_[data-toast-title]]:text-kumo-success',
+      description: 'Success toast for confirmations and positive outcomes',
       icon: CheckCircleIcon,
     },
     error: {
       classes:
-        "ring-[0.3px] ring-kumo-danger bg-kumo-base [&_[data-toast-icon]]:text-kumo-danger [&_[data-toast-title]]:text-kumo-danger",
-      description: "Error toast for critical issues",
+        'ring-[0.3px] ring-kumo-danger bg-kumo-base [&_[data-toast-icon]]:text-kumo-danger [&_[data-toast-title]]:text-kumo-danger',
+      description: 'Error toast for critical issues',
       icon: WarningOctagonIcon,
     },
     warning: {
       classes:
-        "ring-[0.3px] ring-kumo-warning bg-kumo-base [&_[data-toast-icon]]:text-kumo-warning [&_[data-toast-title]]:text-kumo-warning",
-      description: "Warning toast for cautionary messages",
+        'ring-[0.3px] ring-kumo-warning bg-kumo-base [&_[data-toast-icon]]:text-kumo-warning [&_[data-toast-title]]:text-kumo-warning',
+      description: 'Warning toast for cautionary messages',
       icon: WarningIcon,
     },
     info: {
       classes:
-        "ring-[0.3px] ring-kumo-info bg-kumo-control [&_[data-toast-icon]]:text-kumo-info [&_[data-toast-title]]:text-kumo-info",
-      description: "Info toast for neutral informational messages",
+        'ring-[0.3px] ring-kumo-info bg-kumo-control [&_[data-toast-icon]]:text-kumo-info [&_[data-toast-title]]:text-kumo-info',
+      description: 'Info toast for neutral informational messages',
       icon: InfoIcon,
     },
   },
 } as const;
 
 export const KUMO_TOAST_DEFAULT_VARIANTS = {
-  variant: "default",
+  variant: 'default',
 } as const;
 
 /**
@@ -92,28 +83,28 @@ export const KUMO_TOAST_STYLING = {
     width: 300,
     padding: 16,
     borderRadius: 8,
-    background: "bg-kumo-base",
-    border: "ring-[0.3px] ring-kumo-hairline",
-    shadow: "shadow-lg",
+    background: 'bg-kumo-base',
+    border: 'ring-[0.3px] ring-kumo-hairline',
+    shadow: 'shadow-lg',
     gap: 4,
   },
   title: {
     fontSize: 16,
     fontWeight: 500,
-    color: "text-color-surface",
+    color: 'text-color-surface',
   },
   description: {
     fontSize: 15,
     fontWeight: 400,
-    color: "text-color-muted",
+    color: 'text-color-muted',
   },
   closeButton: {
     size: 20,
     iconSize: 16,
-    iconName: "ph-x",
-    iconColor: "text-color-muted",
-    hoverBackground: "color-color-2",
-    hoverColor: "text-color-label",
+    iconName: 'ph-x',
+    iconColor: 'text-color-muted',
+    hoverBackground: 'color-color-2',
+    hoverColor: 'text-color-label',
     borderRadius: 4,
   },
 } as const;
@@ -130,13 +121,10 @@ export function toastVariants({
 }: KumoToastVariantsProps = {}) {
   return cn(
     // Base styles for toast root
-    "rounded-xl ring ring-kumo-line bg-clip-padding p-4 shadow-lg",
+    'rounded-xl ring ring-kumo-line bg-clip-padding p-4 shadow-lg',
     // Apply variant styles from KUMO_TOAST_VARIANTS
-    resolveVariant(
-      KUMO_TOAST_VARIANTS.variant,
-      variant,
-      KUMO_TOAST_DEFAULT_VARIANTS.variant,
-    ).classes,
+    resolveVariant(KUMO_TOAST_VARIANTS.variant, variant, KUMO_TOAST_DEFAULT_VARIANTS.variant)
+      .classes,
   );
 }
 
@@ -203,29 +191,26 @@ type KumoToastOptionsBase = {
   bump?: boolean;
 };
 
-export type KumoToastOptions<Data extends object> = ToastObject<Data> &
+export type KumoToastOptions<Data extends object> = ToastObject<Data> & KumoToastOptionsBase;
+
+export type KumoToastManagerAddOptions<Data extends object> = ToastManagerAddOptions<Data> &
   KumoToastOptionsBase;
 
-export type KumoToastManagerAddOptions<Data extends object> =
-  ToastManagerAddOptions<Data> & KumoToastOptionsBase;
-
-function wrapManagerMethods<
-  T extends { add: Function; update: Function; promise: Function },
->(manager: T) {
+function wrapManagerMethods<T extends { add: Function; update: Function; promise: Function }>(
+  manager: T,
+) {
   return {
     ...manager,
 
     add: (options: KumoToastManagerAddOptions<any>) => {
       if (options.id) {
-        const toasts = (manager as any).toasts as
-          | Array<ToastObject<any>>
-          | undefined;
+        const toasts = (manager as any).toasts as Array<ToastObject<any>> | undefined;
 
         if (toasts) {
           const existingToast = toasts.find((toast) => toast.id === options.id);
 
           // If toast exists and is not exiting, trigger bump and prevent duplicate
-          if (existingToast && existingToast.transitionStatus !== "ending") {
+          if (existingToast && existingToast.transitionStatus !== 'ending') {
             // Reset animation by disabling then re-enabling
             manager.update(options.id, { bump: false });
             requestAnimationFrame(() => {
@@ -240,7 +225,7 @@ function wrapManagerMethods<
           }
 
           // If toast exists and is exiting, let it finish - don't add duplicate
-          if (existingToast && existingToast.transitionStatus === "ending") {
+          if (existingToast && existingToast.transitionStatus === 'ending') {
             return options.id;
           }
         }
@@ -261,34 +246,23 @@ function wrapManagerMethods<
       promise: Promise<T>,
       options: {
         loading: KumoToastManagerAddOptions<any>;
-        success:
-          | KumoToastManagerAddOptions<any>
-          | ((data: T) => KumoToastManagerAddOptions<any>);
+        success: KumoToastManagerAddOptions<any> | ((data: T) => KumoToastManagerAddOptions<any>);
         error:
-          | KumoToastManagerAddOptions<any>
-          | ((error: Error) => KumoToastManagerAddOptions<any>);
+          KumoToastManagerAddOptions<any> | ((error: Error) => KumoToastManagerAddOptions<any>);
       },
     ) => {
       return manager.promise(promise, {
         loading: { ...options.loading },
         success:
-          typeof options.success === "function"
+          typeof options.success === 'function'
             ? (data: T) => ({
-                ...(
-                  options.success as (
-                    data: T,
-                  ) => KumoToastManagerAddOptions<any>
-                )(data),
+                ...(options.success as (data: T) => KumoToastManagerAddOptions<any>)(data),
               })
             : { ...options.success },
         error:
-          typeof options.error === "function"
+          typeof options.error === 'function'
             ? (error: Error) => ({
-                ...(
-                  options.error as (
-                    error: Error,
-                  ) => KumoToastManagerAddOptions<any>
-                )(error),
+                ...(options.error as (error: Error) => KumoToastManagerAddOptions<any>)(error),
               })
             : { ...options.error },
       });
@@ -323,11 +297,7 @@ export const createKumoToastManager = () => {
  * </Toasty>
  * ```
  */
-export function Toasty({
-  children,
-  container: containerProp,
-  toastManager,
-}: ToastyProps) {
+export function Toasty({ children, container: containerProp, toastManager }: ToastyProps) {
   const contextContainer = usePortalContainer();
   const container = containerProp ?? contextContainer ?? undefined;
 
@@ -353,18 +323,18 @@ function ToastList() {
       key={toast.id}
       toast={toast}
       className={cn(
-        "absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 h-[var(--height)] w-full origin-bottom select-none",
+        'absolute right-0 bottom-0 left-auto z-[calc(1000-var(--toast-index))] mr-0 h-[var(--height)] w-full origin-bottom select-none',
         toastVariants({ variant: toast.variant }),
-        "[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))]",
-        "[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]",
+        '[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))]',
+        '[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [transition:transform_0.5s_cubic-bezier(0.22,1,0.36,1),opacity_0.5s,height_0.15s]',
         "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
-        "data-[ending-style]:opacity-0 data-[expanded]:h-[var(--toast-height)] data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)]",
-        "data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))]",
-        "data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))]",
-        "data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))]",
-        "data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))]",
-        "[&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)]",
-        toast.bump && "animate-toast-bump",
+        'data-[ending-style]:opacity-0 data-[expanded]:h-[var(--toast-height)] data-[expanded]:[transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--offset-y)))] data-[limited]:opacity-0 data-[starting-style]:[transform:translateY(150%)]',
+        'data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=down]:[transform:translateY(calc(var(--toast-swipe-movement-y)+150%))]',
+        'data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=left]:[transform:translateX(calc(var(--toast-swipe-movement-x)-150%))_translateY(var(--offset-y))]',
+        'data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))] data-[expanded]:data-[ending-style]:data-[swipe-direction=right]:[transform:translateX(calc(var(--toast-swipe-movement-x)+150%))_translateY(var(--offset-y))]',
+        'data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))] data-[expanded]:data-[ending-style]:data-[swipe-direction=up]:[transform:translateY(calc(var(--toast-swipe-movement-y)-150%))]',
+        '[&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)]',
+        toast.bump && 'animate-toast-bump',
       )}
     >
       <ToastBackground variant={toast.variant} />
@@ -401,7 +371,7 @@ function ToastList() {
               shape="square"
               aria-label="Close"
               className={cn(
-                "absolute top-2 right-2 size-5 rounded text-kumo-subtle hover:bg-current/15",
+                'absolute top-2 right-2 size-5 rounded text-kumo-subtle hover:bg-current/15',
                 toast.variant && TOAST_CLOSE_CLASSES[toast.variant],
               )}
               icon={<XIcon className="h-3 w-3" />}
@@ -414,41 +384,32 @@ function ToastList() {
 }
 
 const TOAST_CLOSE_CLASSES: Record<string, string> = {
-  success: "text-kumo-success",
-  error: "text-kumo-danger",
-  warning: "text-kumo-warning",
-  info: "text-kumo-info",
+  success: 'text-kumo-success',
+  error: 'text-kumo-danger',
+  warning: 'text-kumo-warning',
+  info: 'text-kumo-info',
 };
 
 const TOAST_BACKGROUND_CLASSES: Record<string, string> = {
-  success: "bg-kumo-success-tint/20",
-  error: "bg-kumo-danger-tint/50",
-  warning: "bg-kumo-warning-tint/50",
-  info: "bg-kumo-info-tint/50",
+  success: 'bg-kumo-success-tint/20',
+  error: 'bg-kumo-danger-tint/50',
+  warning: 'bg-kumo-warning-tint/50',
+  info: 'bg-kumo-info-tint/50',
 };
 
 function ToastBackground({ variant }: { variant?: KumoToastVariant }) {
   const background = variant && TOAST_BACKGROUND_CLASSES[variant];
-  return (
-    <div
-      className={cn(
-        "absolute inset-0 rounded-xl bg-kumo-base/90",
-        background,
-      )}
-    />
-  );
+  return <div className={cn('absolute inset-0 rounded-xl bg-kumo-base/90', background)} />;
 }
 
 function ToastIcon({ variant }: { variant?: KumoToastVariant }) {
-  if (!variant || variant === "default") return null;
+  if (!variant || variant === 'default') return null;
   const variantConfig = resolveVariant(
     KUMO_TOAST_VARIANTS.variant,
     variant,
     KUMO_TOAST_DEFAULT_VARIANTS.variant,
   );
-  if (!("icon" in variantConfig)) return null;
+  if (!('icon' in variantConfig)) return null;
   const Icon = variantConfig.icon;
-  return (
-    <Icon data-toast-icon className="mt-0.5 h-4 w-4 shrink-0" weight="fill" />
-  );
+  return <Icon data-toast-icon className="mt-0.5 h-4 w-4 shrink-0" weight="fill" />;
 }

@@ -1,42 +1,31 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { useState, useCallback, useEffect } from "react";
-import {
-  Dialog,
-  DialogRoot,
-  DialogTitle,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  CheckIcon,
-  CopyIcon,
-  WarningCircleIcon,
-  XIcon,
-} from "@phosphor-icons/react";
-import { Banner } from "@/components/ui/banner";
+import { useState, useCallback, useEffect } from 'react';
+import { Dialog, DialogRoot, DialogTitle, DialogClose } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { CheckIcon, CopyIcon, WarningCircleIcon, XIcon } from '@phosphor-icons/react';
+import { Banner } from '@/components/ui/banner';
 
 export const KUMO_DELETE_RESOURCE_VARIANTS = {
   size: {
     sm: {
-      classes: "",
-      description: "Small dialog for simple delete confirmations",
+      classes: '',
+      description: 'Small dialog for simple delete confirmations',
     },
     base: {
-      classes: "",
-      description: "Default delete confirmation dialog size",
+      classes: '',
+      description: 'Default delete confirmation dialog size',
     },
   },
 } as const;
 
 export const KUMO_DELETE_RESOURCE_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
-export type KumoDeleteResourceSize =
-  keyof typeof KUMO_DELETE_RESOURCE_VARIANTS.size;
+export type KumoDeleteResourceSize = keyof typeof KUMO_DELETE_RESOURCE_VARIANTS.size;
 
 export interface KumoDeleteResourceVariantsProps {
   size?: KumoDeleteResourceSize;
@@ -78,12 +67,12 @@ export function DeleteResource({
   errorMessage,
   className,
 }: DeleteResourceProps) {
-  const [confirmationInput, setConfirmationInput] = useState("");
+  const [confirmationInput, setConfirmationInput] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!open) {
-      setConfirmationInput("");
+      setConfirmationInput('');
       setCopied(false);
     }
   }, [open]);
@@ -94,8 +83,7 @@ export function DeleteResource({
   );
 
   const isConfirmed =
-    normalizeForComparison(confirmationInput) ===
-    normalizeForComparison(resourceName);
+    normalizeForComparison(confirmationInput) === normalizeForComparison(resourceName);
 
   const handleDelete = useCallback(async () => {
     if (!isConfirmed || isDeleting) return;
@@ -137,10 +125,8 @@ export function DeleteResource({
               </Banner>
             )}
             <p className="max-w-prose text-base text-pretty text-kumo-subtle">
-              This action cannot be undone. This will permanently delete the{" "}
-              <span className="font-medium text-kumo-default">
-                {resourceName}
-              </span>{" "}
+              This action cannot be undone. This will permanently delete the{' '}
+              <span className="font-medium text-kumo-default">{resourceName}</span>{' '}
               {resourceType.toLowerCase()}.
             </p>
           </div>
@@ -148,7 +134,7 @@ export function DeleteResource({
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-1.5 text-base">
               <span>
-                Type{" "}
+                Type{' '}
                 <button
                   className="group inline rounded-md bg-kumo-tint px-2 py-1 font-mono text-sm font-semibold hover:cursor-pointer hover:bg-kumo-fill"
                   onClick={handleCopy}
@@ -157,11 +143,7 @@ export function DeleteResource({
                   {resourceName}
 
                   {copied ? (
-                    <CheckIcon
-                      size={12}
-                      weight="bold"
-                      className="ml-1.5 inline"
-                    />
+                    <CheckIcon size={12} weight="bold" className="ml-1.5 inline" />
                   ) : (
                     <CopyIcon
                       size={12}
@@ -169,7 +151,7 @@ export function DeleteResource({
                       className="ml-1.5 inline text-kumo-subtle group-hover:text-kumo-default"
                     />
                   )}
-                </button>{" "}
+                </button>{' '}
                 to confirm:
               </span>
             </div>
@@ -210,4 +192,4 @@ export function DeleteResource({
   );
 }
 
-DeleteResource.displayName = "DeleteResource";
+DeleteResource.displayName = 'DeleteResource';

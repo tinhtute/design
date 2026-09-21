@@ -1,58 +1,44 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Combobox as ComboboxBase } from "@base-ui/react/combobox";
-import { CaretDownIcon, CheckIcon, XIcon } from "@phosphor-icons/react";
-import {
-  Fragment,
-  createContext,
-  useContext,
-  type PropsWithChildren,
-  type ReactNode,
-} from "react";
-import {
-  inputVariants,
-  KUMO_INPUT_VARIANTS,
-  type KumoInputSize,
-} from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { Field, type FieldErrorMatch } from "@/components/ui/field";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Combobox as ComboboxBase } from '@base-ui/react/combobox';
+import { CaretDownIcon, CheckIcon, XIcon } from '@phosphor-icons/react';
+import { Fragment, createContext, useContext, type PropsWithChildren, type ReactNode } from 'react';
+import { inputVariants, KUMO_INPUT_VARIANTS, type KumoInputSize } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { Field, type FieldErrorMatch } from '@/components/ui/field';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** Combobox variant definitions. */
 export const KUMO_COMBOBOX_VARIANTS = {
   size: KUMO_INPUT_VARIANTS.size,
   inputSide: {
     right: {
-      classes: "",
-      description: "Input positioned inline to the right of chips",
+      classes: '',
+      description: 'Input positioned inline to the right of chips',
     },
     top: {
-      classes: "",
-      description: "Input positioned above chips",
+      classes: '',
+      description: 'Input positioned above chips',
     },
   },
 } as const;
 
 export const KUMO_COMBOBOX_DEFAULT_VARIANTS = {
-  size: "base",
-  inputSide: "right",
+  size: 'base',
+  inputSide: 'right',
 } as const;
 
 // Context to pass size and error state down to sub-components
 const ComboboxContext = createContext<{
   size: KumoInputSize;
   hasError: boolean;
-}>({ size: "base", hasError: false });
+}>({ size: 'base', hasError: false });
 
 // Derived types from KUMO_COMBOBOX_VARIANTS
 export type KumoComboboxSize = keyof typeof KUMO_COMBOBOX_VARIANTS.size;
-export type KumoComboboxInputSide =
-  keyof typeof KUMO_COMBOBOX_VARIANTS.inputSide;
+export type KumoComboboxInputSide = keyof typeof KUMO_COMBOBOX_VARIANTS.inputSide;
 
 export interface KumoComboboxVariantsProps {
   /**
@@ -159,7 +145,7 @@ function Root<Value, Multiple extends boolean | undefined = false>({
   description,
   error,
   children,
-  size = "base",
+  size = 'base',
   ...props
 }: ComboboxBase.Root.Props<Value, Multiple> & {
   label?: ReactNode;
@@ -186,11 +172,7 @@ function Root<Value, Multiple extends boolean | undefined = false>({
         labelTooltip={labelTooltip}
         description={description}
         error={
-          error
-            ? typeof error === "string"
-              ? { message: error, match: true }
-              : error
-            : undefined
+          error ? (typeof error === 'string' ? { message: error, match: true } : error) : undefined
         }
       >
         {comboboxControl}
@@ -205,7 +187,7 @@ function Root<Value, Multiple extends boolean | undefined = false>({
 function Content({
   children,
   className,
-  align = "start",
+  align = 'start',
   sideOffset = 4,
   alignOffset,
   side,
@@ -219,17 +201,17 @@ function Content({
   container: containerProp,
 }: PropsWithChildren<{
   className?: string;
-  align?: ComboboxBase.Positioner.Props["align"];
-  alignOffset?: ComboboxBase.Positioner.Props["alignOffset"];
-  side?: ComboboxBase.Positioner.Props["side"];
-  sideOffset?: ComboboxBase.Positioner.Props["sideOffset"];
-  anchor?: ComboboxBase.Positioner.Props["anchor"];
-  positionMethod?: ComboboxBase.Positioner.Props["positionMethod"];
-  collisionAvoidance?: ComboboxBase.Positioner.Props["collisionAvoidance"];
-  collisionBoundary?: ComboboxBase.Positioner.Props["collisionBoundary"];
-  collisionPadding?: ComboboxBase.Positioner.Props["collisionPadding"];
-  sticky?: ComboboxBase.Positioner.Props["sticky"];
-  disableAnchorTracking?: ComboboxBase.Positioner.Props["disableAnchorTracking"];
+  align?: ComboboxBase.Positioner.Props['align'];
+  alignOffset?: ComboboxBase.Positioner.Props['alignOffset'];
+  side?: ComboboxBase.Positioner.Props['side'];
+  sideOffset?: ComboboxBase.Positioner.Props['sideOffset'];
+  anchor?: ComboboxBase.Positioner.Props['anchor'];
+  positionMethod?: ComboboxBase.Positioner.Props['positionMethod'];
+  collisionAvoidance?: ComboboxBase.Positioner.Props['collisionAvoidance'];
+  collisionBoundary?: ComboboxBase.Positioner.Props['collisionBoundary'];
+  collisionPadding?: ComboboxBase.Positioner.Props['collisionPadding'];
+  sticky?: ComboboxBase.Positioner.Props['sticky'];
+  disableAnchorTracking?: ComboboxBase.Positioner.Props['disableAnchorTracking'];
   /**
    * Container element for the portal. Use this to render the combobox inside
    * a Shadow DOM or custom container. Overrides `KumoPortalProvider` context.
@@ -258,10 +240,10 @@ function Content({
       >
         <ComboboxBase.Popup
           className={cn(
-            "flex flex-col", // flexbox layout for sticky input + scrollable list
-            "max-h-[min(var(--available-height),24rem)] max-w-(--available-width) min-w-(--anchor-width) py-1.5",
-            "bg-kumo-base text-kumo-default", // background
-            "rounded-lg shadow-lg ring ring-kumo-line", // border part
+            'flex flex-col', // flexbox layout for sticky input + scrollable list
+            'max-h-[min(var(--available-height),24rem)] max-w-(--available-width) min-w-(--anchor-width) py-1.5',
+            'bg-kumo-base text-kumo-default', // background
+            'rounded-lg shadow-lg ring ring-kumo-line', // border part
             className,
           )}
         >
@@ -277,10 +259,10 @@ const triggerValueIconStyles: Record<
   KumoComboboxSize,
   { padding: string; iconSize: number; iconRight: string }
 > = {
-  xs: { padding: "pr-5", iconSize: 12, iconRight: "right-1" },
-  sm: { padding: "pr-6", iconSize: 14, iconRight: "right-1.5" },
-  base: { padding: "pr-8", iconSize: 16, iconRight: "right-2" },
-  lg: { padding: "pr-10", iconSize: 18, iconRight: "right-3" },
+  xs: { padding: 'pr-5', iconSize: 12, iconRight: 'right-1' },
+  sm: { padding: 'pr-6', iconSize: 14, iconRight: 'right-1.5' },
+  base: { padding: 'pr-8', iconSize: 16, iconRight: 'right-2' },
+  lg: { padding: 'pr-10', iconSize: 18, iconRight: 'right-3' },
 };
 
 function TriggerValue({
@@ -290,7 +272,7 @@ function TriggerValue({
 }: ComboboxBase.Value.Props & {
   className?: string;
   /** Replaces the trigger element while preserving Combobox behavior. */
-  render?: ComboboxBase.Trigger.Props["render"];
+  render?: ComboboxBase.Trigger.Props['render'];
 }) {
   const { size, hasError } = useContext(ComboboxContext);
   const iconStyles = triggerValueIconStyles[size];
@@ -301,10 +283,10 @@ function TriggerValue({
       data-kumo-part="trigger"
       render={render}
       className={cn(
-        inputVariants({ size, variant: hasError ? "error" : "default" }),
-        "relative flex items-center",
-        "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
-        "data-[placeholder]:text-kumo-placeholder",
+        inputVariants({ size, variant: hasError ? 'error' : 'default' }),
+        'relative flex items-center',
+        'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
+        'data-[placeholder]:text-kumo-placeholder',
         iconStyles.padding,
         className,
       )}
@@ -312,7 +294,7 @@ function TriggerValue({
       <ComboboxBase.Value {...props} />
       <ComboboxBase.Icon
         className={cn(
-          "absolute top-1/2 flex -translate-y-1/2 items-center text-kumo-subtle",
+          'absolute top-1/2 flex -translate-y-1/2 items-center text-kumo-subtle',
           iconStyles.iconRight,
         )}
       >
@@ -328,34 +310,34 @@ const triggerInputIconStyles: Record<
   { padding: string; iconSize: number; clearRight: string; caretRight: string }
 > = {
   xs: {
-    padding: "pr-7",
+    padding: 'pr-7',
     iconSize: 12,
-    clearRight: "right-5",
-    caretRight: "right-1",
+    clearRight: 'right-5',
+    caretRight: 'right-1',
   },
   sm: {
-    padding: "pr-9",
+    padding: 'pr-9',
     iconSize: 14,
-    clearRight: "right-6",
-    caretRight: "right-1.5",
+    clearRight: 'right-6',
+    caretRight: 'right-1.5',
   },
   base: {
-    padding: "pr-12",
+    padding: 'pr-12',
     iconSize: 16,
-    clearRight: "right-8",
-    caretRight: "right-2",
+    clearRight: 'right-8',
+    caretRight: 'right-2',
   },
   lg: {
-    padding: "pr-14",
+    padding: 'pr-14',
     iconSize: 18,
-    clearRight: "right-9",
-    caretRight: "right-3",
+    clearRight: 'right-9',
+    caretRight: 'right-3',
   },
 };
 
 function TriggerInput({
-  clearLabel = "Clear selection",
-  showOptionsLabel = "Show options",
+  clearLabel = 'Clear selection',
+  showOptionsLabel = 'Show options',
   ...props
 }: ComboboxBase.Input.Props & {
   /** Accessible label for the clear button. Pass a translated string for i18n.
@@ -373,18 +355,18 @@ function TriggerInput({
   return (
     <div
       className={cn(
-        "relative inline-block w-full",
-        "has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50",
+        'relative inline-block w-full',
+        'has-[:disabled]:cursor-not-allowed has-[:disabled]:opacity-50',
         props.className,
       )}
     >
       <ComboboxBase.Input
         {...props}
         className={cn(
-          inputVariants({ size, variant: hasError ? "error" : "default" }),
-          "w-full",
+          inputVariants({ size, variant: hasError ? 'error' : 'default' }),
+          'w-full',
           iconStyles.padding,
-          "disabled:cursor-not-allowed",
+          'disabled:cursor-not-allowed',
         )}
       />
 
@@ -393,8 +375,8 @@ function TriggerInput({
         data-kumo-part="clear"
         aria-label={clearLabel}
         className={cn(
-          "absolute top-1/2 flex -translate-y-1/2 cursor-pointer bg-transparent p-0",
-          "data-[disabled]:pointer-events-none data-[disabled]:opacity-0",
+          'absolute top-1/2 flex -translate-y-1/2 cursor-pointer bg-transparent p-0',
+          'data-[disabled]:pointer-events-none data-[disabled]:opacity-0',
           iconStyles.clearRight,
         )}
       >
@@ -406,8 +388,8 @@ function TriggerInput({
         data-kumo-part="trigger"
         aria-label={showOptionsLabel}
         className={cn(
-          "absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center text-kumo-subtle",
-          "m-0 bg-transparent p-0", // Reset Stratus global button styles
+          'absolute top-1/2 flex -translate-y-1/2 cursor-pointer items-center justify-center text-kumo-subtle',
+          'm-0 bg-transparent p-0', // Reset Stratus global button styles
           iconStyles.caretRight,
         )}
       >
@@ -419,23 +401,19 @@ function TriggerInput({
   );
 }
 
-function Item({
-  children,
-  className,
-  ...props
-}: ComboboxBase.Item.Props & { className?: string }) {
+function Item({ children, className, ...props }: ComboboxBase.Item.Props & { className?: string }) {
   return (
     <ComboboxBase.Item
       data-kumo-component="Combobox"
       data-kumo-part="item"
       {...props}
       className={cn(
-        "group mx-1.5 grid grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-base",
-        "cursor-pointer data-highlighted:bg-kumo-tint",
+        'group mx-1.5 grid grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-base',
+        'cursor-pointer data-highlighted:bg-kumo-tint',
         // Disabled rows: muted text, no pointer, suppress highlight bg even
         // when keyboard nav lands on them. Base UI sets `data-disabled` on
         // the element when the `disabled` prop is true.
-        "data-[disabled]:cursor-not-allowed data-[disabled]:text-kumo-subtle data-[disabled]:opacity-60 data-[disabled]:data-highlighted:bg-transparent",
+        'data-[disabled]:cursor-not-allowed data-[disabled]:text-kumo-subtle data-[disabled]:opacity-60 data-[disabled]:data-highlighted:bg-transparent',
         className,
       )}
     >
@@ -452,9 +430,9 @@ function Empty(props: ComboboxBase.Empty.Props) {
     <ComboboxBase.Empty
       {...props}
       className={cn(
-        "mx-1.5 shrink-0 px-4 py-2 text-[0.925rem] leading-4 text-kumo-subtle empty:m-0 empty:p-0",
+        'mx-1.5 shrink-0 px-4 py-2 text-[0.925rem] leading-4 text-kumo-subtle empty:m-0 empty:p-0',
       )}
-      children={props.children ?? "No labels found."}
+      children={props.children ?? 'No labels found.'}
     />
   );
 }
@@ -465,22 +443,19 @@ function Input(props: ComboboxBase.Input.Props) {
       {...props}
       className={cn(
         inputVariants(),
-        "mx-0 -mt-1.5 w-full shrink-0 rounded-b-none first:mb-2",
+        'mx-0 -mt-1.5 w-full shrink-0 rounded-b-none first:mb-2',
         props.className,
       )}
     />
   );
 }
 
-function List({
-  className,
-  ...props
-}: ComboboxBase.List.Props & { className?: string }) {
+function List({ className, ...props }: ComboboxBase.List.Props & { className?: string }) {
   return (
     <ComboboxBase.List
       {...props}
       className={cn(
-        "min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain",
+        'min-h-0 flex-1 scroll-pt-2 scroll-pb-2 overflow-y-auto overscroll-contain',
         className,
       )}
     />
@@ -491,10 +466,7 @@ function GroupLabel(props: ComboboxBase.GroupLabel.Props) {
   return (
     <ComboboxBase.GroupLabel
       {...props}
-      className={cn(
-        "mx-1.5 px-2 py-1.5 text-sm text-kumo-subtle",
-        props.className,
-      )}
+      className={cn('mx-1.5 px-2 py-1.5 text-sm text-kumo-subtle', props.className)}
     />
   );
 }
@@ -509,7 +481,7 @@ function Group(props: ComboboxBase.Group.Props) {
 }
 
 function Chip({
-  removeLabel = "Remove",
+  removeLabel = 'Remove',
   ...props
 }: ComboboxBase.Chip.Props & {
   /** Accessible label for the chip remove button. Pass a translated string for i18n.
@@ -521,11 +493,11 @@ function Chip({
     <ComboboxBase.Chip
       {...props}
       className={cn(
-        "flex items-center gap-2.5", // Layout
-        "h-6 pr-[3px] pl-2", // Dimensions
-        "rounded-sm ring-1 ring-kumo-hairline", // Border
-        "bg-kumo-overlay", // Background
-        "text-sm", // Typography
+        'flex items-center gap-2.5', // Layout
+        'h-6 pr-[3px] pl-2', // Dimensions
+        'rounded-sm ring-1 ring-kumo-hairline', // Border
+        'bg-kumo-overlay', // Background
+        'text-sm', // Typography
       )}
     >
       {props.children}
@@ -534,8 +506,8 @@ function Chip({
         data-kumo-part="chip-remove"
         aria-label={removeLabel}
         className={cn(
-          "cursor-pointer rounded-md p-1 hover:bg-kumo-fill-hover",
-          "flex bg-transparent",
+          'cursor-pointer rounded-md p-1 hover:bg-kumo-fill-hover',
+          'flex bg-transparent',
         )}
       >
         <XIcon size={10} />
@@ -546,23 +518,23 @@ function Chip({
 
 // Map size to min-height class for TriggerMultipleWithInput
 const sizeToMinHeight: Record<KumoComboboxSize, string> = {
-  xs: "min-h-5",
-  sm: "min-h-6.5",
-  base: "min-h-9",
-  lg: "min-h-10",
+  xs: 'min-h-5',
+  sm: 'min-h-6.5',
+  base: 'min-h-9',
+  lg: 'min-h-10',
 };
 
 function TriggerMultipleWithInput<ValueType>({
   placeholder,
   renderItem,
   className,
-  inputSide = "right",
+  inputSide = 'right',
   value: controlledValue,
 }: {
   placeholder?: string;
   renderItem: (value: ValueType) => ReactNode;
   className?: string;
-  inputSide?: "right" | "top";
+  inputSide?: 'right' | 'top';
   /** Optional controlled value for rendering chips (use when pre-selecting values) */
   value?: ValueType[];
 }) {
@@ -576,17 +548,16 @@ function TriggerMultipleWithInput<ValueType>({
   return (
     <ComboboxBase.Chips
       className={cn(
-        inputVariants({ size, variant: hasError ? "error" : "default" }),
-        "flex flex-col",
-        "gap-1 px-1.5 py-1",
+        inputVariants({ size, variant: hasError ? 'error' : 'default' }),
+        'flex flex-col',
+        'gap-1 px-1.5 py-1',
         sizeToMinHeight[size],
-        "h-auto",
-        "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+        'h-auto',
+        'data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',
         className,
       )}
     >
-      {inputSide === "top" &&
-        renderTriggerInput("w-full border-0 bg-inherit px-2 py-1")}
+      {inputSide === 'top' && renderTriggerInput('w-full border-0 bg-inherit px-2 py-1')}
       {/* Chips container */}
       <div className="flex flex-1 flex-wrap items-center gap-1.5">
         {/* Render chips from controlled value if provided */}
@@ -598,29 +569,23 @@ function TriggerMultipleWithInput<ValueType>({
           {(internalValue: ValueType[]) => {
             // Skip rendering if using controlled value (to avoid duplicates)
             if (chipsToRender !== undefined) return null;
-            return (
-              <Fragment>
-                {internalValue.map((item) => renderItem(item))}
-              </Fragment>
-            );
+            return <Fragment>{internalValue.map((item) => renderItem(item))}</Fragment>;
           }}
         </ComboboxBase.Value>
-        {inputSide === "right" &&
-          renderTriggerInput(
-            "min-w-[100px] flex-1 border-0 bg-inherit px-2 py-1",
-          )}
+        {inputSide === 'right' &&
+          renderTriggerInput('min-w-[100px] flex-1 border-0 bg-inherit px-2 py-1')}
       </div>
     </ComboboxBase.Chips>
   );
 }
 
-Root.displayName = "Combobox.Root";
-Content.displayName = "Combobox.Content";
-TriggerValue.displayName = "Combobox.TriggerValue";
-TriggerInput.displayName = "Combobox.TriggerInput";
-Item.displayName = "Combobox.Item";
-Chip.displayName = "Combobox.Chip";
-TriggerMultipleWithInput.displayName = "Combobox.TriggerMultipleWithInput";
+Root.displayName = 'Combobox.Root';
+Content.displayName = 'Combobox.Content';
+TriggerValue.displayName = 'Combobox.TriggerValue';
+TriggerInput.displayName = 'Combobox.TriggerInput';
+Item.displayName = 'Combobox.Item';
+Chip.displayName = 'Combobox.Chip';
+TriggerMultipleWithInput.displayName = 'Combobox.TriggerMultipleWithInput';
 
 /**
  * Combobox — autocomplete input with filterable dropdown list.
@@ -674,4 +639,4 @@ export const Combobox = Object.assign(Root, {
   useFilter: ComboboxBase.useFilter,
 });
 
-export type { ComboboxFilter } from "@base-ui/react/combobox";
+export type { ComboboxFilter } from '@base-ui/react/combobox';

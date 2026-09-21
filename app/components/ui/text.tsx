@@ -8,83 +8,80 @@ import {
   type ForwardedRef,
   forwardRef,
   useMemo,
-} from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+} from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 /** Text variant and size definitions mapping names to their Tailwind classes. */
 export const KUMO_TEXT_VARIANTS = {
   variant: {
     heading: {
-      classes: "text-lg font-semibold",
-      description: "Heading text (16px by default, 20px at large size)",
+      classes: 'text-lg font-semibold',
+      description: 'Heading text (16px by default, 20px at large size)',
     },
     /** @deprecated Use `heading` and set `size` and `as` explicitly. */
     heading1: {
-      classes: "text-3xl font-semibold",
-      description:
-        "Deprecated large heading for page titles; use heading instead",
+      classes: 'text-3xl font-semibold',
+      description: 'Deprecated large heading for page titles; use heading instead',
     },
     /** @deprecated Use `heading` and set `size` and `as` explicitly. */
     heading2: {
-      classes: "text-2xl font-semibold",
-      description:
-        "Deprecated medium heading for section titles; use heading instead",
+      classes: 'text-2xl font-semibold',
+      description: 'Deprecated medium heading for section titles; use heading instead',
     },
     /** @deprecated Use `heading` and set `size` and `as` explicitly. */
     heading3: {
-      classes: "text-lg font-semibold",
-      description:
-        "Deprecated small heading for subsections; use heading instead",
+      classes: 'text-lg font-semibold',
+      description: 'Deprecated small heading for subsections; use heading instead',
     },
     body: {
-      classes: "text-kumo-default",
-      description: "Default body text",
+      classes: 'text-kumo-default',
+      description: 'Default body text',
     },
     secondary: {
-      classes: "text-kumo-subtle",
-      description: "Muted text for secondary information",
+      classes: 'text-kumo-subtle',
+      description: 'Muted text for secondary information',
     },
     success: {
-      classes: "text-kumo-link",
-      description: "Success state text",
+      classes: 'text-kumo-link',
+      description: 'Success state text',
     },
     error: {
-      classes: "text-kumo-danger",
-      description: "Error state text",
+      classes: 'text-kumo-danger',
+      description: 'Error state text',
     },
     mono: {
-      classes: "font-mono",
-      description: "Monospace text for code",
+      classes: 'font-mono',
+      description: 'Monospace text for code',
     },
-    "mono-secondary": {
-      classes: "font-mono text-kumo-subtle",
-      description: "Muted monospace text",
+    'mono-secondary': {
+      classes: 'font-mono text-kumo-subtle',
+      description: 'Muted monospace text',
     },
   },
   size: {
     xs: {
-      classes: "text-xs/[inherit]",
-      description: "Extra small text",
+      classes: 'text-xs/[inherit]',
+      description: 'Extra small text',
     },
     sm: {
-      classes: "text-sm/[inherit]",
-      description: "Small text",
+      classes: 'text-sm/[inherit]',
+      description: 'Small text',
     },
     base: {
-      classes: "text-base/[inherit]",
-      description: "Default text size",
+      classes: 'text-base/[inherit]',
+      description: 'Default text size',
     },
     lg: {
-      classes: "text-lg/[inherit]",
-      description: "Large text",
+      classes: 'text-lg/[inherit]',
+      description: 'Large text',
     },
   },
 } as const;
 
 export const KUMO_TEXT_DEFAULT_VARIANTS = {
-  variant: "body",
-  size: "base",
+  variant: 'body',
+  size: 'base',
 } as const;
 
 /**
@@ -104,26 +101,26 @@ export const KUMO_TEXT_STYLING = {
     base: 16,
     lg: 18,
     xl: 20,
-    "2xl": 24,
-    "3xl": 30,
+    '2xl': 24,
+    '3xl': 30,
   },
   fontWeights: {
     normal: 400,
     medium: 500,
     semibold: 600,
   },
-  baseColor: "text-kumo-default",
+  baseColor: 'text-kumo-default',
   variantColors: {
-    body: "text-kumo-default",
-    secondary: "text-kumo-subtle",
-    success: "text-kumo-link",
-    error: "text-kumo-danger",
-    mono: "text-kumo-default",
-    "mono-secondary": "text-kumo-subtle",
+    body: 'text-kumo-default',
+    secondary: 'text-kumo-subtle',
+    success: 'text-kumo-link',
+    error: 'text-kumo-danger',
+    mono: 'text-kumo-default',
+    'mono-secondary': 'text-kumo-subtle',
   },
   fontFamilies: {
-    default: "sans-serif",
-    mono: "monospace",
+    default: 'sans-serif',
+    mono: 'monospace',
   },
 } as const;
 
@@ -131,48 +128,40 @@ export const KUMO_TEXT_STYLING = {
 export type KumoTextVariant = keyof typeof KUMO_TEXT_VARIANTS.variant;
 export type KumoTextSize = keyof typeof KUMO_TEXT_VARIANTS.size;
 
-type Heading = "heading";
-type DeprecatedHeading = "heading1" | "heading2" | "heading3";
-type Copy = "body" | "secondary" | "success" | "error";
-type Monospace = "mono" | "mono-secondary";
+type Heading = 'heading';
+type DeprecatedHeading = 'heading1' | 'heading2' | 'heading3';
+type Copy = 'body' | 'secondary' | 'success' | 'error';
+type Monospace = 'mono' | 'mono-secondary';
 type TextSize = KumoTextSize;
 type TextVariant = KumoTextVariant;
 
 const DEPRECATED_HEADING_VARIANTS: readonly DeprecatedHeading[] = [
-  "heading1",
-  "heading2",
-  "heading3",
+  'heading1',
+  'heading2',
+  'heading3',
 ];
 
-function isDeprecatedHeadingVariant(
-  variant: TextVariant,
-): variant is DeprecatedHeading {
-  return (DEPRECATED_HEADING_VARIANTS as readonly TextVariant[]).includes(
-    variant,
-  );
+function isDeprecatedHeadingVariant(variant: TextVariant): variant is DeprecatedHeading {
+  return (DEPRECATED_HEADING_VARIANTS as readonly TextVariant[]).includes(variant);
 }
 
 function resolveTextSizeClasses(variant: TextVariant, size: TextSize) {
-  if (variant === "heading") {
-    return size === "lg" ? "text-xl" : "";
+  if (variant === 'heading') {
+    return size === 'lg' ? 'text-xl' : '';
   }
 
   if (isDeprecatedHeadingVariant(variant)) {
-    return "";
+    return '';
   }
 
-  if (["mono", "mono-secondary"].includes(variant)) {
+  if (['mono', 'mono-secondary'].includes(variant)) {
     // Monospace fonts need to be 1pt smaller than body text to optically match.
-    return size === "lg"
+    return size === 'lg'
       ? KUMO_TEXT_VARIANTS.size.base.classes
       : KUMO_TEXT_VARIANTS.size.sm.classes;
   }
 
-  return resolveVariant(
-    KUMO_TEXT_VARIANTS.size,
-    size,
-    KUMO_TEXT_DEFAULT_VARIANTS.size,
-  ).classes;
+  return resolveVariant(KUMO_TEXT_VARIANTS.size, size, KUMO_TEXT_DEFAULT_VARIANTS.size).classes;
 }
 
 export interface KumoTextVariantsProps {
@@ -185,48 +174,41 @@ export function textVariants({
   size = KUMO_TEXT_DEFAULT_VARIANTS.size,
 }: KumoTextVariantsProps = {}) {
   return cn(
-    resolveVariant(
-      KUMO_TEXT_VARIANTS.variant,
-      variant,
-      KUMO_TEXT_DEFAULT_VARIANTS.variant,
-    ).classes,
+    resolveVariant(KUMO_TEXT_VARIANTS.variant, variant, KUMO_TEXT_DEFAULT_VARIANTS.variant).classes,
     resolveTextSizeClasses(variant, size),
   );
 }
 
 /** Valid HTML elements for the Text component's `as` prop. */
 export type TextElement =
-  | "h1"
-  | "h2"
-  | "h3"
-  | "h4"
-  | "h5"
-  | "h6"
-  | "p"
-  | "span"
-  | "label"
-  | "dt"
-  | "dd"
-  | "li"
-  | "figcaption"
-  | "legend"
-  | "pre"
-  | "code"
-  | "em"
-  | "strong"
-  | "small"
-  | "abbr"
-  | "time";
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'p'
+  | 'span'
+  | 'label'
+  | 'dt'
+  | 'dd'
+  | 'li'
+  | 'figcaption'
+  | 'legend'
+  | 'pre'
+  | 'code'
+  | 'em'
+  | 'strong'
+  | 'small'
+  | 'abbr'
+  | 'time';
 
-type BaseTextProps = Omit<
-  ComponentPropsWithoutRef<"span">,
-  "className" | "style"
-> & {
+type BaseTextProps = Omit<ComponentPropsWithoutRef<'span'>, 'className' | 'style'> & {
   DANGEROUS_className?: string;
   DANGEROUS_style?: CSSProperties;
 };
 
-type TextPropsInternal<Variant extends TextVariant = "body"> = BaseTextProps &
+type TextPropsInternal<Variant extends TextVariant = 'body'> = BaseTextProps &
   (Variant extends Copy
     ? {
         variant?: Variant;
@@ -240,7 +222,7 @@ type TextPropsInternal<Variant extends TextVariant = "body"> = BaseTextProps &
       ? {
           variant?: Variant;
           bold?: never;
-          size?: "lg";
+          size?: 'lg';
           truncate?: boolean;
           /** Optional element override. Defaults to `<span>`. */
           as?: TextElement;
@@ -249,7 +231,7 @@ type TextPropsInternal<Variant extends TextVariant = "body"> = BaseTextProps &
         ? {
             variant: Variant;
             bold?: never;
-            size?: "lg";
+            size?: 'lg';
             truncate?: boolean;
             /**
              * Optional element override. Defaults to `<span>`. Pass the
@@ -345,11 +327,11 @@ export interface TextProps {
  * <Text>Default body text</Text>
  * ```
  */
-function _Text<Variant extends TextVariant = "body">(
+function _Text<Variant extends TextVariant = 'body'>(
   {
-    variant = "body" as Variant,
+    variant = 'body' as Variant,
     bold = false,
-    size = "base",
+    size = 'base',
     truncate = false,
     children,
     DANGEROUS_className,
@@ -359,10 +341,10 @@ function _Text<Variant extends TextVariant = "body">(
   }: TextPropsInternal<Variant>,
   ref: ForwardedRef<HTMLElement>,
 ) {
-  const isCopy = ["body", "secondary", "success", "error"].includes(variant);
+  const isCopy = ['body', 'secondary', 'success', 'error'].includes(variant);
   const isDeprecatedHeading = isDeprecatedHeadingVariant(variant);
 
-  if (process.env.NODE_ENV !== "production" && isDeprecatedHeading) {
+  if (process.env.NODE_ENV !== 'production' && isDeprecatedHeading) {
     console.warn(
       `[Kumo Text]: variant="${variant}" is deprecated. Use variant="heading" and set size and as explicitly.`,
     );
@@ -372,11 +354,11 @@ function _Text<Variant extends TextVariant = "body">(
   // separate from the document outline. Use `as` to opt into semantic HTML.
   const Component = useMemo(() => {
     if (as) return as;
-    if (["mono", "mono-secondary"].includes(variant)) return "span";
-    if (variant === "heading" || isDeprecatedHeadingVariant(variant)) {
-      return "span";
+    if (['mono', 'mono-secondary'].includes(variant)) return 'span';
+    if (variant === 'heading' || isDeprecatedHeadingVariant(variant)) {
+      return 'span';
     }
-    return "p";
+    return 'p';
   }, [variant, as]);
 
   return (
@@ -386,15 +368,12 @@ function _Text<Variant extends TextVariant = "body">(
       // (HTMLElement) which is safe — all text elements extend HTMLElement.
       ref={ref as React.RefCallback<HTMLElement>}
       className={cn(
-        "text-kumo-default",
-        resolveVariant(
-          KUMO_TEXT_VARIANTS.variant,
-          variant,
-          KUMO_TEXT_DEFAULT_VARIANTS.variant,
-        ).classes,
+        'text-kumo-default',
+        resolveVariant(KUMO_TEXT_VARIANTS.variant, variant, KUMO_TEXT_DEFAULT_VARIANTS.variant)
+          .classes,
         resolveTextSizeClasses(variant, size),
-        isCopy && bold ? "font-medium" : "",
-        truncate && "min-w-0 truncate",
+        isCopy && bold ? 'font-medium' : '',
+        truncate && 'min-w-0 truncate',
         DANGEROUS_className,
       )}
       style={DANGEROUS_style}
@@ -405,8 +384,8 @@ function _Text<Variant extends TextVariant = "body">(
   );
 }
 
-export const Text = forwardRef(_Text) as <Variant extends TextVariant = "body">(
+export const Text = forwardRef(_Text) as <Variant extends TextVariant = 'body'>(
   props: TextPropsInternal<Variant> & {
-    ref?: ForwardedRef<ElementRef<"span">>;
+    ref?: ForwardedRef<ElementRef<'span'>>;
   },
 ) => React.ReactElement;

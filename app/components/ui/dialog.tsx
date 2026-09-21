@@ -7,53 +7,49 @@ import {
   type ComponentPropsWithoutRef,
   type CSSProperties,
   type ReactNode,
-} from "react";
-import { Dialog as DialogBase } from "@base-ui/react/dialog";
-import { AlertDialog as AlertDialogBase } from "@base-ui/react/alert-dialog";
-import { LayerCard } from "@/components/ui/layer-card";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+} from 'react';
+import { Dialog as DialogBase } from '@base-ui/react/dialog';
+import { AlertDialog as AlertDialogBase } from '@base-ui/react/alert-dialog';
+import { LayerCard } from '@/components/ui/layer-card';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** Dialog size variant definitions mapping sizes to their minimum widths. */
 export const KUMO_DIALOG_VARIANTS = {
   size: {
     base: {
-      classes: "sm:w-96",
-      description: "Default dialog width (384px)",
+      classes: 'sm:w-96',
+      description: 'Default dialog width (384px)',
     },
     sm: {
-      classes: "sm:w-72",
-      description: "Small dialog for simple confirmations (288px)",
+      classes: 'sm:w-72',
+      description: 'Small dialog for simple confirmations (288px)',
     },
     lg: {
-      classes: "sm:w-[32rem]",
-      description: "Large dialog for complex content (512px)",
+      classes: 'sm:w-[32rem]',
+      description: 'Large dialog for complex content (512px)',
     },
     xl: {
-      classes: "sm:w-[48rem]",
-      description: "Extra large dialog for detailed views (768px)",
+      classes: 'sm:w-[48rem]',
+      description: 'Extra large dialog for detailed views (768px)',
     },
   },
   role: {
     dialog: {
-      classes: "",
-      description: "Standard dialog for general-purpose modals",
+      classes: '',
+      description: 'Standard dialog for general-purpose modals',
     },
     alertdialog: {
-      classes: "",
-      description:
-        "Alert dialog for confirmation flows requiring explicit user acknowledgment",
+      classes: '',
+      description: 'Alert dialog for confirmation flows requiring explicit user acknowledgment',
     },
   },
 } as const;
 
 export const KUMO_DIALOG_DEFAULT_VARIANTS = {
-  size: "base",
-  role: "dialog",
+  size: 'base',
+  role: 'dialog',
 } as const;
 
 export const KUMO_DIALOG_STYLING = {
@@ -64,7 +60,7 @@ export const KUMO_DIALOG_STYLING = {
       descSize: 16,
       padding: 16,
       gap: 8,
-      buttonSize: "sm",
+      buttonSize: 'sm',
     },
     base: {
       width: 384,
@@ -72,7 +68,7 @@ export const KUMO_DIALOG_STYLING = {
       descSize: 16,
       padding: 24,
       gap: 16,
-      buttonSize: "base",
+      buttonSize: 'base',
     },
     lg: {
       width: 512,
@@ -80,7 +76,7 @@ export const KUMO_DIALOG_STYLING = {
       descSize: 16,
       padding: 24,
       gap: 16,
-      buttonSize: "base",
+      buttonSize: 'base',
     },
     xl: {
       width: 768,
@@ -88,30 +84,30 @@ export const KUMO_DIALOG_STYLING = {
       descSize: 16,
       padding: 24,
       gap: 16,
-      buttonSize: "base",
+      buttonSize: 'base',
     },
   },
   baseTokens: {
-    background: "color-surface",
-    text: "text-color-surface",
+    background: 'color-surface',
+    text: 'text-color-surface',
     borderRadius: 12,
-    shadow: "shadow-m",
+    shadow: 'shadow-m',
   },
   backdrop: {
-    background: "color-surface-secondary",
+    background: 'color-surface-secondary',
     opacity: 0.8,
   },
   header: {
-    title: { fontWeight: 600, color: "text-color-surface" },
-    closeIcon: { name: "ph-x", size: 20, color: "text-color-muted" },
+    title: { fontWeight: 600, color: 'text-color-surface' },
+    closeIcon: { name: 'ph-x', size: 20, color: 'text-color-muted' },
   },
   description: {
     fontWeight: 400,
-    color: "text-color-muted",
+    color: 'text-color-muted',
   },
   buttons: {
-    primary: { background: "color-primary", text: "white" },
-    secondary: { ring: "color-border", text: "text-color-surface" },
+    primary: { background: 'color-primary', text: 'white' },
+    secondary: { ring: 'color-border', text: 'text-color-surface' },
   },
 } as const;
 
@@ -135,7 +131,7 @@ export interface KumoDialogVariantsProps {
 // Dialog Role Context
 // ============================================================================
 
-const DialogRoleContext = createContext<KumoDialogRole>("dialog");
+const DialogRoleContext = createContext<KumoDialogRole>('dialog');
 
 function useDialogRole() {
   return useContext(DialogRoleContext);
@@ -146,13 +142,9 @@ export function dialogVariants({
 }: KumoDialogVariantsProps = {}) {
   return cn(
     // Base styles
-    "shadow-md ring ring-kumo-line fixed top-8 left-1/2 sm:top-16 w-full max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-hidden rounded-xl bg-kumo-base text-kumo-default duration-150 data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0",
+    'shadow-md ring ring-kumo-line fixed top-8 left-1/2 sm:top-16 w-full max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-hidden rounded-xl bg-kumo-base text-kumo-default duration-150 data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0',
     // Apply size from KUMO_DIALOG_VARIANTS
-    resolveVariant(
-      KUMO_DIALOG_VARIANTS.size,
-      size,
-      KUMO_DIALOG_DEFAULT_VARIANTS.size,
-    ).classes,
+    resolveVariant(KUMO_DIALOG_VARIANTS.size, size, KUMO_DIALOG_DEFAULT_VARIANTS.size).classes,
   );
 }
 
@@ -226,26 +218,25 @@ function DialogContent({
   const contextContainer = usePortalContainer();
   const container = containerProp ?? contextContainer ?? undefined;
 
-  const BasePortal =
-    role === "alertdialog" ? AlertDialogBase.Portal : DialogBase.Portal;
-  const BaseBackdrop =
-    role === "alertdialog" ? AlertDialogBase.Backdrop : DialogBase.Backdrop;
-  const BasePopup =
-    role === "alertdialog" ? AlertDialogBase.Popup : DialogBase.Popup;
+  const BasePortal = role === 'alertdialog' ? AlertDialogBase.Portal : DialogBase.Portal;
+  const BaseBackdrop = role === 'alertdialog' ? AlertDialogBase.Backdrop : DialogBase.Backdrop;
+  const BasePopup = role === 'alertdialog' ? AlertDialogBase.Popup : DialogBase.Popup;
 
   return (
     <BasePortal container={container}>
       <BaseBackdrop className="fixed inset-0 bg-kumo-recessed opacity-80 transition-all duration-200 ease-out motion-reduce:transition-none data-ending-style:opacity-0 data-starting-style:opacity-0" />
       <LayerCard
         render={<BasePopup />}
-        className={cn(dialogVariants({ size }), "duration-200 ease-out motion-reduce:transition-none", className)}
+        className={cn(
+          dialogVariants({ size }),
+          'duration-200 ease-out motion-reduce:transition-none',
+          className,
+        )}
         style={
           {
-            transitionProperty: "scale, opacity",
-            transitionTimingFunction:
-              "var(--default-transition-timing-function)",
-            "--tw-shadow":
-              "0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)",
+            transitionProperty: 'scale, opacity',
+            transitionTimingFunction: 'var(--default-transition-timing-function)',
+            '--tw-shadow': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
             ...style,
           } as CSSProperties
         }
@@ -261,9 +252,7 @@ function DialogContent({
 // ============================================================================
 
 type BaseDialogRootProps = ComponentPropsWithoutRef<typeof DialogBase.Root>;
-type BaseAlertDialogRootProps = ComponentPropsWithoutRef<
-  typeof AlertDialogBase.Root
->;
+type BaseAlertDialogRootProps = ComponentPropsWithoutRef<typeof AlertDialogBase.Root>;
 
 type StandardDialogRootProps = BaseDialogRootProps & {
   /**
@@ -278,17 +267,17 @@ type StandardDialogRootProps = BaseDialogRootProps & {
    *
    * @default "dialog"
    */
-  role?: "dialog";
+  role?: 'dialog';
 };
 
 type AlertDialogRootProps = BaseAlertDialogRootProps & {
-  role: "alertdialog";
+  role: 'alertdialog';
 };
 
 export type DialogRootProps = StandardDialogRootProps | AlertDialogRootProps;
 
 function DialogRoot(props: DialogRootProps) {
-  if (props.role === "alertdialog") {
+  if (props.role === 'alertdialog') {
     const { children, role, ...rootProps } = props;
 
     return (
@@ -298,11 +287,7 @@ function DialogRoot(props: DialogRootProps) {
     );
   }
 
-  const {
-    children,
-    role = KUMO_DIALOG_DEFAULT_VARIANTS.role,
-    ...rootProps
-  } = props;
+  const { children, role = KUMO_DIALOG_DEFAULT_VARIANTS.role, ...rootProps } = props;
 
   return (
     <DialogRoleContext.Provider value={role}>
@@ -311,27 +296,21 @@ function DialogRoot(props: DialogRootProps) {
   );
 }
 
-DialogRoot.displayName = "Dialog.Root";
+DialogRoot.displayName = 'Dialog.Root';
 
 // ============================================================================
 // Dialog Trigger
 // ============================================================================
 
-type BaseDialogTriggerProps = ComponentPropsWithoutRef<
-  typeof DialogBase.Trigger
->;
-type BaseAlertDialogTriggerProps = ComponentPropsWithoutRef<
-  typeof AlertDialogBase.Trigger
->;
+type BaseDialogTriggerProps = ComponentPropsWithoutRef<typeof DialogBase.Trigger>;
+type BaseAlertDialogTriggerProps = ComponentPropsWithoutRef<typeof AlertDialogBase.Trigger>;
 
-export type DialogTriggerProps =
-  | BaseDialogTriggerProps
-  | BaseAlertDialogTriggerProps;
+export type DialogTriggerProps = BaseDialogTriggerProps | BaseAlertDialogTriggerProps;
 
 function DialogTrigger({ children, ...props }: DialogTriggerProps) {
   const role = useDialogRole();
 
-  if (role === "alertdialog") {
+  if (role === 'alertdialog') {
     return (
       <AlertDialogBase.Trigger
         data-kumo-component="Dialog"
@@ -344,17 +323,13 @@ function DialogTrigger({ children, ...props }: DialogTriggerProps) {
   }
 
   return (
-    <DialogBase.Trigger
-      data-kumo-component="Dialog"
-      data-kumo-part="trigger"
-      {...props}
-    >
+    <DialogBase.Trigger data-kumo-component="Dialog" data-kumo-part="trigger" {...props}>
       {children}
     </DialogBase.Trigger>
   );
 }
 
-DialogTrigger.displayName = "Dialog.Trigger";
+DialogTrigger.displayName = 'Dialog.Trigger';
 
 // ============================================================================
 // Dialog Title
@@ -366,35 +341,28 @@ export type DialogTitleProps = BaseDialogTitleProps;
 
 function DialogTitle({ className, ...props }: DialogTitleProps) {
   const role = useDialogRole();
-  const BaseTitle =
-    role === "alertdialog" ? AlertDialogBase.Title : DialogBase.Title;
-  return (
-    <BaseTitle className={cn("text-lg font-semibold", className)} {...props} />
-  );
+  const BaseTitle = role === 'alertdialog' ? AlertDialogBase.Title : DialogBase.Title;
+  return <BaseTitle className={cn('text-lg font-semibold', className)} {...props} />;
 }
 
-DialogTitle.displayName = "Dialog.Title";
+DialogTitle.displayName = 'Dialog.Title';
 
 // ============================================================================
 // Dialog Description
 // ============================================================================
 
-type BaseDialogDescriptionProps = ComponentPropsWithoutRef<
-  typeof DialogBase.Description
->;
+type BaseDialogDescriptionProps = ComponentPropsWithoutRef<typeof DialogBase.Description>;
 
 export type DialogDescriptionProps = BaseDialogDescriptionProps;
 
 function DialogDescription({ className, ...props }: DialogDescriptionProps) {
   const role = useDialogRole();
   const BaseDescription =
-    role === "alertdialog"
-      ? AlertDialogBase.Description
-      : DialogBase.Description;
+    role === 'alertdialog' ? AlertDialogBase.Description : DialogBase.Description;
   return <BaseDescription className={className} {...props} />;
 }
 
-DialogDescription.displayName = "Dialog.Description";
+DialogDescription.displayName = 'Dialog.Description';
 
 // ============================================================================
 // Dialog Close
@@ -406,8 +374,7 @@ export type DialogCloseProps = BaseDialogCloseProps;
 
 function DialogClose({ children, ...props }: DialogCloseProps) {
   const role = useDialogRole();
-  const BaseClose =
-    role === "alertdialog" ? AlertDialogBase.Close : DialogBase.Close;
+  const BaseClose = role === 'alertdialog' ? AlertDialogBase.Close : DialogBase.Close;
   return (
     <BaseClose data-kumo-component="Dialog" data-kumo-part="close" {...props}>
       {children}
@@ -415,7 +382,7 @@ function DialogClose({ children, ...props }: DialogCloseProps) {
   );
 }
 
-DialogClose.displayName = "Dialog.Close";
+DialogClose.displayName = 'Dialog.Close';
 
 // ============================================================================
 // Compound Component Export
@@ -429,11 +396,4 @@ const Dialog = Object.assign(DialogContent, {
   Close: DialogClose,
 });
 
-export {
-  Dialog,
-  DialogRoot,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-};
+export { Dialog, DialogRoot, DialogTrigger, DialogTitle, DialogDescription, DialogClose };

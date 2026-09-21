@@ -1,4 +1,4 @@
-export type Mode = "light" | "dark";
+export type Mode = 'light' | 'dark';
 
 /**
  * One kumo-compat bridge entry for a Kumo semantic color token used by

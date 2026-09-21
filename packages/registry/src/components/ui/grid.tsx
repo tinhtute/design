@@ -1,79 +1,74 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import React from "react";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 /** Grid variant and gap definitions mapping layout names to their responsive Tailwind classes. */
 export const KUMO_GRID_VARIANTS = {
   variant: {
-    "2up": {
-      classes: "grid-cols-1 md:grid-cols-2",
+    '2up': {
+      classes: 'grid-cols-1 md:grid-cols-2',
       description:
-        "Grid items stack on small screens, display side-by-side on medium screens and up",
+        'Grid items stack on small screens, display side-by-side on medium screens and up',
     },
-    "side-by-side": {
-      classes: "grid-cols-2",
-      description: "Grid items always displayed side-by-side",
+    'side-by-side': {
+      classes: 'grid-cols-2',
+      description: 'Grid items always displayed side-by-side',
     },
-    "2-1": {
-      classes: "grid-cols-1 md:grid-cols-[2fr_1fr]",
+    '2-1': {
+      classes: 'grid-cols-1 md:grid-cols-[2fr_1fr]',
+      description: 'Two-thirds / one-third split (66%/33%) on medium screens and up',
+    },
+    '1-2': {
+      classes: 'grid-cols-1 md:grid-cols-[1fr_2fr]',
+      description: 'One-third / two-thirds split (33%/66%) on medium screens and up',
+    },
+    '1-3up': {
+      classes: 'grid-cols-1 lg:grid-cols-3',
+      description: 'Grid items stack on small screens, expand to 3 across on large screens',
+    },
+    '3up': {
+      classes: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+      description: 'Grid items stack on small screens, 2 across on medium, 3 across on large',
+    },
+    '4up': {
+      classes: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
       description:
-        "Two-thirds / one-third split (66%/33%) on medium screens and up",
+        'Grid items stack on small screens, progressively increase columns at larger breakpoints',
     },
-    "1-2": {
-      classes: "grid-cols-1 md:grid-cols-[1fr_2fr]",
-      description:
-        "One-third / two-thirds split (33%/66%) on medium screens and up",
+    '6up': {
+      classes: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6',
+      description: 'Grid items start at 2 across, expand to 6 across on XL',
     },
-    "1-3up": {
-      classes: "grid-cols-1 lg:grid-cols-3",
-      description:
-        "Grid items stack on small screens, expand to 3 across on large screens",
-    },
-    "3up": {
-      classes: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
-      description:
-        "Grid items stack on small screens, 2 across on medium, 3 across on large",
-    },
-    "4up": {
-      classes: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
-      description:
-        "Grid items stack on small screens, progressively increase columns at larger breakpoints",
-    },
-    "6up": {
-      classes: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6",
-      description: "Grid items start at 2 across, expand to 6 across on XL",
-    },
-    "1-2-4up": {
-      classes: "grid-cols-1 md:grid-cols-2 lg:grid-cols-4",
-      description:
-        "Grid items stack on small screens, 2 across on medium, 4 across on large",
+    '1-2-4up': {
+      classes: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4',
+      description: 'Grid items stack on small screens, 2 across on medium, 4 across on large',
     },
   },
   gap: {
     none: {
-      classes: "gap-0",
-      description: "No gap between grid items",
+      classes: 'gap-0',
+      description: 'No gap between grid items',
     },
     sm: {
-      classes: "gap-3",
-      description: "Small gap between grid items",
+      classes: 'gap-3',
+      description: 'Small gap between grid items',
     },
     base: {
-      classes: "gap-2 md:gap-6 lg:gap-8",
-      description: "Default responsive gap between grid items",
+      classes: 'gap-2 md:gap-6 lg:gap-8',
+      description: 'Default responsive gap between grid items',
     },
     lg: {
-      classes: "gap-8",
-      description: "Large gap between grid items",
+      classes: 'gap-8',
+      description: 'Large gap between grid items',
     },
   },
 } as const;
 
 export const KUMO_GRID_DEFAULT_VARIANTS = {
-  gap: "base",
+  gap: 'base',
 } as const;
 
 export type KumoGridVariant = keyof typeof KUMO_GRID_VARIANTS.variant;
@@ -136,7 +131,7 @@ interface GridContextValue {
 }
 
 const GridContext = React.createContext<GridContextValue>({
-  gap: "base",
+  gap: 'base',
 });
 
 export function gridVariants({
@@ -147,11 +142,9 @@ export function gridVariants({
   gap?: KumoGridGap;
 } = {}) {
   return cn(
-    "grid",
-    variant &&
-      resolveVariant(KUMO_GRID_VARIANTS.variant, variant, "2up").classes,
-    resolveVariant(KUMO_GRID_VARIANTS.gap, gap, KUMO_GRID_DEFAULT_VARIANTS.gap)
-      .classes,
+    'grid',
+    variant && resolveVariant(KUMO_GRID_VARIANTS.variant, variant, '2up').classes,
+    resolveVariant(KUMO_GRID_VARIANTS.gap, gap, KUMO_GRID_DEFAULT_VARIANTS.gap).classes,
   );
 }
 
@@ -164,8 +157,8 @@ export function gridItemVariants({
 } = {}) {
   return cn(
     mobileDivider &&
-      variant === "4up" &&
-      "border-b border-kumo-hairline pb-8 md:border-b-0 md:pb-0",
+      variant === '4up' &&
+      'border-b border-kumo-hairline pb-8 md:border-b-0 md:pb-0',
   );
 }
 
@@ -182,23 +175,12 @@ export function gridItemVariants({
  */
 export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
   (
-    {
-      children,
-      className,
-      mobileDivider,
-      gap = KUMO_GRID_DEFAULT_VARIANTS.gap,
-      variant,
-      ...props
-    },
+    { children, className, mobileDivider, gap = KUMO_GRID_DEFAULT_VARIANTS.gap, variant, ...props },
     ref,
   ) => {
     return (
       <GridContext.Provider value={{ variant, gap, mobileDivider }}>
-        <div
-          ref={ref}
-          className={cn(gridVariants({ variant, gap }), className)}
-          {...props}
-        >
+        <div ref={ref} className={cn(gridVariants({ variant, gap }), className)} {...props}>
           {children}
         </div>
       </GridContext.Provider>
@@ -206,7 +188,7 @@ export const Grid = React.forwardRef<HTMLDivElement, GridProps>(
   },
 );
 
-Grid.displayName = "Grid";
+Grid.displayName = 'Grid';
 
 export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
   ({ children, className, ...props }, ref) => {
@@ -224,4 +206,4 @@ export const GridItem = React.forwardRef<HTMLDivElement, GridItemProps>(
   },
 );
 
-GridItem.displayName = "GridItem";
+GridItem.displayName = 'GridItem';

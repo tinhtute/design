@@ -1,7 +1,7 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
 import {
   Children,
@@ -12,30 +12,30 @@ import {
   type PropsWithChildren,
   type ReactElement,
   type ReactNode,
-} from "react";
-import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import { Button } from "@/components/ui/button";
-import { SkeletonLine } from "@/components/ui/loader";
-import { useLinkComponent } from "@/lib/link-provider";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
+} from 'react';
+import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { Button } from '@/components/ui/button';
+import { SkeletonLine } from '@/components/ui/loader';
+import { useLinkComponent } from '@/lib/link-provider';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
 
 /** Breadcrumbs size variant definitions. */
 export const KUMO_BREADCRUMBS_VARIANTS = {
   size: {
     sm: {
-      classes: "text-sm h-10 gap-0.5",
-      description: "Compact breadcrumbs for dense UIs",
+      classes: 'text-sm h-10 gap-0.5',
+      description: 'Compact breadcrumbs for dense UIs',
     },
     base: {
-      classes: "text-base h-12 gap-1",
-      description: "Default breadcrumbs size",
+      classes: 'text-base h-12 gap-1',
+      description: 'Default breadcrumbs size',
     },
   },
 } as const;
 
 export const KUMO_BREADCRUMBS_DEFAULT_VARIANTS = {
-  size: "base",
+  size: 'base',
 } as const;
 
 export type KumoBreadcrumbsSize = keyof typeof KUMO_BREADCRUMBS_VARIANTS.size;
@@ -54,12 +54,9 @@ export function breadcrumbsVariants({
   size = KUMO_BREADCRUMBS_DEFAULT_VARIANTS.size,
 }: KumoBreadcrumbsVariantsProps = {}) {
   return cn(
-    "group mr-4 flex min-w-0 grow items-center overflow-hidden whitespace-nowrap",
-    resolveVariant(
-      KUMO_BREADCRUMBS_VARIANTS.size,
-      size,
-      KUMO_BREADCRUMBS_DEFAULT_VARIANTS.size,
-    ).classes,
+    'group mr-4 flex min-w-0 grow items-center overflow-hidden whitespace-nowrap',
+    resolveVariant(KUMO_BREADCRUMBS_VARIANTS.size, size, KUMO_BREADCRUMBS_DEFAULT_VARIANTS.size)
+      .classes,
   );
 }
 
@@ -68,11 +65,7 @@ export interface BreadcrumbsItemProps {
   icon?: ReactNode;
 }
 
-const Link = ({
-  href,
-  icon,
-  children,
-}: PropsWithChildren<BreadcrumbsItemProps>) => {
+const Link = ({ href, icon, children }: PropsWithChildren<BreadcrumbsItemProps>) => {
   const LinkComponent = useLinkComponent();
 
   return (
@@ -96,11 +89,7 @@ interface BreadcrumbsCurrentProps {
   icon?: ReactNode;
 }
 
-function Current({
-  children,
-  icon,
-  loading,
-}: PropsWithChildren<BreadcrumbsCurrentProps>) {
+function Current({ children, icon, loading }: PropsWithChildren<BreadcrumbsCurrentProps>) {
   if (loading) {
     return (
       <div className="flex w-[125px] min-w-0 items-center gap-1">
@@ -111,10 +100,7 @@ function Current({
   }
 
   return (
-    <div
-      className="flex max-w-full min-w-0 items-center gap-1 font-medium"
-      aria-current="page"
-    >
+    <div className="flex max-w-full min-w-0 items-center gap-1 font-medium" aria-current="page">
       {icon && <span className="flex shrink-0 items-center">{icon}</span>}
       <span className="truncate">{children}</span>
     </div>
@@ -123,10 +109,7 @@ function Current({
 
 function Separator() {
   return (
-    <span
-      className="flex shrink-0 items-center text-kumo-inactive"
-      aria-hidden="true"
-    >
+    <span className="flex shrink-0 items-center text-kumo-inactive" aria-hidden="true">
       <svg width="24" height="24" fill="none" viewBox="0 0 24 24">
         <path
           stroke="currentColor"
@@ -165,7 +148,7 @@ function Clipboard({ text }: { text: string }) {
       await navigator.clipboard.writeText(text);
       setIsCopied(true);
     } catch (err) {
-      console.error("Failed to copy deeplink:", err);
+      console.error('Failed to copy deeplink:', err);
     }
   };
 
@@ -202,8 +185,7 @@ function Clipboard({ text }: { text: string }) {
  * </Breadcrumbs>
  * ```
  */
-export interface BreadcrumbsProps
-  extends PropsWithChildren, KumoBreadcrumbsVariantsProps {
+export interface BreadcrumbsProps extends PropsWithChildren, KumoBreadcrumbsVariantsProps {
   /** Additional CSS classes merged via `cn()`. */
   className?: string;
 }
@@ -221,36 +203,25 @@ export interface BreadcrumbsProps
  * </Breadcrumbs>
  * ```
  */
-export function Breadcrumb({
-  children,
-  size = "base",
-  className,
-}: BreadcrumbsProps) {
+export function Breadcrumb({ children, size = 'base', className }: BreadcrumbsProps) {
   const childArray = Children.toArray(children);
   const mobileChildren = getMobileBreadcrumbChildren(childArray);
 
   return (
-    <nav
-      className={cn(breadcrumbsVariants({ size }), className)}
-      aria-label="breadcrumb"
-    >
+    <nav className={cn(breadcrumbsVariants({ size }), className)} aria-label="breadcrumb">
       <div className="contents sm:hidden">{mobileChildren}</div>
       <div className="hidden sm:contents">{childArray}</div>
     </nav>
   );
 }
 
-function isComponentElement(
-  child: ReactNode,
-  component: unknown,
-): child is ReactElement {
+function isComponentElement(child: ReactNode, component: unknown): child is ReactElement {
   return isValidElement(child) && child.type === component;
 }
 
 function getMobileBreadcrumbChildren(children: ReactNode[]): ReactNode[] {
   const breadcrumbItems = children.filter(
-    (child) =>
-      isComponentElement(child, Link) || isComponentElement(child, Current),
+    (child) => isComponentElement(child, Link) || isComponentElement(child, Current),
   ) as ReactElement[];
 
   if (breadcrumbItems.length <= 2) {
@@ -261,9 +232,9 @@ function getMobileBreadcrumbChildren(children: ReactNode[]): ReactNode[] {
   const trailingItems: ReactNode[] = [
     <MobileEllipsis key="kumo-breadcrumb-mobile-ellipsis" />,
     <Separator key="kumo-breadcrumb-mobile-separator-leading" />,
-    cloneElement(parentItem, { key: "kumo-breadcrumb-mobile-parent" }),
+    cloneElement(parentItem, { key: 'kumo-breadcrumb-mobile-parent' }),
     <Separator key="kumo-breadcrumb-mobile-separator-trailing" />,
-    cloneElement(currentItem, { key: "kumo-breadcrumb-mobile-current" }),
+    cloneElement(currentItem, { key: 'kumo-breadcrumb-mobile-current' }),
   ];
 
   const extras = children.filter(

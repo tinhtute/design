@@ -1,14 +1,10 @@
-"use client";
+'use client';
 
-import {
-  GaugeIcon,
-  GlobeIcon,
-  ListMagnifyingGlassIcon,
-} from "@phosphor-icons/react";
-import { Sidebar, SidebarProvider } from "@/components/ui/sidebar";
+import { GaugeIcon, GlobeIcon, ListMagnifyingGlassIcon } from '@phosphor-icons/react';
+import { Sidebar, SidebarProvider } from '@/components/ui/sidebar';
 
 export const notes =
-  "Collapsible app-navigation shell. Wrap `Sidebar` in `SidebarProvider` (which owns open/collapsed state and the `collapsible`, `side`, and `variant` options) and compose Header/Content/Menu. `MenuButton` supports `icon`, `active`, `href`, and tooltips when collapsed.";
+  'Collapsible app-navigation shell. Wrap `Sidebar` in `SidebarProvider` (which owns open/collapsed state and the `collapsible`, `side`, and `variant` options) and compose Header/Content/Menu. `MenuButton` supports `icon`, `active`, `href`, and tooltips when collapsed.';
 
 export function Demo() {
   return (
@@ -24,14 +20,10 @@ export function Demo() {
                 </Sidebar.MenuButton>
               </Sidebar.MenuItem>
               <Sidebar.MenuItem>
-                <Sidebar.MenuButton icon={GlobeIcon}>
-                  Domains
-                </Sidebar.MenuButton>
+                <Sidebar.MenuButton icon={GlobeIcon}>Domains</Sidebar.MenuButton>
               </Sidebar.MenuItem>
               <Sidebar.MenuItem>
-                <Sidebar.MenuButton icon={ListMagnifyingGlassIcon}>
-                  Logs
-                </Sidebar.MenuButton>
+                <Sidebar.MenuButton icon={ListMagnifyingGlassIcon}>Logs</Sidebar.MenuButton>
               </Sidebar.MenuItem>
             </Sidebar.Menu>
           </Sidebar.Content>

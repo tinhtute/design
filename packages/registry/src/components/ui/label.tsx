@@ -1,11 +1,11 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Info } from "@phosphor-icons/react";
-import type { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
-import { Tooltip } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+import { Info } from '@phosphor-icons/react';
+import type { ReactNode } from 'react';
+import { Button } from '@/components/ui/button';
+import { Tooltip } from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 
 /** Label variant definitions (currently empty, reserved for future additions). */
 export const KUMO_LABEL_VARIANTS = {
@@ -21,14 +21,14 @@ export function labelVariants(_props: KumoLabelVariantsProps = {}) {
   return cn(
     // Base styles - when used standalone, apply text styling
     // When used inside Field, the parent FieldBase.Label provides these styles
-    "m-0 text-base font-medium text-kumo-default",
+    'm-0 text-base font-medium text-kumo-default',
   );
 }
 
 export function labelContentVariants() {
   return cn(
     // Content wrapper styles - always applied
-    "inline-flex items-center gap-1",
+    'inline-flex items-center gap-1',
   );
 }
 
@@ -98,19 +98,12 @@ export function Label({
   const content = (
     <>
       {children}
-      {showOptional && (
-        <span className="font-normal text-kumo-subtle">(optional)</span>
-      )}
+      {showOptional && <span className="font-normal text-kumo-subtle">(optional)</span>}
       {tooltip && (
         <Tooltip
           content={tooltip}
           render={
-            <Button
-              variant="ghost"
-              size="xs"
-              shape="square"
-              aria-label="More information"
-            >
+            <Button variant="ghost" size="xs" shape="square" aria-label="More information">
               <Info className="size-4" />
             </Button>
           }
@@ -121,20 +114,15 @@ export function Label({
 
   // When used as content inside another styled element, just render inline
   if (asContent) {
-    return (
-      <span className={cn(labelContentVariants(), className)}>{content}</span>
-    );
+    return <span className={cn(labelContentVariants(), className)}>{content}</span>;
   }
 
   // When used standalone, render as <label> for accessibility
   return (
-    <label
-      htmlFor={htmlFor}
-      className={cn(labelVariants(), labelContentVariants(), className)}
-    >
+    <label htmlFor={htmlFor} className={cn(labelVariants(), labelContentVariants(), className)}>
       {content}
     </label>
   );
 }
 
-Label.displayName = "Label";
+Label.displayName = 'Label';

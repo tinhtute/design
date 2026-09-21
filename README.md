@@ -50,5 +50,4 @@ pnpm --filter @therealtinhtute/registry e2e             # consumer-install smoke
 pnpm --filter app typecheck && pnpm lint && pnpm -r build
 ```
 
-
-----
+---

@@ -1,28 +1,14 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import type * as echarts from "echarts/core";
-import type { LineSeriesOption, BarSeriesOption } from "echarts/charts";
-import type { EChartsOption, SeriesOption, SetOptionOpts } from "echarts";
-import {
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
-import {
-  Chart,
-  ChartPalette,
-  type ChartEvents,
-  type KumoChartOption,
-} from "@/components/ui/chart";
+import type * as echarts from 'echarts/core';
+import type { LineSeriesOption, BarSeriesOption } from 'echarts/charts';
+import type { EChartsOption, SeriesOption, SetOptionOpts } from 'echarts';
+import { forwardRef, memo, useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Tooltip as TooltipPrimitive } from '@base-ui/react/tooltip';
+import { Chart, ChartPalette, type ChartEvents, type KumoChartOption } from '@/components/ui/chart';
 
 export interface TimeseriesMarker {
   /** Unix timestamp in milliseconds. */
@@ -34,14 +20,14 @@ export interface TimeseriesMarker {
   /** Optional marker color. Defaults to a neutral/subtle chart color. */
   color?: string;
   /** Optional line style. Defaults to dashed. */
-  lineStyle?: "solid" | "dashed" | "dotted";
+  lineStyle?: 'solid' | 'dashed' | 'dotted';
 }
 
 export interface TimeseriesMarkerCluster {
   timestamp: number;
   label?: string;
   color?: string;
-  lineStyle?: TimeseriesMarker["lineStyle"];
+  lineStyle?: TimeseriesMarker['lineStyle'];
   markers: TimeseriesMarker[];
 }
 
@@ -66,12 +52,12 @@ export function buildTimeseriesMarkerAnnotations(
 
   return {
     markLine: {
-      symbol: "none" as const,
+      symbol: 'none' as const,
       silent: false,
       animation: false,
       z: 10,
       lineStyle: {
-        type: "dashed" as const,
+        type: 'dashed' as const,
         color: style.color,
         width: 1,
       },
@@ -84,8 +70,8 @@ export function buildTimeseriesMarkerAnnotations(
       },
       label: {
         show: true,
-        formatter: (params: { name?: string }) => params.name ?? "",
-        position: "insideEndTop" as const,
+        formatter: (params: { name?: string }) => params.name ?? '',
+        position: 'insideEndTop' as const,
         color: style.color,
         ...labelStyle,
       },
@@ -93,7 +79,7 @@ export function buildTimeseriesMarkerAnnotations(
         name: cluster.label,
         xAxis: cluster.timestamp,
         lineStyle: {
-          type: cluster.lineStyle ?? "dashed",
+          type: cluster.lineStyle ?? 'dashed',
           color: cluster.color ?? style.color,
           width: 1,
         },
@@ -126,10 +112,7 @@ export function clusterTimeseriesMarkers(
 
   for (const marker of sorted) {
     const previous = clusters.at(-1);
-    if (
-      previous &&
-      marker.timestamp - previous[previous.length - 1].timestamp <= interval
-    ) {
+    if (previous && marker.timestamp - previous[previous.length - 1].timestamp <= interval) {
       previous.push(marker);
     } else {
       clusters.push([marker]);
@@ -160,7 +143,7 @@ export function getTimeseriesMarkerFromEvent(params: {
   componentType?: string;
   data?: { tooltip?: { marker?: TimeseriesMarkerCluster } };
 }): TimeseriesMarkerCluster | undefined {
-  if (params.componentType !== "markLine") {
+  if (params.componentType !== 'markLine') {
     return undefined;
   }
   return params.data?.tooltip?.marker;
@@ -175,19 +158,17 @@ export interface TimeseriesThreshold {
   color: string;
 }
 
-export function buildTimeseriesThresholdAnnotations(
-  thresholds: TimeseriesThreshold[] | undefined,
-) {
+export function buildTimeseriesThresholdAnnotations(thresholds: TimeseriesThreshold[] | undefined) {
   if (!thresholds?.length) return undefined;
 
   return {
     markLine: {
-      symbol: "none" as const,
+      symbol: 'none' as const,
       silent: true,
       animation: false,
       z: 9,
       lineStyle: {
-        type: "dashed" as const,
+        type: 'dashed' as const,
         width: 1,
       },
       blur: {
@@ -196,8 +177,8 @@ export function buildTimeseriesThresholdAnnotations(
       },
       label: {
         show: true,
-        position: "insideEndTop" as const,
-        formatter: (params: { name?: string }) => params.name ?? "",
+        position: 'insideEndTop' as const,
+        formatter: (params: { name?: string }) => params.name ?? '',
       },
       data: thresholds.map((threshold) => ({
         name: threshold.label,
@@ -205,7 +186,7 @@ export function buildTimeseriesThresholdAnnotations(
         lineStyle: {
           color: threshold.color,
           width: 1,
-          type: "dashed" as const,
+          type: 'dashed' as const,
         },
         blur: {
           lineStyle: { opacity: 1 },
@@ -239,14 +220,14 @@ export interface TooltipRow {
 }
 
 export interface SeriesTooltipState {
-  type: "series";
+  type: 'series';
   ts: number;
   rows: TooltipRow[];
   hiddenCount: number;
 }
 
 export interface MarkerTooltipState {
-  type: "marker";
+  type: 'marker';
   ts: number;
   color: string;
   markers: TimeseriesMarker[];
@@ -267,7 +248,7 @@ export const TooltipContent = memo(function TooltipContent({
   formatValue,
   formatTimestamp,
 }: TooltipContentProps) {
-  if (state.type === "marker") {
+  if (state.type === 'marker') {
     return (
       <MarkerTooltipContent
         state={state}
@@ -315,19 +296,13 @@ function MarkerTooltipContent({
                 className="h-3 w-3 shrink-0 rounded-full"
                 style={{ backgroundColor: marker.color ?? state.color }}
               />
-              <span className="font-medium">
-                {marker.label ?? "Reference marker"}
-              </span>
+              <span className="font-medium">{marker.label ?? 'Reference marker'}</span>
               {state.markers.length > 1 && (
-                <span className="text-kumo-subtle">
-                  {formatTimestamp(marker.timestamp)}
-                </span>
+                <span className="text-kumo-subtle">{formatTimestamp(marker.timestamp)}</span>
               )}
             </div>
             {marker.description && (
-              <div className="mt-0.5 ml-5 text-xs text-kumo-default">
-                {marker.description}
-              </div>
+              <div className="mt-0.5 ml-5 text-xs text-kumo-default">{marker.description}</div>
             )}
           </div>
         ))}
@@ -357,32 +332,22 @@ function SeriesTooltipRows({
   return (
     <>
       {rows.map((row) => (
-        <div
-          key={row.name}
-          className="flex items-center justify-between gap-4 py-0.5"
-        >
+        <div key={row.name} className="flex items-center justify-between gap-4 py-0.5">
           <div className="flex min-w-0 items-center gap-2">
             <span
               className="h-3 w-3 shrink-0 rounded-full"
               style={{ backgroundColor: row.color }}
             />
-            <span
-              className="truncate text-xs font-medium text-kumo-default"
-              title={row.name}
-            >
+            <span className="truncate text-xs font-medium text-kumo-default" title={row.name}>
               {row.name}
             </span>
           </div>
           <span className="shrink-0 text-xs font-semibold text-kumo-default">
-            {formatValue
-              ? formatValue(row.value)
-              : formatDefaultValue(row.value)}
+            {formatValue ? formatValue(row.value) : formatDefaultValue(row.value)}
           </span>
         </div>
       ))}
-      {hiddenCount > 0 && (
-        <div className="mt-1 text-xs text-kumo-subtle">+{hiddenCount} more</div>
-      )}
+      {hiddenCount > 0 && <div className="mt-1 text-xs text-kumo-subtle">+{hiddenCount} more</div>}
     </>
   );
 }
@@ -415,7 +380,7 @@ export interface TimeseriesChartProps {
    */
   echarts: typeof echarts;
   /** Visual style of each series. Defaults to `"line"`. */
-  type?: "line" | "bar";
+  type?: 'line' | 'bar';
   /** Array of time series data to display on the chart */
   data: TimeseriesData[];
   /** Vertical reference markers rendered on the time axis. */
@@ -459,7 +424,7 @@ export interface TimeseriesChartProps {
    * - `"all"` — show all series at the hovered timestamp (default)
    * - `"single"` — show only the series whose value is closest to the cursor
    */
-  tooltipMode?: "all" | "single";
+  tooltipMode?: 'all' | 'single';
   /**
    * Maximum number of series rows shown in the tooltip when `tooltipMode` is `"all"`.
    * Additional series are hidden with a `+N more` footer. Defaults to `10`.
@@ -475,7 +440,7 @@ export interface TimeseriesChartProps {
    *
    * @default "clipping-ancestors"
    */
-  tooltipBoundary?: "clipping-ancestors" | Element | Element[];
+  tooltipBoundary?: 'clipping-ancestors' | Element | Element[];
   /**
    * Which axis the tooltip follows the cursor on.
    *
@@ -495,7 +460,7 @@ export interface TimeseriesChartProps {
    *
    * @default "both"
    */
-  tooltipFollowCursor?: "both" | "x";
+  tooltipFollowCursor?: 'both' | 'x';
   /** Indicates incomplete data periods with optional before/after timestamps in ms */
   incomplete?: { before?: number; after?: number };
   /**
@@ -578,566 +543,546 @@ const DEFAULT_X_AXIS_TICK_COUNT = 5;
  * />
  * ```
  */
-export const TimeseriesChart = forwardRef<
-  echarts.ECharts | null,
-  TimeseriesChartProps
->(function TimeseriesChart(
-  {
-    echarts,
-    type = "line",
-    data,
-    markers,
-    thresholds,
-    xAxisName,
-    xAxisTickCount,
-    xAxisTickFormat,
-    yAxisTickFormat,
-    yAxisTickLabelFormat,
-    yAxisName,
-    yAxisTickCount,
-    tooltipValueFormat,
-    onTimeRangeChange,
-    height = 350,
-    incomplete,
-    enableLegendSelection = false,
-    isDarkMode,
-    gradient,
-    loading,
-    ariaDescription,
-    optionUpdateBehavior,
-    tooltipMode = "all",
-    tooltipMaxItems = 10,
-    tooltipFollowCursor = "both",
-    tooltipBoundary,
-  },
-  ref,
-) {
-  const chartRef = useRef<echarts.ECharts | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
-
-  const mergedRef = useCallback(
-    (instance: echarts.ECharts | null) => {
-      chartRef.current = instance;
-      if (typeof ref === "function") {
-        ref(instance);
-      } else if (ref) {
-        ref.current = instance;
-      }
+export const TimeseriesChart = forwardRef<echarts.ECharts | null, TimeseriesChartProps>(
+  function TimeseriesChart(
+    {
+      echarts,
+      type = 'line',
+      data,
+      markers,
+      thresholds,
+      xAxisName,
+      xAxisTickCount,
+      xAxisTickFormat,
+      yAxisTickFormat,
+      yAxisTickLabelFormat,
+      yAxisName,
+      yAxisTickCount,
+      tooltipValueFormat,
+      onTimeRangeChange,
+      height = 350,
+      incomplete,
+      enableLegendSelection = false,
+      isDarkMode,
+      gradient,
+      loading,
+      ariaDescription,
+      optionUpdateBehavior,
+      tooltipMode = 'all',
+      tooltipMaxItems = 10,
+      tooltipFollowCursor = 'both',
+      tooltipBoundary,
     },
-    [ref],
-  );
+    ref,
+  ) {
+    const chartRef = useRef<echarts.ECharts | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Keep latest props accessible inside event handlers without stale closures
-  const dataRef = useRef(data);
-  dataRef.current = data;
-  // Tracks legend selection (series name → visible) so the tooltip can skip toggled-off series
-  const legendSelectedRef = useRef<Record<string, boolean> | null>(null);
-  // Clear stale selection so it can't keep filtering the tooltip when:
-  // - legend selection is disabled (hidden legend removed), or
-  // - the theme toggles (`isDarkMode` change re-inits the ECharts instance,
-  //   which resets legend selection to all-visible).
-  // Done in an effect (not during render) to stay safe under concurrent rendering.
-  useEffect(() => {
-    legendSelectedRef.current = null;
-  }, [enableLegendSelection, isDarkMode]);
+    const mergedRef = useCallback(
+      (instance: echarts.ECharts | null) => {
+        chartRef.current = instance;
+        if (typeof ref === 'function') {
+          ref(instance);
+        } else if (ref) {
+          ref.current = instance;
+        }
+      },
+      [ref],
+    );
 
-  const markerHoverRef = useRef(false);
-  const activeMarkerKeyRef = useRef<string | null>(null);
+    // Keep latest props accessible inside event handlers without stale closures
+    const dataRef = useRef(data);
+    dataRef.current = data;
+    // Tracks legend selection (series name → visible) so the tooltip can skip toggled-off series
+    const legendSelectedRef = useRef<Record<string, boolean> | null>(null);
+    // Clear stale selection so it can't keep filtering the tooltip when:
+    // - legend selection is disabled (hidden legend removed), or
+    // - the theme toggles (`isDarkMode` change re-inits the ECharts instance,
+    //   which resets legend selection to all-visible).
+    // Done in an effect (not during render) to stay safe under concurrent rendering.
+    useEffect(() => {
+      legendSelectedRef.current = null;
+    }, [enableLegendSelection, isDarkMode]);
 
-  const tooltipModeRef = useRef(tooltipMode);
-  tooltipModeRef.current = tooltipMode;
-  const tooltipMaxItemsRef = useRef(tooltipMaxItems);
-  tooltipMaxItemsRef.current = tooltipMaxItems;
+    const markerHoverRef = useRef(false);
+    const activeMarkerKeyRef = useRef<string | null>(null);
 
-  const [tooltipState, setTooltipState] = useState<TooltipState | null>(null);
+    const tooltipModeRef = useRef(tooltipMode);
+    tooltipModeRef.current = tooltipMode;
+    const tooltipMaxItemsRef = useRef(tooltipMaxItems);
+    tooltipMaxItemsRef.current = tooltipMaxItems;
 
-  const closeTooltip = useCallback(() => {
-    activeMarkerKeyRef.current = null;
-    markerHoverRef.current = false;
-    setTooltipState(null);
-  }, []);
-  const tooltipOpen = tooltipState !== null;
+    const [tooltipState, setTooltipState] = useState<TooltipState | null>(null);
 
-  // Fallback close: after a native context menu (right-click "Save image as…")
-  // the browser can drop the mouse events ECharts needs to fire `globalout`,
-  // leaving the tooltip stuck open. Closing on any mousemove outside the chart
-  // recovers from that.
-  useEffect(() => {
-    if (!tooltipOpen) return;
-    if (typeof window === "undefined") return;
+    const closeTooltip = useCallback(() => {
+      activeMarkerKeyRef.current = null;
+      markerHoverRef.current = false;
+      setTooltipState(null);
+    }, []);
+    const tooltipOpen = tooltipState !== null;
 
-    const closeWhenOutsideChart = (event: MouseEvent) => {
+    // Fallback close: after a native context menu (right-click "Save image as…")
+    // the browser can drop the mouse events ECharts needs to fire `globalout`,
+    // leaving the tooltip stuck open. Closing on any mousemove outside the chart
+    // recovers from that.
+    useEffect(() => {
+      if (!tooltipOpen) return;
+      if (typeof window === 'undefined') return;
+
+      const closeWhenOutsideChart = (event: MouseEvent) => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const rect = container.getBoundingClientRect();
+        if (
+          event.clientX < rect.left ||
+          event.clientX > rect.right ||
+          event.clientY < rect.top ||
+          event.clientY > rect.bottom
+        ) {
+          closeTooltip();
+        }
+      };
+
+      window.addEventListener('mousemove', closeWhenOutsideChart);
+      return () => window.removeEventListener('mousemove', closeWhenOutsideChart);
+    }, [tooltipOpen, closeTooltip]);
+
+    // Track cursor position for single-mode y lookup (convertFromPixel needs relative coords)
+    const mousePosRef = useRef({ x: 0, y: 0 });
+    useEffect(() => {
       const container = containerRef.current;
       if (!container) return;
-
-      const rect = container.getBoundingClientRect();
-      if (
-        event.clientX < rect.left ||
-        event.clientX > rect.right ||
-        event.clientY < rect.top ||
-        event.clientY > rect.bottom
-      ) {
-        closeTooltip();
-      }
-    };
-
-    window.addEventListener("mousemove", closeWhenOutsideChart);
-    return () => window.removeEventListener("mousemove", closeWhenOutsideChart);
-  }, [tooltipOpen, closeTooltip]);
-
-  // Track cursor position for single-mode y lookup (convertFromPixel needs relative coords)
-  const mousePosRef = useRef({ x: 0, y: 0 });
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-    const onMove = (e: MouseEvent) => {
-      const rect = container.getBoundingClientRect();
-      mousePosRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      };
-    };
-    container.addEventListener("mousemove", onMove);
-    return () => container.removeEventListener("mousemove", onMove);
-  }, []);
-
-  const incompleteBefore = incomplete?.before;
-  const incompleteAfter = incomplete?.after;
-
-  const markerColor = ChartPalette.text("primary", isDarkMode);
-  const axisTextColor = ChartPalette.text("primary", isDarkMode);
-  const gridLineColor = colorWithOpacity(axisTextColor, 0.2);
-  const markerLabelBackgroundColor = isDarkMode
-    ? "rgba(0, 0, 0, 0.5)"
-    : "rgba(255, 255, 255, 0.5)";
-
-  const options = useMemo(() => {
-    const transformSeries: Array<LineSeriesOption | BarSeriesOption> = [];
-
-    const seriesType =
-      type === "bar"
-        ? ({ type: "bar", stack: "total" } as const)
-        : ({ type: "line", showSymbol: false } as const);
-
-    const thresholdAnnotations =
-      buildTimeseriesThresholdAnnotations(thresholds);
-    const thresholdExtent = getThresholdValueExtent(thresholds);
-
-    const markerClusters = clusterTimeseriesMarkers(
-      markers,
-      getApproximateMarkerClusterInterval(
-        getTimestamps(data, markers),
-        xAxisTickCount ?? DEFAULT_X_AXIS_TICK_COUNT,
-      ),
-    );
-    const markerAnnotations = buildTimeseriesMarkerAnnotations(markerClusters, {
-      color: markerColor,
-      labelBackgroundColor: markerLabelBackgroundColor,
-    });
-
-    for (const s of data) {
-      const incompleteBeforePoints =
-        incompleteBefore && type === "line"
-          ? s.data.filter((point) => point[0] <= incompleteBefore)
-          : [];
-
-      const incompleteAfterPoints =
-        incompleteAfter && type === "line"
-          ? s.data.filter((point) => point[0] >= incompleteAfter)
-          : [];
-
-      const completePoints =
-        incompleteBeforePoints.length > 0 || incompleteAfterPoints.length > 0
-          ? s.data.slice(
-              Math.max(0, incompleteBeforePoints.length - 1),
-              Math.max(0, s.data.length - incompleteAfterPoints.length + 1),
-            )
-          : s.data;
-
-      // Main complete data series
-      const areaStyle =
-        gradient && type === "line"
-          ? {
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                { offset: 0, color: colorWithOpacity(s.color, 0.4) },
-                { offset: 1, color: colorWithOpacity(s.color, 0) },
-              ]),
-            }
-          : undefined;
-
-      transformSeries.push({
-        data: completePoints,
-        color: s.color,
-        name: s.name,
-        emphasis: { focus: "series" },
-        ...(areaStyle ? { areaStyle } : {}),
-        ...seriesType,
-      });
-
-      // Incomplete data series with dashed lines
-      const incompleteSeriesConfig = {
-        color: s.color,
-        name: s.name,
-        type: "line" as const,
-        lineStyle: { type: "dashed" as const },
-        showSymbol: false,
-        emphasis: { focus: "series" as const },
-      };
-
-      if (incompleteBeforePoints.length > 0) {
-        transformSeries.push({
-          ...incompleteSeriesConfig,
-          data: incompleteBeforePoints,
-        });
-      }
-
-      if (incompleteAfterPoints.length > 0) {
-        transformSeries.push({
-          ...incompleteSeriesConfig,
-          data: incompleteAfterPoints,
-        });
-      }
-    }
-
-    if (markerAnnotations) {
-      transformSeries.push({
-        data: [],
-        name: "Markers",
-        type: type === "bar" ? "bar" : "line",
-        animation: false,
-        markLine: markerAnnotations.markLine,
-      });
-    }
-
-    if (thresholdAnnotations) {
-      transformSeries.push({
-        data: [],
-        name: "Thresholds",
-        type: type === "bar" ? "bar" : "line",
-        animation: false,
-        markLine: thresholdAnnotations.markLine,
-      });
-    }
-
-    return {
-      aria: {
-        enabled: true,
-        ...(ariaDescription && { label: { description: ariaDescription } }),
-      },
-      brush: {
-        xAxisIndex: "all" as const,
-        brushType: "lineX" as const,
-        brushMode: "single" as const,
-        outOfBrush: {
-          colorAlpha: 0.3,
-        },
-        brushStyle: {
-          borderWidth: 1,
-          color: "rgba(120,140,180,0.3)",
-          borderColor: "rgba(120,140,180,0.8)",
-        },
-      },
-      tooltip: {
-        trigger: "axis" as const,
-        showContent: false,
-        axisPointer: { type: "shadow" as const },
-      },
-      backgroundColor: "transparent",
-      toolbox: { show: false },
-      ...(enableLegendSelection ? { legend: { show: false } } : {}),
-      xAxis: {
-        name: xAxisName,
-        nameLocation: "middle" as const,
-        nameGap: 30,
-        nameTextStyle: { color: axisTextColor },
-        type: "time" as const,
-        splitLine: {
-          show: false,
-        },
-        axisLine: { show: false },
-        splitNumber: xAxisTickCount ?? DEFAULT_X_AXIS_TICK_COUNT,
-        axisLabel: {
-          color: axisTextColor,
-          ...(xAxisTickFormat && {
-            formatter: (value: number) => xAxisTickFormat(value),
-          }),
-        },
-      },
-      yAxis: {
-        name: yAxisName,
-        nameLocation: "middle" as const,
-        nameGap: 40,
-        nameTextStyle: { color: axisTextColor },
-        type: "value" as const,
-        axisTick: { show: true },
-        axisLabel: {
-          margin: 15,
-          color: axisTextColor,
-          ...(yAxisTickFormat && {
-            formatter: (value: number) => yAxisTickFormat(value),
-          }),
-        },
-        splitLine: {
-          show: true,
-          lineStyle: {
-            type: "dashed" as const,
-            width: 1,
-            color: gridLineColor,
-          },
-        },
-        splitNumber: yAxisTickCount,
-        ...(thresholdExtent && {
-          min: (value: { min: number }) =>
-            Math.min(value.min, thresholdExtent.min),
-          max: (value: { max: number }) =>
-            Math.max(value.max, thresholdExtent.max),
-        }),
-      },
-      grid: {
-        left: yAxisName ? 30 : 24,
-        right: 24,
-        top: 24,
-        bottom: xAxisName ? 30 : 24,
-      },
-      series: transformSeries as SeriesOption[],
-    } satisfies KumoChartOption;
-  }, [
-    data,
-    xAxisName,
-    xAxisTickCount,
-    xAxisTickFormat,
-    yAxisTickFormat,
-    yAxisName,
-    yAxisTickCount,
-    incompleteBefore,
-    incompleteAfter,
-    type,
-    gradient,
-    enableLegendSelection,
-    echarts,
-    ariaDescription,
-    markers,
-    thresholds,
-    markerColor,
-    markerLabelBackgroundColor,
-    axisTextColor,
-    gridLineColor,
-  ]);
-
-  const events = useMemo<Partial<ChartEvents>>(() => {
-    return {
-      updateaxispointer: (params: any) => {
-        if (markerHoverRef.current) return;
-
-        const ts: number | undefined = params?.axesInfo?.[0]?.value;
-        if (ts == null) return;
-
-        const allRows = getAllTooltipRowsAtTimestamp(
-          dataRef.current,
-          ts,
-          legendSelectedRef.current,
-        );
-
-        let rows: TooltipRow[];
-        let hiddenCount = 0;
-
-        if (tooltipModeRef.current === "single") {
-          // Find the series whose value is closest to the cursor's y position
-          const chart = chartRef.current;
-          const cursorValue = chart
-            ? (
-                chart.convertFromPixel("grid", [0, mousePosRef.current.y]) as [
-                  number,
-                  number,
-                ]
-              )?.[1]
-            : null;
-          if (cursorValue != null && allRows.length > 0) {
-            const nearest = allRows.reduce((best, row) =>
-              Math.abs(row.value - cursorValue) <
-              Math.abs(best.value - cursorValue)
-                ? row
-                : best,
-            );
-            rows = [nearest];
-          } else {
-            rows = allRows.slice(0, 1);
-          }
-        } else {
-          ({ rows, hiddenCount } = limitTooltipRows(
-            allRows,
-            tooltipMaxItemsRef.current,
-          ));
-        }
-
-        const nextState: TooltipState = {
-          type: "series",
-          ts,
-          rows,
-          hiddenCount,
+      const onMove = (e: MouseEvent) => {
+        const rect = container.getBoundingClientRect();
+        mousePosRef.current = {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
         };
-        setTooltipState((prev) => {
-          if (isSameTooltipState(prev, nextState)) return prev;
-          return nextState;
-        });
-      },
-      mouseover: (params) => {
-        const marker = getTimeseriesMarkerFromEvent(params);
-        if (!marker) return;
+      };
+      container.addEventListener('mousemove', onMove);
+      return () => container.removeEventListener('mousemove', onMove);
+    }, []);
 
-        const markerKey = `${marker.timestamp}-${marker.label ?? ""}`;
-        if (activeMarkerKeyRef.current === markerKey) return;
+    const incompleteBefore = incomplete?.before;
+    const incompleteAfter = incomplete?.after;
 
-        activeMarkerKeyRef.current = markerKey;
-        markerHoverRef.current = true;
-        chartRef.current?.dispatchAction({ type: "hideTip" });
-        chartRef.current?.dispatchAction({
-          type: "updateAxisPointer",
-          currTrigger: "leave",
-        });
+    const markerColor = ChartPalette.text('primary', isDarkMode);
+    const axisTextColor = ChartPalette.text('primary', isDarkMode);
+    const gridLineColor = colorWithOpacity(axisTextColor, 0.2);
+    const markerLabelBackgroundColor = isDarkMode
+      ? 'rgba(0, 0, 0, 0.5)'
+      : 'rgba(255, 255, 255, 0.5)';
 
-        const { rows, hiddenCount } = getTooltipRowsAtTimestamp(
-          dataRef.current,
-          marker.timestamp,
-          legendSelectedRef.current,
-          tooltipMaxItemsRef.current,
-        );
+    const options = useMemo(() => {
+      const transformSeries: Array<LineSeriesOption | BarSeriesOption> = [];
 
-        setTooltipState({
-          type: "marker",
-          ts: marker.timestamp,
-          color: marker.color ?? markerColor,
-          markers: marker.markers,
-          rows,
-          hiddenCount,
-        });
-      },
-      mouseout: (params) => {
-        if (!getTimeseriesMarkerFromEvent(params)) return;
-        closeTooltip();
-      },
-      globalout: closeTooltip,
-      // Keep the tooltip in sync with legend selection. Each action fires a
-      // different event — `legendToggleSelect` → `legendselectchanged`,
-      // `legendSelect` → `legendselected`, `legendUnSelect` → `legendunselected`
-      // — and all three carry the full `selected` map, so we listen to all of
-      // them (params type inferred from `ChartEvents`).
-      legendselectchanged: (params) => {
-        legendSelectedRef.current = params.selected;
-      },
-      legendselected: (params) => {
-        legendSelectedRef.current = params.selected;
-      },
-      legendunselected: (params) => {
-        legendSelectedRef.current = params.selected;
-      },
-      ...(onTimeRangeChange && {
-        brushend: (params: any) => {
-          const range = params.areas[0].coordRange;
-          onTimeRangeChange(range[0], range[1]);
-          chartRef.current?.dispatchAction({ type: "brush", areas: [] });
-        },
-      }),
-    };
-  }, [onTimeRangeChange, markerColor, closeTooltip]);
+      const seriesType =
+        type === 'bar'
+          ? ({ type: 'bar', stack: 'total' } as const)
+          : ({ type: 'line', showSymbol: false } as const);
 
-  // Activate the lineX brush cursor when a time-range callback is provided,
-  // and reactivate it after options are replaced. ECharts clears the active
-  // global cursor when setOption runs with notMerge, so data updates would
-  // otherwise leave brush-to-zoom disabled.
-  const hasTimeRangeCallback = !!onTimeRangeChange;
-  const brushResetKey = optionUpdateBehavior?.notMerge ? options : undefined;
-  useEffect(() => {
-    const chart = chartRef.current;
-    if (chart && hasTimeRangeCallback) {
-      chart.dispatchAction({
-        type: "takeGlobalCursor",
-        key: "brush",
-        brushOption: {
-          brushType: "lineX" as const,
-          brushMode: "single" as const,
-        },
+      const thresholdAnnotations = buildTimeseriesThresholdAnnotations(thresholds);
+      const thresholdExtent = getThresholdValueExtent(thresholds);
+
+      const markerClusters = clusterTimeseriesMarkers(
+        markers,
+        getApproximateMarkerClusterInterval(
+          getTimestamps(data, markers),
+          xAxisTickCount ?? DEFAULT_X_AXIS_TICK_COUNT,
+        ),
+      );
+      const markerAnnotations = buildTimeseriesMarkerAnnotations(markerClusters, {
+        color: markerColor,
+        labelBackgroundColor: markerLabelBackgroundColor,
       });
 
-      return () => {
+      for (const s of data) {
+        const incompleteBeforePoints =
+          incompleteBefore && type === 'line'
+            ? s.data.filter((point) => point[0] <= incompleteBefore)
+            : [];
+
+        const incompleteAfterPoints =
+          incompleteAfter && type === 'line'
+            ? s.data.filter((point) => point[0] >= incompleteAfter)
+            : [];
+
+        const completePoints =
+          incompleteBeforePoints.length > 0 || incompleteAfterPoints.length > 0
+            ? s.data.slice(
+                Math.max(0, incompleteBeforePoints.length - 1),
+                Math.max(0, s.data.length - incompleteAfterPoints.length + 1),
+              )
+            : s.data;
+
+        // Main complete data series
+        const areaStyle =
+          gradient && type === 'line'
+            ? {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: colorWithOpacity(s.color, 0.4) },
+                  { offset: 1, color: colorWithOpacity(s.color, 0) },
+                ]),
+              }
+            : undefined;
+
+        transformSeries.push({
+          data: completePoints,
+          color: s.color,
+          name: s.name,
+          emphasis: { focus: 'series' },
+          ...(areaStyle ? { areaStyle } : {}),
+          ...seriesType,
+        });
+
+        // Incomplete data series with dashed lines
+        const incompleteSeriesConfig = {
+          color: s.color,
+          name: s.name,
+          type: 'line' as const,
+          lineStyle: { type: 'dashed' as const },
+          showSymbol: false,
+          emphasis: { focus: 'series' as const },
+        };
+
+        if (incompleteBeforePoints.length > 0) {
+          transformSeries.push({
+            ...incompleteSeriesConfig,
+            data: incompleteBeforePoints,
+          });
+        }
+
+        if (incompleteAfterPoints.length > 0) {
+          transformSeries.push({
+            ...incompleteSeriesConfig,
+            data: incompleteAfterPoints,
+          });
+        }
+      }
+
+      if (markerAnnotations) {
+        transformSeries.push({
+          data: [],
+          name: 'Markers',
+          type: type === 'bar' ? 'bar' : 'line',
+          animation: false,
+          markLine: markerAnnotations.markLine,
+        });
+      }
+
+      if (thresholdAnnotations) {
+        transformSeries.push({
+          data: [],
+          name: 'Thresholds',
+          type: type === 'bar' ? 'bar' : 'line',
+          animation: false,
+          markLine: thresholdAnnotations.markLine,
+        });
+      }
+
+      return {
+        aria: {
+          enabled: true,
+          ...(ariaDescription && { label: { description: ariaDescription } }),
+        },
+        brush: {
+          xAxisIndex: 'all' as const,
+          brushType: 'lineX' as const,
+          brushMode: 'single' as const,
+          outOfBrush: {
+            colorAlpha: 0.3,
+          },
+          brushStyle: {
+            borderWidth: 1,
+            color: 'rgba(120,140,180,0.3)',
+            borderColor: 'rgba(120,140,180,0.8)',
+          },
+        },
+        tooltip: {
+          trigger: 'axis' as const,
+          showContent: false,
+          axisPointer: { type: 'shadow' as const },
+        },
+        backgroundColor: 'transparent',
+        toolbox: { show: false },
+        ...(enableLegendSelection ? { legend: { show: false } } : {}),
+        xAxis: {
+          name: xAxisName,
+          nameLocation: 'middle' as const,
+          nameGap: 30,
+          nameTextStyle: { color: axisTextColor },
+          type: 'time' as const,
+          splitLine: {
+            show: false,
+          },
+          axisLine: { show: false },
+          splitNumber: xAxisTickCount ?? DEFAULT_X_AXIS_TICK_COUNT,
+          axisLabel: {
+            color: axisTextColor,
+            ...(xAxisTickFormat && {
+              formatter: (value: number) => xAxisTickFormat(value),
+            }),
+          },
+        },
+        yAxis: {
+          name: yAxisName,
+          nameLocation: 'middle' as const,
+          nameGap: 40,
+          nameTextStyle: { color: axisTextColor },
+          type: 'value' as const,
+          axisTick: { show: true },
+          axisLabel: {
+            margin: 15,
+            color: axisTextColor,
+            ...(yAxisTickFormat && {
+              formatter: (value: number) => yAxisTickFormat(value),
+            }),
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              type: 'dashed' as const,
+              width: 1,
+              color: gridLineColor,
+            },
+          },
+          splitNumber: yAxisTickCount,
+          ...(thresholdExtent && {
+            min: (value: { min: number }) => Math.min(value.min, thresholdExtent.min),
+            max: (value: { max: number }) => Math.max(value.max, thresholdExtent.max),
+          }),
+        },
+        grid: {
+          left: yAxisName ? 30 : 24,
+          right: 24,
+          top: 24,
+          bottom: xAxisName ? 30 : 24,
+        },
+        series: transformSeries as SeriesOption[],
+      } satisfies KumoChartOption;
+    }, [
+      data,
+      xAxisName,
+      xAxisTickCount,
+      xAxisTickFormat,
+      yAxisTickFormat,
+      yAxisName,
+      yAxisTickCount,
+      incompleteBefore,
+      incompleteAfter,
+      type,
+      gradient,
+      enableLegendSelection,
+      echarts,
+      ariaDescription,
+      markers,
+      thresholds,
+      markerColor,
+      markerLabelBackgroundColor,
+      axisTextColor,
+      gridLineColor,
+    ]);
+
+    const events = useMemo<Partial<ChartEvents>>(() => {
+      return {
+        updateaxispointer: (params: any) => {
+          if (markerHoverRef.current) return;
+
+          const ts: number | undefined = params?.axesInfo?.[0]?.value;
+          if (ts == null) return;
+
+          const allRows = getAllTooltipRowsAtTimestamp(
+            dataRef.current,
+            ts,
+            legendSelectedRef.current,
+          );
+
+          let rows: TooltipRow[];
+          let hiddenCount = 0;
+
+          if (tooltipModeRef.current === 'single') {
+            // Find the series whose value is closest to the cursor's y position
+            const chart = chartRef.current;
+            const cursorValue = chart
+              ? (
+                  chart.convertFromPixel('grid', [0, mousePosRef.current.y]) as [number, number]
+                )?.[1]
+              : null;
+            if (cursorValue != null && allRows.length > 0) {
+              const nearest = allRows.reduce((best, row) =>
+                Math.abs(row.value - cursorValue) < Math.abs(best.value - cursorValue) ? row : best,
+              );
+              rows = [nearest];
+            } else {
+              rows = allRows.slice(0, 1);
+            }
+          } else {
+            ({ rows, hiddenCount } = limitTooltipRows(allRows, tooltipMaxItemsRef.current));
+          }
+
+          const nextState: TooltipState = {
+            type: 'series',
+            ts,
+            rows,
+            hiddenCount,
+          };
+          setTooltipState((prev) => {
+            if (isSameTooltipState(prev, nextState)) return prev;
+            return nextState;
+          });
+        },
+        mouseover: (params) => {
+          const marker = getTimeseriesMarkerFromEvent(params);
+          if (!marker) return;
+
+          const markerKey = `${marker.timestamp}-${marker.label ?? ''}`;
+          if (activeMarkerKeyRef.current === markerKey) return;
+
+          activeMarkerKeyRef.current = markerKey;
+          markerHoverRef.current = true;
+          chartRef.current?.dispatchAction({ type: 'hideTip' });
+          chartRef.current?.dispatchAction({
+            type: 'updateAxisPointer',
+            currTrigger: 'leave',
+          });
+
+          const { rows, hiddenCount } = getTooltipRowsAtTimestamp(
+            dataRef.current,
+            marker.timestamp,
+            legendSelectedRef.current,
+            tooltipMaxItemsRef.current,
+          );
+
+          setTooltipState({
+            type: 'marker',
+            ts: marker.timestamp,
+            color: marker.color ?? markerColor,
+            markers: marker.markers,
+            rows,
+            hiddenCount,
+          });
+        },
+        mouseout: (params) => {
+          if (!getTimeseriesMarkerFromEvent(params)) return;
+          closeTooltip();
+        },
+        globalout: closeTooltip,
+        // Keep the tooltip in sync with legend selection. Each action fires a
+        // different event — `legendToggleSelect` → `legendselectchanged`,
+        // `legendSelect` → `legendselected`, `legendUnSelect` → `legendunselected`
+        // — and all three carry the full `selected` map, so we listen to all of
+        // them (params type inferred from `ChartEvents`).
+        legendselectchanged: (params) => {
+          legendSelectedRef.current = params.selected;
+        },
+        legendselected: (params) => {
+          legendSelectedRef.current = params.selected;
+        },
+        legendunselected: (params) => {
+          legendSelectedRef.current = params.selected;
+        },
+        ...(onTimeRangeChange && {
+          brushend: (params: any) => {
+            const range = params.areas[0].coordRange;
+            onTimeRangeChange(range[0], range[1]);
+            chartRef.current?.dispatchAction({ type: 'brush', areas: [] });
+          },
+        }),
+      };
+    }, [onTimeRangeChange, markerColor, closeTooltip]);
+
+    // Activate the lineX brush cursor when a time-range callback is provided,
+    // and reactivate it after options are replaced. ECharts clears the active
+    // global cursor when setOption runs with notMerge, so data updates would
+    // otherwise leave brush-to-zoom disabled.
+    const hasTimeRangeCallback = !!onTimeRangeChange;
+    const brushResetKey = optionUpdateBehavior?.notMerge ? options : undefined;
+    useEffect(() => {
+      const chart = chartRef.current;
+      if (chart && hasTimeRangeCallback) {
         chart.dispatchAction({
-          type: "takeGlobalCursor",
-          key: "brush",
+          type: 'takeGlobalCursor',
+          key: 'brush',
           brushOption: {
-            brushType: false,
+            brushType: 'lineX' as const,
+            brushMode: 'single' as const,
           },
         });
-      };
-    }
-    // `loading` controls whether <Chart> is mounted. When it flips to false,
-    // chartRef.current becomes available and the brush cursor must be activated.
-    // `brushResetKey` changes whenever Chart replaces its ECharts options and
-    // ensures the cursor is restored after a notMerge update.
-  }, [chartRef, hasTimeRangeCallback, loading, brushResetKey]);
 
-  const formatFn = tooltipValueFormat ?? yAxisTickLabelFormat;
+        return () => {
+          chart.dispatchAction({
+            type: 'takeGlobalCursor',
+            key: 'brush',
+            brushOption: {
+              brushType: false,
+            },
+          });
+        };
+      }
+      // `loading` controls whether <Chart> is mounted. When it flips to false,
+      // chartRef.current becomes available and the brush cursor must be activated.
+      // `brushResetKey` changes whenever Chart replaces its ECharts options and
+      // ensures the cursor is restored after a notMerge update.
+    }, [chartRef, hasTimeRangeCallback, loading, brushResetKey]);
 
-  return (
-    <TooltipPrimitive.Root
-      open={tooltipOpen}
-      trackCursorAxis={tooltipFollowCursor}
-    >
-      <TooltipPrimitive.Trigger
-        render={
-          <div
-            ref={containerRef}
-            className="relative w-full"
-            style={{ height }}
-            aria-busy={loading || undefined}
-          />
-        }
-      >
-        {loading ? (
-          <ChartSkeletonLoader
-            height={height}
-            isDarkMode={isDarkMode}
-            type={type}
-          />
-        ) : (
-          <Chart
-            echarts={echarts}
-            ref={mergedRef}
-            options={options as EChartsOption}
-            height={height}
-            isDarkMode={isDarkMode}
-            onEvents={events}
-            optionUpdateBehavior={optionUpdateBehavior}
-          />
-        )}
-      </TooltipPrimitive.Trigger>
-      {tooltipOpen && (
-        <TooltipPrimitive.Portal>
-          <TooltipPrimitive.Positioner
-            side="right"
-            align="start"
-            sideOffset={12}
-            collisionAvoidance={{ side: "flip", align: "shift" }}
-            collisionBoundary={tooltipBoundary}
-            collisionPadding={8}
-          >
-            <TooltipPrimitive.Popup
-              data-mode={isDarkMode ? "dark" : "light"}
-              className="max-w-xs min-w-[150px] rounded-lg bg-kumo-base p-2 shadow-md outline-1 outline-kumo-line"
+    const formatFn = tooltipValueFormat ?? yAxisTickLabelFormat;
+
+    return (
+      <TooltipPrimitive.Root open={tooltipOpen} trackCursorAxis={tooltipFollowCursor}>
+        <TooltipPrimitive.Trigger
+          render={
+            <div
+              ref={containerRef}
+              className="relative w-full"
+              style={{ height }}
+              aria-busy={loading || undefined}
+            />
+          }
+        >
+          {loading ? (
+            <ChartSkeletonLoader height={height} isDarkMode={isDarkMode} type={type} />
+          ) : (
+            <Chart
+              echarts={echarts}
+              ref={mergedRef}
+              options={options as EChartsOption}
+              height={height}
+              isDarkMode={isDarkMode}
+              onEvents={events}
+              optionUpdateBehavior={optionUpdateBehavior}
+            />
+          )}
+        </TooltipPrimitive.Trigger>
+        {tooltipOpen && (
+          <TooltipPrimitive.Portal>
+            <TooltipPrimitive.Positioner
+              side="right"
+              align="start"
+              sideOffset={12}
+              collisionAvoidance={{ side: 'flip', align: 'shift' }}
+              collisionBoundary={tooltipBoundary}
+              collisionPadding={8}
             >
-              <TooltipContent
-                state={tooltipState}
-                formatValue={formatFn}
-                formatTimestamp={formatTimestamp}
-              />
-            </TooltipPrimitive.Popup>
-          </TooltipPrimitive.Positioner>
-        </TooltipPrimitive.Portal>
-      )}
-    </TooltipPrimitive.Root>
-  );
-});
+              <TooltipPrimitive.Popup
+                data-mode={isDarkMode ? 'dark' : 'light'}
+                className="max-w-xs min-w-[150px] rounded-lg bg-kumo-base p-2 shadow-md outline-1 outline-kumo-line"
+              >
+                <TooltipContent
+                  state={tooltipState}
+                  formatValue={formatFn}
+                  formatTimestamp={formatTimestamp}
+                />
+              </TooltipPrimitive.Popup>
+            </TooltipPrimitive.Positioner>
+          </TooltipPrimitive.Portal>
+        )}
+      </TooltipPrimitive.Root>
+    );
+  },
+);
 
-TimeseriesChart.displayName = "TimeseriesChart";
+TimeseriesChart.displayName = 'TimeseriesChart';
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -1152,15 +1097,11 @@ function findNearest(data: [number, number][], ts: number): number | null {
     else hi = mid;
   }
   // Check both neighbours and return the closer one
-  if (lo > 0 && Math.abs(data[lo - 1][0] - ts) < Math.abs(data[lo][0] - ts))
-    lo--;
+  if (lo > 0 && Math.abs(data[lo - 1][0] - ts) < Math.abs(data[lo][0] - ts)) lo--;
   return data[lo][1];
 }
 
-function getTimestamps(
-  data: TimeseriesData[],
-  markers: TimeseriesMarker[] | undefined,
-): number[] {
+function getTimestamps(data: TimeseriesData[], markers: TimeseriesMarker[] | undefined): number[] {
   return [
     ...data.flatMap((series) => series.data.map(([timestamp]) => timestamp)),
     ...(markers?.map((marker) => marker.timestamp) ?? []),
@@ -1202,16 +1143,10 @@ function getTooltipRowsAtTimestamp(
   legendSelected: Record<string, boolean> | null,
   max: number,
 ): { rows: TooltipRow[]; hiddenCount: number } {
-  return limitTooltipRows(
-    getAllTooltipRowsAtTimestamp(data, ts, legendSelected),
-    max,
-  );
+  return limitTooltipRows(getAllTooltipRowsAtTimestamp(data, ts, legendSelected), max);
 }
 
-function isSameMarkerTooltipState(
-  a: MarkerTooltipState,
-  b: MarkerTooltipState,
-): boolean {
+function isSameMarkerTooltipState(a: MarkerTooltipState, b: MarkerTooltipState): boolean {
   return (
     a.ts === b.ts &&
     a.color === b.color &&
@@ -1236,16 +1171,12 @@ function isSameMarkerTooltipState(
 function isSameTooltipState(a: TooltipState | null, b: TooltipState): boolean {
   if (!a || a.type !== b.type) return false;
 
-  if (a.type === "marker" && b.type === "marker") {
+  if (a.type === 'marker' && b.type === 'marker') {
     return isSameMarkerTooltipState(a, b);
   }
-  if (a.type !== "series" || b.type !== "series") return false;
+  if (a.type !== 'series' || b.type !== 'series') return false;
 
-  if (
-    a.ts !== b.ts ||
-    a.hiddenCount !== b.hiddenCount ||
-    a.rows.length !== b.rows.length
-  ) {
+  if (a.ts !== b.ts || a.hiddenCount !== b.hiddenCount || a.rows.length !== b.rows.length) {
     return false;
   }
   return isSameTooltipRows(a.rows, b.rows);
@@ -1254,11 +1185,7 @@ function isSameTooltipState(a: TooltipState | null, b: TooltipState): boolean {
 function isSameTooltipRows(a: TooltipRow[], b: TooltipRow[]): boolean {
   return a.every((row, i) => {
     const next = b[i];
-    return (
-      row.name === next.name &&
-      row.value === next.value &&
-      row.color === next.color
-    );
+    return row.name === next.name && row.value === next.value && row.color === next.color;
   });
 }
 
@@ -1275,26 +1202,24 @@ const CHART_LOADER_BAR_GAP_RATIO = 0.35;
  */
 function chartLoaderWave(theta: number): number {
   return (
-    0.45 * Math.sin(3 * theta) +
-    0.3 * Math.sin(5 * theta + 0.9) +
-    0.25 * Math.sin(7 * theta + 2.1)
+    0.45 * Math.sin(3 * theta) + 0.3 * Math.sin(5 * theta + 0.9) + 0.25 * Math.sin(7 * theta + 2.1)
   );
 }
 
 function ChartSkeletonLoader({
   height,
   isDarkMode,
-  type = "line",
+  type = 'line',
 }: {
   height: number;
   isDarkMode?: boolean;
-  type?: "line" | "bar";
+  type?: 'line' | 'bar';
 }) {
-  const id = `kumo-chart-loader-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
+  const id = `kumo-chart-loader-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const fillId = `${id}-fill`;
   const shineId = `${id}-shine`;
   const clipId = `${id}-clip`;
-  const color = ChartPalette.semantic("Skeleton", isDarkMode);
+  const color = ChartPalette.semantic('Skeleton', isDarkMode);
 
   const strokeOpacity = isDarkMode ? 0.36 : 0.6;
   const fillOpacity = isDarkMode ? 0.07 : 0.1;
@@ -1322,11 +1247,11 @@ function ChartSkeletonLoader({
     const x = (i / CHART_LOADER_SAMPLES) * CHART_LOADER_WIDTH;
     const theta = (x / CHART_LOADER_WIDTH) * 2 * Math.PI;
     const y = mid - chartLoaderWave(theta) * amp;
-    return `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
-  }).join(" ");
+    return `${i === 0 ? 'M' : 'L'}${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(' ');
   const areaD = `${lineD} L${CHART_LOADER_WIDTH},${height} L0,${height} Z`;
 
-  const isBar = type === "bar";
+  const isBar = type === 'bar';
 
   return (
     <div
@@ -1355,9 +1280,7 @@ function ChartSkeletonLoader({
           </linearGradient>
           <clipPath id={clipId}>
             {isBar ? (
-              bars.map((b, i) => (
-                <rect key={i} x={b.x} y={b.y} width={b.w} height={b.h} />
-              ))
+              bars.map((b, i) => <rect key={i} x={b.x} y={b.y} width={b.w} height={b.h} />)
             ) : (
               <path d={areaD} />
             )}
@@ -1421,15 +1344,13 @@ function colorWithOpacity(color: string, alpha: number): string {
   const a = Math.max(0, Math.min(1, alpha));
 
   // rgb / rgba
-  const rgbMatch = color.match(
-    /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i,
-  );
+  const rgbMatch = color.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/i);
   if (rgbMatch) {
     return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${a})`;
   }
 
   // hex — strip leading #
-  let hex = color.replace(/^#/, "");
+  let hex = color.replace(/^#/, '');
 
   // expand 3-digit → 6-digit
   if (hex.length === 3) {
@@ -1449,11 +1370,11 @@ function colorWithOpacity(color: string, alpha: number): string {
 }
 
 const tooltipDateFormat = new Intl.DateTimeFormat(undefined, {
-  month: "short",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
+  month: 'short',
+  day: 'numeric',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
   hour12: false,
 });
 

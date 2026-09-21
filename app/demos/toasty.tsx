@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { useKumoToastManager } from "@/components/ui/toasty";
+import { Button } from '@/components/ui/button';
+import { useKumoToastManager } from '@/components/ui/toasty';
 
 export const notes =
-  "App-level toast system — wrap the app once in `<Toasty>` (the showroom already does), then call `useKumoToastManager().add()` from any child. Toasts take `title`, `description`, `variant` (success/error/warning/info), and optional `actions` buttons; they auto-dismiss, swipe away, and are announced to screen readers.";
+  'App-level toast system — wrap the app once in `<Toasty>` (the showroom already does), then call `useKumoToastManager().add()` from any child. Toasts take `title`, `description`, `variant` (success/error/warning/info), and optional `actions` buttons; they auto-dismiss, swipe away, and are announced to screen readers.';
 
 export function Demo() {
   const toasts = useKumoToastManager();
@@ -15,9 +15,9 @@ export function Demo() {
         variant="secondary"
         onClick={() =>
           toasts.add({
-            title: "Worker deployed",
-            description: "api-gateway is now live in production.",
-            variant: "success",
+            title: 'Worker deployed',
+            description: 'api-gateway is now live in production.',
+            variant: 'success',
           })
         }
       >
@@ -27,9 +27,9 @@ export function Demo() {
         variant="secondary"
         onClick={() =>
           toasts.add({
-            title: "Deployment failed",
-            description: "Build timed out after 30 seconds.",
-            variant: "error",
+            title: 'Deployment failed',
+            description: 'Build timed out after 30 seconds.',
+            variant: 'error',
           })
         }
       >
@@ -39,18 +39,18 @@ export function Demo() {
         variant="secondary"
         onClick={() =>
           toasts.add({
-            title: "Worker deleted",
-            description: "api-gateway was removed from production.",
-            variant: "info",
+            title: 'Worker deleted',
+            description: 'api-gateway was removed from production.',
+            variant: 'info',
             actions: [
               {
-                variant: "secondary",
-                size: "sm",
-                children: "Undo",
+                variant: 'secondary',
+                size: 'sm',
+                children: 'Undo',
                 onClick: () =>
                   toasts.add({
-                    title: "Worker restored",
-                    variant: "success",
+                    title: 'Worker restored',
+                    variant: 'success',
                   }),
               },
             ],

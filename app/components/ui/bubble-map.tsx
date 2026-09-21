@@ -9,4 +9,4 @@ export {
   type MapGeoJson,
   type MapProjection,
   type MapStyle,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';

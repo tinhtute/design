@@ -1,14 +1,10 @@
-"use client";
+'use client';
 
-import {
-  InfoIcon,
-  WarningIcon,
-  WarningOctagonIcon,
-} from "@phosphor-icons/react";
-import { Banner } from "@/components/ui/banner";
+import { InfoIcon, WarningIcon, WarningOctagonIcon } from '@phosphor-icons/react';
+import { Banner } from '@/components/ui/banner';
 
 export const notes =
-  "Full-width inline message for product notices — place it above the content it describes. `variant` sets severity (default → error), `title`/`description` carry the copy, `icon` adds a leading glyph, and the `action` slot takes a `Banner.Action` CTA that self-styles to the variant.";
+  'Full-width inline message for product notices — place it above the content it describes. `variant` sets severity (default → error), `title`/`description` carry the copy, `icon` adds a leading glyph, and the `action` slot takes a `Banner.Action` CTA that self-styles to the variant.';
 
 export function Demo() {
   return (

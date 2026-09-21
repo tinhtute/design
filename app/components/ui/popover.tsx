@@ -1,38 +1,35 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Popover as PopoverBase } from "@base-ui/react/popover";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
-import { cn } from "@/lib/utils";
-import {
-  usePortalContainer,
-  type PortalContainer,
-} from "@/lib/portal-provider";
+import { Popover as PopoverBase } from '@base-ui/react/popover';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
 
 /** Popover side variant definitions mapping positions to their Tailwind classes. */
 export const KUMO_POPOVER_VARIANTS = {
   side: {
     top: {
-      classes: "",
-      description: "Popover appears above the trigger",
+      classes: '',
+      description: 'Popover appears above the trigger',
     },
     bottom: {
-      classes: "",
-      description: "Popover appears below the trigger",
+      classes: '',
+      description: 'Popover appears below the trigger',
     },
     left: {
-      classes: "",
-      description: "Popover appears to the left of the trigger",
+      classes: '',
+      description: 'Popover appears to the left of the trigger',
     },
     right: {
-      classes: "",
-      description: "Popover appears to the right of the trigger",
+      classes: '',
+      description: 'Popover appears to the right of the trigger',
     },
   },
 } as const;
 
 export const KUMO_POPOVER_DEFAULT_VARIANTS = {
-  side: "bottom",
+  side: 'bottom',
 } as const;
 
 // Derived types from KUMO_POPOVER_VARIANTS
@@ -62,15 +59,13 @@ function PopoverRoot({ children, ...props }: PopoverRootProps) {
   return <PopoverBase.Root {...props}>{children}</PopoverBase.Root>;
 }
 
-PopoverRoot.displayName = "Popover";
+PopoverRoot.displayName = 'Popover';
 
 // ============================================================================
 // Popover Trigger
 // ============================================================================
 
-type BasePopoverTriggerProps = ComponentPropsWithoutRef<
-  typeof PopoverBase.Trigger
->;
+type BasePopoverTriggerProps = ComponentPropsWithoutRef<typeof PopoverBase.Trigger>;
 
 export type PopoverTriggerProps = BasePopoverTriggerProps & {
   /**
@@ -80,18 +75,11 @@ export type PopoverTriggerProps = BasePopoverTriggerProps & {
   asChild?: boolean;
 };
 
-function PopoverTrigger({
-  children,
-  className,
-  asChild,
-  render,
-  ...props
-}: PopoverTriggerProps) {
+function PopoverTrigger({ children, className, asChild, render, ...props }: PopoverTriggerProps) {
   // Support both render prop (preferred) and deprecated asChild pattern
   // When using asChild, children IS the render element, so don't pass it as children
   const resolvedRender =
-    render ??
-    (asChild ? (children as BasePopoverTriggerProps["render"]) : undefined);
+    render ?? (asChild ? (children as BasePopoverTriggerProps['render']) : undefined);
 
   return (
     <PopoverBase.Trigger
@@ -106,18 +94,16 @@ function PopoverTrigger({
   );
 }
 
-PopoverTrigger.displayName = "Popover.Trigger";
+PopoverTrigger.displayName = 'Popover.Trigger';
 
 // ============================================================================
 // Popover Content
 // ============================================================================
 
 /** Alignment options for popover positioning */
-type PopoverAlign = "start" | "center" | "end";
+type PopoverAlign = 'start' | 'center' | 'end';
 
-type BasePopoverPositionerProps = ComponentPropsWithoutRef<
-  typeof PopoverBase.Positioner
->;
+type BasePopoverPositionerProps = ComponentPropsWithoutRef<typeof PopoverBase.Positioner>;
 
 /**
  * Popover content panel props.
@@ -151,7 +137,7 @@ export type PopoverContentProps = KumoPopoverVariantsProps & {
    * </Popover>
    * ```
    */
-  anchor?: BasePopoverPositionerProps["anchor"];
+  anchor?: BasePopoverPositionerProps['anchor'];
   /**
    * How to align the popover relative to the trigger.
    * @default "center"
@@ -172,7 +158,7 @@ export type PopoverContentProps = KumoPopoverVariantsProps & {
    * Use "fixed" when the popover needs to escape stacking contexts (e.g., inside sticky headers).
    * @default "absolute"
    */
-  positionMethod?: "absolute" | "fixed";
+  positionMethod?: 'absolute' | 'fixed';
   /** Additional CSS classes merged via `cn()`. */
   className?: string;
   /** Content to render inside the popover. */
@@ -188,10 +174,10 @@ export type PopoverContentProps = KumoPopoverVariantsProps & {
 function PopoverContent({
   children,
   side = KUMO_POPOVER_DEFAULT_VARIANTS.side,
-  align = "center",
+  align = 'center',
   sideOffset = 8,
   alignOffset = 0,
-  positionMethod = "absolute",
+  positionMethod = 'absolute',
   anchor,
   className,
   container: containerProp,
@@ -211,23 +197,23 @@ function PopoverContent({
       >
         <PopoverBase.Popup
           className={cn(
-            "flex origin-(--transform-origin) flex-col rounded-lg bg-kumo-base px-4 py-3 text-sm text-kumo-default",
-            "shadow-md outline outline-kumo-line",
-            "transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none",
-            "data-starting-style:scale-90 data-starting-style:opacity-0",
-            "data-ending-style:scale-90 data-ending-style:opacity-0",
-            "data-instant:duration-0",
-            "kumo-popover-popup",
+            'flex origin-(--transform-origin) flex-col rounded-lg bg-kumo-base px-4 py-3 text-sm text-kumo-default',
+            'shadow-md outline outline-kumo-line',
+            'transition-[transform,scale,opacity] duration-200 ease-out motion-reduce:transition-none',
+            'data-starting-style:scale-90 data-starting-style:opacity-0',
+            'data-ending-style:scale-90 data-ending-style:opacity-0',
+            'data-instant:duration-0',
+            'kumo-popover-popup',
             className,
           )}
         >
           <PopoverBase.Arrow
             className={cn(
-              "flex",
-              "data-[side=bottom]:-top-2",
-              "data-[side=left]:right-[-13px] data-[side=left]:rotate-90",
-              "data-[side=right]:left-[-13px] data-[side=right]:-rotate-90",
-              "data-[side=top]:-bottom-2 data-[side=top]:rotate-180",
+              'flex',
+              'data-[side=bottom]:-top-2',
+              'data-[side=left]:right-[-13px] data-[side=left]:rotate-90',
+              'data-[side=right]:left-[-13px] data-[side=right]:-rotate-90',
+              'data-[side=top]:-bottom-2 data-[side=top]:rotate-180',
             )}
           >
             <ArrowSvg />
@@ -239,7 +225,7 @@ function PopoverContent({
   );
 }
 
-PopoverContent.displayName = "Popover.Content";
+PopoverContent.displayName = 'Popover.Content';
 
 // ============================================================================
 // Popover Title
@@ -252,34 +238,32 @@ export type PopoverTitleProps = BasePopoverTitleProps;
 function PopoverTitle({ className, ...props }: PopoverTitleProps) {
   return (
     <PopoverBase.Title
-      className={cn("m-0 text-base leading-6 font-medium", className)}
+      className={cn('m-0 text-base leading-6 font-medium', className)}
       {...props}
     />
   );
 }
 
-PopoverTitle.displayName = "Popover.Title";
+PopoverTitle.displayName = 'Popover.Title';
 
 // ============================================================================
 // Popover Description
 // ============================================================================
 
-type BasePopoverDescriptionProps = ComponentPropsWithoutRef<
-  typeof PopoverBase.Description
->;
+type BasePopoverDescriptionProps = ComponentPropsWithoutRef<typeof PopoverBase.Description>;
 
 export type PopoverDescriptionProps = BasePopoverDescriptionProps;
 
 function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
   return (
     <PopoverBase.Description
-      className={cn("m-0 text-base leading-6 text-kumo-subtle", className)}
+      className={cn('m-0 text-base leading-6 text-kumo-subtle', className)}
       {...props}
     />
   );
 }
 
-PopoverDescription.displayName = "Popover.Description";
+PopoverDescription.displayName = 'Popover.Description';
 
 // ============================================================================
 // Popover Close
@@ -295,18 +279,11 @@ export type PopoverCloseProps = BasePopoverCloseProps & {
   asChild?: boolean;
 };
 
-function PopoverClose({
-  children,
-  className,
-  asChild,
-  render,
-  ...props
-}: PopoverCloseProps) {
+function PopoverClose({ children, className, asChild, render, ...props }: PopoverCloseProps) {
   // Support both render prop (preferred) and deprecated asChild pattern
   // When using asChild, children IS the render element, so don't pass it as children
   const resolvedRender =
-    render ??
-    (asChild ? (children as BasePopoverCloseProps["render"]) : undefined);
+    render ?? (asChild ? (children as BasePopoverCloseProps['render']) : undefined);
 
   return (
     <PopoverBase.Close className={className} render={resolvedRender} {...props}>
@@ -315,7 +292,7 @@ function PopoverClose({
   );
 }
 
-PopoverClose.displayName = "Popover.Close";
+PopoverClose.displayName = 'Popover.Close';
 
 // ============================================================================
 // Arrow SVG
@@ -336,7 +313,7 @@ PopoverClose.displayName = "Popover.Close";
  *
  * @see https://base-ui.com/react/components/popover
  */
-function ArrowSvg(props: React.ComponentProps<"svg">) {
+function ArrowSvg(props: React.ComponentProps<'svg'>) {
   return (
     <svg width="20" height="10" viewBox="0 0 20 10" fill="none" {...props}>
       <path

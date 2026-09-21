@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { Breadcrumbs } from '@/components/ui/breadcrumbs';
 
 export const notes =
   "Navigation trail showing the current page's place in the hierarchy. Compose `Link`, `Separator`, and `Current` — the current item is marked `aria-current` for screen readers — and add `Clipboard` for a hover-revealed copy-deeplink action.";

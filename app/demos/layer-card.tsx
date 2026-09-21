@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Badge } from "@/components/ui/badge";
-import { LayerCard } from "@/components/ui/layer-card";
-import { Text } from "@/components/ui/text";
+import { Badge } from '@/components/ui/badge';
+import { LayerCard } from '@/components/ui/layer-card';
+import { Text } from '@/components/ui/text';
 
 export const notes =
-  "Card surface for grouping related content. Render children directly for a flat card (bring your own padding) or compose `Secondary` + `Primary` for the layered treatment with an elevated header strip over a raised inner card.";
+  'Card surface for grouping related content. Render children directly for a flat card (bring your own padding) or compose `Secondary` + `Primary` for the layered treatment with an elevated header strip over a raised inner card.';
 
-export const deps = ["badge", "text"];
+export const deps = ['badge', 'text'];
 
 export function Demo() {
   return (

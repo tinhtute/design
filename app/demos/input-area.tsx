@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { InputArea } from "@/components/ui/input-area";
+import { InputArea } from '@/components/ui/input-area';
 
 export const notes =
   "Multi-line textarea for longer freeform content. Shares Input's `label`/`description`/`error` Field props, and adds `autoResize` with `minRows`/`maxRows` so the field grows with content; `onValueChange` hands you the string directly.";

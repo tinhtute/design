@@ -9,7 +9,7 @@ import {
   type ReactNode,
   type RefAttributes,
   useContext,
-} from "react";
+} from 'react';
 
 type LinkComponentProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   /**
@@ -44,8 +44,7 @@ type ForwardLinkComponent = ForwardRefExoticComponent<
   LinkComponentProps & RefAttributes<HTMLAnchorElement>
 >;
 
-const LinkComponentContext =
-  createContext<ForwardLinkComponent>(DefaultLinkComponent);
+const LinkComponentContext = createContext<ForwardLinkComponent>(DefaultLinkComponent);
 
 export function useLinkComponent() {
   return useContext(LinkComponentContext);

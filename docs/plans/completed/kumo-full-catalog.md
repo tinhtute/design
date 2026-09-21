@@ -7,7 +7,7 @@ slug: kumo-full-catalog
 id: kumo-full-catalog
 intake_id: intake-kumo-20260902
 authority: https://unpkg.com/@cloudflare/kumo@2.13.0/ai/component-registry.json
-upstream: "@cloudflare/kumo@2.13.0"
+upstream: '@cloudflare/kumo@2.13.0'
 commit: a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf
 ---
 
@@ -82,82 +82,82 @@ Someone who was not in the interview can prove all of:
 
 Registry `name` is kebab-case. Source is the JSON component of the same PascalCase name at the pin.
 
-| Registry name | JSON name | Category |
-|---|---|---|
-| autocomplete | Autocomplete | Other |
-| badge | Badge | Display |
-| banner | Banner | Feedback |
-| breadcrumbs | Breadcrumbs | Display |
-| bubble-map | BubbleMap | Data Visualization |
-| button | Button | Action |
-| chart | Chart | Data Visualization |
-| checkbox | Checkbox | Input |
-| choropleth-map | ChoroplethMap | Data Visualization |
-| clipboard-text | ClipboardText | Action |
-| code | Code | Display |
-| collapsible | Collapsible | Display |
-| combobox | Combobox | Input |
-| command-palette | CommandPalette | Navigation |
-| date-picker | DatePicker | Other |
-| dialog | Dialog | Overlay |
-| dropdown-menu | DropdownMenu | Overlay |
-| empty | Empty | Display |
-| field | Field | Input |
-| grid | Grid | Layout |
-| input | Input | Input |
-| input-area | InputArea | Input |
-| input-group | InputGroup | Input |
-| label | Label | Other |
-| layer-card | LayerCard | Display |
-| link | Link | Other |
-| loader | Loader | Feedback |
-| meter | Meter | Display |
-| pagination | Pagination | Navigation |
-| popover | Popover | Overlay |
-| radio | Radio | Input |
-| sankey-chart | SankeyChart | Data Visualization |
-| select | Select | Input |
-| sensitive-input | SensitiveInput | Other |
-| sidebar | Sidebar | Other |
-| switch | Switch | Input |
-| table | Table | Other |
-| table-of-contents | TableOfContents | Other |
-| tabs | Tabs | Navigation |
-| text | Text | Display |
-| timeseries-chart | TimeseriesChart | Data Visualization |
-| toasty | Toasty | Feedback |
-| toolbar | Toolbar | Other |
-| tooltip | Tooltip | Overlay |
+| Registry name     | JSON name       | Category           |
+| ----------------- | --------------- | ------------------ |
+| autocomplete      | Autocomplete    | Other              |
+| badge             | Badge           | Display            |
+| banner            | Banner          | Feedback           |
+| breadcrumbs       | Breadcrumbs     | Display            |
+| bubble-map        | BubbleMap       | Data Visualization |
+| button            | Button          | Action             |
+| chart             | Chart           | Data Visualization |
+| checkbox          | Checkbox        | Input              |
+| choropleth-map    | ChoroplethMap   | Data Visualization |
+| clipboard-text    | ClipboardText   | Action             |
+| code              | Code            | Display            |
+| collapsible       | Collapsible     | Display            |
+| combobox          | Combobox        | Input              |
+| command-palette   | CommandPalette  | Navigation         |
+| date-picker       | DatePicker      | Other              |
+| dialog            | Dialog          | Overlay            |
+| dropdown-menu     | DropdownMenu    | Overlay            |
+| empty             | Empty           | Display            |
+| field             | Field           | Input              |
+| grid              | Grid            | Layout             |
+| input             | Input           | Input              |
+| input-area        | InputArea       | Input              |
+| input-group       | InputGroup      | Input              |
+| label             | Label           | Other              |
+| layer-card        | LayerCard       | Display            |
+| link              | Link            | Other              |
+| loader            | Loader          | Feedback           |
+| meter             | Meter           | Display            |
+| pagination        | Pagination      | Navigation         |
+| popover           | Popover         | Overlay            |
+| radio             | Radio           | Input              |
+| sankey-chart      | SankeyChart     | Data Visualization |
+| select            | Select          | Input              |
+| sensitive-input   | SensitiveInput  | Other              |
+| sidebar           | Sidebar         | Other              |
+| switch            | Switch          | Input              |
+| table             | Table           | Other              |
+| table-of-contents | TableOfContents | Other              |
+| tabs              | Tabs            | Navigation         |
+| text              | Text            | Display            |
+| timeseries-chart  | TimeseriesChart | Data Visualization |
+| toasty            | Toasty          | Feedback           |
+| toolbar           | Toolbar         | Other              |
+| tooltip           | Tooltip         | Overlay            |
 
 Count: **44**.
 
 ## Catalog — in (3 Kumo blocks)
 
-| Registry name | JSON name |
-|---|---|
-| delete-resource | DeleteResource |
-| page-header | PageHeader |
+| Registry name      | JSON name        |
+| ------------------ | ---------------- |
+| delete-resource    | DeleteResource   |
+| page-header        | PageHeader       |
 | resource-list-page | ResourceListPage |
 
 ## Catalog — keep and rewire (3)
 
-| Registry name | Rewire onto |
-|---|---|
-| data-table | table, button, checkbox, dropdown-menu |
-| filter-bar | input, button |
-| dashboard | layer-card, button, badge, data-table |
+| Registry name | Rewire onto                            |
+| ------------- | -------------------------------------- |
+| data-table    | table, button, checkbox, dropdown-menu |
+| filter-bar    | input, button                          |
+| dashboard     | layer-card, button, badge, data-table  |
 
 ## Catalog — out
 
-| Name | Why |
-|---|---|
-| CloudflareLogo | Trademark / not our brand |
-| MenuBar | Deprecated (use Tabs `variant="segmented"`) |
-| Surface | Deprecated (use LayerCard) |
-| DateRangePicker | Deprecated (use DatePicker `mode="range"`) |
-| Flow | Not in 2.13.0 `component-registry.json` |
-| kumo-badge | Replaced by `badge` |
-| card | No Kumo Card; dashboard uses `layer-card` |
+| Name            | Why                                         |
+| --------------- | ------------------------------------------- |
+| CloudflareLogo  | Trademark / not our brand                   |
+| MenuBar         | Deprecated (use Tabs `variant="segmented"`) |
+| Surface         | Deprecated (use LayerCard)                  |
+| DateRangePicker | Deprecated (use DatePicker `mode="range"`)  |
+| Flow            | Not in 2.13.0 `component-registry.json`     |
+| kumo-badge      | Replaced by `badge`                         |
+| card            | No Kumo Card; dashboard uses `layer-card`   |
 
 ## Infra kept / added
 
@@ -219,6 +219,7 @@ Trademark (`CloudflareLogo`), deprecated (`MenuBar`, `Surface`, `DateRangePicker
 ## Phases and Verification
 
 ### Phase 1: Foundation & Registry Catalog
+
 - **Slug**: `foundation-and-registry`
 - **Story ID**: `story-foundation-registry-001`
 - **Status**: `done`
@@ -226,6 +227,7 @@ Trademark (`CloudflareLogo`), deprecated (`MenuBar`, `Surface`, `DateRangePicker
 - **Verification**: `pnpm --filter @therealtinhtute/registry validate` and `validate:build` pass without errors.
 
 ### Phase 2: App Clean Cutover
+
 - **Slug**: `app-clean-cutover`
 - **Story ID**: `story-app-clean-cutover-002`
 - **Status**: `done`
@@ -245,6 +247,7 @@ Trademark (`CloudflareLogo`), deprecated (`MenuBar`, `Surface`, `DateRangePicker
   - Browser visual check: primary button computed background is `#124b68` (`oklch(0.3917...)`), sidebar works.
 
 ### Phase 3: E2E Smoke & Plan Closure
+
 - **Slug**: `e2e-and-close`
 - **Story ID**: `story-e2e-and-close-003`
 - **Status**: `done`

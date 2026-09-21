@@ -1,18 +1,14 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-"use client";
+'use client';
 
-import type {
-  KeyboardEventHandler,
-  MouseEventHandler,
-  PointerEventHandler,
-} from "react";
-import { cn } from "@/lib/utils";
-import { SkeletonLine } from "@/components/ui/loader";
+import type { KeyboardEventHandler, MouseEventHandler, PointerEventHandler } from 'react';
+import { cn } from '@/lib/utils';
+import { SkeletonLine } from '@/components/ui/loader';
 
 const onInteractiveKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
-  if (event.key !== "Enter" && event.key !== " ") return;
+  if (event.key !== 'Enter' && event.key !== ' ') return;
   event.preventDefault();
   event.currentTarget.click();
 };
@@ -71,10 +67,7 @@ function LargeItem({
 }: LegendItemProps) {
   if (loading) {
     return (
-      <div
-        aria-hidden="true"
-        className={cn("inline-flex min-w-42 flex-col gap-2 py-2", className)}
-      >
+      <div aria-hidden="true" className={cn('inline-flex min-w-42 flex-col gap-2 py-2', className)}>
         <div className="flex items-center gap-2">
           <span className="inline-block size-2 rounded-full bg-kumo-fill" />
           <SkeletonLine className="h-3 w-[8ch]" />
@@ -90,8 +83,8 @@ function LargeItem({
       role="button"
       tabIndex={onClick ? 0 : -1}
       className={cn(
-        "inline-flex min-w-42 flex-col gap-2 py-2",
-        { "cursor-pointer": !!onClick },
+        'inline-flex min-w-42 flex-col gap-2 py-2',
+        { 'cursor-pointer': !!onClick },
         className,
       )}
       onPointerEnter={onPointerEnter}
@@ -101,27 +94,25 @@ function LargeItem({
     >
       <div className="flex items-center gap-2">
         <span
-          className={cn("inline-block size-2 rounded-full", {
-            "opacity-50": inactive,
+          className={cn('inline-block size-2 rounded-full', {
+            'opacity-50': inactive,
           })}
           style={{ backgroundColor: color }}
         />
-        <span className={cn("text-xs", { "opacity-50": inactive })}>
-          {name}
-        </span>
+        <span className={cn('text-xs', { 'opacity-50': inactive })}>{name}</span>
       </div>
       <div className="flex items-baseline gap-0.5">
         <span
-          className={cn("text-lg leading-none font-medium", {
-            "opacity-50": inactive,
+          className={cn('text-lg leading-none font-medium', {
+            'opacity-50': inactive,
           })}
         >
           {value}
         </span>
         {unit && (
           <span
-            className={cn("text-xs leading-none text-kumo-subtle", {
-              "opacity-50": inactive,
+            className={cn('text-xs leading-none text-kumo-subtle', {
+              'opacity-50': inactive,
             })}
           >
             {unit}
@@ -149,10 +140,7 @@ function SmallItem({
 }: LegendItemProps) {
   if (loading) {
     return (
-      <div
-        aria-hidden="true"
-        className={cn("inline-flex h-4 items-center gap-2", className)}
-      >
+      <div aria-hidden="true" className={cn('inline-flex h-4 items-center gap-2', className)}>
         <span className="inline-block size-2 rounded-full bg-kumo-fill" />
         <SkeletonLine className="h-3 w-[5ch]" />
         <SkeletonLine className="h-3 w-[3ch]" />
@@ -166,8 +154,8 @@ function SmallItem({
       role="button"
       tabIndex={onClick ? 0 : -1}
       className={cn(
-        "inline-flex h-4 items-center gap-2",
-        { "cursor-pointer": !!onClick },
+        'inline-flex h-4 items-center gap-2',
+        { 'cursor-pointer': !!onClick },
         className,
       )}
       onPointerEnter={onPointerEnter}
@@ -176,15 +164,13 @@ function SmallItem({
       onKeyDown={onClick ? onInteractiveKeyDown : undefined}
     >
       <span
-        className={cn("inline-block size-2 rounded-full", {
-          "opacity-50": inactive,
+        className={cn('inline-block size-2 rounded-full', {
+          'opacity-50': inactive,
         })}
         style={{ backgroundColor: color }}
       />
-      <span className={cn("text-xs", { "opacity-50": inactive })}>{name}</span>
-      <span className={cn("text-xs font-medium", { "opacity-50": inactive })}>
-        {value}
-      </span>
+      <span className={cn('text-xs', { 'opacity-50': inactive })}>{name}</span>
+      <span className={cn('text-xs font-medium', { 'opacity-50': inactive })}>{value}</span>
     </div>
   );
 }
