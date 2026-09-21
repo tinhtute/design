@@ -68,7 +68,10 @@
   border-radius: 2px;
 }
 
-.mono-doc code:not(.line span) {
+/* Inline code only — block code lives inside <pre> and must keep its
+   own font-size (a bare `code` selector would also shrink fenced
+   blocks, which are <pre><code>). */
+.mono-doc :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.8125em;
   color: var(--text-color-kumo-default);
@@ -83,7 +86,7 @@
   border: 1px solid var(--kumo-fill);
   border-radius: 6px;
   font-size: 0.8125rem;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 .mono-doc blockquote {

@@ -30,9 +30,13 @@ html[data-mode='dark'] .shiki span,
 }
 
 /* Lines paint full-width so diff/highlight backgrounds read —
-   in the CodeBlock component and in docs pages rendering Shiki HTML. */
+   in the CodeBlock component and in docs pages rendering Shiki HTML.
+   `inline-block` (not `block`) keeps the newline text nodes between
+   lines in the inline formatting context: a single line break per
+   line. `display: block` would turn each "\n" into an empty line box,
+   doubling the vertical spacing. */
 .shiki .line {
-  display: block;
+  display: inline-block;
   width: 100%;
 }
 

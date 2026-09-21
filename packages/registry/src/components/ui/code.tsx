@@ -1,44 +1,44 @@
-"use client";
+'use client';
 
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  * Syntax highlighting powered by Shiki (MIT) — see THIRD_PARTY_LICENSES.md.
  */
-import { useEffect, useState, type CSSProperties } from "react";
-import { Check as CheckIcon, Copy as CopyIcon } from "@phosphor-icons/react";
-import type { HighlighterCore, LanguageRegistration } from "shiki/core";
-import { cn } from "@/lib/utils";
-import { resolveVariant } from "@/lib/resolve-variant";
-import { monoDarkTheme, monoLightTheme } from "./code-themes";
+import { useEffect, useState, type CSSProperties } from 'react';
+import { Check as CheckIcon, Copy as CopyIcon } from '@phosphor-icons/react';
+import type { HighlighterCore, LanguageRegistration } from 'shiki/core';
+import { cn } from '@/lib/utils';
+import { resolveVariant } from '@/lib/resolve-variant';
+import { monoDarkTheme, monoLightTheme } from './code-themes';
 
 /** Code language variant definitions. */
 export const KUMO_CODE_VARIANTS = {
   lang: {
     ts: {
-      classes: "",
-      description: "TypeScript code",
+      classes: '',
+      description: 'TypeScript code',
     },
     tsx: {
-      classes: "",
-      description: "TypeScript JSX code",
+      classes: '',
+      description: 'TypeScript JSX code',
     },
     jsonc: {
-      classes: "",
-      description: "JSON with comments",
+      classes: '',
+      description: 'JSON with comments',
     },
     bash: {
-      classes: "",
-      description: "Shell/Bash commands",
+      classes: '',
+      description: 'Shell/Bash commands',
     },
     css: {
-      classes: "",
-      description: "CSS styles",
+      classes: '',
+      description: 'CSS styles',
     },
   },
 } as const;
 
 export const KUMO_CODE_DEFAULT_VARIANTS = {
-  lang: "ts",
+  lang: 'ts',
 } as const;
 
 /**
@@ -46,24 +46,24 @@ export const KUMO_CODE_DEFAULT_VARIANTS = {
  */
 export const KUMO_CODE_STYLING = {
   /** Base semantic tokens used */
-  baseTokens: ["text-kumo-subtle"],
+  baseTokens: ['text-kumo-subtle'],
   /** Typography and layout */
   typography: {
-    fontFamily: "font-mono",
-    fontSize: "text-sm",
-    lineHeight: "leading-[20px]",
+    fontFamily: 'font-mono',
+    fontSize: 'text-sm',
+    lineHeight: 'leading-[18px]',
   },
   /** Container dimensions */
   dimensions: {
-    margin: "m-0",
-    padding: "p-0",
-    width: "w-auto",
+    margin: 'm-0',
+    padding: 'p-0',
+    width: 'w-auto',
   },
   /** Border and background */
   appearance: {
-    borderRadius: "rounded-none",
-    border: "border-none",
-    background: "bg-transparent",
+    borderRadius: 'rounded-none',
+    border: 'border-none',
+    background: 'bg-transparent',
   },
 } as const;
 
@@ -72,22 +72,22 @@ export const KUMO_CODE_STYLING = {
  */
 export const KUMO_CODEBLOCK_STYLING = {
   /** Base semantic tokens used */
-  baseTokens: ["bg-kumo-base", "border-kumo-fill", "text-kumo-default"],
+  baseTokens: ['bg-kumo-base', 'border-kumo-fill', 'text-kumo-default'],
   /** Container styling */
   container: {
-    minWidth: "min-w-0",
-    borderRadius: "rounded-md",
-    border: "border border-kumo-fill",
-    background: "bg-kumo-base",
+    minWidth: 'min-w-0',
+    borderRadius: 'rounded-md',
+    border: 'border border-kumo-fill',
+    background: 'bg-kumo-base',
   },
   /** Header bar (title + copy button) */
   header: {
-    borderBottom: "border-b border-kumo-hairline",
-    padding: "py-1 pl-3.5 pr-1.5",
-    title: "font-mono text-xs text-kumo-subtle",
+    borderBottom: 'border-b border-kumo-hairline',
+    padding: 'py-1 pl-3.5 pr-1.5',
+    title: 'font-mono text-xs text-kumo-subtle',
   },
   /** Inner code element padding */
-  innerPadding: "p-2.5 (10px)",
+  innerPadding: 'p-2.5 (10px)',
   /** Parsed dimensions */
   dimensions: {
     borderRadius: 6, // md = 6px
@@ -117,13 +117,9 @@ export function codeVariants({
 }: KumoCodeVariantsProps = {}) {
   return cn(
     // Base styles
-    "m-0 w-auto rounded-none border-none bg-transparent p-0 font-mono text-sm leading-[20px] text-kumo-subtle",
+    'm-0 w-auto rounded-none border-none bg-transparent p-0 font-mono text-sm leading-[18px] text-kumo-subtle',
     // Apply lang-specific styles (fallback to default if lang not in map)
-    resolveVariant(
-      KUMO_CODE_VARIANTS.lang,
-      lang,
-      KUMO_CODE_DEFAULT_VARIANTS.lang,
-    ).classes,
+    resolveVariant(KUMO_CODE_VARIANTS.lang, lang, KUMO_CODE_DEFAULT_VARIANTS.lang).classes,
   );
 }
 
@@ -165,7 +161,7 @@ export interface CodeProps extends KumoCodeVariantsProps {
  * For a highlighted, bordered container version, use `Code.Block` or `CodeBlock`.
  *
  * **Styling:**
- * - Typography: `font-mono text-sm leading-[20px]`
+ * - Typography: `font-mono text-sm leading-[18px]`
  * - Colors: `text-kumo-subtle` with `bg-transparent`
  * - No borders or padding (use CodeBlock for styled container)
  * - Supports all semantic tokens via className prop
@@ -177,16 +173,13 @@ function CodeComponent({
   style,
 }: CodeProps) {
   return (
-    <pre
-      className={cn("overflow-x-auto", codeVariants({ lang }), className)}
-      style={style}
-    >
+    <pre className={cn('overflow-x-auto', codeVariants({ lang }), className)} style={style}>
       {code}
     </pre>
   );
 }
 
-CodeComponent.displayName = "Code";
+CodeComponent.displayName = 'Code';
 
 /* ------------------------------------------------------------------ */
 /* Shiki client highlighting                                           */
@@ -198,19 +191,19 @@ CodeComponent.displayName = "Code";
  * javascript) so `createHighlighterCore` never needs late loads.
  */
 const CLIENT_LANGS = [
-  "typescript",
-  "tsx",
-  "jsx",
-  "javascript",
-  "json",
-  "jsonc",
-  "css",
-  "html",
-  "bash",
-  "shellscript",
-  "diff",
-  "markdown",
-  "mdx",
+  'typescript',
+  'tsx',
+  'jsx',
+  'javascript',
+  'json',
+  'jsonc',
+  'css',
+  'html',
+  'bash',
+  'shellscript',
+  'diff',
+  'markdown',
+  'mdx',
 ] as const;
 
 /**
@@ -218,41 +211,41 @@ const CLIENT_LANGS = [
  * values) to canonical Shiki grammar ids.
  */
 const LANG_ALIASES: Record<string, string> = {
-  ts: "typescript",
-  tsx: "tsx",
-  js: "javascript",
-  jsx: "jsx",
-  json: "json",
-  jsonc: "jsonc",
-  css: "css",
-  html: "html",
-  bash: "bash",
-  sh: "shellscript",
-  diff: "diff",
-  md: "markdown",
-  mdx: "mdx",
-  txt: "txt",
-  text: "txt",
-  plaintext: "txt",
+  ts: 'typescript',
+  tsx: 'tsx',
+  js: 'javascript',
+  jsx: 'jsx',
+  json: 'json',
+  jsonc: 'jsonc',
+  css: 'css',
+  html: 'html',
+  bash: 'bash',
+  sh: 'shellscript',
+  diff: 'diff',
+  md: 'markdown',
+  mdx: 'mdx',
+  txt: 'txt',
+  text: 'txt',
+  plaintext: 'txt',
 };
 
 type LangLoader = () => Promise<{ default: LanguageRegistration[] }>;
 
 /** Statically-analyzable dynamic imports — keeps bundles fine-grained. */
 const LANG_LOADERS: Record<string, LangLoader> = {
-  typescript: () => import("@shikijs/langs/typescript"),
-  tsx: () => import("@shikijs/langs/tsx"),
-  jsx: () => import("@shikijs/langs/jsx"),
-  javascript: () => import("@shikijs/langs/javascript"),
-  json: () => import("@shikijs/langs/json"),
-  jsonc: () => import("@shikijs/langs/jsonc"),
-  css: () => import("@shikijs/langs/css"),
-  html: () => import("@shikijs/langs/html"),
-  bash: () => import("@shikijs/langs/bash"),
-  shellscript: () => import("@shikijs/langs/shellscript"),
-  diff: () => import("@shikijs/langs/diff"),
-  markdown: () => import("@shikijs/langs/markdown"),
-  mdx: () => import("@shikijs/langs/mdx"),
+  typescript: () => import('@shikijs/langs/typescript'),
+  tsx: () => import('@shikijs/langs/tsx'),
+  jsx: () => import('@shikijs/langs/jsx'),
+  javascript: () => import('@shikijs/langs/javascript'),
+  json: () => import('@shikijs/langs/json'),
+  jsonc: () => import('@shikijs/langs/jsonc'),
+  css: () => import('@shikijs/langs/css'),
+  html: () => import('@shikijs/langs/html'),
+  bash: () => import('@shikijs/langs/bash'),
+  shellscript: () => import('@shikijs/langs/shellscript'),
+  diff: () => import('@shikijs/langs/diff'),
+  markdown: () => import('@shikijs/langs/markdown'),
+  mdx: () => import('@shikijs/langs/mdx'),
 };
 
 /** Dual-theme rendering with CSS-variable colors only (no inline color). */
@@ -267,15 +260,12 @@ let highlighterPromise: Promise<HighlighterCore> | null = null;
  */
 function getHighlighter(): Promise<HighlighterCore> {
   highlighterPromise ??= (async () => {
-    const [{ createHighlighterCore }, { createJavaScriptRegexEngine }] =
-      await Promise.all([
-        import("shiki/core"),
-        import("shiki/engine/javascript"),
-      ]);
+    const [{ createHighlighterCore }, { createJavaScriptRegexEngine }] = await Promise.all([
+      import('shiki/core'),
+      import('shiki/engine/javascript'),
+    ]);
     const langs = (
-      await Promise.all(
-        CLIENT_LANGS.map((id) => LANG_LOADERS[id]().then((m) => m.default)),
-      )
+      await Promise.all(CLIENT_LANGS.map((id) => LANG_LOADERS[id]().then((m) => m.default)))
     ).flat();
     return createHighlighterCore({
       themes: [monoLightTheme, monoDarkTheme],
@@ -295,7 +285,7 @@ async function highlightCode(code: string, lang: string): Promise<string> {
     if (!loader) {
       // `text` is a built-in grammar of the core — no loader needed.
       return highlighter.codeToHtml(code, {
-        lang: "text",
+        lang: 'text',
         themes: DUAL_THEMES,
         defaultColor: false,
       });
@@ -332,11 +322,7 @@ function HighlightedCode({ code, lang }: { code: string; lang: string }) {
     return <div dangerouslySetInnerHTML={{ __html: html }} />;
   }
 
-  return (
-    <pre className="m-0 p-2.5 font-mono text-sm leading-[20px] text-kumo-subtle">
-      {code}
-    </pre>
-  );
+  return <pre className="m-0 p-2.5 font-mono text-sm leading-[18px] text-kumo-subtle">{code}</pre>;
 }
 
 /* ------------------------------------------------------------------ */
@@ -351,13 +337,13 @@ function CopyButton({ code }: { code: string }) {
     try {
       await navigator.clipboard.writeText(code);
     } catch {
-      const textarea = document.createElement("textarea");
+      const textarea = document.createElement('textarea');
       textarea.value = code;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
       document.body.appendChild(textarea);
       textarea.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
       textarea.remove();
     }
     setCopied(true);
@@ -368,7 +354,7 @@ function CopyButton({ code }: { code: string }) {
     <button
       type="button"
       onClick={copy}
-      aria-label={copied ? "Copied" : "Copy code"}
+      aria-label={copied ? 'Copied' : 'Copy code'}
       aria-live="polite"
       className="inline-flex size-7 items-center justify-center rounded-md text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
     >
@@ -437,7 +423,7 @@ export interface CodeBlockProps {
  * **Styling:**
  * - Container: `min-w-0 rounded-md border border-kumo-fill bg-kumo-base`
  * - Header bar (optional `title` + copy button): `border-b border-kumo-hairline`
- * - Inner padding: 10px (`p-2.5`), `font-mono text-sm leading-[20px]`
+ * - Inner padding: 10px (`p-2.5`), `font-mono text-sm leading-[18px]`
  * - Token colors follow the design system's dark mode via CSS variables
  *   (`code.css` ships with this component)
  */
@@ -455,18 +441,16 @@ function CodeBlockComponent({
   return (
     <div
       className={cn(
-        "mono-codeblock min-w-0 overflow-hidden rounded-md border border-kumo-fill bg-kumo-base",
+        'mono-codeblock min-w-0 overflow-hidden rounded-md border border-kumo-fill bg-kumo-base',
         className,
       )}
       style={style}
-      data-line-numbers={showLineNumbers ? "true" : undefined}
+      data-line-numbers={showLineNumbers ? 'true' : undefined}
     >
       {showHeader ? (
         <div className="flex items-center gap-2 border-b border-kumo-hairline py-1 pl-3.5 pr-1.5">
           {title ? (
-            <span className="min-w-0 truncate font-mono text-xs text-kumo-subtle">
-              {title}
-            </span>
+            <span className="min-w-0 truncate font-mono text-xs text-kumo-subtle">{title}</span>
           ) : null}
           {copyButton ? (
             <div className="ml-auto">
@@ -475,7 +459,7 @@ function CodeBlockComponent({
           ) : null}
         </div>
       ) : null}
-      <div className="overflow-x-auto font-mono text-sm leading-[20px] text-kumo-default">
+      <div className="overflow-x-auto font-mono text-sm leading-[18px] text-kumo-default">
         {html ? (
           <div dangerouslySetInnerHTML={{ __html: html }} />
         ) : (
@@ -486,7 +470,7 @@ function CodeBlockComponent({
   );
 }
 
-CodeBlockComponent.displayName = "CodeBlock";
+CodeBlockComponent.displayName = 'CodeBlock';
 
 // Export Code with Block sub-component (for registry detection)
 export const Code = Object.assign(CodeComponent, {
