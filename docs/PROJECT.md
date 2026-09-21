@@ -33,4 +33,4 @@
 
 ## What are we working on right now?
 
-- plan: none active — latest completed: docs/plans/completed/shiki-codeblock-integration.md
+- plan: none active — latest completed: docs/plans/completed/props-api-tables.md
