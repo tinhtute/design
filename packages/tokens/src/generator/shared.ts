@@ -3,6 +3,7 @@ import type { KumoCompatToken, Mode, Theme } from './types';
 const BRAND_LIGHT = 'oklch(0.3917 0.0748 236.055)';
 const BRAND_DARK = 'oklch(0.72 0.0748 236.055)';
 const TEXT_BRAND = '#f6821f';
+const TEXT_BRAND_LIGHT = 'oklch(54% 0.18 57.5)';
 
 /**
  * Kumo-compat color bridge: maps `--color-kumo-*` semantic tokens used by
@@ -110,8 +111,12 @@ export const KUMO_COMPAT: Record<string, KumoCompatToken> = {
 
 /**
  * Kumo-compat text bridge: `--text-color-kumo-*` so `text-kumo-brand` stays
- * orange `#f6821f` while `bg-kumo-brand` uses the fill brand. Text link matches
- * fill brand `#124b68` oklch per mode.
+ * orange while `bg-kumo-brand` uses the fill brand. Text link matches fill
+ * brand `#124b68` oklch per mode.
+ * Deviation from upstream: light-mode brand text is a darker orange than
+ * Kumo's `#f6821f` (2.41:1 on the empty-state chip); dark keeps `#f6821f`
+ * (5.87:1 on `--kumo-base` dark). Warning text is likewise darkened in light
+ * mode to clear 4.5:1 on `--kumo-warning-tint`.
  */
 export const TEXT_KUMO_COMPAT: Record<string, KumoCompatToken> = {
   default: { mapsTo: 'var(--foreground)' },
@@ -120,7 +125,7 @@ export const TEXT_KUMO_COMPAT: Record<string, KumoCompatToken> = {
   subtle: { mapsTo: 'var(--muted-foreground)' },
   inactive: { light: 'oklch(87% 0 0)', dark: 'oklch(43.9% 0 0)' },
   placeholder: { light: 'oklch(56% 0 0)', dark: 'oklch(65% 0 0)' },
-  brand: { light: TEXT_BRAND, dark: TEXT_BRAND },
+  brand: { light: TEXT_BRAND_LIGHT, dark: TEXT_BRAND },
   link: { light: BRAND_LIGHT, dark: BRAND_DARK },
   info: {
     light: 'oklch(42.4% 0.199 265.638)',
@@ -134,7 +139,7 @@ export const TEXT_KUMO_COMPAT: Record<string, KumoCompatToken> = {
     light: 'oklch(50.5% 0.213 27.518)',
     dark: 'oklch(70.4% 0.191 22.216)',
   },
-  warning: { light: 'oklch(59.7% 0.144 57.5)', dark: 'oklch(75% 0.183 55.934)' },
+  warning: { light: 'oklch(54% 0.13 57.5)', dark: 'oklch(75% 0.183 55.934)' },
   'badge-orange-subtle': {
     light: 'oklch(47% 0.157 37.304)',
     dark: 'oklch(90.1% 0.076 70.697)',
