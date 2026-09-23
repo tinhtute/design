@@ -124,8 +124,6 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     // Auto-apply error styling when error prop is truthy
     // Explicit variant prop takes precedence for backwards compatibility
     const variant = variantProp ?? (error ? 'error' : 'default');
-    // For aria-label, only use string labels (ReactNode labels can't be used for aria-label)
-    const ariaLabelFallback = typeof label === 'string' ? label : 'Sensitive value';
     const isControlled = controlledValue !== undefined;
     const [internalValue, setInternalValue] = useState(defaultValue);
     const value = isControlled ? controlledValue : internalValue;
@@ -136,6 +134,7 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
     const [copied, setCopied] = useState(false);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const eyeButtonRef = useRef<HTMLButtonElement | null>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const liveRegionId = useId();
     const generatedId = useId();
@@ -246,11 +245,16 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         e.stopPropagation();
         if (mode === 'revealed') {
           setMode('masked');
-        } else if (mode === 'empty' && hasValue) {
+        } else if (hasValue) {
           setMode('revealed');
+          // Match the click-on-masked-value flow: focus the input so Escape and
+          // blur-to-remask keep working.
+          if (!readOnly) {
+            setTimeout(() => inputRef.current?.focus(), 0);
+          }
         }
       },
-      [mode, hasValue],
+      [mode, hasValue, readOnly],
     );
 
     const handleChange = useCallback(
@@ -287,35 +291,22 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
       [hasValue],
     );
 
-    const handleContainerKeyDown = useCallback(
-      (e: React.KeyboardEvent<HTMLDivElement>) => {
-        if (disabled) return;
-        if (mode === 'masked' && hasValue) {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            setMode('revealed');
-            if (!readOnly) {
-              setTimeout(() => inputRef.current?.focus(), 0);
-            }
-          }
-        }
-      },
-      [mode, hasValue, disabled, readOnly],
-    );
-
     const handleInputKeyDown = useCallback(
       (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (mode === 'revealed' && e.key === 'Escape') {
           setMode('masked');
-          // Move focus to container to avoid focus trap (input becomes tabIndex={-1})
-          setTimeout(() => containerRef.current?.focus(), 0);
+          // Keep focus on a control that stays mounted (the input becomes
+          // tabIndex={-1} when masked) so keyboard users are not dropped.
+          setTimeout(() => (eyeButtonRef.current ?? containerRef.current)?.focus(), 0);
         }
       },
       [mode],
     );
 
     const isMaskedWithValue = mode === 'masked' && hasValue;
-    const showEyeButton = !disabled && (mode === 'revealed' || (mode === 'empty' && hasValue));
+    // Always offered when there is a value to reveal: the masked container is a
+    // plain click target, so this button is the keyboard path to reveal/hide.
+    const showEyeButton = !disabled && hasValue;
 
     // Icon sizes matching input sizes
     const iconSize = size === 'xs' || size === 'sm' ? 'size-3' : 'size-4';
@@ -403,12 +394,14 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
 
         {/* Eye button - absolutely positioned to the right */}
         <button
+          ref={eyeButtonRef}
           type="button"
           data-kumo-component="SensitiveInput"
           data-kumo-part="toggle-visibility"
           onClick={handleToggleVisibility}
           onKeyDown={(e) => e.stopPropagation()}
           aria-label={mode === 'revealed' ? 'Hide value' : 'Reveal value'}
+          aria-describedby={isMaskedWithValue ? maskedInstructionId : undefined}
           tabIndex={showEyeButton ? 0 : -1}
           className={cn(
             'absolute top-1/2 right-0 -translate-y-1/2 cursor-pointer text-kumo-subtle hover:text-kumo-default focus:text-kumo-default focus:ring-kumo-focus/50 focus-visible:rounded-sm focus-visible:ring-2 focus-visible:ring-kumo-brand',
@@ -456,19 +449,13 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
         {isMaskedWithValue ? (
           <div
             ref={containerRef}
-            // Cannot use <button> here because containerContent contains interactive button elements (Copy, Reveal).
-            // Using role="button" with proper keyboard handling instead.
-            // oxlint-disable-next-line prefer-tag-over-role
-            role="button"
+            // Pointer-only convenience target: clicking the masked value
+            // reveals it. The Reveal/Hide button owns the keyboard path, so
+            // this stays a plain element instead of a nested button role.
             data-kumo-component="SensitiveInput"
             data-kumo-part="masked-container"
-            tabIndex={disabled ? -1 : 0}
             className={containerClassName}
             onClick={handleContainerClick}
-            onKeyDown={handleContainerKeyDown}
-            aria-label={`${ariaLabelFallback}, masked.`}
-            aria-describedby={`${maskedInstructionId} ${liveRegionId}`}
-            aria-disabled={disabled}
           >
             {containerContent}
           </div>
