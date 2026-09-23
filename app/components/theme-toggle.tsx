@@ -1,6 +1,7 @@
 'use client';
 
-import { Moon, Sun } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Moon02Icon as Moon, Sun03Icon as Sun } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 
 export function ThemeToggle() {
@@ -18,8 +19,8 @@ export function ThemeToggle() {
         localStorage.setItem('theme', next ? 'dark' : 'light');
       }}
     >
-      <Sun className="size-4 [[data-mode=dark]_&]:hidden" />
-      <Moon className="hidden size-4 [[data-mode=dark]_&]:block" />
+      <HugeiconsIcon icon={Sun} className="size-4 [[data-mode=dark]_&]:hidden" />
+      <HugeiconsIcon icon={Moon} className="hidden size-4 [[data-mode=dark]_&]:block" />
       Theme
     </Button>
   );

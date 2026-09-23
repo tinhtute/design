@@ -1,7 +1,7 @@
 # @therealtinhtute/design
 
 A source-first [shadcn](https://ui.shadcn.com) registry porting the Cloudflare
-Kumo component catalog — built on Base UI primitives and Phosphor icons, with a
+Kumo component catalog — built on Base UI primitives and Hugeicons icons, with a
 design-token theme (`#124b68` brand). Components install directly into your
 source tree; there is no runtime dependency on `@cloudflare/kumo`.
 

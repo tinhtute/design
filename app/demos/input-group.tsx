@@ -1,6 +1,7 @@
 'use client';
 
-import { MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon as MagnifyingGlassIcon } from '@hugeicons/core-free-icons';
 import { InputGroup } from '@/components/ui/input-group';
 
 export const notes =
@@ -11,7 +12,7 @@ export function Demo() {
     <div className="grid w-full max-w-sm gap-4">
       <InputGroup label="Search">
         <InputGroup.Addon>
-          <MagnifyingGlassIcon />
+          <HugeiconsIcon icon={MagnifyingGlassIcon} />
         </InputGroup.Addon>
         <InputGroup.Input placeholder="Search workers…" />
       </InputGroup>

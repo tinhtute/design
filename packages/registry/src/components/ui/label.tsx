@@ -1,7 +1,8 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Info } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { InformationCircleIcon as Info } from '@hugeicons/core-free-icons';
 import type { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tooltip } from '@/components/ui/tooltip';
@@ -104,7 +105,7 @@ export function Label({
           content={tooltip}
           render={
             <Button variant="ghost" size="xs" shape="square" aria-label="More information">
-              <Info className="size-4" />
+              <HugeiconsIcon icon={Info} className="size-4" />
             </Button>
           }
         />

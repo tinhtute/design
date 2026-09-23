@@ -2,7 +2,11 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import { Select as SelectBase } from '@base-ui/react/select';
-import { CaretUpDownIcon, CheckIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  ArrowUpDownIcon as CaretUpDownIcon,
+  Tick02Icon as CheckIcon,
+} from '@hugeicons/core-free-icons';
 import { forwardRef, useId } from 'react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
@@ -485,7 +489,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
       <SelectBase.Icon
         className={cn('flex shrink-0 items-center', triggerIconStyles[size].className)}
       >
-        <CaretUpDownIcon size={triggerIconStyles[size].iconSize} className="fill-current" />
+        <HugeiconsIcon icon={CaretUpDownIcon} size={triggerIconStyles[size].iconSize} />
       </SelectBase.Icon>
     </SelectBase.Trigger>
   );
@@ -613,7 +617,7 @@ function Option<T>({ children, value, disabled, className }: OptionProps<T>) {
     >
       <SelectBase.ItemText>{children}</SelectBase.ItemText>
       <SelectBase.ItemIndicator>
-        <CheckIcon />
+        <HugeiconsIcon icon={CheckIcon} />
       </SelectBase.ItemIndicator>
     </SelectBase.Item>
   );

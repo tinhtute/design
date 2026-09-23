@@ -1,11 +1,11 @@
 'use client';
 
 import {
-  ArrowClockwiseIcon,
-  DotsThreeIcon,
-  FunnelSimpleIcon,
-  PlusIcon,
-} from '@phosphor-icons/react';
+  ArrowReloadHorizontalIcon as ArrowClockwiseIcon,
+  MoreHorizontalIcon as DotsThreeIcon,
+  FilterIcon as FunnelSimpleIcon,
+  PlusSignIcon as PlusIcon,
+} from '@hugeicons/core-free-icons';
 import { Toolbar } from '@/components/ui/toolbar';
 
 export const notes =

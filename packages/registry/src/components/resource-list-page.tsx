@@ -6,7 +6,8 @@
  * main column for `children` (typically a `DataTable`), and a sticky aside
  * for `usage` / `additionalContent` that collapses below the xl breakpoint.
  */
-import type { ReactNode } from 'react';
+import { isValidElement, type ComponentType, type ReactNode } from 'react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import { cn } from '@/lib/utils';
 
 /** ResourceListPage component props. */
@@ -16,7 +17,7 @@ export interface ResourceListPageProps {
   /** Subtitle paragraph under the title (hidden below md) */
   description?: string;
   /** Leading icon rendered before the title */
-  icon?: ReactNode;
+  icon?: Icon | ReactNode;
   /** Aside slot — usage/quota content, sticky at xl */
   usage?: ReactNode;
   /** Aside slot below `usage`; moves under the main column below xl */
@@ -31,6 +32,17 @@ export interface ResourceListPageProps {
  * Renders the resource list page scaffold. `children` fills the main
  * column; `usage` and `additionalContent` render in the aside.
  */
+const renderIconNode = (icon?: Icon | ReactNode) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  if (Array.isArray(icon)) return <HugeiconsIcon icon={icon as Icon} />;
+  if (typeof icon === 'function') {
+    const Comp = icon as ComponentType<Record<string, unknown>>;
+    return <Comp />;
+  }
+  return icon as ReactNode;
+};
+
 export function ResourceListPage({
   title,
   description,
@@ -45,7 +57,7 @@ export function ResourceListPage({
       <div className="mx-auto flex max-w-350 flex-col p-6 md:gap-4 md:p-8 lg:px-10 lg:py-9 xl:gap-6">
         <div className="flex flex-col">
           <div className="mb-1.5 flex items-center gap-1.5">
-            {icon}
+            {renderIconNode(icon)}
             <h1 className="font-heading m-0 p-0 text-3xl font-semibold">{title}</h1>
           </div>
           <p className="hidden p-0 text-lg leading-normal text-pretty text-kumo-subtle md:block">

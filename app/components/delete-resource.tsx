@@ -5,7 +5,13 @@ import { useState, useCallback, useEffect } from 'react';
 import { Dialog, DialogRoot, DialogTitle, DialogClose } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { CheckIcon, CopyIcon, WarningCircleIcon, XIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  Tick02Icon as CheckIcon,
+  Copy01Icon as CopyIcon,
+  AlertCircleIcon as WarningCircleIcon,
+  Cancel01Icon as XIcon,
+} from '@hugeicons/core-free-icons';
 import { Banner } from '@/components/ui/banner';
 
 export const KUMO_DELETE_RESOURCE_VARIANTS = {
@@ -111,7 +117,7 @@ export function DeleteResource({
                 aria-label="Close"
                 disabled={isDeleting}
               >
-                <XIcon size={18} />
+                <HugeiconsIcon icon={XIcon} size={18} />
               </Button>
             )}
           />
@@ -120,7 +126,7 @@ export function DeleteResource({
         <div className="flex flex-col gap-4 p-6">
           <div className="flex flex-col gap-2">
             {errorMessage && (
-              <Banner icon={<WarningCircleIcon />} variant="error">
+              <Banner icon={<HugeiconsIcon icon={WarningCircleIcon} />} variant="error">
                 {errorMessage}
               </Banner>
             )}
@@ -143,11 +149,17 @@ export function DeleteResource({
                   {resourceName}
 
                   {copied ? (
-                    <CheckIcon size={12} weight="bold" className="ml-1.5 inline" />
-                  ) : (
-                    <CopyIcon
+                    <HugeiconsIcon
+                      icon={CheckIcon}
                       size={12}
-                      weight="bold"
+                      strokeWidth={2}
+                      className="ml-1.5 inline"
+                    />
+                  ) : (
+                    <HugeiconsIcon
+                      icon={CopyIcon}
+                      size={12}
+                      strokeWidth={2}
                       className="ml-1.5 inline text-kumo-subtle group-hover:text-kumo-default"
                     />
                   )}

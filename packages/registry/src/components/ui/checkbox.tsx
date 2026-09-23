@@ -1,6 +1,7 @@
 // Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
 import { forwardRef, createContext, useContext, type ReactNode } from 'react';
-import { CheckIcon, MinusIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon, MinusSignIcon as MinusIcon } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 import { Label } from '@/components/ui/label';
@@ -282,9 +283,9 @@ const CheckboxBase = forwardRef<HTMLButtonElement, CheckboxProps>(
           render={(renderProps, state) => (
             <span {...renderProps}>
               {state.indeterminate ? (
-                <MinusIcon weight="bold" size={12} />
+                <HugeiconsIcon icon={MinusIcon} strokeWidth={2} size={12} />
               ) : (
-                <CheckIcon weight="bold" size={12} />
+                <HugeiconsIcon icon={CheckIcon} strokeWidth={2} size={12} />
               )}
             </span>
           )}
@@ -375,9 +376,9 @@ const CheckboxItem = forwardRef<HTMLButtonElement, CheckboxItemProps>(
             render={(renderProps, state) => (
               <span {...renderProps}>
                 {state.indeterminate ? (
-                  <MinusIcon weight="bold" size={12} />
+                  <HugeiconsIcon icon={MinusIcon} strokeWidth={2} size={12} />
                 ) : (
-                  <CheckIcon weight="bold" size={12} />
+                  <HugeiconsIcon icon={CheckIcon} strokeWidth={2} size={12} />
                 )}
               </span>
             )}

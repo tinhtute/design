@@ -11,12 +11,13 @@ import {
   type ReactNode,
 } from 'react';
 import { InputGroup } from '@/components/ui/input-group';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  CaretDoubleLeftIcon,
-  CaretDoubleRightIcon,
-  CaretLeftIcon,
-  CaretRightIcon,
-} from '@phosphor-icons/react';
+  ArrowLeft02Icon as CaretDoubleLeftIcon,
+  ArrowRight02Icon as CaretDoubleRightIcon,
+  ArrowLeft01Icon as CaretLeftIcon,
+  ArrowRight01Icon as CaretRightIcon,
+} from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 import { Select } from '@/components/ui/select';
@@ -260,7 +261,7 @@ function PaginationControls({
                 setEditingPage(1);
               }}
             >
-              <CaretDoubleLeftIcon size={16} />
+              <HugeiconsIcon icon={CaretDoubleLeftIcon} size={16} />
             </InputGroup.Button>
           )}
           <InputGroup.Button
@@ -273,7 +274,7 @@ function PaginationControls({
               setEditingPage(previousPage);
             }}
           >
-            <CaretLeftIcon size={16} />
+            <HugeiconsIcon icon={CaretLeftIcon} size={16} />
           </InputGroup.Button>
           {showFullControls &&
             (pageSelector === 'dropdown' ? (
@@ -331,7 +332,7 @@ function PaginationControls({
               setEditingPage(nextPage);
             }}
           >
-            <CaretRightIcon size={16} />
+            <HugeiconsIcon icon={CaretRightIcon} size={16} />
           </InputGroup.Button>
           {showFullControls && (
             <InputGroup.Button
@@ -343,7 +344,7 @@ function PaginationControls({
                 setEditingPage(maxPage);
               }}
             >
-              <CaretDoubleRightIcon size={16} />
+              <HugeiconsIcon icon={CaretDoubleRightIcon} size={16} />
             </InputGroup.Button>
           )}
         </InputGroup>

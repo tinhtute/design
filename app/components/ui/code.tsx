@@ -5,7 +5,8 @@
  * Syntax highlighting powered by Shiki (MIT) — see THIRD_PARTY_LICENSES.md.
  */
 import { useEffect, useState, type CSSProperties } from 'react';
-import { Check as CheckIcon, Copy as CopyIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon, Copy01Icon as CopyIcon } from '@hugeicons/core-free-icons';
 import type { HighlighterCore, LanguageRegistration } from 'shiki/core';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
@@ -359,9 +360,9 @@ function CopyButton({ code }: { code: string }) {
       className="inline-flex size-7 items-center justify-center rounded-md text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
     >
       {copied ? (
-        <CheckIcon className="size-3.5 text-kumo-success" weight="bold" />
+        <HugeiconsIcon icon={CheckIcon} className="size-3.5 text-kumo-success" strokeWidth={2} />
       ) : (
-        <CopyIcon className="size-3.5" />
+        <HugeiconsIcon icon={CopyIcon} className="size-3.5" />
       )}
     </button>
   );

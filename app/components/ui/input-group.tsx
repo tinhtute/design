@@ -18,6 +18,7 @@ import React, {
   type ReactNode,
   type Ref,
 } from 'react';
+import { HugeiconsIcon, type IconSvgElement } from '@hugeicons/react';
 import { cn } from '@/lib/utils';
 import { type ButtonProps, Button as ButtonExternal } from '@/components/ui/button';
 import { Field, type FieldProps } from '@/components/ui/field';
@@ -448,13 +449,15 @@ const Button = forwardRef<HTMLButtonElement, PropsWithChildren<InputGroupButtonP
     const contextIconSize = context ? INPUT_GROUP_SIZE[context.size ?? 'base'].iconSize : undefined;
 
     const sizedIcon =
-      icon &&
-      contextIconSize &&
-      (typeof icon === 'function' ||
-        (typeof icon === 'object' && icon !== null && !React.isValidElement(icon)))
-        ? React.createElement(icon as React.ComponentType<{ size?: number }>, {
-            size: contextIconSize,
-          })
+      icon && contextIconSize && !React.isValidElement(icon)
+        ? Array.isArray(icon)
+          ? React.createElement(HugeiconsIcon, {
+              icon: icon as IconSvgElement,
+              size: contextIconSize,
+            })
+          : React.createElement(icon as unknown as React.ComponentType<{ size?: number }>, {
+              size: contextIconSize,
+            })
         : icon;
 
     const btn = (

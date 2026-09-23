@@ -1,8 +1,9 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
-import { useState, type ReactNode } from 'react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon, Copy01Icon as CopyIcon } from '@hugeicons/core-free-icons';
+import { isValidElement, useState, type ComponentType, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
@@ -65,8 +66,8 @@ export function emptyVariants({
  * ```
  */
 export interface EmptyProps extends KumoEmptyVariantsProps {
-  /** Decorative icon displayed above the title (e.g. from `@phosphor-icons/react`). */
-  icon?: ReactNode;
+  /** Decorative icon displayed above the title (e.g. from `@hugeicons/core-free-icons`). */
+  icon?: Icon | ReactNode;
   /** Primary heading text for the empty state. */
   title: string;
   /** Secondary description text displayed below the title. */
@@ -87,6 +88,17 @@ export interface EmptyProps extends KumoEmptyVariantsProps {
  * <Empty title="No results found" description="Try adjusting your search." />
  * ```
  */
+const renderIconNode = (icon?: Icon | ReactNode) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  if (Array.isArray(icon)) return <HugeiconsIcon icon={icon as Icon} />;
+  if (typeof icon === 'function') {
+    const Comp = icon as ComponentType<Record<string, unknown>>;
+    return <Comp />;
+  }
+  return icon as ReactNode;
+};
+
 export function Empty({
   icon,
   title,
@@ -100,7 +112,7 @@ export function Empty({
 
   return (
     <div className={cn(emptyVariants({ size }), className)}>
-      {icon}
+      {renderIconNode(icon)}
       <h2 className="text-2xl font-semibold">{title}</h2>
 
       {description && <p className="max-w-140 text-center text-kumo-subtle">{description}</p>}
@@ -133,12 +145,17 @@ export function Empty({
             }}
           >
             {emptyStateCopied ? (
-              <CheckIcon
+              <HugeiconsIcon
+                icon={CheckIcon}
                 size={16}
                 className="text-kumo-success transition-transform duration-150 ease-out"
               />
             ) : (
-              <CopyIcon size={16} className="text-kumo-inactive group-hover:text-kumo-brand" />
+              <HugeiconsIcon
+                icon={CopyIcon}
+                size={16}
+                className="text-kumo-inactive group-hover:text-kumo-brand"
+              />
             )}
           </Button>
         </div>

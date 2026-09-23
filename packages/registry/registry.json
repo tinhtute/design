@@ -477,7 +477,7 @@
       "type": "registry:ui",
       "title": "Button",
       "description": "Primary action trigger with variants, sizes, shapes, icons, loading state, and LinkButton.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/loader",
         "@therealtinhtute/third-party-licenses",
@@ -518,7 +518,7 @@
       "type": "registry:ui",
       "title": "Badge",
       "description": "Small status label for categorizing or highlighting content.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
@@ -554,7 +554,7 @@
       "type": "registry:ui",
       "title": "Checkbox",
       "description": "Single checkbox and checkbox group with optional labels, error state, and indeterminate support.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/label",
         "@therealtinhtute/third-party-licenses",
@@ -574,7 +574,12 @@
       "type": "registry:ui",
       "title": "Dropdown Menu",
       "description": "Accessible dropdown menu anchored to a trigger. Adapted from Cloudflare Kumo.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react", "tw-animate-css"],
+      "dependencies": [
+        "@base-ui/react",
+        "@hugeicons/react",
+        "@hugeicons/core-free-icons",
+        "tw-animate-css"
+      ],
       "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
@@ -614,7 +619,7 @@
       "type": "registry:component",
       "title": "Filter Bar",
       "description": "A search input with clear button and a filter action — a reusable list-filtering pattern.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/input-group",
@@ -634,7 +639,7 @@
       "type": "registry:block",
       "title": "Dashboard",
       "description": "A dashboard shell — sidebar navigation, stat cards, and a recent-orders data table.",
-      "dependencies": ["@phosphor-icons/react", "@tanstack/react-table"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons", "@tanstack/react-table"],
       "registryDependencies": [
         "@therealtinhtute/layer-card",
         "@therealtinhtute/button",
@@ -673,7 +678,7 @@
           "target": "components/ui/code.css"
         }
       ],
-      "dependencies": ["shiki", "@shikijs/langs", "@phosphor-icons/react"]
+      "dependencies": ["shiki", "@shikijs/langs", "@hugeicons/react", "@hugeicons/core-free-icons"]
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
@@ -681,7 +686,7 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "A composable disclosure component for showing and hiding content.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
@@ -697,7 +702,7 @@
       "type": "registry:ui",
       "title": "Date Picker",
       "description": "A date selection calendar built on react-day-picker. Supports single, multiple, and range modes.",
-      "dependencies": ["@phosphor-icons/react", "react-day-picker"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons", "react-day-picker"],
       "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
       "files": [
         {
@@ -929,7 +934,7 @@
       "type": "registry:ui",
       "title": "Command Palette",
       "description": "Accessible command palette / spotlight search overlay.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/layer-card",
         "@therealtinhtute/loader",
@@ -950,7 +955,7 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Form field label with optional indicator and info tooltip.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -971,7 +976,7 @@
       "type": "registry:ui",
       "title": "Empty",
       "description": "Placeholder shown when a list, table, or page has no content to display.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -991,7 +996,7 @@
       "type": "registry:ui",
       "title": "Breadcrumbs",
       "description": "Navigation breadcrumb trail with Link, Current, Separator, and Clipboard compound parts.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/loader",
@@ -1033,7 +1038,7 @@
       "type": "registry:ui",
       "title": "Toasty",
       "description": "Toast notification provider and viewport with stacking, swipe-to-dismiss, and variant styles.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/third-party-licenses",
@@ -1053,7 +1058,7 @@
       "type": "registry:ui",
       "title": "Sidebar",
       "description": "Responsive navigation panel with expand/collapse, peek, resize, and mobile sheet support.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/loader",
@@ -1136,7 +1141,7 @@
       "type": "registry:ui",
       "title": "Input Group",
       "description": "Compound input with icons, addons, inline suffixes, and action buttons.",
-      "dependencies": [],
+      "dependencies": ["@hugeicons/react"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/field",
@@ -1159,7 +1164,7 @@
       "type": "registry:ui",
       "title": "Sensitive Input",
       "description": "Password/secret input that masks its value by default, reveals on click, and copies to clipboard on hover.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1180,7 +1185,7 @@
       "type": "registry:ui",
       "title": "Select",
       "description": "Dropdown for selecting a value from a list of options, with Field integration, sizes, and grouping.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/field",
@@ -1204,7 +1209,7 @@
       "type": "registry:ui",
       "title": "Combobox",
       "description": "Autocomplete input with a filterable dropdown list, single- or multi-select chips, and optional Field wrapper.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1225,7 +1230,7 @@
       "type": "registry:ui",
       "title": "Autocomplete",
       "description": "Free-form text input with an optional filtered suggestion list.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/field",
         "@therealtinhtute/input",
@@ -1246,7 +1251,7 @@
       "type": "registry:ui",
       "title": "Clipboard Text",
       "description": "Read-only text field with a one-click copy-to-clipboard button.",
-      "dependencies": ["@base-ui/react", "@phosphor-icons/react"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/button",
         "@therealtinhtute/input",
@@ -1267,7 +1272,7 @@
       "type": "registry:ui",
       "title": "Pagination",
       "description": "Page navigation controls with page count display, page size selector, and compound or legacy APIs.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/input-group",
         "@therealtinhtute/select",
@@ -1310,7 +1315,7 @@
       "type": "registry:block",
       "title": "Delete Resource",
       "description": "Confirmation dialog that requires typing the resource name before deleting.",
-      "dependencies": ["@phosphor-icons/react"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
       "registryDependencies": [
         "@therealtinhtute/banner",
         "@therealtinhtute/button",

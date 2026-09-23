@@ -7,13 +7,14 @@ import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 import { Button, ButtonProps } from '@/components/ui/button';
 import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  CheckCircleIcon,
-  InfoIcon,
-  WarningIcon,
-  WarningOctagonIcon,
-  XIcon,
-} from '@phosphor-icons/react/dist/ssr';
+  CheckmarkCircle01Icon as CheckCircleIcon,
+  InformationCircleIcon as InfoIcon,
+  Alert02Icon as WarningIcon,
+  AlertDiamondIcon as WarningOctagonIcon,
+  Cancel01Icon as XIcon,
+} from '@hugeicons/core-free-icons';
 
 export { Toast };
 
@@ -374,7 +375,7 @@ function ToastList() {
                 'absolute top-2 right-2 size-5 rounded text-kumo-subtle hover:bg-current/15',
                 toast.variant && TOAST_CLOSE_CLASSES[toast.variant],
               )}
-              icon={<XIcon className="h-3 w-3" />}
+              icon={<HugeiconsIcon icon={XIcon} className="h-3 w-3" />}
             />
           }
         />
@@ -411,5 +412,5 @@ function ToastIcon({ variant }: { variant?: KumoToastVariant }) {
   );
   if (!('icon' in variantConfig)) return null;
   const Icon = variantConfig.icon;
-  return <Icon data-toast-icon className="mt-0.5 h-4 w-4 shrink-0" weight="fill" />;
+  return <HugeiconsIcon icon={Icon} data-toast-icon className="mt-0.5 h-4 w-4 shrink-0" />;
 }

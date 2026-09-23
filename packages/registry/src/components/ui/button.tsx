@@ -2,7 +2,8 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import React from 'react';
-import { ArrowsClockwise, type Icon } from '@phosphor-icons/react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
+import { RefreshIcon as ArrowsClockwise } from '@hugeicons/core-free-icons';
 import { Loader } from '@/components/ui/loader';
 import { Tooltip } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
@@ -149,11 +150,12 @@ export function buttonVariants({
   );
 }
 
-// Normalize icon prop to support both React elements and component types
+// Normalize icon prop to support Hugeicons data, React elements, and component types
 const renderIconNode = (IconComponent?: Icon | React.ReactNode) => {
   if (!IconComponent) return null;
   if (React.isValidElement(IconComponent)) return IconComponent;
-  const Comp = IconComponent as React.ComponentType<Record<string, unknown>>;
+  if (Array.isArray(IconComponent)) return <HugeiconsIcon icon={IconComponent as Icon} />;
+  const Comp = IconComponent as unknown as React.ComponentType<Record<string, unknown>>;
   return <Comp />;
 };
 
@@ -256,7 +258,7 @@ type ButtonBaseProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode;
   /** Additional CSS classes merged via `cn()`. */
   className?: string;
-  /** Icon from `@phosphor-icons/react` or a React element. Rendered before children. */
+  /** Icon from `@hugeicons/core-free-icons` or a React element. Rendered before children. */
   icon?: Icon | React.ReactNode;
   /** Shows a loading spinner and disables interaction. */
   loading?: boolean;
@@ -316,7 +318,7 @@ export type LinkButtonProps = React.AnchorHTMLAttributes<HTMLAnchorElement> &
     className?: string;
     /** When `true`, the button is disabled. We render an actual html button with `disabled` attribute. */
     disabled?: boolean;
-    /** Icon from `@phosphor-icons/react` or a React element. Rendered before children. */
+    /** Icon from `@hugeicons/core-free-icons` or a React element. Rendered before children. */
     icon?: Icon | React.ReactNode;
     /** When `true`, opens in a new tab with `rel="noopener noreferrer"`. */
     external?: boolean;
@@ -415,7 +417,8 @@ export const RefreshButton = ({
   ...props
 }: RefreshButtonProps) => (
   <Button shape="square" aria-label={ariaLabel} {...props}>
-    <ArrowsClockwise
+    <HugeiconsIcon
+      icon={ArrowsClockwise}
       className={cn({
         'animate-refresh': loading,
         'size-4.5': props.size === 'base' || !props.size,

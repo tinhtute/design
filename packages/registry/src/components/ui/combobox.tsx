@@ -2,7 +2,12 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import { Combobox as ComboboxBase } from '@base-ui/react/combobox';
-import { CaretDownIcon, CheckIcon, XIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  ArrowDown01Icon as CaretDownIcon,
+  Tick02Icon as CheckIcon,
+  Cancel01Icon as XIcon,
+} from '@hugeicons/core-free-icons';
 import { Fragment, createContext, useContext, type PropsWithChildren, type ReactNode } from 'react';
 import { inputVariants, KUMO_INPUT_VARIANTS, type KumoInputSize } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -298,7 +303,7 @@ function TriggerValue({
           iconStyles.iconRight,
         )}
       >
-        <CaretDownIcon size={iconStyles.iconSize} className="fill-current" />
+        <HugeiconsIcon icon={CaretDownIcon} size={iconStyles.iconSize} />
       </ComboboxBase.Icon>
     </ComboboxBase.Trigger>
   );
@@ -380,7 +385,7 @@ function TriggerInput({
           iconStyles.clearRight,
         )}
       >
-        <XIcon size={iconStyles.iconSize} />
+        <HugeiconsIcon icon={XIcon} size={iconStyles.iconSize} />
       </ComboboxBase.Clear>
 
       <ComboboxBase.Trigger
@@ -394,7 +399,7 @@ function TriggerInput({
         )}
       >
         <ComboboxBase.Icon className="flex items-center">
-          <CaretDownIcon size={iconStyles.iconSize} className="fill-current" />
+          <HugeiconsIcon icon={CaretDownIcon} size={iconStyles.iconSize} />
         </ComboboxBase.Icon>
       </ComboboxBase.Trigger>
     </div>
@@ -419,7 +424,7 @@ function Item({ children, className, ...props }: ComboboxBase.Item.Props & { cla
     >
       <div className="col-start-1">{children}</div>
       <ComboboxBase.ItemIndicator className="col-start-2 flex items-center">
-        <CheckIcon />
+        <HugeiconsIcon icon={CheckIcon} />
       </ComboboxBase.ItemIndicator>
     </ComboboxBase.Item>
   );
@@ -510,7 +515,7 @@ function Chip({
           'flex bg-transparent',
         )}
       >
-        <XIcon size={10} />
+        <HugeiconsIcon icon={XIcon} size={10} />
       </ComboboxBase.ChipRemove>
     </ComboboxBase.Chip>
   );

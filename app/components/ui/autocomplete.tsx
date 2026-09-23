@@ -2,7 +2,8 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import { Autocomplete as AutocompleteBase } from '@base-ui/react/autocomplete';
-import { CheckIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon } from '@hugeicons/core-free-icons';
 import { createContext, useContext, type ReactNode } from 'react';
 import { inputVariants, KUMO_INPUT_VARIANTS } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
@@ -229,7 +230,7 @@ function Item({ children, ...props }: AutocompleteBase.Item.Props) {
     >
       <div className="col-start-1">{children}</div>
       <span className="col-start-2 hidden items-center group-data-selected:flex">
-        <CheckIcon size={14} />
+        <HugeiconsIcon icon={CheckIcon} size={14} />
       </span>
     </AutocompleteBase.Item>
   );

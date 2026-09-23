@@ -1,6 +1,7 @@
 'use client';
 
-import { DatabaseIcon, PlusIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { DatabaseIcon, PlusSignIcon as PlusIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { Empty } from '@/components/ui/empty';
 
@@ -10,7 +11,7 @@ export const notes =
 export function Demo() {
   return (
     <Empty
-      icon={<DatabaseIcon size={48} className="text-kumo-inactive" />}
+      icon={<HugeiconsIcon icon={DatabaseIcon} size={48} className="text-kumo-inactive" />}
       title="No KV namespaces"
       description="Create a namespace to cache key-value data at the edge."
       commandLine="npx wrangler kv namespace create CACHE"

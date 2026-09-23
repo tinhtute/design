@@ -8,7 +8,7 @@
 
 ## Who is it for?
 
-- Frontend engineers and product teams building modern web applications who want enterprise-grade Base UI + Phosphor components via standard `shadcn add`.
+- Frontend engineers and product teams building modern web applications who want enterprise-grade Base UI + Hugeicons components via standard `shadcn add`.
 
 ## Non-goals
 
@@ -33,4 +33,4 @@
 
 ## What are we working on right now?
 
-- plan: none active — latest completed: docs/plans/completed/props-api-tables.md
+- plan: docs/plans/active/hugeicons-migration.md — latest completed: docs/plans/completed/props-api-tables.md

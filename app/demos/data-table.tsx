@@ -1,7 +1,11 @@
 'use client';
 
 import type { Column, ColumnDef } from '@tanstack/react-table';
-import { CaretDownIcon, CaretUpDownIcon, CaretUpIcon } from '@phosphor-icons/react';
+import {
+  ArrowDown01Icon as CaretDownIcon,
+  ArrowUpDownIcon as CaretUpDownIcon,
+  ArrowUp01Icon as CaretUpIcon,
+} from '@hugeicons/core-free-icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/components/data-table';

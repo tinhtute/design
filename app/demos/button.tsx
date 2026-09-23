@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusIcon } from '@phosphor-icons/react';
+import { PlusSignIcon as PlusIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 
 export const notes =

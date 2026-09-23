@@ -1,7 +1,8 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon, Copy01Icon as CopyIcon } from '@hugeicons/core-free-icons';
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import { Toast } from '@base-ui/react/toast';
 import { Tooltip } from '@base-ui/react/tooltip';
@@ -302,7 +303,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
             copied ? clipboardTextAnimations.slide.animate : clipboardTextAnimations.slide.initial,
           )}
         >
-          <CheckIcon />
+          <HugeiconsIcon icon={CheckIcon} />
         </span>
         <span
           className={cn(
@@ -310,7 +311,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
             copied ? clipboardTextAnimations.slide.end : clipboardTextAnimations.slide.animate,
           )}
         >
-          <CopyIcon />
+          <HugeiconsIcon icon={CopyIcon} />
         </span>
       </Button>
     );

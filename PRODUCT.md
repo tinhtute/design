@@ -16,7 +16,7 @@ Deliver an accessible, high-craft shadcn/ui registry and design system (`@therea
 
 ## Positioning
 
-The only source-code-first shadcn registry porting Kumo's enterprise-grade Base UI + Phosphor component catalog with a customizable tokenized theme system.
+The only source-code-first shadcn registry porting Kumo's enterprise-grade Base UI + Hugeicons component catalog with a customizable tokenized theme system.
 
 ## Operating Context
 
@@ -25,7 +25,7 @@ Developers install components via `pnpm dlx shadcn add @therealtinhtute/{compone
 ## Capabilities and Constraints
 
 - 53 catalog items (44 UI components, 3 blocks, 3 patterns, 3 infra items).
-- Base UI primitives + Phosphor icons.
+- Base UI primitives + Hugeicons icons.
 - Strict WCAG 2.1 AA accessibility compliance.
 - No `@cloudflare/kumo` runtime dependency for consumers.
 - Primary brand color: `#124b68` (`oklch(0.3917 0.0748 236.055)`).

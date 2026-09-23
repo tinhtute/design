@@ -3,6 +3,7 @@
  */
 import {
   type CSSProperties,
+  type ComponentType,
   type HTMLAttributes,
   type ReactNode,
   createContext,
@@ -10,6 +11,7 @@ import {
   isValidElement,
   useContext,
 } from 'react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import {
   Button,
   type ButtonProps,
@@ -280,8 +282,8 @@ export enum BannerVariant {
  * ```
  */
 export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'title'> {
-  /** Icon element rendered before the banner content (e.g. from `@phosphor-icons/react`). */
-  icon?: ReactNode;
+  /** Icon element rendered before the banner content (e.g. from `@hugeicons/core-free-icons`). */
+  icon?: Icon | ReactNode;
   /** Primary heading text for the banner. Use for i18n string injection. */
   title?: string;
   /** Secondary description text displayed below the title. Use for i18n string injection. */
@@ -328,17 +330,28 @@ export interface BannerProps extends Omit<HTMLAttributes<HTMLDivElement>, 'child
  * // Structured (recommended for i18n)
  * <Banner
  *   variant="alert"
- *   icon={<WarningCircle />}
+ *   icon={<AlertCircleIcon />}
  *   title="Review required"
  *   description="Please review your billing information."
  * />
  *
  * // Simple (backwards compatible)
- * <Banner variant="alert" icon={<WarningCircle />}>
+ * <Banner variant="alert" icon={<AlertCircleIcon />}>
  *   Review your billing information.
  * </Banner>
  * ```
  */
+const renderIconNode = (icon?: Icon | ReactNode) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  if (Array.isArray(icon)) return <HugeiconsIcon icon={icon as Icon} />;
+  if (typeof icon === 'function') {
+    const Comp = icon as ComponentType<Record<string, unknown>>;
+    return <Comp />;
+  }
+  return icon as ReactNode;
+};
+
 const BannerRoot = forwardRef<HTMLDivElement, BannerProps>(function BannerRoot(
   {
     icon,
@@ -378,7 +391,7 @@ const BannerRoot = forwardRef<HTMLDivElement, BannerProps>(function BannerRoot(
                 variantConfig.iconClasses,
               )}
             >
-              {icon}
+              {renderIconNode(icon)}
             </span>
           )}
           <div
@@ -433,7 +446,9 @@ const BannerRoot = forwardRef<HTMLDivElement, BannerProps>(function BannerRoot(
   return (
     <BannerActionContext.Provider value={{ variant, size: sizeParts.action }}>
       <div ref={ref} className={cn(bannerVariants({ variant, size }), className)} {...props}>
-        {icon && <span className={cn('shrink-0', variantConfig.iconClasses)}>{icon}</span>}
+        {icon && (
+          <span className={cn('shrink-0', variantConfig.iconClasses)}>{renderIconNode(icon)}</span>
+        )}
         {content}
       </div>
     </BannerActionContext.Provider>

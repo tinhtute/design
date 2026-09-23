@@ -18,7 +18,11 @@ import React, {
 } from 'react';
 import { ScrollArea as ScrollAreaBase } from '@base-ui/react/scroll-area';
 
-import { CaretRightIcon, XIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
+import {
+  ArrowRight01Icon as CaretRightIcon,
+  Cancel01Icon as XIcon,
+} from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { SkeletonLine } from '@/components/ui/loader';
 import { Tooltip, TooltipProvider } from '@/components/ui/tooltip';
@@ -1232,7 +1236,7 @@ export interface SidebarMenuButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   'className' | 'children'
 > {
-  icon?: React.ComponentType<{ className?: string }> | React.ReactNode;
+  icon?: Icon | React.ComponentType<{ className?: string }> | React.ReactNode;
   active?: boolean;
   /**
    * Button size.
@@ -1316,14 +1320,15 @@ const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
       [itemId, isInsideMenuItem, ref, registerItem],
     );
 
-    // Render icon — supports both component types and React elements
+    // Render icon — supports Hugeicons data, component types, and React elements
     const iconNode = (() => {
       if (!IconProp) return null;
       if (React.isValidElement(IconProp)) return IconProp;
+      const iconClass = cn('shrink-0 opacity-40', size === 'base' ? 'size-4' : 'size-3.5');
+      if (Array.isArray(IconProp))
+        return <HugeiconsIcon icon={IconProp as Icon} className={iconClass} />;
       const Comp = IconProp as React.ComponentType<{ className?: string }>;
-      return (
-        <Comp className={cn('shrink-0 opacity-40', size === 'base' ? 'size-4' : 'size-3.5')} />
-      );
+      return <Comp className={iconClass} />;
     })();
 
     const content = (
@@ -1782,7 +1787,7 @@ const SidebarClose = forwardRef<HTMLButtonElement, ComponentPropsWithoutRef<'but
         }}
         {...props}
       >
-        <XIcon size={18} />
+        <HugeiconsIcon icon={XIcon} size={18} />
       </Button>
     );
   },
@@ -2245,9 +2250,10 @@ function SidebarMenuChevron({ className }: { className?: string }) {
   const { isOpen, isCollapsible } = useContext(SidebarCollapseContext);
 
   return (
-    <CaretRightIcon
+    <HugeiconsIcon
+      icon={CaretRightIcon}
       size={12}
-      weight="bold"
+      strokeWidth={2}
       className={cn(
         'ml-auto shrink-0 opacity-40 transition-[transform,rotate,opacity] duration-200 group-hover/menu-button:opacity-100',
         isCollapsible && isOpen && 'rotate-90',

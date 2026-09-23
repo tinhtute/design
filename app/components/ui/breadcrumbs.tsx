@@ -9,11 +9,13 @@ import {
   isValidElement,
   useEffect,
   useState,
+  type ComponentType,
   type PropsWithChildren,
   type ReactElement,
   type ReactNode,
 } from 'react';
-import { CheckIcon, CopyIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
+import { Tick02Icon as CheckIcon, Copy01Icon as CopyIcon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { SkeletonLine } from '@/components/ui/loader';
 import { useLinkComponent } from '@/lib/link-provider';
@@ -60,9 +62,20 @@ export function breadcrumbsVariants({
   );
 }
 
+const renderIconNode = (icon?: Icon | ReactNode) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  if (Array.isArray(icon)) return <HugeiconsIcon icon={icon as Icon} />;
+  if (typeof icon === 'function') {
+    const Comp = icon as ComponentType<Record<string, unknown>>;
+    return <Comp />;
+  }
+  return icon as ReactNode;
+};
+
 export interface BreadcrumbsItemProps {
   href: string;
-  icon?: ReactNode;
+  icon?: Icon | ReactNode;
 }
 
 const Link = ({ href, icon, children }: PropsWithChildren<BreadcrumbsItemProps>) => {
@@ -78,7 +91,7 @@ const Link = ({ href, icon, children }: PropsWithChildren<BreadcrumbsItemProps>)
       // the current page is the only crumb allowed to give up width.
       className="flex shrink-0 items-center gap-1 whitespace-nowrap text-kumo-subtle no-underline"
     >
-      {!!icon && <span className="flex shrink-0 items-center">{icon}</span>}
+      {!!icon && <span className="flex shrink-0 items-center">{renderIconNode(icon)}</span>}
       <span>{children}</span>
     </LinkComponent>
   );
@@ -86,14 +99,14 @@ const Link = ({ href, icon, children }: PropsWithChildren<BreadcrumbsItemProps>)
 
 interface BreadcrumbsCurrentProps {
   loading?: boolean;
-  icon?: ReactNode;
+  icon?: Icon | ReactNode;
 }
 
 function Current({ children, icon, loading }: PropsWithChildren<BreadcrumbsCurrentProps>) {
   if (loading) {
     return (
       <div className="flex w-[125px] min-w-0 items-center gap-1">
-        {icon && <span className="flex shrink-0 items-center">{icon}</span>}
+        {icon && <span className="flex shrink-0 items-center">{renderIconNode(icon)}</span>}
         <SkeletonLine />
       </div>
     );
@@ -101,7 +114,7 @@ function Current({ children, icon, loading }: PropsWithChildren<BreadcrumbsCurre
 
   return (
     <div className="flex max-w-full min-w-0 items-center gap-1 font-medium" aria-current="page">
-      {icon && <span className="flex shrink-0 items-center">{icon}</span>}
+      {icon && <span className="flex shrink-0 items-center">{renderIconNode(icon)}</span>}
       <span className="truncate">{children}</span>
     </div>
   );
@@ -163,9 +176,9 @@ function Clipboard({ text }: { text: string }) {
       aria-label="Copy"
     >
       {isCopied ? (
-        <CheckIcon weight="bold" className="text-kumo-success" />
+        <HugeiconsIcon icon={CheckIcon} strokeWidth={2} className="text-kumo-success" />
       ) : (
-        <CopyIcon weight="regular" />
+        <HugeiconsIcon icon={CopyIcon} />
       )}
     </Button>
   );

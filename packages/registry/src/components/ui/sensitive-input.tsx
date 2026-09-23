@@ -1,7 +1,8 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ViewIcon as Eye, ViewOffIcon as EyeSlash } from '@hugeicons/core-free-icons';
 import {
   forwardRef,
   useCallback,
@@ -422,7 +423,11 @@ export const SensitiveInput = forwardRef<HTMLInputElement, SensitiveInputProps>(
             !showEyeButton && 'pointer-events-none opacity-0',
           )}
         >
-          {mode === 'revealed' ? <EyeSlash className="size-full" /> : <Eye className="size-full" />}
+          {mode === 'revealed' ? (
+            <HugeiconsIcon icon={EyeSlash} className="size-full" />
+          ) : (
+            <HugeiconsIcon icon={Eye} className="size-full" />
+          )}
         </button>
 
         {/* Copy tab - appears on hover/focus at top right (hidden when disabled) */}

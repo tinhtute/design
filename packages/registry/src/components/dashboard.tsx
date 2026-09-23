@@ -10,7 +10,14 @@
 
 import * as React from 'react';
 import type { ColumnDef } from '@tanstack/react-table';
-import { ChartBar, Gear, Package, SquaresFour, Users, type Icon } from '@phosphor-icons/react';
+import { type IconSvgElement as Icon } from '@hugeicons/react';
+import {
+  Analytics01Icon as ChartBar,
+  Settings02Icon as Gear,
+  PackageIcon as Package,
+  DashboardSquare01Icon as SquaresFour,
+  UserMultipleIcon as Users,
+} from '@hugeicons/core-free-icons';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { LayerCard } from '@/components/ui/layer-card';

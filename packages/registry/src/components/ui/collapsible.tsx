@@ -2,7 +2,8 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import { Collapsible as CollapsibleBase } from '@base-ui/react/collapsible';
-import { CaretDownIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowDown01Icon as CaretDownIcon } from '@hugeicons/core-free-icons';
 import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -161,10 +162,11 @@ const CollapsibleDefaultTrigger = forwardRef<HTMLButtonElement, CollapsibleDefau
       >
         <span>{children}</span>
         <span className="inline-grid w-4 shrink-0 place-items-center">
-          <CaretDownIcon
+          <HugeiconsIcon
+            icon={CaretDownIcon}
             aria-hidden
             size={12}
-            weight="bold"
+            strokeWidth={2}
             className="block size-3 origin-center transition-transform duration-200 ease-out motion-reduce:transition-none [[data-panel-open]_&]:rotate-180"
           />
         </span>

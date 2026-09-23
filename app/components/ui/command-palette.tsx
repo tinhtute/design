@@ -5,20 +5,23 @@ import {
   useRef,
   useCallback,
   createContext,
+  isValidElement,
   useContext,
   forwardRef,
   type CSSProperties,
+  type ComponentType,
   type ReactNode,
   type InputHTMLAttributes,
 } from 'react';
 import { Autocomplete } from '@base-ui/react/autocomplete';
 import { Dialog as DialogBase } from '@base-ui/react/dialog';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import {
-  MagnifyingGlassIcon,
-  ArrowRightIcon,
-  ArrowSquareOutIcon,
-  CaretRightIcon,
-} from '@phosphor-icons/react';
+  Search01Icon as MagnifyingGlassIcon,
+  ArrowRight02Icon as ArrowRightIcon,
+  ArrowUpRight01Icon as ArrowSquareOutIcon,
+  ArrowRight01Icon as CaretRightIcon,
+} from '@hugeicons/core-free-icons';
 
 import { LayerCard } from '@/components/ui/layer-card';
 import { Loader } from '@/components/ui/loader';
@@ -172,7 +175,7 @@ export interface CommandPaletteResultItemProps<T = unknown> {
   /** Optional description displayed after the title (for non-navigation items like search tips) */
   description?: string;
   /** Optional icon to display before the title */
-  icon?: ReactNode;
+  icon?: Icon | ReactNode;
   /** The value associated with this item (for Autocomplete) */
   value: T;
   /** Click handler - use e.metaKey || e.ctrlKey to detect new tab intent */
@@ -417,7 +420,13 @@ function InputHeader({
 }) {
   return (
     <div className="flex items-center gap-3 bg-kumo-base px-4 py-3 focus-within:ring-2 focus-within:ring-kumo-brand">
-      {leading ?? <MagnifyingGlassIcon className="h-4 w-4 text-kumo-subtle" weight="bold" />}
+      {leading ?? (
+        <HugeiconsIcon
+          icon={MagnifyingGlassIcon}
+          className="h-4 w-4 text-kumo-subtle"
+          strokeWidth={2}
+        />
+      )}
       {children}
       {trailing}
     </div>
@@ -619,6 +628,17 @@ function HighlightedText({
   return <span className={className}>{parts}</span>;
 }
 
+const renderIconNode = (icon?: Icon | ReactNode) => {
+  if (!icon) return null;
+  if (isValidElement(icon)) return icon;
+  if (Array.isArray(icon)) return <HugeiconsIcon icon={icon as Icon} />;
+  if (typeof icon === 'function') {
+    const Comp = icon as ComponentType<Record<string, unknown>>;
+    return <Comp />;
+  }
+  return icon as ReactNode;
+};
+
 /**
  * ResultItem - Rich item component with breadcrumbs, highlights, icons, and external indicators.
  *
@@ -647,7 +667,11 @@ function ResultItem<T>({
         nonInteractive ? 'cursor-default' : 'cursor-pointer data-[highlighted]:bg-kumo-overlay',
       )}
     >
-      {icon && <div className="flex flex-shrink-0 items-center text-kumo-subtle">{icon}</div>}
+      {icon && (
+        <div className="flex flex-shrink-0 items-center text-kumo-subtle">
+          {renderIconNode(icon)}
+        </div>
+      )}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 truncate">
           {breadcrumbs?.map((crumb, index) => (
@@ -657,7 +681,11 @@ function ResultItem<T>({
                 highlights={breadcrumbHighlights?.[index]}
                 className="text-base text-kumo-default"
               />
-              <CaretRightIcon className="h-3 w-3 flex-shrink-0 text-kumo-subtle" weight="bold" />
+              <HugeiconsIcon
+                icon={CaretRightIcon}
+                className="h-3 w-3 flex-shrink-0 text-kumo-subtle"
+                strokeWidth={2}
+              />
             </span>
           ))}
           <HighlightedText
@@ -666,7 +694,10 @@ function ResultItem<T>({
             className="text-base text-kumo-default"
           />
           {external && (
-            <ArrowSquareOutIcon className="h-3.5 w-3.5 flex-shrink-0 text-kumo-subtle" />
+            <HugeiconsIcon
+              icon={ArrowSquareOutIcon}
+              className="h-3.5 w-3.5 flex-shrink-0 text-kumo-subtle"
+            />
           )}
           {description && (
             <>
@@ -677,7 +708,10 @@ function ResultItem<T>({
         </div>
       </div>
       {showArrow && !external && !nonInteractive && (
-        <ArrowRightIcon className="h-4 w-4 flex-shrink-0 text-kumo-subtle opacity-0 transition-opacity group-data-[highlighted]:opacity-100" />
+        <HugeiconsIcon
+          icon={ArrowRightIcon}
+          className="h-4 w-4 flex-shrink-0 text-kumo-subtle opacity-0 transition-opacity group-data-[highlighted]:opacity-100"
+        />
       )}
     </Autocomplete.Item>
   );

@@ -2,7 +2,7 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import React, { type ReactNode } from 'react';
-import type { Icon } from '@phosphor-icons/react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 
@@ -166,8 +166,13 @@ export type BadgeVariant = KumoBadgeVariant;
 
 const renderIconNode = (IconComponent?: Icon | ReactNode) => {
   if (!IconComponent) return null;
-  const Component = IconComponent as React.ComponentType<Record<string, unknown>>;
-  const icon = React.isValidElement(IconComponent) ? IconComponent : <Component />;
+  const icon = Array.isArray(IconComponent) ? (
+    <HugeiconsIcon icon={IconComponent as Icon} />
+  ) : React.isValidElement(IconComponent) ? (
+    IconComponent
+  ) : (
+    React.createElement(IconComponent as unknown as React.ComponentType)
+  );
 
   return (
     <span className="flex h-lh w-3 shrink-0 items-center justify-center [&>svg]:size-3">
@@ -223,7 +228,7 @@ interface FilledBadgeProps extends BadgeBaseProps {
    * @default "filled"
    */
   appearance?: 'filled';
-  /** Icon from `@phosphor-icons/react` or a React element. Rendered before children. */
+  /** Icon from `@hugeicons/core-free-icons` or a React element. Rendered before children. */
   icon?: Icon | ReactNode;
 }
 

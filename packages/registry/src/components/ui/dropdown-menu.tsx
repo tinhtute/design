@@ -7,12 +7,12 @@ import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 import { useLinkComponent } from '@/lib/link-provider';
 import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import {
-  CaretRightIcon as CaretRight,
-  CheckIcon,
-  CheckIcon as Check,
-  type Icon,
-} from '@phosphor-icons/react';
+  ArrowRight01Icon as CaretRight,
+  Tick02Icon as CheckIcon,
+  Tick02Icon as Check,
+} from '@hugeicons/core-free-icons';
 
 /** Dropdown item variant definitions (default and danger styles). */
 export const KUMO_DROPDOWN_VARIANTS = {
@@ -59,7 +59,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubmenuTrigger>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubmenuTrigger> & {
     inset?: boolean;
-    icon?: Icon;
+    icon?: Icon | React.ReactNode;
   }
 >(({ className, inset, children, icon: IconComponent, ...props }, ref) => (
   <DropdownMenuPrimitive.SubmenuTrigger
@@ -76,9 +76,9 @@ const DropdownMenuSubTrigger = React.forwardRef<
     )}
     {...props}
   >
-    {IconComponent && <IconComponent className="mr-2 h-4 w-4" />}
+    {IconComponent && renderIconNode(IconComponent)}
     {children}
-    <CaretRight className="ml-auto h-4 w-4" />
+    <HugeiconsIcon icon={CaretRight} className="ml-auto h-4 w-4" />
   </DropdownMenuPrimitive.SubmenuTrigger>
 ));
 
@@ -126,7 +126,9 @@ const DropdownMenuContent = React.forwardRef<
 const renderIconNode = (IconComponent?: Icon | React.ReactNode) => {
   if (!IconComponent) return null;
   if (React.isValidElement(IconComponent)) return IconComponent;
-  const Comp = IconComponent as React.ComponentType<Record<string, unknown>>;
+  if (Array.isArray(IconComponent))
+    return <HugeiconsIcon icon={IconComponent as Icon} className="mr-2 h-4 w-4" />;
+  const Comp = IconComponent as unknown as React.ComponentType<Record<string, unknown>>;
   return <Comp className="mr-2 h-4 w-4" />;
 };
 
@@ -180,7 +182,7 @@ const DropdownMenuItem = React.forwardRef<
           {children}
           {selected && (
             <span className="inline-flex">
-              <Check />
+              <HugeiconsIcon icon={Check} />
             </span>
           )}
         </>
@@ -321,7 +323,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     {...props}
   >
     <DropdownMenuPrimitive.CheckboxItemIndicator className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center text-inherit">
-      <CheckIcon weight="bold" size={12} />
+      <HugeiconsIcon icon={CheckIcon} strokeWidth={2} size={12} />
     </DropdownMenuPrimitive.CheckboxItemIndicator>
     {children}
   </DropdownMenuPrimitive.CheckboxItem>
@@ -395,7 +397,7 @@ const DropdownMenuRadioItemIndicator = React.forwardRef<
     className={cn('ml-auto', className)}
     {...props}
   >
-    {children ?? <Check className="h-4 w-4" />}
+    {children ?? <HugeiconsIcon icon={Check} className="h-4 w-4" />}
   </DropdownMenuPrimitive.RadioItemIndicator>
 ));
 DropdownMenuRadioItemIndicator.displayName = 'DropdownMenuRadioItemIndicator';

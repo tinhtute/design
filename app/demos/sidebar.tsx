@@ -1,6 +1,10 @@
 'use client';
 
-import { GaugeIcon, GlobeIcon, ListMagnifyingGlassIcon } from '@phosphor-icons/react';
+import {
+  DashboardSpeed01Icon as GaugeIcon,
+  Globe02Icon as GlobeIcon,
+  SearchList01Icon as ListMagnifyingGlassIcon,
+} from '@hugeicons/core-free-icons';
 import { Sidebar, SidebarProvider } from '@/components/ui/sidebar';
 
 export const notes =

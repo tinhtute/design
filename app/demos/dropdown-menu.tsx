@@ -1,6 +1,11 @@
 'use client';
 
-import { ChartLineIcon, CopyIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
+import {
+  AnalyticsUpIcon as ChartLineIcon,
+  Copy01Icon as CopyIcon,
+  PencilEdit01Icon as PencilSimpleIcon,
+  Delete02Icon as TrashIcon,
+} from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu } from '@/components/ui/dropdown-menu';
 

@@ -9,7 +9,8 @@
 'use client';
 
 import * as React from 'react';
-import { MagnifyingGlass, X } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon as MagnifyingGlass, Cancel01Icon as X } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
 import { InputGroup } from '@/components/ui/input-group';
 import { cn } from '@/lib/utils';
@@ -41,7 +42,7 @@ export function FilterBar({
     <div className={cn('flex items-center gap-2', className)} {...props}>
       <InputGroup className="w-full max-w-sm">
         <InputGroup.Addon align="start">
-          <MagnifyingGlass />
+          <HugeiconsIcon icon={MagnifyingGlass} />
         </InputGroup.Addon>
         <InputGroup.Input
           value={value}

@@ -1,7 +1,11 @@
 /**
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
-import { CaretLeftIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  ArrowLeft01Icon as CaretLeftIcon,
+  ArrowRight01Icon as CaretRightIcon,
+} from '@hugeicons/core-free-icons';
 import {
   DayPicker,
   type CustomComponents,
@@ -18,11 +22,11 @@ import { cn } from '@/lib/utils';
 export type { DateRange, DayPickerProps } from 'react-day-picker';
 
 /**
- * Custom Chevron component using Phosphor icons
+ * Custom Chevron component using Hugeicons
  */
 const Chevron: CustomComponents['Chevron'] = ({ orientation, ...props }) => {
   const Icon = orientation === 'left' ? CaretLeftIcon : CaretRightIcon;
-  return <Icon size={16} {...props} />;
+  return <HugeiconsIcon icon={Icon} size={16} {...props} />;
 };
 
 /** Base props shared across all DatePicker modes */
