@@ -92,7 +92,7 @@
 .mono-doc blockquote {
   margin: 1rem 0;
   padding: 0.125rem 0 0.125rem 1rem;
-  border-left: 3px solid var(--kumo-fill);
+  border-left: 3px solid var(--kumo-fill); /* impeccable-disable-line side-tab: markdown blockquote convention, not a card accent */
   color: var(--text-color-kumo-subtle);
 }
 

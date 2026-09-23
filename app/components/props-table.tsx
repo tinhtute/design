@@ -14,7 +14,12 @@ export function PropsTable({ docs }: { docs: ComponentPropsDoc[] }) {
       {docs.map((doc) => (
         <section key={doc.displayName} className="grid gap-2">
           <h3 className="text-base font-semibold text-kumo-default">{doc.displayName} props</h3>
-          <div className="overflow-x-auto rounded-md ring ring-kumo-line">
+          <div
+            className="overflow-x-auto rounded-md ring ring-kumo-line"
+            role="region"
+            aria-label={`${doc.displayName} props table`}
+            tabIndex={0}
+          >
             <Table>
               <Table.Header variant="compact">
                 <Table.Row>
