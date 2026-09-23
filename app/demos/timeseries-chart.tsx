@@ -16,6 +16,7 @@ export function Demo() {
     <div className="h-48 min-w-0 max-w-full overflow-hidden">
       <TimeseriesChart
         echarts={echarts}
+        ariaDescription="Requests over the last two minutes"
         data={[
           {
             name: 'Requests',

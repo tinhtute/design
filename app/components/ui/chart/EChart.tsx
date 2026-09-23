@@ -335,6 +335,12 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
     return () => ro.disconnect();
   }, []);
 
+  // `role="img"` needs a name; prefer the consumer's aria description and fall
+  // back to a generic label so the chart is never announced as an unnamed image.
+  const ariaDescription = options.aria?.label?.description;
+  const ariaLabel =
+    typeof ariaDescription === 'string' && ariaDescription.trim() ? ariaDescription : 'Chart';
+
   return (
     <div
       ref={elRef}
@@ -342,6 +348,7 @@ export const Chart = forwardRef<echarts.ECharts, ChartProps>(function Chart(
       style={aspectRatio !== undefined ? { aspectRatio: String(aspectRatio) } : { height }}
       tabIndex={options.aria?.enabled ? 0 : undefined}
       role={options.aria?.enabled ? 'img' : undefined}
+      aria-label={options.aria?.enabled ? ariaLabel : undefined}
     />
   );
 });
