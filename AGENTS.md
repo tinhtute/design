@@ -24,3 +24,8 @@ validation material.
 The `zharness` binary is install / update / uninstall only. It does not run
 the lifecycle. There is no task database. There is no parallel control-plane state.
 <!-- ZHARNESS:END -->
+
+## Git
+
+- Never push directly to `main`. Commit work on a feature branch, push the
+  branch, and open a PR — the repository owner reviews and merges.
