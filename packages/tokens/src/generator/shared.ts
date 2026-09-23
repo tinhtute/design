@@ -119,7 +119,7 @@ export const TEXT_KUMO_COMPAT: Record<string, KumoCompatToken> = {
   strong: { mapsTo: 'var(--foreground)' },
   subtle: { mapsTo: 'var(--muted-foreground)' },
   inactive: { light: 'oklch(87% 0 0)', dark: 'oklch(43.9% 0 0)' },
-  placeholder: { light: 'oklch(70.8% 0 0)', dark: 'oklch(55.6% 0 0)' },
+  placeholder: { light: 'oklch(56% 0 0)', dark: 'oklch(65% 0 0)' },
   brand: { light: TEXT_BRAND, dark: TEXT_BRAND },
   link: { light: BRAND_LIGHT, dark: BRAND_DARK },
   info: {
@@ -191,6 +191,9 @@ export type CssTree = { [key: string]: string | CssTree };
  * Kumo utility layer, vendored verbatim from
  * @cloudflare/kumo@2.13.0 dist/styles (kumo-standalone.css). These classes are
  * referenced by ported components; without them they generate no CSS.
+ * Deliberate deviations: the toast/clipboard bump animations use ease-out-quart
+ * instead of upstream's overshoot curve (DESIGN.md bans bounce/elastic easing),
+ * and the reduced-motion guard covers both bump classes.
  * Kept as a CssTree so it can ship both as theme.css text and as the
  * structured `css` field on the registry theme item.
  */
@@ -214,11 +217,11 @@ export const KUMO_UTILITY_CSS: CssTree = {
   },
   '.animate-toast-bump': {
     'transform-origin': '50%',
-    animation: '0.4s cubic-bezier(0.34, 1.56, 0.64, 1) toast-bump',
+    animation: '0.4s cubic-bezier(0.25, 1, 0.5, 1) toast-bump',
   },
   '.animate-clipboard-toast-bump': {
     'transform-origin': '50%',
-    animation: '0.35s cubic-bezier(0.34, 1.56, 0.64, 1) clipboard-toast-bump',
+    animation: '0.35s cubic-bezier(0.25, 1, 0.5, 1) clipboard-toast-bump',
   },
   '.kumo-chart-shimmer': {
     'transform-box': 'fill-box',
@@ -283,6 +286,9 @@ export const KUMO_UTILITY_CSS: CssTree = {
       transform: 'none',
     },
     '.animate-clipboard-toast-bump': {
+      animation: 'none',
+    },
+    '.animate-toast-bump': {
       animation: 'none',
     },
   },

@@ -198,7 +198,7 @@
   --text-color-kumo-strong: var(--foreground);
   --text-color-kumo-subtle: var(--muted-foreground);
   --text-color-kumo-inactive: oklch(87% 0 0);
-  --text-color-kumo-placeholder: oklch(70.8% 0 0);
+  --text-color-kumo-placeholder: oklch(56% 0 0);
   --text-color-kumo-brand: #f6821f;
   --text-color-kumo-link: oklch(0.3917 0.0748 236.055);
   --text-color-kumo-info: oklch(42.4% 0.199 265.638);
@@ -295,7 +295,7 @@
   --text-color-kumo-strong: var(--foreground);
   --text-color-kumo-subtle: var(--muted-foreground);
   --text-color-kumo-inactive: oklch(43.9% 0 0);
-  --text-color-kumo-placeholder: oklch(55.6% 0 0);
+  --text-color-kumo-placeholder: oklch(65% 0 0);
   --text-color-kumo-brand: #f6821f;
   --text-color-kumo-link: oklch(0.72 0.0748 236.055);
   --text-color-kumo-info: oklch(70.7% 0.165 254.624);
@@ -345,11 +345,11 @@
 }
 .animate-toast-bump {
   transform-origin: 50%;
-  animation: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) toast-bump;
+  animation: 0.4s cubic-bezier(0.25, 1, 0.5, 1) toast-bump;
 }
 .animate-clipboard-toast-bump {
   transform-origin: 50%;
-  animation: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) clipboard-toast-bump;
+  animation: 0.35s cubic-bezier(0.25, 1, 0.5, 1) clipboard-toast-bump;
 }
 .kumo-chart-shimmer {
   transform-box: fill-box;
@@ -414,6 +414,9 @@
     transform: none;
   }
   .animate-clipboard-toast-bump {
+    animation: none;
+  }
+  .animate-toast-bump {
     animation: none;
   }
 }
