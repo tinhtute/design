@@ -7,8 +7,12 @@ component, its dependencies, and the license metadata for you:
 pnpm dlx shadcn add @therealtinhtute/button
 ```
 
-Inline code works too: use `` `npx shadcn add @therealtinhtute/code{:bash}` `` for
-shell, or `` `Code.Block` {:tsx} `` for TSX snippets.
+Inline code works too — append the marker inside the backticks:
+
+```md
+`npx shadcn add @therealtinhtute/code{:bash}`
+`Code.Block{:tsx}`
+```
 
 ## Theming
 
