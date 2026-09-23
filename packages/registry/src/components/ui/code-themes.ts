@@ -79,7 +79,7 @@ export const monoLightTheme = {
     },
     {
       scope: ['constant.numeric', 'constant.character.numeric'],
-      settings: { foreground: '#bd6500' },
+      settings: { foreground: '#a45800' },
     },
     {
       scope: ['entity.name.function', 'support.function', 'support.macro', 'meta.function-call'],
@@ -103,7 +103,7 @@ export const monoLightTheme = {
         'variable.language',
         'support.constant',
       ],
-      settings: { foreground: '#058378' },
+      settings: { foreground: '#05766c' },
     },
     {
       scope: ['invalid', 'invalid.illegal', 'invalid.deprecated'],
@@ -127,7 +127,7 @@ export const monoLightTheme = {
     },
     {
       scope: ['constant.character.escape'],
-      settings: { foreground: '#bd6500' },
+      settings: { foreground: '#a45800' },
     },
     {
       scope: ['meta.embedded', 'markup.raw', 'markup.inline.raw'],
