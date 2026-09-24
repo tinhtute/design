@@ -444,8 +444,11 @@ const List = forwardRef<HTMLDivElement, CommandPaletteListProps & { className?: 
     return (
       <div
         ref={ref}
+        // Tabbable so a long result list stays keyboard-scrollable: the listbox
+        // inside is aria-activedescendant-driven and not itself focusable.
+        tabIndex={0}
         className={cn(
-          'relative min-h-0 flex-1 scroll-py-2 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 ring-1 ring-kumo-hairline',
+          'relative min-h-0 flex-1 scroll-py-2 overflow-y-auto rounded-b-lg bg-kumo-base px-2 py-2 ring-1 ring-kumo-hairline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-focus',
           className,
         )}
       >
