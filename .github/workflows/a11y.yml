@@ -1,0 +1,38 @@
+name: Showroom a11y
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: a11y-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  axe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @therealtinhtute/registry build
+      - run: pnpm --filter app build
+      - run: pnpm --filter app exec playwright install --with-deps chromium
+
+      - name: axe sweep (50 demos × light/dark + ⌘K palette)
+        run: |
+          pnpm --filter app exec next start --port 3100 &
+          SERVER_PID=$!
+          for _ in $(seq 1 60); do
+            curl -sf http://127.0.0.1:3100/ >/dev/null && break
+            sleep 2
+          done
+          A11Y_BASE_URL=http://127.0.0.1:3100 pnpm --filter app a11y
+          STATUS=$?
+          kill $SERVER_PID
+          exit $STATUS
