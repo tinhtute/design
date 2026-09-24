@@ -10,6 +10,8 @@
     "sync-registry": "node scripts/sync-registry.mjs",
     "build": "node scripts/sync-registry.mjs && next build",
     "a11y": "node scripts/a11y-check.mjs",
+    "visual": "playwright test",
+    "visual:update": "playwright test --update-snapshots",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit"
@@ -43,6 +45,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@therealtinhtute/registry": "workspace:*",
     "@types/d3-geo": "^3.1.1",
