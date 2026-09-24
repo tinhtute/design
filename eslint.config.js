@@ -42,6 +42,21 @@ export default tseslint.config(
     },
   },
   {
+    // Repo scripts run under Node, and the browser-driving ones also evaluate
+    // callbacks in the page context.
+    files: ['**/scripts/**/*.{js,mjs,ts}'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        fetch: 'readonly',
+        AbortSignal: 'readonly',
+        setTimeout: 'readonly',
+        document: 'readonly',
+      },
+    },
+  },
+  {
     files: ['packages/registry/src/components/**', 'app/components/ui/**'],
     rules: {
       'shadcn/no-restyle': 'off',

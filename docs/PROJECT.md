@@ -20,6 +20,7 @@
 
 - run from: repository root, unless noted
 - tests: `pnpm --filter @therealtinhtute/registry validate && pnpm --filter @therealtinhtute/registry validate:build && pnpm --filter @therealtinhtute/registry e2e`
+- a11y: `pnpm --filter app a11y` (axe sweep over every showroom demo, light + dark, plus the ⌘K palette; starts a dev server when `A11Y_BASE_URL` is unset, runs in CI against `next start`)
 - types: `pnpm --filter app typecheck`
 - lint: `pnpm lint`
 - build: `pnpm -r build`

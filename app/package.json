@@ -9,6 +9,7 @@
     "dev": "next dev --port 3000",
     "sync-registry": "node scripts/sync-registry.mjs",
     "build": "node scripts/sync-registry.mjs && next build",
+    "a11y": "node scripts/a11y-check.mjs",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit"
@@ -41,6 +42,7 @@
     "unified": "^11.0.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@tailwindcss/postcss": "^4",
     "@therealtinhtute/registry": "workspace:*",
     "@types/d3-geo": "^3.1.1",
@@ -49,6 +51,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.4",
+    "playwright": "^1.63.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   },

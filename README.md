@@ -47,8 +47,10 @@ Gate commands for changes (full list and project conventions in
 pnpm --filter @therealtinhtute/registry validate        # schema-check registry.json
 pnpm --filter @therealtinhtute/registry validate:build  # validate built output
 pnpm --filter @therealtinhtute/registry e2e             # consumer-install smoke test
+pnpm --filter app a11y                                  # axe sweep: 50 demos × light/dark + ⌘K palette
 pnpm --filter app typecheck && pnpm lint && pnpm -r build
 ```
 
 ---
+
 - 22.09.2026
