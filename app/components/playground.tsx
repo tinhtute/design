@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { type IconSvgElement as Icon } from '@hugeicons/react';
+import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
 import {
   CursorPointer01Icon as CursorClickIcon,
   ClipboardIcon as ClipboardTextIcon,
@@ -53,6 +53,8 @@ import {
 } from '@hugeicons/core-free-icons';
 
 import Link from 'next/link';
+import { ComponentSearch } from '@/components/component-search';
+import { Button } from '@/components/ui/button';
 import { ClipboardText } from '@/components/ui/clipboard-text';
 import { Code } from '@/components/ui/code';
 import { Sidebar } from '@/components/ui/sidebar';
@@ -185,6 +187,18 @@ export function Playground({
   props: PropsBySlug;
 }) {
   const [slug, setSlug] = useState<Slug>('button');
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const handleShortcut = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        setSearchOpen((open) => !open);
+      }
+    };
+    window.addEventListener('keydown', handleShortcut);
+    return () => window.removeEventListener('keydown', handleShortcut);
+  }, []);
 
   useEffect(() => {
     const handleHash = () => {
@@ -202,6 +216,16 @@ export function Playground({
   const title = GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ?? slug;
 
   const entry = DEMOS[slug];
+
+  const searchItems = GROUPS.flatMap((group) =>
+    group.items.map(([id, label]) => ({ id, label, group: group.title })),
+  );
+
+  const selectComponent = (id: Slug) => {
+    setSlug(id);
+    window.location.hash = id;
+    setSearchOpen(false);
+  };
 
   return (
     <TooltipProvider>
@@ -248,6 +272,17 @@ export function Playground({
             <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
               <Sidebar.Trigger />
               <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setSearchOpen(true)}
+                  aria-keyshortcuts="Meta+K Control+K"
+                >
+                  <HugeiconsIcon icon={MagnifyingGlassIcon} className="size-4" />
+                  Search
+                  <span className="hidden text-xs text-kumo-subtle sm:inline">⌘K</span>
+                </Button>
                 <Link
                   href="/docs"
                   className="rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
@@ -286,6 +321,12 @@ export function Playground({
               </div>
             </main>
           </div>
+          <ComponentSearch
+            open={searchOpen}
+            onOpenChange={setSearchOpen}
+            items={searchItems}
+            onSelect={selectComponent}
+          />
         </Sidebar.Provider>
       </ToastProvider>
     </TooltipProvider>
