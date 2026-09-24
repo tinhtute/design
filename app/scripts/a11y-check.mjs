@@ -74,8 +74,10 @@ if (!(await isReachable())) {
 
 const browser = await chromium.launch();
 const failures = [];
+let scans = 0;
 
 async function scan(page, label) {
+  scans += 1;
   const results = await new AxeBuilder({ page }).withTags(tags).analyze();
   if (results.violations.length === 0) {
     console.log(`PASS  ${label}`);
@@ -119,6 +121,34 @@ const queue = [];
 for (const dark of [false, true]) for (const slug of slugs) queue.push({ slug, dark });
 await Promise.all(Array.from({ length: concurrency }, () => worker(queue)));
 
+// Docs routes are discovered from the docs nav so the list cannot drift.
+{
+  const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const page = await context.newPage();
+  await page.goto(`${baseUrl}/docs`, { waitUntil: 'networkidle', timeout: 60_000 });
+  await page.waitForTimeout(1000);
+  const hrefs = await page.evaluate(() =>
+    [...document.querySelectorAll('nav[aria-label="Docs"] a[href^="/docs"]')].map((link) =>
+      link.getAttribute('href'),
+    ),
+  );
+  const routes = [...new Set(['/docs', ...hrefs])];
+  for (const route of routes) {
+    for (const dark of [false, true]) {
+      await page.goto(`${baseUrl}${route}`, { waitUntil: 'networkidle', timeout: 60_000 });
+      await page.waitForTimeout(1200);
+      await page.evaluate((isDark) => {
+        document.documentElement.setAttribute('data-mode', isDark ? 'dark' : 'light');
+        document.documentElement.classList.toggle('dark', isDark);
+      }, dark);
+      await page.waitForTimeout(700);
+      await scan(page, `${dark ? 'dark ' : 'light'} ${route}`);
+    }
+  }
+  await page.close();
+  await context.close();
+}
+
 // The palette is a dialog that only exists once opened.
 {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -137,5 +167,5 @@ await Promise.all(Array.from({ length: concurrency }, () => worker(queue)));
 await browser.close();
 stopServer();
 
-console.log(`\na11y-check: ${slugs.length * 2 + 1} scans, ${failures.length} failing`);
+console.log(`\na11y-check: ${scans} scans, ${failures.length} failing`);
 process.exit(failures.length === 0 ? 0 : 1);
