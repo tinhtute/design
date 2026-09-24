@@ -11,7 +11,35 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 import { monoDarkTheme, monoLightTheme } from '@/components/ui/code-themes';
+import { headingId } from './docs';
 import { getHighlighter } from './highlight';
+
+interface HastNode {
+  type: string;
+  tagName?: string;
+  value?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+}
+
+/**
+ * Adds `id` anchors to `h2`/`h3` headings so the docs table of contents can
+ * link to them. Uses the same `headingId` as `lib/docs.ts` — no `rehype-slug`
+ * dependency, and both sides cannot drift.
+ */
+function rehypeHeadingIds() {
+  return (tree: HastNode) => {
+    for (const node of tree.children ?? []) {
+      if (node.type !== 'element' || !/^h[23]$/.test(node.tagName ?? '')) continue;
+      const text = (node.children ?? [])
+        .map((child) => child.value ?? '')
+        .join('')
+        .trim();
+      if (!text) continue;
+      node.properties = { ...node.properties, id: headingId(text) };
+    }
+  };
+}
 
 /**
  * Server-side Markdown → HTML pipeline for docs content.
@@ -41,6 +69,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype)
+    .use(rehypeHeadingIds)
     .use(rehypeShikiFromHighlighter, highlighter, {
       themes: { light: monoLightTheme, dark: monoDarkTheme },
       defaultColor: false,
