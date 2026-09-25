@@ -21,15 +21,16 @@ export function DocsShell({
   html: string;
 }) {
   return (
-    <main className="mono-doc min-h-dvh bg-kumo-base text-kumo-default">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
+    <main className="mono-doc mono-index min-h-dvh bg-kumo-base text-kumo-default">
+      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-dashed border-kumo-line bg-kumo-base px-6 py-3">
         <div className="flex min-w-0 items-center gap-2">
           <img src="/logo-solid.svg" alt="" className="size-6 shrink-0" />
-          <span className="font-mono text-sm font-bold">mono docs</span>
+          <span className="font-serif text-lg">mono</span>
+          <span className="font-mono text-2xs text-kumo-subtle">docs</span>
         </div>
         <Link
           href="/"
-          className="rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+          className="rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
         >
           Showroom
         </Link>
@@ -38,17 +39,20 @@ export function DocsShell({
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10 lg:flex-row">
         <nav aria-label="Docs" className="lg:sticky lg:top-20 lg:w-52 lg:shrink-0 lg:self-start">
           <ul className="grid gap-1">
-            {docs.map((entry) => (
+            {docs.map((entry, i) => (
               <li key={entry.slug}>
                 <Link
                   href={entry.href}
                   aria-current={entry.slug === doc.slug ? 'page' : undefined}
                   className={
                     entry.slug === doc.slug
-                      ? 'block rounded-md px-2 py-1 text-sm text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                      : 'block rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      ? 'flex items-baseline gap-2 rounded-md px-2 py-1 text-xs no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-xs no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
                   }
                 >
+                  <span className="font-mono text-2xs leading-none text-kumo-subtle">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                   {entry.title}
                 </Link>
               </li>
@@ -65,7 +69,7 @@ export function DocsShell({
             {previous ? (
               <Link
                 href={previous.href}
-                className="rounded-md px-2 py-1 text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
               >
                 ← {previous.title}
               </Link>
@@ -75,7 +79,7 @@ export function DocsShell({
             {next ? (
               <Link
                 href={next.href}
-                className="rounded-md px-2 py-1 text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
               >
                 {next.title} →
               </Link>

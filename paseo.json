@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "showroom": {
+      "type": "service",
+      "command": "pnpm --filter app exec next dev --port 3210",
+      "port": 3210
+    }
+  }
+}

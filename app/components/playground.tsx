@@ -214,6 +214,8 @@ export function Playground({
   }, []);
 
   const title = GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ?? slug;
+  const groupIndex = GROUPS.findIndex((group) => group.items.some(([id]) => id === slug));
+  const groupTitle = groupIndex >= 0 ? GROUPS[groupIndex].title : '';
 
   const entry = DEMOS[slug];
 
@@ -230,104 +232,138 @@ export function Playground({
   return (
     <TooltipProvider>
       <ToastProvider>
-        <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
-          <Sidebar>
-            <Sidebar.Header>
-              <div className="flex min-w-0 items-center gap-2">
-                <img src="/logo-solid.svg" alt="" className="size-6 shrink-0" />
-                <h1 className="text-xl font-bold text-kumo-default">mono</h1>
-              </div>
-            </Sidebar.Header>
-            <Sidebar.Content>
-              {GROUPS.map((group) => (
-                <Sidebar.Group key={group.title}>
-                  <Sidebar.GroupLabel>{group.title}</Sidebar.GroupLabel>
-                  <Sidebar.Menu>
-                    {group.items.map(([id, label, Icon]) => (
-                      <Sidebar.MenuItem key={id}>
-                        <Sidebar.MenuButton
-                          active={id === slug}
-                          icon={Icon}
-                          className={
-                            id === slug ? undefined : 'text-kumo-subtle hover:text-kumo-default'
-                          }
-                          onClick={() => {
-                            setSlug(id);
-                            window.location.hash = id;
-                          }}
-                        >
-                          {label}
-                        </Sidebar.MenuButton>
-                      </Sidebar.MenuItem>
-                    ))}
-                  </Sidebar.Menu>
-                </Sidebar.Group>
-              ))}
-            </Sidebar.Content>
-            <Sidebar.Footer>
-              <Sidebar.Trigger />
-            </Sidebar.Footer>
-          </Sidebar>
-          <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
-            <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
-              <Sidebar.Trigger />
-              <div className="flex items-center gap-2">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setSearchOpen(true)}
-                  aria-keyshortcuts="Meta+K Control+K"
-                >
-                  <HugeiconsIcon icon={MagnifyingGlassIcon} className="size-4" />
-                  Search
-                  <span className="hidden text-xs text-kumo-subtle sm:inline">⌘K</span>
-                </Button>
-                <Link
-                  href="/docs"
-                  className="rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
-                >
-                  Docs
-                </Link>
-                <ThemeToggle />
-              </div>
-            </header>
-            <main className="flex-1 overflow-y-auto px-8 py-8">
-              <div className="grid max-w-3xl gap-6">
-                <div className="grid gap-1.5">
-                  <h2 className="text-3xl font-bold tracking-tight text-kumo-default">{title}</h2>
-                  <p className="text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
-                  {entry ? (
-                    <p className="text-sm leading-6 text-kumo-default">{entry.notes}</p>
-                  ) : null}
-                </div>
-                <div className="rounded-lg bg-kumo-base p-6 ring ring-kumo-line">
-                  {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
-                </div>
-                {entry ? (
-                  <div className="grid gap-4">
-                    <ClipboardText
-                      text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
-                    />
-                    <Code.Block
-                      html={highlighted[slug]}
-                      code={sources[slug] ?? ''}
-                      lang="tsx"
-                      title={`${slug}.tsx`}
-                    />
+        <div className="mono-index">
+          <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
+            <Sidebar>
+              <Sidebar.Header className="h-auto flex-col items-stretch">
+                <div className="flex min-w-0 flex-col gap-1.5 py-4">
+                  <div className="flex min-w-0 items-center gap-2">
+                    <img src="/logo-solid.svg" alt="" className="size-6 shrink-0" />
+                    <h1 className="font-serif text-lg text-kumo-default">mono</h1>
                   </div>
-                ) : null}
-                <PropsTable docs={props[slug] ?? []} />
-              </div>
-            </main>
-          </div>
-          <ComponentSearch
-            open={searchOpen}
-            onOpenChange={setSearchOpen}
-            items={searchItems}
-            onSelect={selectComponent}
-          />
-        </Sidebar.Provider>
+                  <p className="text-xs leading-snug whitespace-normal text-kumo-subtle">
+                    Source-first shadcn registry — Base UI + Hugeicons.
+                  </p>
+                </div>
+              </Sidebar.Header>
+              <Sidebar.Content>
+                {GROUPS.map((group, gi) => (
+                  <Sidebar.Group key={group.title}>
+                    <div className="flex items-baseline gap-2 px-3 pt-5 pb-1">
+                      <span className="font-mono text-2xs leading-none text-kumo-subtle">
+                        {String(gi + 1).padStart(2, '0')}
+                      </span>
+                      <span className="text-xs font-medium text-kumo-default">{group.title}</span>
+                    </div>
+                    <Sidebar.Menu>
+                      {group.items.map(([id, label, Icon]) => (
+                        <Sidebar.MenuItem key={id}>
+                          <Sidebar.MenuButton
+                            active={id === slug}
+                            icon={Icon}
+                            size="sm"
+                            className={
+                              id === slug ? undefined : 'text-kumo-subtle hover:text-kumo-default'
+                            }
+                            onClick={() => {
+                              setSlug(id);
+                              window.location.hash = id;
+                            }}
+                          >
+                            {label}
+                          </Sidebar.MenuButton>
+                        </Sidebar.MenuItem>
+                      ))}
+                    </Sidebar.Menu>
+                  </Sidebar.Group>
+                ))}
+              </Sidebar.Content>
+              <Sidebar.Footer>
+                <Sidebar.Trigger />
+              </Sidebar.Footer>
+            </Sidebar>
+            <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
+              <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
+                <div className="flex min-w-0 items-center gap-3">
+                  <Sidebar.Trigger />
+                  <span className="font-mono text-2xs text-kumo-subtle">
+                    {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')}/{slug}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => setSearchOpen(true)}
+                    aria-keyshortcuts="Meta+K Control+K"
+                  >
+                    <HugeiconsIcon icon={MagnifyingGlassIcon} className="size-4" />
+                    Search
+                    <kbd className="hidden rounded-sm bg-kumo-fill px-1 py-0.5 font-mono text-2xs leading-none text-kumo-subtle sm:inline-flex">
+                      ⌘K
+                    </kbd>
+                  </Button>
+                  <Link
+                    href="/docs"
+                    className="rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                  >
+                    Docs
+                  </Link>
+                  <ThemeToggle />
+                </div>
+              </header>
+              <main className="flex-1 overflow-y-auto px-8 py-8">
+                <div className="mx-auto grid max-w-3xl gap-6">
+                  <div className="grid gap-1.5">
+                    <p className="font-mono text-2xs uppercase tracking-widest text-kumo-subtle">
+                      {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')} — {groupTitle}
+                    </p>
+                    <h2 className="font-heading text-xl tracking-tight text-kumo-default">
+                      {title}
+                    </h2>
+                    <p className="text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
+                    {entry ? (
+                      <p className="text-sm leading-6 text-kumo-default">{entry.notes}</p>
+                    ) : null}
+                  </div>
+                  <div className="rounded-xl bg-kumo-base p-6 ring ring-kumo-line">
+                    {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
+                  </div>
+                  {entry ? (
+                    <div className="grid gap-4">
+                      <ClipboardText
+                        text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
+                      />
+                      <Code.Block
+                        html={highlighted[slug]}
+                        code={sources[slug] ?? ''}
+                        lang="tsx"
+                        title={`${slug}.tsx`}
+                      />
+                    </div>
+                  ) : null}
+                  <PropsTable docs={props[slug] ?? []} />
+                </div>
+                <footer className="mx-auto mt-16 flex w-full max-w-3xl items-center justify-between border-t border-dashed border-kumo-line pt-4 pb-2 font-mono text-2xs text-kumo-subtle">
+                  <span>mono — @therealtinhtute/design</span>
+                  <div className="flex items-center gap-4">
+                    <Link href="/docs" className="transition-colors hover:text-kumo-default">
+                      docs
+                    </Link>
+                    <span>© 2026</span>
+                  </div>
+                </footer>
+              </main>
+            </div>
+            <ComponentSearch
+              open={searchOpen}
+              onOpenChange={setSearchOpen}
+              items={searchItems}
+              onSelect={selectComponent}
+            />
+          </Sidebar.Provider>
+        </div>
       </ToastProvider>
     </TooltipProvider>
   );

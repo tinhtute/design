@@ -11,8 +11,9 @@
 
 .mono-doc h1 {
   margin: 0 0 1.5rem;
-  font-size: 1.875rem;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 400;
   letter-spacing: -0.02em;
   color: var(--text-color-kumo-default);
 }
@@ -60,6 +61,12 @@
   color: var(--text-color-kumo-link);
   text-decoration: underline;
   text-underline-offset: 2px;
+}
+
+/* Chrome links (topic nav, prev/next, header) never take the prose underline. */
+.mono-doc nav a,
+.mono-doc header a {
+  text-decoration: none;
 }
 
 .mono-doc a:focus-visible {
