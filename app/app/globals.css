@@ -11,3 +11,15 @@ html {
 html[data-mode='dark'] {
   color-scheme: dark;
 }
+
+/* designeer.xyz-inspired chrome: flat white canvas + dashed hairlines.
+   Light mode only — dark keeps the kumo base surface. */
+html:not([data-mode='dark']) .mono-index {
+  --background: oklch(1 0 0);
+}
+
+.mono-index [data-sidebar='sidebar'],
+.mono-index [data-sidebar='header'],
+.mono-index [data-sidebar='footer'] {
+  border-style: dashed;
+}
