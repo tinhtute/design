@@ -3,11 +3,11 @@ id: plan-codeblock-theme-picker-20260930
 intake_id: intake-codeblock-theme-picker-20260930
 slug: codeblock-theme-picker
 title: End-User Code Theme Picker — Multi-Theme CodeBlock via CSS Variables
-status: active
+status: completed
 lane: normal
 input_type: change-request
 created: 2026-09-30
-updated: 2026-10-01
+updated: 2026-10-02
 ---
 
 # End-User Code Theme Picker — Multi-Theme CodeBlock via CSS Variables
@@ -177,7 +177,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-theme-capability-20261001`
 - **Slug**: `theme-capability`
-- **Status**: checked
+- **Status**: done
 - **Goal**: R1, R2, R3, R5 — four-theme output, HC theme authoring, CSS switching
   capability, registry payload integrity.
 - **Dependencies**: none
@@ -217,7 +217,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-showroom-picker-20261001`
 - **Slug**: `showroom-picker`
-- **Status**: checked
+- **Status**: done
 - **Goal**: R4, R6 — end-user picker in the showroom header, `data-code-theme` +
   `localStorage['code-theme']`, restore before hydration without flash/mismatch.
 - **Dependencies**: phase 1 (variables must exist before CSS can switch them)
@@ -248,7 +248,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-theme-picker-gates-20261001`
 - **Slug**: `theme-picker-gates`
-- **Status**: checked
+- **Status**: done
 - **Goal**: R7 end-to-end proof; feature branch + PR (AGENTS.md git rule); move plan to
   `docs/plans/completed/`.
 - **Dependencies**: phases 1–2
@@ -270,15 +270,14 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 
 ## Current State and Next Action
 
-- active_phase: none — all phases checked
-- lifecycle_status: checked (phase theme-picker-gates — independent `check full` APPROVED)
+- active_phase: none — initiative complete
+- lifecycle_status: done
 - planning_status: planned
-- latest_progress: 2026-10-02T05:30Z fix-review-findings done — markdown.ts 4 themes, toggle whitelist+guards; advisor re-review APPROVED
+- latest_progress: 2026-10-02T05:45Z closing handoff — all 3 phases done; final check full APPROVED (independent swe-2-high); branch pushed, PR #12 open
 - latest_validation: 2026-10-02T05:30Z APPROVED (mode: full, judge: independent swe-2-high, phase theme-picker-gates)
 - blockers: none
-- open_items: none — initiative ready for closing `handoff` (move plan to completed/, final report)
-- exact_next_action: closing `handoff` — plan → docs/plans/completed/, PR
-  https://github.com/therealtinhtute/design/pull/12 awaits owner review
+- open_items: none — PR https://github.com/therealtinhtute/design/pull/12 awaits owner review/merge (outside initiative scope)
+- exact_next_action: none — plan archived to docs/plans/completed/; next initiative starts a new plan
 
 ## Progress
 
