@@ -217,7 +217,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-showroom-picker-20261001`
 - **Slug**: `showroom-picker`
-- **Status**: planned
+- **Status**: checked
 - **Goal**: R4, R6 — end-user picker in the showroom header, `data-code-theme` +
   `localStorage['code-theme']`, restore before hydration without flash/mismatch.
 - **Dependencies**: phase 1 (variables must exist before CSS can switch them)
@@ -270,15 +270,15 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 
 ## Current State and Next Action
 
-- active_phase: none — phase theme-capability checked
-- lifecycle_status: checked (phase theme-capability)
+- active_phase: none — phase showroom-picker checked
+- lifecycle_status: checked (phase showroom-picker)
 - planning_status: planned
-- latest_progress: 2026-10-02T03:57Z wave-2 summary — all gates green, SSR probe emits 4 shiki vars per token
-- latest_validation: 2026-10-02T03:57Z APPROVED (mode: gate, judge: same-session, phase theme-capability)
+- latest_progress: 2026-10-02T04:36Z wave-2 summary — picker live, a11y 113/113, prod probes clean
+- latest_validation: 2026-10-02T04:36Z APPROVED (mode: gate, judge: same-session, phase showroom-picker)
 - blockers: none
 - open_items: none
-- exact_next_action: work full — next phase `showroom-picker`
-  (`story-showroom-picker-20261001`)
+- exact_next_action: work full — final phase `theme-picker-gates`
+  (`story-theme-picker-gates-20261001`)
 
 ## Progress
 
@@ -290,10 +290,18 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T03:56Z | phase: theme-capability | wave: 2 | task: T1.4 | task_status: done | summary: Byte-copied code-themes.ts / code.tsx / code.css to `app/components/ui/`; `cmp` exit 0 on all three (R5 parity). | surfaces: app/components/ui/{code-themes.ts,code.tsx,code.css}
 - 2026-10-02T03:57Z | phase: theme-capability | wave: 2 | task: T1.5 | task_status: done | summary: `app/lib/highlight.ts`: `MONO_THEMES` map + singleton loads all four themes; `codeToHtml` passes all four; docblocks updated (prettier re-wrapped one import). | surfaces: app/lib/highlight.ts
 - 2026-10-02T03:57Z | phase: theme-capability | wave: 2 | task: wave-summary | task_status: done | summary: Wave 2 complete — app mirrors identical; server singleton emits all four variables. Verification: `validate` OK (55 items — catalog grew to 55 via parallel metric-dashboard/stat-card WIP; `code` item unchanged, this initiative adds no item), `validate:build` OK (54 built), `shadcn build` OK, typecheck OK, lint OK, SSR probe OK (see Validation). | surfaces: packages/registry/public/r/ (gitignored build output)
+- 2026-10-02T03:59Z | phase: showroom-picker | wave: 1 | task: phase-start | task_status: in-progress | summary: Run anchor; phase set in-progress per work-full step 3. | surfaces: docs/plans/active/codeblock-theme-picker.md
+- 2026-10-02T04:36Z | phase: showroom-picker | wave: 1 | task: T2.1 | task_status: done | summary: Read `node_modules/next/dist/docs/01-app/02-guides/preventing-flash-before-hydration.md` + `03-api-reference/02-components/script.md` (Next 16.3.4). Restore implemented via `<Script id="mono-code-theme" strategy="beforeInteractive">` in RootLayout — whitelists `hc`. Raw `<script>` in `<head>` first attempt produced React script-tag console error; `next/script` emits it via the streaming SSR payload and executes during parse — probe shows `data-code-theme="hc"` already set at DOMContentLoaded, zero console output. | surfaces: app/app/layout.tsx
+- 2026-10-02T04:36Z | phase: showroom-picker | wave: 1 | task: T2.2 | task_status: done | summary: New `app/components/code-theme-toggle.tsx` — design-system `Select` (items {default, hc}, `size="sm"`, `aria-label="Code theme"`); `useState('default')` matches SSR, `useLayoutEffect` reads `localStorage['code-theme']` and syncs pre-paint + re-applies the attribute after dev StrictMode remounts. First iteration (lazy `useState` initializer reading localStorage) caused a hydration text mismatch on the Select value — fixed to SSR-matching init + layout-effect sync per the same guide. | surfaces: app/components/code-theme-toggle.tsx
+- 2026-10-02T04:36Z | phase: showroom-picker | wave: 2 | task: T2.3 | task_status: done | summary: `CodeThemeToggle` rendered next to `ThemeToggle` in the playground header; import added. Pre-existing metric-dashboard/stat-card WIP hunks in playground.tsx untouched. | surfaces: app/components/playground.tsx
+- 2026-10-02T04:36Z | phase: showroom-picker | wave: 2 | task: wave-summary | task_status: done | summary: Wave complete. Gates: typecheck OK, lint OK (removed an `eslint-disable` for a nonexistent `react-hooks/exhaustive-deps` rule). `pnpm --filter app a11y` against `next start :3211`: 113 scans, 0 failing (picker present in header on every scan). Probes: chromatic token `Button` — light #9810FA→#7D04D3, dark #D199FF→#BD6CFF on attr toggle (CSS-only, zero JS re-highlight); `data-code-theme` set by DOMContentLoaded on reload with stored `hc`; clearing restores default; zero console errors on production build (dev-mode hydration warning observed once on dev server was probe self-inflicted DOM manipulation; prod is clean). | surfaces: app/components/playground.tsx, app/app/layout.tsx
 
 ## Decisions
 
 - 2026-10-02T03:57Z | phase: theme-capability | task: wave-2-verify | type: environment | summary: Registry catalog is now 55 items, not the 53 R5 cites — parallel metric-dashboard/stat-card WIP (pre-existing uncommitted changes on main) added two items. This initiative added none; `code` item file list/dependencies unchanged; requirement intent (no catalog mutation by this work) holds.
+- 2026-10-02T04:36Z | phase: showroom-picker | task: T2.1 | type: tooling | summary: Plan said "inline pre-hydration script"; implemented with `next/script` `strategy="beforeInteractive"` per `node_modules/next/dist/docs/.../script.md` — raw `<script>` in the layout produced a React script-tag console error, breaking R4's zero-console-errors bar. Verified at DOMContentLoaded the attribute is already set (pre-paint).
+- 2026-10-02T04:36Z | phase: showroom-picker | task: T2.2 | type: bugfix | summary: Lazy `useState(() => localStorage…)` initializer caused a hydration text mismatch on the Select label (SSR 'Default' vs client 'High contrast'). Fixed to SSR-matching `'default'` init + `useLayoutEffect` pre-paint sync — the doc-sanctioned pattern for client-owned preferences.
+- 2026-10-02T04:36Z | phase: showroom-picker | task: a11y-run | type: tooling-substitution | summary: Cold `next dev` exceeded the script's 60s navigation timeout; ran the sweep against `pnpm build && next start :3211` with `A11Y_BASE_URL` — same path CI uses per PROJECT.md.
 - absorb: none
 
 ## Validation
@@ -321,3 +329,25 @@ APPROVED
 - not_independently_verified: no independent reviewer examined the diff; hc CSS selector precedence verified by specificity/order analysis, not a live rendered-pixel check; visual appearance of the two new themes not yet probed in a browser (Phase 3 proof matrix covers it)
 - receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,app/components/ui/,packages/registry/src/components/ui/,app/lib/highlight.ts / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-high / retries=0 / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: `app` has no unit-test harness (pre-existing repo state, same as prior initiatives); live theme-switch rendering is Phase 2/3 scope, not provable in this phase's diff
+
+APPROVED
+
+- phase: showroom-picker
+- scope: on target — diff touches `app/app/layout.tsx`, new
+  `app/components/code-theme-toggle.tsx`, `app/components/playground.tsx`
+  (import + one line); neighboring uncommitted WIP hunks preserved.
+- depth: standard (client preference wiring + SSR restore; no shipped
+  component API change)
+- proof:
+  - `pnpm --filter app typecheck` -> pass
+  - `pnpm lint` -> pass
+  - `pnpm --filter app build` -> pass (static prerender retained)
+  - `A11Y_BASE_URL=http://localhost:3211 pnpm --filter app a11y` -> pass: 113 scans, 0 failing (light + dark + palette), picker present on every scan
+  - Browser probe on `next start :3211` (playwright-core headless, ephemeral /tmp scripts): `data-code-theme='hc'` recolors chromatic token — computed color #9810FA -> #7D04D3 in light, #D199FF -> #BD6CFF in dark; reload with stored `hc` shows attribute already set at DOMContentLoaded (pre-paint); clearing the key restores default; zero console errors/warnings on the production build
+- review: APPROVED
+- judge: same-session
+- judge_model: swe-2-high
+- blockers: 0 critical, 0 major
+- not_independently_verified: no independent reviewer; "no flash before paint" is inferred from the attribute being set by DOMContentLoaded (pre-hydration script executes during parse) — intermediate paint frames were not captured; keyboard interaction with the picker was verified via axe + Base UI semantics, not manual key walkthrough
+- receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,app/app/layout.tsx,app/components/code-theme-toggle.tsx,app/components/playground.tsx / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-high / retries=1 (lint eslint-disable fix; probe iteration) / rollback_point=commit c0f5c09 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
+- proof_gaps: none material — a11y + typecheck + lint + build + live DOM probe all captured; unit tests absent in repo (pre-existing state)
