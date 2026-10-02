@@ -20,25 +20,37 @@ const CODE_THEMES = { default: 'Default', hc: 'High contrast' } as const;
 export function CodeThemeToggle() {
   const [theme, setTheme] = useState('default');
 
-  // Sync the persisted choice before paint and re-apply the attribute
-  // after React clears <html> attributes on the dev remount.
+  // Sync the persisted choice before paint. Whitelists 'hc' exactly,
+  // matching the beforeInteractive restore script in layout.tsx —
+  // a corrupt stored value falls back to the default instead of
+  // writing a stray attribute or an unknown Select value.
   useLayoutEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored && stored !== 'default') {
-      document.documentElement.setAttribute(THEME_ATTR, stored);
-      setTheme(stored);
+    try {
+      if (localStorage.getItem(STORAGE_KEY) === 'hc') {
+        document.documentElement.setAttribute(THEME_ATTR, 'hc');
+        setTheme('hc');
+      }
+    } catch {
+      // storage unavailable (private mode / blocked) — keep default
     }
   }, []);
 
   function handleChange(value: unknown) {
-    const next = String(value);
+    const next = String(value) === 'hc' ? 'hc' : 'default';
     setTheme(next);
     if (next === 'default') {
       document.documentElement.removeAttribute(THEME_ATTR);
-      localStorage.removeItem(STORAGE_KEY);
     } else {
       document.documentElement.setAttribute(THEME_ATTR, next);
-      localStorage.setItem(STORAGE_KEY, next);
+    }
+    try {
+      if (next === 'default') {
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        localStorage.setItem(STORAGE_KEY, next);
+      }
+    } catch {
+      // attribute already applied; persistence is best-effort
     }
   }
 

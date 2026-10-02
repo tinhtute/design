@@ -276,11 +276,10 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - latest_progress: 2026-10-02T04:46Z T3.1+T3.2 done — all gates green, e2e green on isolated diff, proof matrix captured
 - latest_validation: 2026-10-02T04:46Z APPROVED (mode: gate, judge: same-session, phase theme-picker-gates)
 - blockers: none
-- open_items: independent `check full` review owed before `handoff` closes the
-  initiative (final-phase rule — phase stays in-progress until then)
-- exact_next_action: `check full` (independent review) on
-  feat/codeblock-theme-picker → PR https://github.com/therealtinhtute/design/pull/12 →
-  closing `handoff`
+- open_items: `check full` REQUEST_CHANGES — fix major (markdown.ts 4 themes) +
+  2 minors (whitelist, storage guards), re-probe docs pages, advisor re-review
+- exact_next_action: work — fix `check full` findings (markdown.ts themes map,
+  code-theme-toggle whitelist + try/catch), re-verify, advisor re-review
 
 ## Progress
 
@@ -301,6 +300,8 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T04:45Z | phase: theme-picker-gates | wave: 1 | task: T3.1 | task_status: done | summary: Full gates green: `validate` (55 items — sibling WIP), `validate:build`, `typecheck`, `lint`, `pnpm -r build`. e2e first run failed at the hardcoded 53-name exact-set assert (`extra: metric-dashboard, stat-card` — sibling uncommitted WIP, not this diff); stashed only the sibling paths, reran: **e2e-smoke all checks passed** (53-item consumer install incl. `code` + shiki deps, vite build, theme-token CSS asserts, SSR render-check); stash popped clean afterward. | surfaces: none (proof-only)
 - 2026-10-02T04:46Z | phase: theme-picker-gates | wave: 1 | task: T3.2 | task_status: done | summary: Proof matrix on `next start :3212`: computed color of a chromatic `type` token across {light,dark}×{default,hc} = #9810FA→#7D04D3 (light hc), #BD6CFF→#D199FF (dark hc); block screenshots /tmp/proof-{light,dark}-{default,hc}.png show correct surfaces, line numbers, header; SSR emitted 4 `--shiki-*` vars per span (5365 spans); zero console errors on prod. | surfaces: none (proof-only)
 - 2026-10-02T04:50Z | phase: theme-picker-gates | wave: 1 | task: T3.3 | task_status: done | summary: Full diff reviewed (4 commits on feat/codeblock-theme-picker; sibling WIP excluded via surgical staging). Pushed branch; PR opened: https://github.com/therealtinhtute/design/pull/12. Plan stays active — closing `check full` (independent judge) + `handoff` own the final `done` transition. | surfaces: git branch/PR
+- 2026-10-02T05:10Z | phase: theme-picker-gates | wave: 2 | task: check-full | task_status: done | summary: Independent `check full` via paseo advisor (deepseek-v4-1-flash-max, agent 4937372b) returned REQUEST_CHANGES: 1 major (markdown.ts emits only 2 themes — docs `.shiki` spans go monochrome under hc; falsifies R1), 2 minors (unwhitelisted stored value, unguarded localStorage), 2 nits. Findings spot-verified true in this session before accepting. Routed back to work per check.md step 10. | surfaces: none (review)
+- 2026-10-02T05:15Z | phase: theme-picker-gates | wave: 2 | task: fix-review-findings | task_status: in-progress | summary: Fixing: markdown.ts emits all 4 themes (resolves R1 falsification); code-theme-toggle whitelists 'hc' in the restore effect (matches layout script) + try/catch storage access; comment corrected. Nit #5 (cross-tab sync) accepted as out of scope — mount-only restore documented. | surfaces: app/lib/markdown.ts, app/components/code-theme-toggle.tsx
 
 ## Decisions
 
@@ -308,6 +309,7 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T04:36Z | phase: showroom-picker | task: T2.1 | type: tooling | summary: Plan said "inline pre-hydration script"; implemented with `next/script` `strategy="beforeInteractive"` per `node_modules/next/dist/docs/.../script.md` — raw `<script>` in the layout produced a React script-tag console error, breaking R4's zero-console-errors bar. Verified at DOMContentLoaded the attribute is already set (pre-paint).
 - 2026-10-02T04:36Z | phase: showroom-picker | task: T2.2 | type: bugfix | summary: Lazy `useState(() => localStorage…)` initializer caused a hydration text mismatch on the Select label (SSR 'Default' vs client 'High contrast'). Fixed to SSR-matching `'default'` init + `useLayoutEffect` pre-paint sync — the doc-sanctioned pattern for client-owned preferences.
 - 2026-10-02T04:36Z | phase: showroom-picker | task: a11y-run | type: tooling-substitution | summary: Cold `next dev` exceeded the script's 60s navigation timeout; ran the sweep against `pnpm build && next start :3211` with `A11Y_BASE_URL` — same path CI uses per PROJECT.md.
+- 2026-10-02T05:12Z | phase: theme-picker-gates | task: fix-review-findings | type: scope | summary: Non-goal "no markdown/MDX pipeline changes" reconciled: it means no _structural_ pipeline changes (plugins/transformers/files/deps unchanged). R1 requires every Shiki emission site to emit all 4 theme vars — `app/lib/markdown.ts`'s `themes` map is one of those sites, so extending it is in-scope and mandatory (independent review confirmed docs blocks degrade to monochrome under `hc` otherwise).
 - absorb: none
 
 ## Validation
@@ -380,3 +382,32 @@ APPROVED
 - not_independently_verified: final phase — independent `check full` review still owed before handoff per workflow; registry e2e catalog assert will fail in any environment containing the sibling WIP until that work lands separately
 - receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,git diff main...HEAD,/tmp/e2e-out2.log / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-high / retries=1 (e2e rerun after WIP isolation) / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: none material — all gate classes captured including e2e on the isolated diff
+
+REQUEST_CHANGES
+
+- phase: theme-picker-gates
+- scope: on target — `check full` on `git diff main...feat/codeblock-theme-picker`
+  plus plan/code alignment (R1-R7, non-goals)
+- depth: standard
+- proof:
+  - `pnpm --filter @therealtinhtute/registry validate` -> pass (55 items incl. sibling WIP)
+  - `pnpm --filter @therealtinhtute/registry validate:build` -> pass
+  - `pnpm --filter app typecheck` -> pass
+  - `pnpm lint` -> pass
+  - `pnpm -r build` -> pass
+  - `pnpm --filter @therealtinhtute/registry e2e` -> pass on isolated diff (sibling WIP stashed)
+  - `cmp` registry vs app for code.tsx/code-themes.ts/code.css -> identical
+  - Independent review of full diff + plan by paseo advisor agent 4937372b (model deepseek-v4-1-flash-max)
+- review: REQUEST_CHANGES
+- judge: independent
+- judge_model: deepseek-v4-1-flash-max (paseo agent 4937372b-66b1-4383-91c7-a49e8b7f36c6)
+- blockers: 0 critical, 1 major
+- not_independently_verified: advisor is an independent agent; its findings were individually spot-verified by this session before accepting
+- receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,git diff main...feat/codeblock-theme-picker,app/lib/markdown.ts,app/components/ui/code.css / policy=docs/playbooks/check.md / judge=independent / judge_model=deepseek-v4-1-flash-max / retries=0 / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=n/a (independent judge)
+- proof_gaps: none — verdict rests on independent review plus re-captured gates
+- findings:
+  - major: `app/lib/markdown.ts` still emits 2 themes; under `data-code-theme='hc'` every docs-page `.shiki` span resolves `var(--shiki-light-hc)` which is undefined -> inherits -> docs code blocks lose ALL syntax coloring (worse than default); falsifies R1
+  - minor: `useLayoutEffect` applies any non-'default' stored value unwhitelisted (corrupt storage -> stray attribute + unknown Select value)
+  - minor: unguarded `localStorage` in effect/handler (storage-blocked contexts throw; same flaw as ThemeToggle — house convention)
+  - nit: effect comment misdescribes the dev remount mechanism
+  - nit: mount-only persistence (no cross-tab storage sync) — accepted scope
