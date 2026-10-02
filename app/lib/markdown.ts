@@ -10,7 +10,12 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
-import { monoDarkTheme, monoLightTheme } from '@/components/ui/code-themes';
+import {
+  monoDarkHcTheme,
+  monoDarkTheme,
+  monoLightHcTheme,
+  monoLightTheme,
+} from '@/components/ui/code-themes';
 import { headingId } from './docs';
 import { getHighlighter } from './highlight';
 
@@ -44,9 +49,10 @@ function rehypeHeadingIds() {
 /**
  * Server-side Markdown → HTML pipeline for docs content.
  *
- * `remark-parse` → `remark-rehype` → Shiki (mono dual themes via the
+ * `remark-parse` → `remark-rehype` → Shiki (four mono themes via the
  * shared highlighter singleton, `defaultColor: false` so `code.css`
- * drives token colors) → `rehype-stringify`.
+ * drives token colors — including `data-code-theme='hc'` variants) →
+ * `rehype-stringify`.
  *
  * Features:
  * - Fenced code blocks with the docs annotation transformers:
@@ -71,7 +77,12 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(remarkRehype)
     .use(rehypeHeadingIds)
     .use(rehypeShikiFromHighlighter, highlighter, {
-      themes: { light: monoLightTheme, dark: monoDarkTheme },
+      themes: {
+        light: monoLightTheme,
+        dark: monoDarkTheme,
+        'light-hc': monoLightHcTheme,
+        'dark-hc': monoDarkHcTheme,
+      },
       defaultColor: false,
       inline: 'tailing-curly-colon',
       transformers: [

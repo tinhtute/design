@@ -21,6 +21,24 @@ html[data-mode='dark'] .shiki span,
   color: var(--shiki-dark);
 }
 
+/* High-contrast theme — selected with `data-code-theme="hc"` on <html>
+   (e.g. by a docs-site picker). Every token also carries
+   `--shiki-light-hc` / `--shiki-dark-hc`; without the attribute the
+   default mono-light / mono-dark mapping above applies unchanged. */
+html[data-code-theme='hc'] .shiki,
+html[data-code-theme='hc'] .shiki span {
+  color: var(--shiki-light-hc);
+}
+
+html[data-code-theme='hc'][data-mode='dark'] .shiki,
+html[data-code-theme='hc'][data-mode='dark'] .shiki span,
+html[data-code-theme='hc'].dark .shiki,
+html[data-code-theme='hc'].dark .shiki span,
+html[data-code-theme='hc'] .dark .shiki,
+html[data-code-theme='hc'] .dark .shiki span {
+  color: var(--shiki-dark-hc);
+}
+
 /* Container styling for server-rendered Shiki HTML inside the
    CodeBlock component (client mode renders the same markup). */
 .mono-codeblock .shiki {

@@ -63,6 +63,7 @@ import { ToastProvider } from '@/components/ui/toasty';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 import { ThemeToggle } from '@/components/theme-toggle';
+import { CodeThemeToggle } from '@/components/code-theme-toggle';
 import { PropsTable } from '@/components/props-table';
 import { DEMOS } from '@/demos';
 import type { PropsBySlug } from '@/lib/props';
@@ -311,6 +312,7 @@ export function Playground({
                     Docs
                   </Link>
                   <ThemeToggle />
+                  <CodeThemeToggle />
                 </div>
               </header>
               <main className="flex-1 overflow-y-auto px-8 py-8">
