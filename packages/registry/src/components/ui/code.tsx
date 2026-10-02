@@ -10,7 +10,7 @@ import { Tick02Icon as CheckIcon, Copy01Icon as CopyIcon } from '@hugeicons/core
 import type { HighlighterCore, LanguageRegistration } from 'shiki/core';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
-import { monoDarkTheme, monoLightTheme } from './code-themes';
+import { monoDarkHcTheme, monoDarkTheme, monoLightHcTheme, monoLightTheme } from './code-themes';
 
 /** Code language variant definitions. */
 export const KUMO_CODE_VARIANTS = {
@@ -249,8 +249,13 @@ const LANG_LOADERS: Record<string, LangLoader> = {
   mdx: () => import('@shikijs/langs/mdx'),
 };
 
-/** Dual-theme rendering with CSS-variable colors only (no inline color). */
-const DUAL_THEMES = { light: monoLightTheme, dark: monoDarkTheme } as const;
+/** Multi-theme rendering with CSS-variable colors only (no inline color). */
+const CODE_THEMES = {
+  light: monoLightTheme,
+  dark: monoDarkTheme,
+  'light-hc': monoLightHcTheme,
+  'dark-hc': monoDarkHcTheme,
+} as const;
 
 let highlighterPromise: Promise<HighlighterCore> | null = null;
 
@@ -269,7 +274,7 @@ function getHighlighter(): Promise<HighlighterCore> {
       await Promise.all(CLIENT_LANGS.map((id) => LANG_LOADERS[id]().then((m) => m.default)))
     ).flat();
     return createHighlighterCore({
-      themes: [monoLightTheme, monoDarkTheme],
+      themes: [monoLightTheme, monoDarkTheme, monoLightHcTheme, monoDarkHcTheme],
       langs,
       engine: createJavaScriptRegexEngine(),
     });
@@ -277,7 +282,7 @@ function getHighlighter(): Promise<HighlighterCore> {
   return highlighterPromise;
 }
 
-/** Highlight `code` with the mono dual themes; unknown langs → plain text. */
+/** Highlight `code` with the mono themes; unknown langs → plain text. */
 async function highlightCode(code: string, lang: string): Promise<string> {
   const highlighter = await getHighlighter();
   const canonical = LANG_ALIASES[lang] ?? lang;
@@ -287,7 +292,7 @@ async function highlightCode(code: string, lang: string): Promise<string> {
       // `text` is a built-in grammar of the core — no loader needed.
       return highlighter.codeToHtml(code, {
         lang: 'text',
-        themes: DUAL_THEMES,
+        themes: CODE_THEMES,
         defaultColor: false,
       });
     }
@@ -295,7 +300,7 @@ async function highlightCode(code: string, lang: string): Promise<string> {
   }
   return highlighter.codeToHtml(code, {
     lang: canonical,
-    themes: DUAL_THEMES,
+    themes: CODE_THEMES,
     defaultColor: false,
   });
 }
@@ -396,7 +401,8 @@ export interface CodeBlockProps {
   /**
    * Pre-highlighted Shiki HTML (server-rendered docs path). When
    * provided, no client-side highlighting runs. Shiki output for the
-   * `mono-light` / `mono-dark` dual themes with `defaultColor: false`.
+   * `mono-*` themes with `defaultColor: false` (e.g. `{ light: "mono-light",
+   * dark: "mono-dark", "light-hc": "mono-light-hc", "dark-hc": "mono-dark-hc" }`).
    */
   html?: string;
   /** Filename or label rendered in the header bar. */
@@ -413,7 +419,7 @@ export interface CodeBlockProps {
 
 /**
  * Code block with border, background container, and Shiki syntax
- * highlighting (mono dual themes).
+ * highlighting (mono themes).
  *
  * **Two rendering modes:**
  * - `html` provided → renders the pre-highlighted HTML verbatim (zero

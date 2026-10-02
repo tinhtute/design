@@ -1,14 +1,20 @@
 import type { HighlighterCore, LanguageRegistration } from 'shiki/core';
 import { createHighlighterCore } from 'shiki/core';
 import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
-import { monoDarkTheme, monoLightTheme } from '@/components/ui/code-themes';
+import {
+  monoDarkHcTheme,
+  monoDarkTheme,
+  monoLightHcTheme,
+  monoLightTheme,
+} from '@/components/ui/code-themes';
 
 /**
  * Server-side Shiki highlighter for docs/showroom content.
  *
  * Uses the Oniguruma WASM engine (maximum fidelity, Node runtime) and
- * the mono dual themes; output is consumed by `Code.Block`'s `html`
- * prop, so no highlighting runs in the browser.
+ * the mono themes (default + high-contrast variants); output is
+ * consumed by `Code.Block`'s `html` prop, so no highlighting runs in
+ * the browser.
  *
  * The highlighter is a module-level singleton: grammars and the WASM
  * engine load once per process, not per request.
@@ -69,10 +75,17 @@ const LANG_LOADERS: Record<string, LangLoader> = {
   mdx: () => import('@shikijs/langs/mdx'),
 };
 
+const MONO_THEMES = {
+  light: monoLightTheme,
+  dark: monoDarkTheme,
+  'light-hc': monoLightHcTheme,
+  'dark-hc': monoDarkHcTheme,
+} as const;
+
 let highlighterPromise: Promise<HighlighterCore> | null = null;
 
 /**
- * Shared server-side highlighter singleton (Oniguruma WASM, mono dual
+ * Shared server-side highlighter singleton (Oniguruma WASM, mono
  * themes). Consumed by `highlightCode` and the markdown pipeline
  * (`@shikijs/rehype/core`) so grammars and themes load once per process.
  */
@@ -82,7 +95,7 @@ export function getHighlighter(): Promise<HighlighterCore> {
       await Promise.all(LANG_IDS.map((id) => LANG_LOADERS[id]().then((m) => m.default)))
     ).flat();
     return createHighlighterCore({
-      themes: [monoLightTheme, monoDarkTheme],
+      themes: [monoLightTheme, monoDarkTheme, monoLightHcTheme, monoDarkHcTheme],
       langs,
       engine: createOnigurumaEngine(() => import('shiki/wasm')),
     });
@@ -91,9 +104,9 @@ export function getHighlighter(): Promise<HighlighterCore> {
 }
 
 /**
- * Highlight `code` as HTML with the mono dual themes
- * (`defaultColor: false` — colors live in `--shiki-light` /
- * `--shiki-dark` CSS variables, applied by `code.css`).
+ * Highlight `code` as HTML with the mono themes
+ * (`defaultColor: false` — colors live in `--shiki-<theme>` CSS
+ * variables, applied by `code.css`).
  * Unknown languages fall back to plain text.
  */
 export async function highlightCode(code: string, lang = 'tsx'): Promise<string> {
@@ -101,7 +114,7 @@ export async function highlightCode(code: string, lang = 'tsx'): Promise<string>
   const canonical = LANG_ALIASES[lang] ?? lang;
   return highlighter.codeToHtml(code, {
     lang: highlighter.getLoadedLanguages().includes(canonical) ? canonical : 'text',
-    themes: { light: monoLightTheme, dark: monoDarkTheme },
+    themes: MONO_THEMES,
     defaultColor: false,
   });
 }
