@@ -248,7 +248,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-theme-picker-gates-20261001`
 - **Slug**: `theme-picker-gates`
-- **Status**: in-progress
+- **Status**: checked
 - **Goal**: R7 end-to-end proof; feature branch + PR (AGENTS.md git rule); move plan to
   `docs/plans/completed/`.
 - **Dependencies**: phases 1–2
@@ -270,16 +270,15 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 
 ## Current State and Next Action
 
-- active_phase: theme-picker-gates
-- lifecycle_status: in-progress
+- active_phase: none — all phases checked
+- lifecycle_status: checked (phase theme-picker-gates — independent `check full` APPROVED)
 - planning_status: planned
-- latest_progress: 2026-10-02T04:46Z T3.1+T3.2 done — all gates green, e2e green on isolated diff, proof matrix captured
-- latest_validation: 2026-10-02T04:46Z APPROVED (mode: gate, judge: same-session, phase theme-picker-gates)
+- latest_progress: 2026-10-02T05:30Z fix-review-findings done — markdown.ts 4 themes, toggle whitelist+guards; advisor re-review APPROVED
+- latest_validation: 2026-10-02T05:30Z APPROVED (mode: full, judge: independent swe-2-high, phase theme-picker-gates)
 - blockers: none
-- open_items: `check full` REQUEST_CHANGES — fix major (markdown.ts 4 themes) +
-  2 minors (whitelist, storage guards), re-probe docs pages, advisor re-review
-- exact_next_action: work — fix `check full` findings (markdown.ts themes map,
-  code-theme-toggle whitelist + try/catch), re-verify, advisor re-review
+- open_items: none — initiative ready for closing `handoff` (move plan to completed/, final report)
+- exact_next_action: closing `handoff` — plan → docs/plans/completed/, PR
+  https://github.com/therealtinhtute/design/pull/12 awaits owner review
 
 ## Progress
 
@@ -300,8 +299,8 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T04:45Z | phase: theme-picker-gates | wave: 1 | task: T3.1 | task_status: done | summary: Full gates green: `validate` (55 items — sibling WIP), `validate:build`, `typecheck`, `lint`, `pnpm -r build`. e2e first run failed at the hardcoded 53-name exact-set assert (`extra: metric-dashboard, stat-card` — sibling uncommitted WIP, not this diff); stashed only the sibling paths, reran: **e2e-smoke all checks passed** (53-item consumer install incl. `code` + shiki deps, vite build, theme-token CSS asserts, SSR render-check); stash popped clean afterward. | surfaces: none (proof-only)
 - 2026-10-02T04:46Z | phase: theme-picker-gates | wave: 1 | task: T3.2 | task_status: done | summary: Proof matrix on `next start :3212`: computed color of a chromatic `type` token across {light,dark}×{default,hc} = #9810FA→#7D04D3 (light hc), #BD6CFF→#D199FF (dark hc); block screenshots /tmp/proof-{light,dark}-{default,hc}.png show correct surfaces, line numbers, header; SSR emitted 4 `--shiki-*` vars per span (5365 spans); zero console errors on prod. | surfaces: none (proof-only)
 - 2026-10-02T04:50Z | phase: theme-picker-gates | wave: 1 | task: T3.3 | task_status: done | summary: Full diff reviewed (4 commits on feat/codeblock-theme-picker; sibling WIP excluded via surgical staging). Pushed branch; PR opened: https://github.com/therealtinhtute/design/pull/12. Plan stays active — closing `check full` (independent judge) + `handoff` own the final `done` transition. | surfaces: git branch/PR
-- 2026-10-02T05:10Z | phase: theme-picker-gates | wave: 2 | task: check-full | task_status: done | summary: Independent `check full` via paseo advisor (deepseek-v4-1-flash-max, agent 4937372b) returned REQUEST_CHANGES: 1 major (markdown.ts emits only 2 themes — docs `.shiki` spans go monochrome under hc; falsifies R1), 2 minors (unwhitelisted stored value, unguarded localStorage), 2 nits. Findings spot-verified true in this session before accepting. Routed back to work per check.md step 10. | surfaces: none (review)
-- 2026-10-02T05:15Z | phase: theme-picker-gates | wave: 2 | task: fix-review-findings | task_status: in-progress | summary: Fixing: markdown.ts emits all 4 themes (resolves R1 falsification); code-theme-toggle whitelists 'hc' in the restore effect (matches layout script) + try/catch storage access; comment corrected. Nit #5 (cross-tab sync) accepted as out of scope — mount-only restore documented. | surfaces: app/lib/markdown.ts, app/components/code-theme-toggle.tsx
+- 2026-10-02T05:10Z | phase: theme-picker-gates | wave: 2 | task: check-full | task_status: done | summary: Independent `check full` via paseo advisor (agent 4937372b, profile "mono", self-reported swe-2-high) returned REQUEST_CHANGES: 1 major (markdown.ts emits only 2 themes — docs `.shiki` spans go monochrome under hc; falsifies R1), 2 minors (unwhitelisted stored value, unguarded localStorage), 2 nits. Findings spot-verified true in this session before accepting. Routed back to work per check.md step 10. | surfaces: none (review)
+- 2026-10-02T05:15Z | phase: theme-picker-gates | wave: 2 | task: fix-review-findings | task_status: done | summary: Fixed: markdown.ts emits all 4 themes (verified: /docs blocks carry 4-theme classes, docs token computes #193CB8 under hc — no monochrome); code-theme-toggle whitelists 'hc' in the restore effect (matches layout script) + try/catch storage access; comment corrected. Nit #5 (cross-tab sync) accepted as out of scope — mount-only restore documented. Independent advisor re-review at e77af45: APPROVED, all findings verified against fresh production build. | surfaces: app/lib/markdown.ts, app/components/code-theme-toggle.tsx
 
 ## Decisions
 
@@ -400,10 +399,11 @@ REQUEST_CHANGES
   - Independent review of full diff + plan by paseo advisor agent 4937372b (model deepseek-v4-1-flash-max)
 - review: REQUEST_CHANGES
 - judge: independent
-- judge_model: deepseek-v4-1-flash-max (paseo agent 4937372b-66b1-4383-91c7-a49e8b7f36c6)
+- judge_model: swe-2-high (paseo advisor agent 4937372b-66b1-4383-91c7-a49e8b7f36c6,
+  launched via profile "mono"; agent self-reports model swe-2-high)
 - blockers: 0 critical, 1 major
 - not_independently_verified: advisor is an independent agent; its findings were individually spot-verified by this session before accepting
-- receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,git diff main...feat/codeblock-theme-picker,app/lib/markdown.ts,app/components/ui/code.css / policy=docs/playbooks/check.md / judge=independent / judge_model=deepseek-v4-1-flash-max / retries=0 / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=n/a (independent judge)
+- receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,git diff main...feat/codeblock-theme-picker,app/lib/markdown.ts,app/components/ui/code.css / policy=docs/playbooks/check.md / judge=independent / judge_model=swe-2-high / retries=0 / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=n/a (independent judge)
 - proof_gaps: none — verdict rests on independent review plus re-captured gates
 - findings:
   - major: `app/lib/markdown.ts` still emits 2 themes; under `data-code-theme='hc'` every docs-page `.shiki` span resolves `var(--shiki-light-hc)` which is undefined -> inherits -> docs code blocks lose ALL syntax coloring (worse than default); falsifies R1
@@ -411,3 +411,24 @@ REQUEST_CHANGES
   - minor: unguarded `localStorage` in effect/handler (storage-blocked contexts throw; same flaw as ThemeToggle — house convention)
   - nit: effect comment misdescribes the dev remount mechanism
   - nit: mount-only persistence (no cross-tab storage sync) — accepted scope
+
+APPROVED
+
+- phase: theme-picker-gates
+- scope: on target — `check full` re-review after fix commit e77af45; findings
+  resolved, no residual blockers
+- depth: deep
+- proof:
+  - Independent re-review by paseo advisor agent 4937372b on `git diff main...e77af45`: all 4 findings verified fixed against a fresh production build — every docs page emits `shiki-themes mono-light mono-dark mono-light-hc mono-dark-hc`, zero 2-theme blocks remain, repo-wide sweep confirms no other themes map missed
+  - `pnpm --filter app build` -> pass (rebuilt by advisor + this session)
+  - `pnpm --filter app typecheck` -> pass (both sessions)
+  - `pnpm lint` -> pass (both sessions)
+  - Docs probe (this session, `next start :3213` + playwright): `data-code-theme='hc'` restored pre-paint, docs token computes rgb(25,60,184) (#193CB8) instead of inherited monochrome; zero console errors
+  - Remaining nits accepted + documented: plan bookkeeping attribution (corrected), ~2x payload growth (inherent to CSS-var emission), no cross-tab sync (out of scope)
+- review: APPROVED
+- judge: independent
+- judge_model: swe-2-high (paseo advisor agent 4937372b-66b1-4383-91c7-a49e8b7f36c6)
+- blockers: 0 critical, 0 major
+- not_independently_verified: n/a — independent judge; advisor re-derived SSR emission from built HTML rather than trusting this session's probes
+- receipt: context_sources=git diff main...e77af45,app/.next/server/app/*.html,app/lib/markdown.ts,app/components/code-theme-toggle.tsx,docs/plans/active/codeblock-theme-picker.md / policy=docs/playbooks/check.md / judge=independent / judge_model=swe-2-high / retries=1 (fix commit e77af45 after REQUEST_CHANGES) / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=n/a
+- proof_gaps: none material — full gate classes + independent complete review captured
