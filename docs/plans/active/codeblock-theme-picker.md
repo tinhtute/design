@@ -276,9 +276,11 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - latest_progress: 2026-10-02T04:46Z T3.1+T3.2 done — all gates green, e2e green on isolated diff, proof matrix captured
 - latest_validation: 2026-10-02T04:46Z APPROVED (mode: gate, judge: same-session, phase theme-picker-gates)
 - blockers: none
-- open_items: T3.3 push + PR pending; independent `check full` owed before handoff
-- exact_next_action: T3.3 push branch + open PR, then `check full` (independent review)
-  before closing handoff
+- open_items: independent `check full` review owed before `handoff` closes the
+  initiative (final-phase rule — phase stays in-progress until then)
+- exact_next_action: `check full` (independent review) on
+  feat/codeblock-theme-picker → PR https://github.com/therealtinhtute/design/pull/12 →
+  closing `handoff`
 
 ## Progress
 
@@ -298,6 +300,7 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T04:38Z | phase: theme-picker-gates | wave: 1 | task: phase-start | task_status: in-progress | summary: Phase 3 started; branch feat/codeblock-theme-picker holds phases 1–2 commits (c0f5c09, b96563b, 188e7ca, ab4870a). | surfaces: docs/plans/active/codeblock-theme-picker.md
 - 2026-10-02T04:45Z | phase: theme-picker-gates | wave: 1 | task: T3.1 | task_status: done | summary: Full gates green: `validate` (55 items — sibling WIP), `validate:build`, `typecheck`, `lint`, `pnpm -r build`. e2e first run failed at the hardcoded 53-name exact-set assert (`extra: metric-dashboard, stat-card` — sibling uncommitted WIP, not this diff); stashed only the sibling paths, reran: **e2e-smoke all checks passed** (53-item consumer install incl. `code` + shiki deps, vite build, theme-token CSS asserts, SSR render-check); stash popped clean afterward. | surfaces: none (proof-only)
 - 2026-10-02T04:46Z | phase: theme-picker-gates | wave: 1 | task: T3.2 | task_status: done | summary: Proof matrix on `next start :3212`: computed color of a chromatic `type` token across {light,dark}×{default,hc} = #9810FA→#7D04D3 (light hc), #BD6CFF→#D199FF (dark hc); block screenshots /tmp/proof-{light,dark}-{default,hc}.png show correct surfaces, line numbers, header; SSR emitted 4 `--shiki-*` vars per span (5365 spans); zero console errors on prod. | surfaces: none (proof-only)
+- 2026-10-02T04:50Z | phase: theme-picker-gates | wave: 1 | task: T3.3 | task_status: done | summary: Full diff reviewed (4 commits on feat/codeblock-theme-picker; sibling WIP excluded via surgical staging). Pushed branch; PR opened: https://github.com/therealtinhtute/design/pull/12. Plan stays active — closing `check full` (independent judge) + `handoff` own the final `done` transition. | surfaces: git branch/PR
 
 ## Decisions
 
