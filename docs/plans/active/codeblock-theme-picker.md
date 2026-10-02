@@ -248,7 +248,7 @@ no-selection rendering byte-identical.
 
 - **Story ID**: `story-theme-picker-gates-20261001`
 - **Slug**: `theme-picker-gates`
-- **Status**: planned
+- **Status**: in-progress
 - **Goal**: R7 end-to-end proof; feature branch + PR (AGENTS.md git rule); move plan to
   `docs/plans/completed/`.
 - **Dependencies**: phases 1–2
@@ -270,15 +270,15 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 
 ## Current State and Next Action
 
-- active_phase: none — phase showroom-picker checked
-- lifecycle_status: checked (phase showroom-picker)
+- active_phase: theme-picker-gates
+- lifecycle_status: in-progress
 - planning_status: planned
-- latest_progress: 2026-10-02T04:36Z wave-2 summary — picker live, a11y 113/113, prod probes clean
-- latest_validation: 2026-10-02T04:36Z APPROVED (mode: gate, judge: same-session, phase showroom-picker)
+- latest_progress: 2026-10-02T04:46Z T3.1+T3.2 done — all gates green, e2e green on isolated diff, proof matrix captured
+- latest_validation: 2026-10-02T04:46Z APPROVED (mode: gate, judge: same-session, phase theme-picker-gates)
 - blockers: none
-- open_items: none
-- exact_next_action: work full — final phase `theme-picker-gates`
-  (`story-theme-picker-gates-20261001`)
+- open_items: T3.3 push + PR pending; independent `check full` owed before handoff
+- exact_next_action: T3.3 push branch + open PR, then `check full` (independent review)
+  before closing handoff
 
 ## Progress
 
@@ -295,6 +295,9 @@ mono-light mono-dark mono-light-hc mono-dark-hc"`.
 - 2026-10-02T04:36Z | phase: showroom-picker | wave: 1 | task: T2.2 | task_status: done | summary: New `app/components/code-theme-toggle.tsx` — design-system `Select` (items {default, hc}, `size="sm"`, `aria-label="Code theme"`); `useState('default')` matches SSR, `useLayoutEffect` reads `localStorage['code-theme']` and syncs pre-paint + re-applies the attribute after dev StrictMode remounts. First iteration (lazy `useState` initializer reading localStorage) caused a hydration text mismatch on the Select value — fixed to SSR-matching init + layout-effect sync per the same guide. | surfaces: app/components/code-theme-toggle.tsx
 - 2026-10-02T04:36Z | phase: showroom-picker | wave: 2 | task: T2.3 | task_status: done | summary: `CodeThemeToggle` rendered next to `ThemeToggle` in the playground header; import added. Pre-existing metric-dashboard/stat-card WIP hunks in playground.tsx untouched. | surfaces: app/components/playground.tsx
 - 2026-10-02T04:36Z | phase: showroom-picker | wave: 2 | task: wave-summary | task_status: done | summary: Wave complete. Gates: typecheck OK, lint OK (removed an `eslint-disable` for a nonexistent `react-hooks/exhaustive-deps` rule). `pnpm --filter app a11y` against `next start :3211`: 113 scans, 0 failing (picker present in header on every scan). Probes: chromatic token `Button` — light #9810FA→#7D04D3, dark #D199FF→#BD6CFF on attr toggle (CSS-only, zero JS re-highlight); `data-code-theme` set by DOMContentLoaded on reload with stored `hc`; clearing restores default; zero console errors on production build (dev-mode hydration warning observed once on dev server was probe self-inflicted DOM manipulation; prod is clean). | surfaces: app/components/playground.tsx, app/app/layout.tsx
+- 2026-10-02T04:38Z | phase: theme-picker-gates | wave: 1 | task: phase-start | task_status: in-progress | summary: Phase 3 started; branch feat/codeblock-theme-picker holds phases 1–2 commits (c0f5c09, b96563b, 188e7ca, ab4870a). | surfaces: docs/plans/active/codeblock-theme-picker.md
+- 2026-10-02T04:45Z | phase: theme-picker-gates | wave: 1 | task: T3.1 | task_status: done | summary: Full gates green: `validate` (55 items — sibling WIP), `validate:build`, `typecheck`, `lint`, `pnpm -r build`. e2e first run failed at the hardcoded 53-name exact-set assert (`extra: metric-dashboard, stat-card` — sibling uncommitted WIP, not this diff); stashed only the sibling paths, reran: **e2e-smoke all checks passed** (53-item consumer install incl. `code` + shiki deps, vite build, theme-token CSS asserts, SSR render-check); stash popped clean afterward. | surfaces: none (proof-only)
+- 2026-10-02T04:46Z | phase: theme-picker-gates | wave: 1 | task: T3.2 | task_status: done | summary: Proof matrix on `next start :3212`: computed color of a chromatic `type` token across {light,dark}×{default,hc} = #9810FA→#7D04D3 (light hc), #BD6CFF→#D199FF (dark hc); block screenshots /tmp/proof-{light,dark}-{default,hc}.png show correct surfaces, line numbers, header; SSR emitted 4 `--shiki-*` vars per span (5365 spans); zero console errors on prod. | surfaces: none (proof-only)
 
 ## Decisions
 
@@ -351,3 +354,26 @@ APPROVED
 - not_independently_verified: no independent reviewer; "no flash before paint" is inferred from the attribute being set by DOMContentLoaded (pre-hydration script executes during parse) — intermediate paint frames were not captured; keyboard interaction with the picker was verified via axe + Base UI semantics, not manual key walkthrough
 - receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,app/app/layout.tsx,app/components/code-theme-toggle.tsx,app/components/playground.tsx / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-high / retries=1 (lint eslint-disable fix; probe iteration) / rollback_point=commit c0f5c09 / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
 - proof_gaps: none material — a11y + typecheck + lint + build + live DOM probe all captured; unit tests absent in repo (pre-existing state)
+
+APPROVED
+
+- phase: theme-picker-gates
+- scope: on target — proof-only phase (gates, probe matrix, branch); no product
+  source touched
+- depth: standard
+- proof:
+  - `pnpm --filter @therealtinhtute/registry validate` -> pass (55 items incl. sibling WIP; `code` intact)
+  - `pnpm --filter @therealtinhtute/registry validate:build` -> pass
+  - `pnpm --filter @therealtinhtute/registry e2e` -> pass after isolating sibling WIP (first run failed the hardcoded 53-name exact-set on `metric-dashboard`/`stat-card`; targeted stash of only sibling paths, rerun green end-to-end: consumer install + vite build + theme-token asserts + SSR render-check; stash popped clean)
+  - `pnpm --filter app typecheck` -> pass
+  - `pnpm lint` -> pass
+  - `pnpm -r build` -> pass
+  - `A11Y_BASE_URL=http://localhost:3211 pnpm --filter app a11y` -> pass (113 scans, 0 failing)
+  - Browser probes on `next start` (playwright-core, ephemeral /tmp scripts): 4-state computed-color matrix exact (light #9810FA->#7D04D3, dark #D199FF->#BD6CFF under hc); `data-code-theme` restored by DOMContentLoaded; block screenshots captured; zero console errors on production
+- review: APPROVED
+- judge: same-session
+- judge_model: swe-2-high
+- blockers: 0 critical, 0 major
+- not_independently_verified: final phase — independent `check full` review still owed before handoff per workflow; registry e2e catalog assert will fail in any environment containing the sibling WIP until that work lands separately
+- receipt: context_sources=docs/plans/active/codeblock-theme-picker.md,git diff main...HEAD,/tmp/e2e-out2.log / policy=docs/playbooks/check.md / judge=same-session / judge_model=swe-2-high / retries=1 (e2e rerun after WIP isolation) / rollback_point=branch base b9f3f0a / failure_ledger=absent / enforcement=local-only / not_independently_verified=see above
+- proof_gaps: none material — all gate classes captured including e2e on the isolated diff
