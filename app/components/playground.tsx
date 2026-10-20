@@ -50,6 +50,15 @@ import {
   ToolsIcon as ToolboxIcon,
   Delete02Icon as TrashIcon,
   DashboardSquare01Icon as SquaresFourIcon,
+  SplitIcon,
+  Copy01Icon as CopyIcon,
+  SquareIcon,
+  SlidersHorizontalIcon,
+  Tag02Icon as TagsIcon,
+  Layers02Icon as LayerDialogIcon,
+  Menu01Icon as MenuBarIcon,
+  Calendar03Icon as CalendarRangeIcon,
+  EarthIcon,
 } from '@hugeicons/core-free-icons';
 
 import Link from 'next/link';
@@ -77,7 +86,9 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
     title: 'Action',
     items: [
       ['button', 'Button', CursorClickIcon],
+      ['button-group', 'Button group', SplitIcon],
       ['clipboard-text', 'Clipboard text', ClipboardTextIcon],
+      ['inline-copy-text', 'Inline copy text', CopyIcon],
     ],
   },
   {
@@ -90,6 +101,7 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
       ['empty', 'Empty', TrayIcon],
       ['layer-card', 'Layer card', StackIcon],
       ['meter', 'Meter', GaugeIcon],
+      ['surface', 'Surface', SquareIcon],
       ['text', 'Text', TextAaIcon],
     ],
   },
@@ -112,13 +124,16 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
       ['input-group', 'Input group', RowsIcon],
       ['radio', 'Radio', RadioButtonIcon],
       ['select', 'Select', CaretUpDownIcon],
+      ['slider', 'Slider', SlidersHorizontalIcon],
       ['switch', 'Switch', ToggleLeftIcon],
+      ['tag-input', 'Tag input', TagsIcon],
     ],
   },
   {
     title: 'Navigation',
     items: [
       ['command-palette', 'Command palette', MagnifyingGlassIcon],
+      ['menubar', 'Menu bar', MenuBarIcon],
       ['pagination', 'Pagination', DotsThreeIcon],
       ['tabs', 'Tabs', BrowsersIcon],
     ],
@@ -128,6 +143,7 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
     items: [
       ['dialog', 'Dialog', FrameCornersIcon],
       ['dropdown-menu', 'Dropdown menu', ListBulletsIcon],
+      ['layer-dialog', 'Layer dialog', LayerDialogIcon],
       ['popover', 'Popover', ChatCircleTextIcon],
       ['tooltip', 'Tooltip', InfoIcon],
     ],
@@ -148,6 +164,7 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
       ['sankey-chart', 'Sankey chart', TreeStructureIcon],
       ['bubble-map', 'Bubble map', MapPinIcon],
       ['choropleth-map', 'Choropleth map', GlobeIcon],
+      ['globe-map', 'Globe map', EarthIcon],
     ],
   },
   {
@@ -155,6 +172,7 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
     items: [
       ['autocomplete', 'Autocomplete', FunnelSimpleIcon],
       ['date-picker', 'Date picker', CalendarBlankIcon],
+      ['date-range-picker', 'Date range picker', CalendarRangeIcon],
       ['label', 'Label', TagIcon],
       ['link', 'Link', LinkIcon],
       ['sensitive-input', 'Sensitive input', EyeSlashIcon],
