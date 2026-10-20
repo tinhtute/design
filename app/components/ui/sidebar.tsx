@@ -660,7 +660,7 @@ const SidebarRoot = forwardRef<HTMLElement, SidebarRootProps>(
             'relative flex h-full shrink-0 grow-0 flex-col overflow-hidden bg-(--sidebar-bg) text-kumo-default',
             variant === 'sidebar' &&
               (side === 'left' ? 'border-r border-kumo-line' : 'border-l border-kumo-line'),
-            variant === 'floating' && 'm-2 rounded-lg border border-kumo-line shadow-lg',
+            variant === 'floating' && 'm-2 rounded-lg ring ring-kumo-line shadow-lg',
             className,
           )}
           {...props}
@@ -748,7 +748,7 @@ const SidebarRoot = forwardRef<HTMLElement, SidebarRootProps>(
           ? 'border-r border-kumo-line'
           : 'border-l border-kumo-line'
         : variant === 'floating'
-          ? 'border border-kumo-line'
+          ? 'ring ring-kumo-line'
           : '';
 
     return (
@@ -1360,7 +1360,7 @@ const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
       size === 'base' && 'min-h-8.5 px-3 py-0 text-sm font-medium',
       size === 'sm' && 'min-h-7 px-2 py-0 text-sm',
       'text-kumo-default',
-      'transition-[color,box-shadow,outline] duration-(--sidebar-animation-duration)',
+      'transition-[box-shadow,outline] duration-(--sidebar-animation-duration)',
       !active && 'hover:bg-(--sidebar-active-bg)',
       // Active state
       active && 'bg-(--sidebar-active-bg)',
@@ -1575,7 +1575,7 @@ const SidebarMenuSubButton = forwardRef<HTMLButtonElement, SidebarMenuSubButtonP
     const buttonClasses = cn(
       'group/menu-button relative flex min-h-8.5 w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg px-3 py-0 text-sm font-medium outline-none',
       'before:absolute before:inset-x-0 before:-inset-y-px',
-      'text-kumo-default transition-[color] duration-150',
+      'text-kumo-default',
       !active && 'hover:bg-(--sidebar-active-bg)',
       active && 'bg-(--sidebar-active-bg)',
       'focus:outline-none focus-visible:bg-(--sidebar-active-bg) focus-visible:text-kumo-strong',
@@ -1957,7 +1957,7 @@ const SidebarResizeHandle = forwardRef<HTMLButtonElement, ComponentPropsWithoutR
           // Hit area inside the sidebar edge; thin visual line pinned to the edge via ::after
           'absolute inset-y-0 z-2 hidden w-3 cursor-col-resize sm:block',
           'after:absolute after:inset-y-0 after:w-0.5',
-          'after:bg-transparent after:transition-colors',
+          'after:bg-transparent',
           'hover:after:bg-kumo-hairline focus-visible:after:bg-kumo-hairline active:after:bg-kumo-hairline',
           'focus:outline-none',
           side === 'left' && 'right-0 after:right-0',

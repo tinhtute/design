@@ -257,7 +257,7 @@ export type PopoverDescriptionProps = BasePopoverDescriptionProps;
 function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
   return (
     <PopoverBase.Description
-      className={cn('m-0 text-base leading-6 text-kumo-subtle', className)}
+      className={cn('m-0 text-sm leading-6 text-kumo-subtle', className)}
       {...props}
     />
   );

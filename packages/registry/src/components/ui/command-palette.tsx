@@ -519,7 +519,7 @@ function Item<T>({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        'group flex w-full items-center gap-3 px-2 py-1.5 text-left text-base transition-colors',
+        'group flex w-full items-center gap-3 px-2 py-1.5 text-left text-sm',
         'cursor-pointer data-[highlighted]:bg-kumo-overlay',
         'rounded-lg',
         disabled && 'cursor-default opacity-50',
@@ -666,7 +666,7 @@ function ResultItem<T>({
       value={value}
       onClick={nonInteractive ? undefined : (e: React.MouseEvent) => onClick(e)}
       className={cn(
-        'group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left transition-colors',
+        'group flex w-full items-center gap-3 rounded-lg px-2 py-1.5 text-left',
         nonInteractive ? 'cursor-default' : 'cursor-pointer data-[highlighted]:bg-kumo-overlay',
       )}
     >
@@ -682,7 +682,7 @@ function ResultItem<T>({
               <HighlightedText
                 text={crumb}
                 highlights={breadcrumbHighlights?.[index]}
-                className="text-base text-kumo-default"
+                className="text-sm text-kumo-default"
               />
               <HugeiconsIcon
                 icon={CaretRightIcon}
@@ -694,7 +694,7 @@ function ResultItem<T>({
           <HighlightedText
             text={title}
             highlights={titleHighlights}
-            className="text-base text-kumo-default"
+            className="text-sm text-kumo-default"
           />
           {external && (
             <HugeiconsIcon
@@ -925,7 +925,7 @@ function PanelInput({
       <Autocomplete.Input
         placeholder={placeholder}
         className={cn(
-          'kumo-input-placeholder flex-1 border-none bg-transparent text-base',
+          'kumo-input-placeholder flex-1 border-none bg-transparent text-sm',
           'outline-none',
           className,
         )}

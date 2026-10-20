@@ -290,7 +290,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
         size={sizeConfig.buttonSize}
         variant="ghost"
         className={cn(
-          'relative isolate overflow-hidden rounded-l-none rounded-r-[inherit] border-l! border-kumo-line! px-3 transition-all duration-200',
+          'relative isolate overflow-hidden rounded-l-none rounded-r-[inherit] border-l! border-kumo-line! px-3',
           'focus:ring-kumo-focus/50 focus:ring-inset',
           'focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
         )}
@@ -299,7 +299,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
       >
         <span
           className={cn(
-            'flex items-center gap-1 transition-all duration-200',
+            'flex items-center gap-1 transition-[translate,opacity] duration-200',
             copied ? clipboardTextAnimations.slide.animate : clipboardTextAnimations.slide.initial,
           )}
         >
@@ -307,7 +307,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
         </span>
         <span
           className={cn(
-            'flex items-center justify-center transition-all duration-200',
+            'flex items-center justify-center transition-[translate,opacity] duration-200',
             copied ? clipboardTextAnimations.slide.end : clipboardTextAnimations.slide.animate,
           )}
         >

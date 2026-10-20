@@ -148,7 +148,7 @@ export function Field({
   return (
     <FieldBase.Root className={fieldVariants({ controlFirst })}>
       {!hideLabel && (
-        <FieldBase.Label className="m-0 text-base font-medium text-kumo-default select-none">
+        <FieldBase.Label className="m-0 text-sm font-medium text-kumo-default select-none">
           <Label showOptional={showOptional} tooltip={labelTooltip} asContent>
             {label}
           </Label>

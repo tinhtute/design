@@ -320,7 +320,7 @@ export function SankeyChart({
                   name: {
                     fontSize: 12,
                     color: labelColor,
-                    fontWeight: 700,
+                    fontWeight: 600,
                   },
                 }
               : undefined,

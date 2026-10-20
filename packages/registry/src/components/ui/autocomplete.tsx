@@ -226,7 +226,7 @@ function Item({ children, ...props }: AutocompleteBase.Item.Props) {
       data-kumo-component="Autocomplete"
       data-kumo-part="item"
       {...props}
-      className="group mx-1.5 grid cursor-pointer grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-base data-highlighted:bg-kumo-overlay data-selected:font-medium"
+      className="group mx-1.5 grid cursor-pointer grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-sm data-highlighted:bg-kumo-overlay data-selected:font-medium"
     >
       <div className="col-start-1">{children}</div>
       <span className="col-start-2 hidden items-center group-data-selected:flex">

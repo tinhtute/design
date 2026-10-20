@@ -130,9 +130,9 @@ const TableRoot = forwardRef<
     'isolate w-full', // isolate creates a stacking context so z-0/z-1/z-2 never leak out
     resolveVariant(KUMO_TABLE_VARIANTS.layout, layout, KUMO_TABLE_DEFAULT_VARIANTS.layout).classes,
     '[&_td]:p-3', // Cell padding
-    '[&_th]:border-b [&_th]:border-kumo-fill [&_th]:p-3 [&_th]:text-base [&_th]:font-semibold', // Header styles
+    '[&_th]:border-b [&_th]:border-kumo-fill [&_th]:p-3 [&_th]:text-sm [&_th]:font-semibold', // Header styles
     '[&_th]:bg-kumo-base', // Header background color
-    'text-left text-base text-kumo-default',
+    'text-left text-sm text-kumo-default',
     props.className,
   );
 

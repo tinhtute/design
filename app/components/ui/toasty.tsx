@@ -24,15 +24,15 @@ export { Toast };
  */
 export const KUMO_TOAST_VARIANTS = {
   root: {
-    classes: 'rounded-lg border border-kumo-fill bg-kumo-control p-4 shadow-lg text-kumo-default',
-    description: 'Toast container with background, border, and shadow',
+    classes: 'rounded-lg ring ring-kumo-line bg-kumo-control p-4 shadow-lg text-kumo-default',
+    description: 'Toast container with background, ring, and shadow',
   },
   title: {
     classes: 'text-[0.975rem] leading-5 font-medium text-kumo-default',
     description: 'Toast title with primary text color',
   },
   description: {
-    classes: 'text-[0.925rem] leading-5 text-kumo-subtle',
+    classes: 'text-sm leading-5 text-kumo-subtle',
     description: 'Toast description with muted text color',
   },
   close: {
@@ -95,7 +95,7 @@ export const KUMO_TOAST_STYLING = {
     color: 'text-color-surface',
   },
   description: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: 400,
     color: 'text-color-muted',
   },
@@ -349,7 +349,7 @@ function ToastList() {
                   data-toast-title
                   className="text-[0.975rem] leading-5 font-medium text-kumo-default"
                 />
-                <Toast.Description className="text-[0.925rem] leading-5 text-kumo-default/70" />
+                <Toast.Description className="text-sm leading-5 text-kumo-default/70" />
 
                 {!!toast.actions && (
                   <div className="mt-2 flex min-w-0 flex-nowrap gap-2 overflow-x-auto p-px">

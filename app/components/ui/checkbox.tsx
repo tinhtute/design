@@ -304,7 +304,7 @@ const CheckboxBase = forwardRef<HTMLButtonElement, CheckboxProps>(
       <FieldBase.Root className="inline-flex">
         <FieldBase.Label
           className={cn(
-            '!m-0 inline-flex !min-h-0 items-start gap-2 !text-base',
+            '!m-0 inline-flex !min-h-0 items-start gap-2 !text-sm',
             controlFirst ? 'flex-row' : 'flex-row-reverse justify-end',
             disabled ? 'cursor-not-allowed' : 'cursor-pointer',
           )}
@@ -384,7 +384,7 @@ const CheckboxItem = forwardRef<HTMLButtonElement, CheckboxItemProps>(
             )}
           />
         </BaseCheckbox.Root>
-        <span className="text-base text-kumo-default">{label}</span>
+        <span className="text-sm text-kumo-default">{label}</span>
       </label>
     );
   },
@@ -395,7 +395,7 @@ CheckboxItem.displayName = 'Checkbox.Item';
 // Checkbox.Legend — composable legend sub-component for Checkbox.Group
 function CheckboxLegend({ children, className }: CheckboxLegendProps) {
   return (
-    <Fieldset.Legend className={cn('text-base font-medium text-kumo-default', className)}>
+    <Fieldset.Legend className={cn('text-sm font-medium text-kumo-default', className)}>
       {children}
     </Fieldset.Legend>
   );
@@ -428,7 +428,7 @@ function CheckboxGroup({
       >
         <Fieldset.Root className={cn('flex flex-col gap-4', className)}>
           {legend && (
-            <Fieldset.Legend className="text-base font-medium text-kumo-default">
+            <Fieldset.Legend className="text-sm font-medium text-kumo-default">
               {legend}
             </Fieldset.Legend>
           )}

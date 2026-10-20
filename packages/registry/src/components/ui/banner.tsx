@@ -51,7 +51,7 @@ export const KUMO_BANNER_VARIANTS = {
   },
   size: {
     base: {
-      classes: 'items-start gap-3 rounded-lg px-4 py-3 text-base',
+      classes: 'items-start gap-3 rounded-lg px-4 py-3 text-sm',
       description: 'Default banner size',
     },
     sm: {
@@ -447,7 +447,7 @@ const BannerRoot = forwardRef<HTMLDivElement, BannerProps>(function BannerRoot(
     <BannerActionContext.Provider value={{ variant, size: sizeParts.action }}>
       <div ref={ref} className={cn(bannerVariants({ variant, size }), className)} {...props}>
         {icon && (
-          <span className={cn('shrink-0', variantConfig.iconClasses)}>{renderIconNode(icon)}</span>
+          <span className={cn('flex h-lh shrink-0 items-center', variantConfig.iconClasses)}>{renderIconNode(icon)}</span>
         )}
         {content}
       </div>

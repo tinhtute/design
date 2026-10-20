@@ -19,11 +19,11 @@ export const KUMO_INPUT_VARIANTS = {
       description: 'Small input for secondary fields',
     },
     base: {
-      classes: 'h-9 gap-1.5 rounded-lg px-3 text-base',
+      classes: 'h-9 gap-1.5 rounded-lg px-3 text-sm',
       description: 'Default input size',
     },
     lg: {
-      classes: 'h-10 gap-2 rounded-lg px-4 text-base',
+      classes: 'h-10 gap-2 rounded-lg px-4 text-sm',
       description: 'Large input for prominent fields',
     },
   },
@@ -51,11 +51,11 @@ export const KUMO_INPUT_STYLING = {
     base: {
       height: 36,
       paddingX: 12,
-      fontSize: 16,
+      fontSize: 14,
       borderRadius: 8,
       width: 280,
     },
-    lg: { height: 40, paddingX: 16, fontSize: 16, borderRadius: 8, width: 320 },
+    lg: { height: 40, paddingX: 16, fontSize: 14, borderRadius: 8, width: 320 },
   },
   baseTokens: {
     background: 'color-secondary',

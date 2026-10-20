@@ -357,7 +357,7 @@ function CopyButton({ code }: { code: string }) {
       onClick={copy}
       aria-label={copied ? 'Copied' : 'Copy code'}
       aria-live="polite"
-      className="inline-flex size-7 items-center justify-center rounded-md text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+      className="inline-flex size-7 items-center justify-center rounded-md text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
     >
       {copied ? (
         <HugeiconsIcon icon={CheckIcon} className="size-3.5 text-kumo-success" strokeWidth={2} />

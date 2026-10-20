@@ -14,7 +14,7 @@
 - Sans: Archivo, ui-sans-serif, system-ui, sans-serif (`--font-sans`)
 - Mono: Google Sans Code, ui-monospace, monospace (`--font-mono`)
 - Serif / heading: Xanh Mono, ui-monospace, monospace (`--font-serif`, `--font-heading`)
-- Headings: Semibold, tracking-tight, fluid scale
+- Headings: Semibold, default tracking (Kumo `font-tracking`), fluid scale
 - Body: 14px base (`text-sm`), 1.5 line height
 
 ## Color Tokens
@@ -44,6 +44,5 @@ hover-color-transitions, shadow-borders, concentric-border-radius,
 icon-alignment, inline-monospace-size, sticky-borders, collapse-content-size,
 layer-card-nesting, dialog-rendering). Report findings by rule id.
 
-- Known conflict: Typography says headings use `tracking-tight`; Kumo
-  `font-tracking` forbids changing tracking. Flag, don't auto-fix.
+- Headings no longer use `tracking-tight` (Kumo `font-tracking` wins, 2026-10-20).
 - Upstream drift (pin 2.13.0 → latest) is checked via the kumo-design skill.

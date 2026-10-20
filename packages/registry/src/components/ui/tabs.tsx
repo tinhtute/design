@@ -73,7 +73,7 @@ export interface KumoTabsVariantsProps {
   variant?: (typeof KUMO_TABS_VARIANTS.variant)[number];
   /**
    * Tab size.
-   * - `"base"` — Default size (h-9, text-base)
+   * - `"base"` — Default size (h-9, text-sm)
    * - `"sm"` — Compact size (h-6.5, text-xs) — matches Input size="sm"
    * @default "base"
    */
@@ -249,7 +249,7 @@ export function Tabs({
             className={cn(
               'relative z-2 flex items-center rounded bg-transparent whitespace-nowrap focus:ring-kumo-focus/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand',
               isOverflowing ? 'cursor-grab active:cursor-grabbing' : 'cursor-pointer',
-              isSm ? 'text-xs' : 'text-base',
+              isSm ? 'text-xs' : 'text-sm',
               isSegmented &&
                 'my-0.5 text-kumo-subtle hover:text-kumo-default focus-visible:ring-inset aria-selected:text-kumo-default',
               isSegmented && (isSm ? 'rounded-sm px-2' : 'rounded-md px-2.5'),
@@ -273,7 +273,7 @@ export function Tabs({
                 isSegmented &&
                   cn(
                     'top-(--active-tab-top) h-(--active-tab-height) bg-kumo-base shadow-sm ring ring-kumo-line',
-                    isSm ? 'rounded' : 'rounded-md',
+                    isSm ? 'rounded-sm' : 'rounded-md',
                   ),
                 isUnderline && 'bottom-0 h-0.5 bg-kumo-brand',
                 indicatorClassName,
@@ -347,7 +347,7 @@ function TabsOverflowControl({
     >
       <span
         className={cn(
-          'flex items-center justify-center text-kumo-subtle transition-colors hover:text-kumo-default',
+          'flex items-center justify-center text-kumo-subtle hover:text-kumo-default',
           size === 'sm' ? 'size-5' : 'size-6',
           isSegmented ? (size === 'sm' ? 'rounded-sm' : 'rounded-md') : 'rounded',
           isStart ? 'ml-1' : 'mr-1',

@@ -413,7 +413,7 @@ function Item({ children, className, ...props }: ComboboxBase.Item.Props & { cla
       data-kumo-part="item"
       {...props}
       className={cn(
-        'group mx-1.5 grid grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-base',
+        'group mx-1.5 grid grid-cols-[1fr_16px] gap-2 rounded px-2 py-1.5 text-sm',
         'cursor-pointer data-highlighted:bg-kumo-tint',
         // Disabled rows: muted text, no pointer, suppress highlight bg even
         // when keyboard nav lands on them. Base UI sets `data-disabled` on
@@ -435,7 +435,7 @@ function Empty(props: ComboboxBase.Empty.Props) {
     <ComboboxBase.Empty
       {...props}
       className={cn(
-        'mx-1.5 shrink-0 px-4 py-2 text-[0.925rem] leading-4 text-kumo-subtle empty:m-0 empty:p-0',
+        'mx-1.5 shrink-0 px-4 py-2 text-sm leading-4 text-kumo-subtle empty:m-0 empty:p-0',
       )}
       children={props.children ?? 'No labels found.'}
     />

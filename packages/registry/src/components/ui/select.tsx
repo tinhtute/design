@@ -38,7 +38,7 @@ export const KUMO_SELECT_STYLING = {
     background: 'bg-kumo-control',
     text: 'text-color-surface',
     ring: 'color-border',
-    fontSize: 16, // text-base
+    fontSize: 14, // text-sm
     fontWeight: 400, // font-normal
   },
   stateTokens: {
@@ -59,7 +59,7 @@ export const KUMO_SELECT_STYLING = {
     paddingX: 8, // px-2
     paddingY: 6, // py-1.5
     borderRadius: 4, // rounded
-    fontSize: 16, // text-base
+    fontSize: 14, // text-sm
     highlightBackground: 'color-surface-secondary',
   },
 } as const;
@@ -455,7 +455,7 @@ export function Select<T, Multiple extends boolean | undefined = false>({
   // hover/focus coupling that a native <label> (from Field) would cause.
   const showOptional = required === false;
   const selectLabelNode = label ? (
-    <SelectBase.Label className="m-0 text-base font-medium text-kumo-default select-none">
+    <SelectBase.Label className="m-0 text-sm font-medium text-kumo-default select-none">
       <Label showOptional={showOptional} tooltip={hideLabel ? undefined : labelTooltip} asContent>
         {label}
       </Label>
@@ -608,7 +608,7 @@ function Option<T>({ children, value, disabled, className }: OptionProps<T>) {
       value={value}
       disabled={disabled}
       className={cn(
-        'group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-base outline-none',
+        'group mx-1.5 flex cursor-pointer items-center justify-between gap-2 rounded px-2 py-1.5 text-sm outline-none',
         'focus-visible:z-50 focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-inset',
         'data-highlighted:bg-kumo-tint',
         'data-[disabled]:pointer-events-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50',

@@ -41,7 +41,7 @@ export const KUMO_RADIO_VARIANTS = {
     },
     card: {
       classes:
-        'rounded-lg border border-kumo-hairline bg-kumo-base p-3 transition-colors hover:bg-kumo-tint has-[[data-checked]]:border-kumo-interact has-[[data-checked]]:bg-kumo-tint',
+        'rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2.5 hover:bg-kumo-tint has-[[data-checked]]:border-kumo-interact has-[[data-checked]]:bg-kumo-tint',
       description: 'Choice card appearance with border, padding, and highlighted selection state',
     },
   },
@@ -319,7 +319,7 @@ function _RadioItem<T = string>(
         data-kumo-component="Radio"
         data-kumo-part="item-label"
         className={cn(
-          'group relative m-0 flex items-start gap-3 rounded-lg border border-kumo-hairline bg-kumo-base p-3 transition-colors has-[[data-checked]]:border-kumo-interact has-[[data-checked]]:bg-kumo-tint',
+          'group relative m-0 flex items-start gap-3 rounded-lg border border-kumo-hairline bg-kumo-base px-3 py-2.5 has-[[data-checked]]:border-kumo-interact has-[[data-checked]]:bg-kumo-tint',
           controlAtStart && 'flex-row-reverse',
           variant === 'error' &&
             'border-kumo-danger has-[[data-checked]]:border-kumo-danger has-[[data-checked]]:bg-kumo-base',
@@ -333,7 +333,7 @@ function _RadioItem<T = string>(
         )}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="text-base font-medium text-kumo-default">{label}</span>
+          <span className="text-sm font-medium text-kumo-default">{label}</span>
           {description && <span className="text-sm text-kumo-subtle">{description}</span>}
         </div>
         <BaseRadio.Root
@@ -395,7 +395,7 @@ function _RadioItem<T = string>(
           <span className="h-2 w-2 rounded-full bg-kumo-base" />
         </BaseRadio.Indicator>
       </BaseRadio.Root>
-      <span className="text-base text-kumo-default">{label}</span>
+      <span className="text-sm text-kumo-default">{label}</span>
     </label>
   );
 }
@@ -412,7 +412,7 @@ const RadioItem = forwardRef(_RadioItem) as <T = string>(
 // Radio.Legend — composable legend sub-component for Radio.Group
 function RadioLegend({ children, className }: RadioLegendProps) {
   return (
-    <Fieldset.Legend className={cn('text-base font-medium text-kumo-default', className)}>
+    <Fieldset.Legend className={cn('text-sm font-medium text-kumo-default', className)}>
       {children}
     </Fieldset.Legend>
   );
@@ -447,7 +447,7 @@ function RadioGroup<Value = string>({
       >
         <Fieldset.Root disabled={disabled} className={cn('flex flex-col gap-4', className)}>
           {legend && (
-            <Fieldset.Legend className="text-base font-medium text-kumo-default">
+            <Fieldset.Legend className="text-sm font-medium text-kumo-default">
               {legend}
             </Fieldset.Legend>
           )}
