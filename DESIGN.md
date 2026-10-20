@@ -34,3 +34,16 @@
 
 - Timing: Standard `200ms cubic-bezier(0.2, 0, 0, 1)`, Emphasized `400ms cubic-bezier(0.4, 0, 0.2, 1)`
 - Easing: Decelerated / exponential easing (`ease-out-quart`, `cubic-bezier(0.25, 1, 0.5, 1)`); strict ban on bounce/elastic animations, `prefers-reduced-motion` honored
+
+## Kumo Rules (audit baseline)
+
+Components port Cloudflare Kumo; audits apply the 15 Kumo design rules in
+`.claude/skills/kumo-design/SKILL.md` (ids: content-text-size, heading-case,
+font-tracking, font-weight, related-text-spacing, text-spacing,
+hover-color-transitions, shadow-borders, concentric-border-radius,
+icon-alignment, inline-monospace-size, sticky-borders, collapse-content-size,
+layer-card-nesting, dialog-rendering). Report findings by rule id.
+
+- Known conflict: Typography says headings use `tracking-tight`; Kumo
+  `font-tracking` forbids changing tracking. Flag, don't auto-fix.
+- Upstream drift (pin 2.13.0 → latest) is checked via the kumo-design skill.
