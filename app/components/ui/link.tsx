@@ -44,18 +44,18 @@ export const KUMO_LINK_VARIANTS = {
     inline: {
       classes:
         // text-kumo-link provides defensive color that won't be overridden by global `a` styles
-        'text-kumo-link underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors',
+        'text-kumo-link underline underline-offset-[0.15em] decoration-[0.0625em] link-current',
       description: 'Inline text link that flows with content',
     },
     current: {
       classes:
-        'text-current underline underline-offset-[0.15em] decoration-[0.0625em] link-current transition-colors',
+        'text-current underline underline-offset-[0.15em] decoration-[0.0625em] link-current',
       description: 'Link that inherits color from parent text',
     },
     plain: {
       classes:
         // text-kumo-link provides defensive color that won't be overridden by global `a` styles
-        'text-kumo-link hover:text-kumo-link/70 transition-colors',
+        'text-kumo-link hover:text-kumo-link/70',
       description: 'Link without underline decoration',
     },
   },

@@ -50,7 +50,7 @@ const TableOfContentsTitle = forwardRef<HTMLParagraphElement, TableOfContentsTit
     <p
       ref={ref}
       className={cn(
-        'mb-3 text-xs font-semibold tracking-wide text-kumo-subtle uppercase',
+        'mb-3 text-xs font-semibold text-kumo-subtle',
         className,
       )}
       {...props}

@@ -30,7 +30,7 @@ export const KUMO_BREADCRUMBS_VARIANTS = {
       description: 'Compact breadcrumbs for dense UIs',
     },
     base: {
-      classes: 'text-base h-12 gap-1',
+      classes: 'text-sm h-12 gap-1',
       description: 'Default breadcrumbs size',
     },
   },

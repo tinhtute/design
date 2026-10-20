@@ -22,7 +22,7 @@ export function labelVariants(_props: KumoLabelVariantsProps = {}) {
   return cn(
     // Base styles - when used standalone, apply text styling
     // When used inside Field, the parent FieldBase.Label provides these styles
-    'm-0 text-base font-medium text-kumo-default',
+    'm-0 text-sm font-medium text-kumo-default',
   );
 }
 

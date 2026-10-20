@@ -69,7 +69,7 @@ export const KUMO_TEXT_VARIANTS = {
       description: 'Small text',
     },
     base: {
-      classes: 'text-base/[inherit]',
+      classes: 'text-sm/[inherit]',
       description: 'Default text size',
     },
     lg: {
@@ -156,9 +156,7 @@ function resolveTextSizeClasses(variant: TextVariant, size: TextSize) {
 
   if (['mono', 'mono-secondary'].includes(variant)) {
     // Monospace fonts need to be 1pt smaller than body text to optically match.
-    return size === 'lg'
-      ? KUMO_TEXT_VARIANTS.size.base.classes
-      : KUMO_TEXT_VARIANTS.size.sm.classes;
+    return size === 'lg' ? 'text-base/[inherit]' : KUMO_TEXT_VARIANTS.size.sm.classes;
   }
 
   return resolveVariant(KUMO_TEXT_VARIANTS.size, size, KUMO_TEXT_DEFAULT_VARIANTS.size).classes;

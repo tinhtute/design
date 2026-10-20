@@ -26,11 +26,11 @@ export const KUMO_TOOLBAR_VARIANTS = {
       description: 'Small toolbar for secondary controls',
     },
     base: {
-      classes: 'text-base',
+      classes: 'text-sm',
       description: 'Default toolbar size',
     },
     lg: {
-      classes: 'text-base',
+      classes: 'text-sm',
       description: 'Large toolbar for prominent controls',
     },
   },

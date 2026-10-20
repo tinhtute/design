@@ -98,7 +98,7 @@ export const INPUT_GROUP_SIZE: Record<KumoInputSize, InputGroupSizeTokens> = {
     addonButtonOuterStart: 'pl-1',
     addonButtonOuterEnd: 'pr-1',
     suffixPad: 'pr-3',
-    fontSize: 'text-base',
+    fontSize: 'text-sm',
     iconSize: 18,
   },
   lg: {
@@ -108,7 +108,7 @@ export const INPUT_GROUP_SIZE: Record<KumoInputSize, InputGroupSizeTokens> = {
     addonButtonOuterStart: 'pl-1.5',
     addonButtonOuterEnd: 'pr-0.5',
     suffixPad: 'pr-4',
-    fontSize: 'text-base',
+    fontSize: 'text-sm',
     iconSize: 20,
   },
 };
@@ -638,11 +638,11 @@ export const KUMO_INPUT_GROUP_VARIANTS = {
       description: 'Small size.',
     },
     base: {
-      classes: 'h-9 text-base',
+      classes: 'h-9 text-sm',
       description: 'Default size.',
     },
     lg: {
-      classes: 'h-11 text-base',
+      classes: 'h-11 text-sm',
       description: 'Large size.',
     },
   },

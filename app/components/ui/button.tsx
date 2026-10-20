@@ -36,11 +36,11 @@ export const KUMO_BUTTON_VARIANTS = {
       description: 'Small button for secondary actions',
     },
     base: {
-      classes: 'h-9 gap-1.5 rounded-lg px-3 text-base',
+      classes: 'h-9 gap-1.5 rounded-lg px-3 text-sm',
       description: 'Default button size',
     },
     lg: {
-      classes: 'h-10 gap-2 rounded-lg px-4 text-base',
+      classes: 'h-10 gap-2 rounded-lg px-4 text-sm',
       description: 'Large button for primary CTAs',
     },
   },
@@ -77,7 +77,7 @@ export const KUMO_BUTTON_VARIANTS = {
     },
     outline: {
       classes:
-        'bg-transparent text-kumo-default ring ring-kumo-line transition-colors not-disabled:hover:text-kumo-strong not-disabled:hover:ring-kumo-focus/25',
+        'bg-transparent text-kumo-default ring ring-kumo-line not-disabled:hover:text-kumo-strong not-disabled:hover:ring-kumo-focus/25',
       description: 'Bordered button with transparent background',
     },
   },
@@ -224,7 +224,7 @@ const renderButtonContent = (
     <>
       <span
         aria-hidden="true"
-        className="absolute inset-0 rounded-[inherit] bg-(--kumo-button-emphasis-gradient-end) shadow-[inset_0_1px_0_0_var(--kumo-button-emphasis-bg)] transition-all duration-150 ease-out group-hover:brightness-105"
+        className="absolute inset-0 rounded-[inherit] bg-(--kumo-button-emphasis-gradient-end) shadow-[inset_0_1px_0_0_var(--kumo-button-emphasis-bg)] group-hover:brightness-105"
       />
       <span className="relative flex items-center gap-1.5">
         {iconNode}

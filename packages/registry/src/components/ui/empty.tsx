@@ -122,12 +122,12 @@ export function Empty({
           className={cn(
             'group/cmd relative inline-flex h-10 max-w-8/10 transform-gpu items-center gap-2 rounded-lg font-mono shadow-sm',
             'bg-kumo-overlay pr-2 pl-3',
-            'transition-all duration-300 hover:border-kumo-interact/80 hover:shadow-md',
-            'border border-kumo-fill/60',
+            'hover:shadow-md hover:ring-kumo-interact/80',
+            'ring ring-kumo-fill/60',
           )}
         >
           <span className="text-xs text-kumo-inactive select-none">$</span>
-          <span className="no-scrollbar overflow-scroll text-base whitespace-nowrap text-kumo-brand">
+          <span className="no-scrollbar overflow-scroll text-sm whitespace-nowrap text-kumo-brand">
             {commandLine}
           </span>
           <Button

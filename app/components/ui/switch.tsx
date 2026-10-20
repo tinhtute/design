@@ -483,7 +483,7 @@ const SwitchItem = forwardRef<HTMLButtonElement, SwitchItemProps>(
             );
           }}
         />
-        <span className="text-base font-medium text-kumo-default">{label}</span>
+        <span className="text-sm font-medium text-kumo-default">{label}</span>
       </label>
     );
   },
@@ -494,7 +494,7 @@ SwitchItem.displayName = 'Switch.Item';
 // Switch.Legend — composable legend sub-component for Switch.Group
 function SwitchLegend({ children, className }: SwitchLegendProps) {
   return (
-    <Fieldset.Legend className={cn('text-base font-medium text-kumo-default', className)}>
+    <Fieldset.Legend className={cn('text-sm font-medium text-kumo-default', className)}>
       {children}
     </Fieldset.Legend>
   );
@@ -516,7 +516,7 @@ function SwitchGroup({
     <SwitchGroupContext.Provider value={{ controlFirst }}>
       <Fieldset.Root className={cn('flex flex-col gap-4', className)} disabled={disabled}>
         {legend && (
-          <Fieldset.Legend className="text-base font-medium text-kumo-default">
+          <Fieldset.Legend className="text-sm font-medium text-kumo-default">
             {legend}
           </Fieldset.Legend>
         )}
