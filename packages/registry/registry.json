@@ -1475,6 +1475,188 @@
           "target": "components/ui/choropleth-map.tsx"
         }
       ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "surface",
+      "type": "registry:ui",
+      "title": "Surface",
+      "description": "Deprecated one-layer card container kept for Kumo compatibility; wraps LayerCard.",
+      "registryDependencies": [
+        "@therealtinhtute/layer-card",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/surface.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/surface.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Single-value or range slider with value badges and min/max labels.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
+      "files": [
+        {
+          "path": "src/components/ui/slider.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/slider.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "inline-copy-text",
+      "type": "registry:ui",
+      "title": "Inline Copy Text",
+      "description": "Borderless inline copy control for IDs and short values in dense layouts.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@therealtinhtute/text",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/inline-copy-text.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/inline-copy-text.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Joins tightly-coupled buttons into one control, e.g. a split button.",
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
+      "files": [
+        {
+          "path": "src/components/ui/button-group.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/button-group.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "tag-input",
+      "type": "registry:ui",
+      "title": "Tag Input",
+      "description": "Text input that turns entries into removable tags, with validation and limits.",
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/field",
+        "@therealtinhtute/input",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/tag-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tag-input.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "layer-dialog",
+      "type": "registry:ui",
+      "title": "Layer Dialog",
+      "description": "Responsive dialog: centered layer card on desktop, swipeable bottom sheet on mobile.",
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@therealtinhtute/button",
+        "@therealtinhtute/button-group",
+        "@therealtinhtute/dropdown-menu",
+        "@therealtinhtute/layer-card",
+        "@therealtinhtute/text",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/layer-dialog.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/layer-dialog.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menu Bar",
+      "description": "Deprecated icon-button bar with arrow-key navigation and tooltip labels.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/tooltip",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/menubar.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/menubar.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "date-range-picker",
+      "type": "registry:ui",
+      "title": "Date Range Picker",
+      "description": "Deprecated dual-calendar date range selector with hover preview and timezone footer.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": ["@therealtinhtute/third-party-licenses", "@therealtinhtute/utils"],
+      "files": [
+        {
+          "path": "src/components/ui/date-range-picker.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/date-range-picker.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "globe-map",
+      "type": "registry:ui",
+      "title": "Globe Map",
+      "description": "SVG orthographic globe with hatched land and draggable rotation for geographic markers.",
+      "dependencies": ["d3-geo"],
+      "registryDependencies": [
+        "@therealtinhtute/chart",
+        "@therealtinhtute/third-party-licenses",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/ui/globe-map.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/globe-map.tsx"
+        },
+        {
+          "path": "src/components/ui/chart/GlobeMap.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/chart/GlobeMap.tsx"
+        },
+        {
+          "path": "src/components/ui/chart/globe-land-mask.ts",
+          "type": "registry:ui",
+          "target": "components/ui/chart/globe-land-mask.ts"
+        }
+      ]
     }
   ]
 }
