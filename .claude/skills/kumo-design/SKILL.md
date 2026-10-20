@@ -12,11 +12,11 @@ so apply rules to behavior and styling, not to Kumo import names.
 
 ## Upstream drift check
 
-Pin: `@cloudflare/kumo@2.13.0`, commit `a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf`
-(`docs/plans/completed/kumo-source-manifest.json`).
+Pin: `@cloudflare/kumo@2.15.0`, commit `69ff967a00448619feb72367cbbc4d0fa37ecc14`
+(`docs/plans/completed/kumo-source-manifest.json`; items ported at 2.13.0 still cite `a5800aa` in headers).
 
 ```bash
-PIN=a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf
+PIN=69ff967a00448619feb72367cbbc4d0fa37ecc14
 # upstream version now
 gh api repos/cloudflare/kumo/contents/packages/kumo/package.json --jq .content | base64 -d | grep '"version"'
 # components touched since pin
@@ -35,7 +35,9 @@ gh api repos/cloudflare/kumo/compare/$PIN...main \
 
 Map upstream `packages/kumo/src/components/<name>/` → `packages/registry/src/components/ui/<name>.tsx`
 (renames: `dropdown`→`dropdown-menu`, `toast`→`toasty`; `chart` split into `*-chart`/`*-map` files).
-Not ported as of 2.15.0: button-group, date-range-picker, flow, inline-copy-text, layer-dialog, menubar, slider, surface, tag-input (cloudflare-logo intentionally skipped).
+All 2.15.0 catalog items are ported except `cloudflare-logo` (intentionally skipped); `flow` is not in the catalog.
+Type scale: Kumo sets text-sm 13px / text-base 14px / text-lg 16px; our theme uses Tailwind defaults, so port upstream `text-base` as `text-sm`.
+`app/components/ui` is a hand-kept mirror of the registry sources — copy changes there too (`diff -rq` must be empty).
 Changesets in upstream `.changeset/*.md` and `packages/kumo/CHANGELOG.md` explain behavior changes.
 
 ## Audit procedure

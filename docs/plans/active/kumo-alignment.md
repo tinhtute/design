@@ -119,7 +119,7 @@ Recovery: each phase is its own commit set; revert per phase.
 
 - **Slug**: `registry-rules`
 - **story_id**: story-registry-rules-20261020
-- **Status**: planned
+- **Status**: checked
 - **Goal**: R1, R2.
 - **Surfaces**: `packages/registry/src/components/ui/**`, `app/components/ui/**`
   (mirror), `DESIGN.md` Typography line. Avoid: `packages/tokens/**`.
@@ -151,7 +151,7 @@ Recovery: each phase is its own commit set; revert per phase.
 
 - **Slug**: `catalog-2-15`
 - **story_id**: story-catalog-2-15-20261020
-- **Status**: planned
+- **Status**: checked
 - **Depends on**: `registry-rules`
 - **Goal**: R4, R5.
 - **Surfaces**: `packages/registry/src/components/ui/*`,
@@ -172,13 +172,18 @@ Recovery: each phase is its own commit set; revert per phase.
 
 ## Progress
 
+- 2026-10-20 | phase: registry-rules | wave: W1 | task: W1-T1/T2 audit+fix | task_status: DONE | verification: 3 parallel audits (forms 14, overlays 14, display 16) over all 15 rules; 29 registry files changed; probes `font-bold|tracking-|uppercase` = 0; hover `transition-colors` removed; exceptions: switch state transition, xs/sm `text-xs` compact API, opacity reveals, fill-only highlight radii, LayerCard `p-4`, legend KPI `text-lg`, mono = body 14px (no 13px step) | surfaces: packages/registry/src/components/ui/*, DESIGN.md
+- 2026-10-20 | phase: registry-rules | wave: W1 | task: W1-T3 gates | task_status: DONE | verification: baselines were stale since b9f3f0a (101/101 failing on main) → regenerated from main in a worktree (101 passed) and committed 1fc1637; `app/components/ui` found to be a hand mirror, not synced by build → mirrored (`diff -rq` empty); visual then failed 48 (24 demos, max ratio 0.02, reviewed: button text size, table props) → updated, 101 passed; build, validate:build, e2e, app typecheck, lint, a11y 109/0 pass; `git diff main -- packages/tokens` empty | surfaces: app/components/ui/*, app/visual/__screenshots__/*
+- 2026-10-20 | phase: catalog-2-15 | wave: W3 | task: W3-T1..T3 port | task_status: DONE | verification: worktree commit e021a93 merged; 9 items with MIT + 69ff967 headers, registry 62 items, demos + nav wired, manifest repinned, README counts; globe-map uses existing d3-geo + bundled land mask (no new dependency) | surfaces: packages/registry/**, app/demos/*, app/components/playground.tsx, README.md, kumo-source-manifest.json
+- 2026-10-20 | phase: catalog-2-15 | wave: W3 | task: W3-T4 gates | task_status: DONE (PR pending) | verification: validate 62, build, validate:build, e2e, app typecheck, lint, a11y 127/0; visual 118 failed only on sidebar nav shift + 18 new snapshots (reviewed button diff, menubar and globe-map actuals) → updated, 119 passed | surfaces: app/visual/__screenshots__/*, .claude/skills/kumo-design/SKILL.md
+
 ## Current State and Next Action
 
-- Active phase: `registry-rules`
+- Active phase: `showroom-rules`
 - lifecycle_status: planned
 - Branch: `feat/kumo-alignment`
 - Blockers: none
-- exact_next_action: `work full` starting at Phase 1 W1-T1 (audit table)
+- exact_next_action: Phase 2 W2-T1 — audit showroom chrome + demos (`app/app/**`, `app/components/*.tsx`, `app/demos/**`)
 
 ## Decisions
 
@@ -188,5 +193,7 @@ Recovery: each phase is its own commit set; revert per phase.
   `tracking-tight` for headings.
 - 2026-10-20 | catalog | Follow the 2.15.0 catalog: drop Flow (not listed), add
   GlobeMap (listed, new since 2.13.0).
+
+- 2026-10-20 | text-scale | Kumo's theme maps text-base to 14px; our Tailwind default is 16px, so ported `text-base` content text becomes `text-sm`. `Text` keeps variant name `base` (API unchanged) with class `text-sm`.
 
 ## Validation
