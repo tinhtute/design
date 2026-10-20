@@ -1,5 +1,5 @@
 {
-  "pin": "a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf",
+  "pin": "69ff967a00448619feb72367cbbc4d0fa37ecc14",
   "topo": [
     "badge",
     "code",
@@ -37,10 +37,19 @@
     "checkbox",
     "field",
     "table",
-    "switch"
+    "switch",
+    "button-group",
+    "date-range-picker",
+    "globe-map",
+    "inline-copy-text",
+    "layer-dialog",
+    "menubar",
+    "slider",
+    "surface",
+    "tag-input"
   ],
   "cycles": [
-    "input-area depends on input; input-group depends on input \u2014 order: field, input, then input-area/input-group"
+    "input-area depends on input; input-group depends on input — order: field, input, then input-area/input-group"
   ],
   "items": {
     "autocomplete": {
@@ -359,11 +368,65 @@
       ],
       "registryDependencies": ["third-party-licenses"],
       "dependencies": []
+    },
+    "button-group": {
+      "files": ["components/button-group/button-group.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": []
+    },
+    "date-range-picker": {
+      "files": ["components/date-range-picker/date-range-picker.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"]
+    },
+    "globe-map": {
+      "files": ["components/chart/GlobeMap.tsx", "components/chart/globe-land-mask.ts"],
+      "registryDependencies": ["chart", "third-party-licenses", "utils"],
+      "dependencies": ["d3-geo"]
+    },
+    "inline-copy-text": {
+      "files": ["components/inline-copy-text/inline-copy-text.tsx"],
+      "registryDependencies": ["text", "third-party-licenses", "utils"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"]
+    },
+    "layer-dialog": {
+      "files": ["components/layer-dialog/layer-dialog.tsx"],
+      "registryDependencies": [
+        "button",
+        "button-group",
+        "dropdown-menu",
+        "layer-card",
+        "text",
+        "third-party-licenses",
+        "utils"
+      ],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"]
+    },
+    "menubar": {
+      "files": ["components/menubar/menubar.tsx", "components/menubar/use-menu-navigation.ts"],
+      "registryDependencies": ["third-party-licenses", "tooltip", "utils"],
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"]
+    },
+    "slider": {
+      "files": ["components/slider/slider.tsx"],
+      "registryDependencies": ["third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react"]
+    },
+    "surface": {
+      "files": ["components/surface/surface.tsx"],
+      "registryDependencies": ["layer-card", "third-party-licenses", "utils"],
+      "dependencies": []
+    },
+    "tag-input": {
+      "files": ["components/tag-input/tag-input.tsx"],
+      "registryDependencies": ["button", "field", "input", "third-party-licenses", "utils"],
+      "dependencies": ["@base-ui/react", "@hugeicons/react", "@hugeicons/core-free-icons"]
     }
   },
   "notes": {
-    "input-cycle": "Do not copy components/input/index.ts barrels. input owns input.tsx only; input-area owns input-area.tsx; input-group owns its folder. That removes input\u2194input-area cycle.",
+    "input-cycle": "Do not copy components/input/index.ts barrels. input owns input.tsx only; input-area owns input-area.tsx; input-group owns its folder. That removes input↔input-area cycle.",
     "chart-family": "chart owns Color.ts EChart.tsx Legend.tsx Maps.tsx tooltip-utils.ts and a rewritten index that does NOT re-export Sankey/Timeseries/Maps public charts as separate packages. bubble-map and choropleth-map are thin re-export files depending on chart. sankey-chart owns SankeyChart.tsx. timeseries-chart owns TimeseriesChart.tsx + timeseries-*.",
-    "targets": "Consumer path components/ui/{kebab}.tsx or components/ui/{kebab}/* when multiple files. Shared lib files land in lib/ via utils item."
+    "targets": "Consumer path components/ui/{kebab}.tsx or components/ui/{kebab}/* when multiple files. Shared lib files land in lib/ via utils item.",
+    "pin-2.15.0": "Repinned to @cloudflare/kumo@2.15.0 (commit 69ff967). The 9 items added in 2.15.0 (button-group, date-range-picker, globe-map, inline-copy-text, layer-dialog, menubar, slider, surface, tag-input) were ported from it; earlier items still carry a5800aa source headers until they are re-synced. menubar inlines use-menu-navigation.ts."
   }
 }

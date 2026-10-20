@@ -3,7 +3,7 @@
 # e2e-smoke.sh — prove a fresh consumer can install the full @therealtinhtute/design
 # catalog from the locally built registry and render it with the theme.
 #
-# Flow: build+validate the registry -> exact-set of 53 names -> serve public/
+# Flow: build+validate the registry -> exact-set of 62 names -> serve public/
 # -> isolated add of button/badge/dialog/chart each in a fresh consumer
 # -> full-set add in the main consumer -> build -> CSS + license + lockfile
 # asserts -> SSR render-check.
@@ -30,6 +30,7 @@ EXPECTED_NAMES=(
   breadcrumbs
   bubble-map
   button
+  button-group
   chart
   checkbox
   choropleth-map
@@ -41,20 +42,25 @@ EXPECTED_NAMES=(
   dashboard
   data-table
   date-picker
+  date-range-picker
   delete-resource
   dialog
   dropdown-menu
   empty
   field
   filter-bar
+  globe-map
   grid
+  inline-copy-text
   input
   input-area
   input-group
   label
   layer-card
+  layer-dialog
   link
   loader
+  menubar
   meter
   page-header
   pagination
@@ -65,10 +71,13 @@ EXPECTED_NAMES=(
   select
   sensitive-input
   sidebar
+  slider
+  surface
   switch
   table
   table-of-contents
   tabs
+  tag-input
   text
   theme-default
   third-party-licenses
@@ -288,8 +297,8 @@ pnpm --filter @therealtinhtute/registry build
 pnpm --filter @therealtinhtute/registry validate:build >/dev/null
 ok "registry built + schema-validated"
 
-# --- 2. exact-set of 53 names ----------------------------------------------
-step "exact-set: 53 registry names"
+# --- 2. exact-set of 62 names ----------------------------------------------
+step "exact-set: 62 registry names"
 BUILT_REGISTRY="$REGISTRY_PUBLIC/r/registry.json"
 if [ ! -f "$BUILT_REGISTRY" ]; then
   fail "missing $BUILT_REGISTRY"
@@ -298,9 +307,9 @@ fi
 GOT_SORTED="$(jq -r '.items[].name' "$BUILT_REGISTRY" | LC_ALL=C sort)"
 EXP_SORTED="$(printf '%s\n' "${EXPECTED_NAMES[@]}" | LC_ALL=C sort)"
 if [ "$GOT_SORTED" = "$EXP_SORTED" ]; then
-  ok "public/r/registry.json names = 53 catalog set"
+  ok "public/r/registry.json names = 62 catalog set"
 else
-  fail "public/r/registry.json names do not equal the 53-name catalog set"
+  fail "public/r/registry.json names do not equal the 62-name catalog set"
   printf 'missing:\n'
   comm -23 <(printf '%s\n' "$EXP_SORTED") <(printf '%s\n' "$GOT_SORTED") || true
   printf 'extra:\n'
@@ -364,14 +373,14 @@ for item in button badge dialog chart; do
 done
 
 # --- 6. main consumer: full catalog add -------------------------------------
-step "scaffold main consumer + add all 53 items"
+step "scaffold main consumer + add all 62 items"
 cp -a "$BASE_CONSUMER" "$CONSUMER"
 ADD_ARGS=()
 for name in "${EXPECTED_NAMES[@]}"; do
   ADD_ARGS+=("@therealtinhtute/$name")
 done
 "${SHADCN[@]}" add "${ADD_ARGS[@]}" --cwd "$CONSUMER" -y
-ok "all 53 items added"
+ok "all 62 items added"
 
 cat > "$CONSUMER/src/main.tsx" <<'EOF'
 import { StrictMode, useState } from "react";
