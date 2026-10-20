@@ -17,8 +17,10 @@ updated: 2026-10-20
 1. **Registry rule pass** — the 44 registry UI components obey the 15 Kumo
    design rules in `.claude/skills/kumo-design/SKILL.md`, with every colour
    token in `DESIGN.md` unchanged.
-2. **Showroom rule pass** — the `app` showroom chrome and demos obey the same
-   rules, tokens unchanged.
+2. **Showroom redesign** — the whole `app` showroom (Playground home and
+   `/docs`) is redesigned from one owner-chosen direction out of 2–3 mocks;
+   navigation, grouping, routes and page layout may change; chrome and demos
+   obey the same rules, tokens unchanged.
 3. **Catalog catch-up** — the registry ships the 9 items present in the Kumo
    2.15.0 catalog but missing locally, and the source pin moves to 2.15.0.
 
@@ -52,17 +54,21 @@ updated: 2026-10-20
    exception in Decisions. Mechanical probes over
    `packages/registry/src/components/ui` return 0: `font-bold`, `tracking-`,
    hover `transition-colors`, `uppercase` on headings.
-3. **R3 (showroom rules)**: the same audit and probes over `app/` (excluding
+3. **R7 (redesign direction)**: 2–3 distinct mocks of the showroom exist and
+   the owner's chosen one is recorded in Decisions before any showroom code
+   changes; the shipped showroom matches it, every registry item stays
+   reachable from navigation and keeps its demo, code and props views.
+4. **R3 (showroom rules)**: the same audit and probes over `app/` (excluding
    `app/components/ui`, which mirrors the registry) return 0 or justified
    exceptions.
-4. **R4 (catalog)**: `registry.json` contains `button-group`,
+5. **R4 (catalog)**: `registry.json` contains `button-group`,
    `date-range-picker`, `globe-map`, `inline-copy-text`, `layer-dialog`,
    `menubar`, `slider`, `surface`, `tag-input`; each file has the MIT + 2.15.0
    pin header, depends on `third-party-licenses`, and has a showroom demo.
-5. **R5 (pin)**: every ported/updated source header and
+6. **R5 (pin)**: every ported/updated source header and
    `kumo-source-manifest.json` cite the 2.15.0 commit; README item counts match
    `registry.json`.
-6. **R6 (gates)**: registry validate / validate:build / e2e, app a11y (0
+7. **R6 (gates)**: registry validate / validate:build / e2e, app a11y (0
    violations), visual (baselines updated only after each diff is reviewed),
    typecheck, lint, `pnpm -r build` all exit 0.
 
@@ -72,7 +78,8 @@ updated: 2026-10-20
 - No Flow (absent from the 2.15.0 catalog); no `cloudflare-logo`.
 - No behaviour back-port of the 34 upstream-touched existing components beyond
   what a rule fix needs — drift fixes are a separate initiative.
-- No change to the showroom information architecture or docs content.
+- No change to docs content (prose) or registry component APIs as part of the
+  showroom redesign.
 
 ## Approach and Risks
 
@@ -193,6 +200,11 @@ Recovery: each phase is its own commit set; revert per phase.
   `tracking-tight` for headings.
 - 2026-10-20 | catalog | Follow the 2.15.0 catalog: drop Flow (not listed), add
   GlobeMap (listed, new since 2.13.0).
+
+- 2026-10-20 | showroom-redesign | Owner chose to fold a full showroom redesign
+  (Playground + `/docs`, IA may change) into this plan instead of the P2
+  rule-only pass; direction picked from 2–3 mocks. P2 phase definition needs
+  `to-plan` to re-plan it around R7.
 
 - 2026-10-20 | text-scale | Kumo's theme maps text-base to 14px; our Tailwind default is 16px, so ported `text-base` content text becomes `text-sm`. `Text` keeps variant name `base` (API unchanged) with class `text-sm`.
 
