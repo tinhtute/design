@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Showroom redesign directions (throwaway)</title>
+    <style>
+      :root {
+        --brand: #124b68;
+        --bg: #f7f5f2;
+        --ink: #1a1a1a;
+        --subtle: #6b6b6b;
+        --line: #e6e6e6;
+        --base: #fff;
+        --font: "Archivo", "Helvetica Neue", sans-serif;
+        --serif: "Xanh Mono", "Courier New", monospace;
+        --mono: "Google Sans Code", ui-monospace, monospace;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font: 14px/1.5 var(--font);
+        color: var(--ink);
+        background: #ddd;
+      }
+      .switcher {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        gap: 8px;
+        padding: 10px 14px;
+        background: #111;
+        color: #fff;
+      }
+      .switcher button {
+        border: 1px solid #444;
+        background: #222;
+        color: #fff;
+        padding: 6px 10px;
+        cursor: pointer;
+        font: 12px/1 var(--mono);
+      }
+      .switcher button[aria-pressed="true"] {
+        background: var(--brand);
+        border-color: var(--brand);
+      }
+      .switcher .note {
+        margin-left: auto;
+        font: 11px/1.4 var(--mono);
+        color: #aaa;
+        align-self: center;
+      }
+      .frame {
+        width: min(1180px, 100%);
+        margin: 18px auto 40px;
+        background: var(--bg);
+        border: 1px solid #bbb;
+        min-height: 720px;
+        overflow: hidden;
+      }
+      .variant { display: none; min-height: 720px; }
+      .variant.active { display: grid; }
+      .rail {
+        border-right: 1px dashed var(--line);
+        background: var(--base);
+        padding: 14px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .brand .mark {
+        width: 22px;
+        height: 22px;
+        background: var(--brand);
+      }
+      .brand .name { font-family: var(--serif); font-size: 18px; }
+      .group { margin: 14px 0 6px; font: 10px/1 var(--mono); color: var(--subtle); letter-spacing: 0.02em; }
+      .item {
+        display: flex;
+        gap: 8px;
+        align-items: baseline;
+        padding: 4px 6px;
+        color: var(--subtle);
+        text-decoration: none;
+      }
+      .item.on { color: var(--ink); background: #eee; }
+      .idx { font: 10px/1 var(--mono); width: 18px; }
+      .stage { padding: 18px 22px; }
+      .tabs { display: flex; gap: 10px; margin: 8px 0 14px; font: 12px/1 var(--mono); color: var(--subtle); }
+      .tabs .on { color: var(--ink); border-bottom: 1px solid var(--ink); }
+      .specimen {
+        border: 1px dashed var(--line);
+        background: var(--base);
+        min-height: 220px;
+        display: grid;
+        place-items: center;
+      }
+      .btn {
+        background: var(--brand);
+        color: #fff;
+        border: 0;
+        padding: 8px 14px;
+        font: 14px/1 var(--font);
+      }
+      h1 { font: 600 28px/1.2 var(--serif); margin: 0 0 6px; }
+      p.lead { margin: 0 0 14px; color: var(--subtle); max-width: 42ch; }
+
+      #a { grid-template-columns: 240px 1fr; background: var(--base); }
+      #a .stage { background: #fff; }
+
+      #b { grid-template-rows: auto 1fr; }
+      #b .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+      #b .body { display: grid; grid-template-columns: 320px 1fr; }
+      #b .index {
+        padding: 12px;
+        background: #fafafa;
+        border-right: 1px solid var(--line);
+        columns: 2;
+        column-gap: 12px;
+      }
+      #b .index a {
+        display: block;
+        font: 12px/1.6 var(--mono);
+        color: var(--subtle);
+        text-decoration: none;
+        break-inside: avoid;
+      }
+      #b .index a.on { color: var(--brand); }
+      #b .stage { background: #fff; }
+
+      #c { grid-template-rows: auto 1fr; background: var(--bg); }
+      #c .hero {
+        padding: 28px 28px 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      #c .hero h1 { font-size: 40px; color: var(--brand); }
+      #c .workspace {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        min-height: 560px;
+      }
+      #c .rail { background: transparent; border-right: 1px solid var(--line); }
+      #c .specimen { border-style: solid; min-height: 280px; }
+    </style>
+  </head>
+  <body>
+    <div class="switcher" role="toolbar" aria-label="Direction switcher">
+      <button type="button" data-v="a" aria-pressed="true">A Refine designeer</button>
+      <button type="button" data-v="b" aria-pressed="false">B Catalog index</button>
+      <button type="button" data-v="c" aria-pressed="false">C Editorial lab</button>
+      <span class="note">Throwaway. Tokens locked. Pick one before showroom code.</span>
+    </div>
+
+    <div class="frame">
+      <section id="a" class="variant active" aria-label="Direction A">
+        <aside class="rail">
+          <div class="brand"><span class="mark"></span><span class="name">mono</span></div>
+          <div class="group">01 Action</div>
+          <a class="item on" href="#"><span class="idx">01</span>Button</a>
+          <a class="item" href="#"><span class="idx">02</span>Button group</a>
+          <div class="group">02 Display</div>
+          <a class="item" href="#"><span class="idx">03</span>Badge</a>
+          <a class="item" href="#"><span class="idx">04</span>Surface</a>
+          <div class="group">03 Input</div>
+          <a class="item" href="#"><span class="idx">05</span>Combobox</a>
+        </aside>
+        <div class="stage">
+          <h1>Button</h1>
+          <p class="lead">Keep dashed hairlines and mono index labels. Tighten grouping and share chrome with docs.</p>
+          <div class="tabs"><span class="on">Demo</span><span>Code</span><span>Props</span></div>
+          <div class="specimen"><button class="btn">Primary</button></div>
+        </div>
+      </section>
+
+      <section id="b" class="variant" aria-label="Direction B">
+        <div class="top">
+          <div class="brand"><span class="mark"></span><span class="name">mono</span></div>
+          <span style="font:12px var(--mono);color:var(--subtle)">62 components · search ⌘K</span>
+        </div>
+        <div class="body">
+          <nav class="index" aria-label="Catalog">
+            <a class="on" href="#">button</a>
+            <a href="#">button-group</a>
+            <a href="#">badge</a>
+            <a href="#">breadcrumbs</a>
+            <a href="#">combobox</a>
+            <a href="#">date-picker</a>
+            <a href="#">globe-map</a>
+            <a href="#">layer-dialog</a>
+            <a href="#">menubar</a>
+            <a href="#">slider</a>
+            <a href="#">surface</a>
+            <a href="#">tag-input</a>
+            <a href="#">toasty</a>
+            <a href="#">tooltip</a>
+          </nav>
+          <div class="stage">
+            <h1>button</h1>
+            <p class="lead">Registry-browser density. Flat A-Z index. Specimen stage dominates.</p>
+            <div class="tabs"><span class="on">Demo</span><span>Code</span><span>Props</span></div>
+            <div class="specimen"><button class="btn">Primary</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="c" class="variant" aria-label="Direction C">
+        <div class="hero">
+          <div class="brand"><span class="mark"></span><span class="name">mono</span></div>
+          <h1>Specimens</h1>
+          <p class="lead">Editorial home, then a quiet workspace. Showroom and docs share one shell.</p>
+        </div>
+        <div class="workspace">
+          <aside class="rail">
+            <div class="group">Library</div>
+            <a class="item on" href="#"><span class="idx">·</span>Button</a>
+            <a class="item" href="#"><span class="idx">·</span>Surface</a>
+            <a class="item" href="#"><span class="idx">·</span>Docs</a>
+          </aside>
+          <div class="stage">
+            <div class="tabs"><span class="on">Demo</span><span>Code</span><span>Props</span></div>
+            <div class="specimen"><button class="btn">Primary</button></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const buttons = [...document.querySelectorAll(".switcher button")];
+      const variants = {
+        a: document.getElementById("a"),
+        b: document.getElementById("b"),
+        c: document.getElementById("c"),
+      };
+      function show(id) {
+        for (const [key, el] of Object.entries(variants)) {
+          el.classList.toggle("active", key === id);
+        }
+        for (const btn of buttons) {
+          btn.setAttribute("aria-pressed", String(btn.dataset.v === id));
+        }
+      }
+      for (const btn of buttons) {
+        btn.addEventListener("click", () => show(btn.dataset.v));
+      }
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "1") show("a");
+        if (e.key === "2") show("b");
+        if (e.key === "3") show("c");
+      });
+    </script>
+  </body>
+</html>
