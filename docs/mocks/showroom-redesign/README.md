@@ -2,7 +2,7 @@
 
 Three throwaway directions for the showroom sit in this folder. `index.html` switches among them. Keys 1, 2, and 3 switch too.
 
-The recorded default is A, Refine designeer. The operator still picks. The active plan has no direction line yet.
+The operator picked A, Refine designeer. Decisions in `docs/plans/active/kumo-alignment.md` records that pick.
 
 ## Variants
 
@@ -19,4 +19,4 @@ The recorded default is A, Refine designeer. The operator still picks. The activ
 
 ## Default
 
-The recorded default is A, Refine designeer, because it keeps the current designeer chrome and tightens grouping. Shell, playground, and docs work waits until the operator picks A, B, or C.
+The operator picked A, Refine designeer, because it keeps the current designeer chrome and tightens grouping. Shell, Playground, and docs follow A.
