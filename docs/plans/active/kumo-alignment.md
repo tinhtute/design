@@ -7,7 +7,7 @@ status: active
 lane: normal
 input_type: new-initiative
 created: 2026-10-20
-updated: 2026-10-20
+updated: 2026-11-11
 ---
 
 # Kumo design-rule alignment and 2.15.0 catalog catch-up
@@ -140,19 +140,40 @@ Recovery: each phase is its own commit set; revert per phase.
     typecheck, lint, build; visual diff reviewed then `visual:update`.
 - **Stop**: a fix requires a token value change.
 
-### Phase 2: Showroom rule pass
+### Phase 2: Showroom redesign
 
-- **Slug**: `showroom-rules`
+- **Slug**: `showroom-redesign`
 - **story_id**: story-showroom-rules-20261020
-- **Status**: planned
+- **Status**: in progress
 - **Depends on**: `registry-rules`
-- **Goal**: R1, R3.
-- **Surfaces**: `app/app/**`, `app/components/*.tsx` (not `ui/`), `app/demos/**`,
-  app CSS. Avoid: `packages/tokens/**`.
+- **Goal**: R1 and R7, then R3 and R6 on the gates wave.
+- **Surfaces**: `docs/mocks/showroom-redesign/**` and this plan, then shared
+  chrome in `app/app/layout.tsx`, `app/app/globals.css`, and a shared module
+  under `app/components/`. After shell, Playground and docs chrome run in
+  parallel. The gates wave is the only writer of
+  `app/visual/__screenshots__/**`. Leave colour values in
+  `app/app/theme.css` unchanged. Also leave `packages/tokens/**`,
+  `app/content/docs/**`, `app/components/ui/**`, and `packages/registry/**`
+  unchanged.
 - **Waves/Tasks**:
-  - W2-T1: audit showroom chrome + demos; table to Progress.
-  - W2-T2: fix findings. Check: R3 probes = 0 or justified.
-  - W2-T3: a11y + reviewed visual update. Check: 0 violations; baselines updated.
+  - **Mocks.** Done. The three direction images are in
+    `docs/mocks/showroom-redesign/`. Decisions names A Refine designeer.
+    Check that the branch diff lists no `app/` or `packages/` paths.
+  - **Shell.** Put the same designeer frame on `/` and `/docs`. Keep the
+    brand mark, dashed hairlines, and mono index labels. Do not rewrite
+    Playground `GROUPS`. Do not edit docs prose. Check that both routes
+    share that frame and that colour tokens stay unchanged.
+  - **Playground and docs.** Run these in parallel after shell. Playground
+    tightens grouping and the specimen layout. It keeps all 59 sidebar
+    slugs, Demo, Code, and Props, `/#slug`, and Search (Meta+K). Docs
+    aligns its chrome to the shared shell and keeps
+    `nav[aria-label="Docs"]`. Check that each change stays in its own
+    file list.
+  - **Gates.** Run `pnpm --filter app a11y`. Review screenshot diffs, then
+    run `visual:update`, then `pnpm --filter app visual`. Record counts in
+    Progress. Set this phase to checked when the R3, R7, and R6 app gates
+    pass.
+- **Stop**: a change needs a colour token edit.
 
 ### Phase 3: Catalog catch-up to 2.15.0
 
@@ -183,14 +204,15 @@ Recovery: each phase is its own commit set; revert per phase.
 - 2026-10-20 | phase: registry-rules | wave: W1 | task: W1-T3 gates | task_status: DONE | verification: baselines were stale since b9f3f0a (101/101 failing on main) → regenerated from main in a worktree (101 passed) and committed 1fc1637; `app/components/ui` found to be a hand mirror, not synced by build → mirrored (`diff -rq` empty); visual then failed 48 (24 demos, max ratio 0.02, reviewed: button text size, table props) → updated, 101 passed; build, validate:build, e2e, app typecheck, lint, a11y 109/0 pass; `git diff main -- packages/tokens` empty | surfaces: app/components/ui/*, app/visual/__screenshots__/*
 - 2026-10-20 | phase: catalog-2-15 | wave: W3 | task: W3-T1..T3 port | task_status: DONE | verification: worktree commit e021a93 merged; 9 items with MIT + 69ff967 headers, registry 62 items, demos + nav wired, manifest repinned, README counts; globe-map uses existing d3-geo + bundled land mask (no new dependency) | surfaces: packages/registry/**, app/demos/*, app/components/playground.tsx, README.md, kumo-source-manifest.json
 - 2026-10-20 | phase: catalog-2-15 | wave: W3 | task: W3-T4 gates | task_status: DONE (PR pending) | verification: validate 62, build, validate:build, e2e, app typecheck, lint, a11y 127/0; visual 118 failed only on sidebar nav shift + 18 new snapshots (reviewed button diff, menubar and globe-map actuals) → updated, 119 passed | surfaces: app/visual/__screenshots__/*, .claude/skills/kumo-design/SKILL.md
+- 2026-11-11 | phase: showroom-redesign | wave: mocks | task: direction A | task_status: DONE | verification: Decisions names A Refine designeer; three pngs under docs/mocks/showroom-redesign/; diff against feat/showroom-redesign has no app/ or packages/ paths | surfaces: docs/plans/active/kumo-alignment.md
 
 ## Current State and Next Action
 
-- Active phase: `showroom-rules`
-- lifecycle_status: planned
-- Branch: `feat/kumo-alignment`
+- Active phase: `showroom-redesign`
+- lifecycle_status: in progress
+- Branch: `feat/showroom-mocks` (base `feat/showroom-redesign`)
 - Blockers: none
-- exact_next_action: Phase 2 W2-T1 — audit showroom chrome + demos (`app/app/**`, `app/components/*.tsx`, `app/demos/**`)
+- exact_next_action: Branch `showroom-shell` from `feat/showroom-mocks` and build the shared chrome only (`app/app/layout.tsx`, `app/app/globals.css`, and a shared module under `app/components/` if both surfaces need it).
 
 ## Decisions
 
@@ -207,5 +229,7 @@ Recovery: each phase is its own commit set; revert per phase.
   `to-plan` to re-plan it around R7.
 
 - 2026-10-20 | text-scale | Kumo's theme maps text-base to 14px; our Tailwind default is 16px, so ported `text-base` content text becomes `text-sm`. `Text` keeps variant name `base` (API unchanged) with class `text-sm`.
+- 2026-11-11 | showroom-redesign | direction A Refine designeer. Keep dashed hairlines and mono index labels. Tighten grouping. Playground and docs share one chrome. Colour tokens stay locked. Phase 2 in this plan is the re-plan the 2026-10-20 entry left open.
+- 2026-11-11 | text-scale | `--text-2xs` index labels stay at `0.625rem`. `content-text-size` sets content text at 14px. Those labels are the mono index numbers in Playground and docs. They are chrome, not content text. The smaller size is a justified exception. Do not edit colour tokens in `app/app/theme.css`. Shell may change the label size later. It must leave those colour values unchanged.
 
 ## Validation
