@@ -1,11 +1,14 @@
 import Link from 'next/link';
 import { DocsToc } from '@/components/docs-toc';
+import { SiteBar, SiteBrand, SiteIndexLabel } from '@/components/site-frame';
 import type { Doc } from '@/lib/docs';
 
 /**
- * Docs chrome shared by `/docs` and `/docs/<slug>`: topic nav, the rendered
- * article, an on-page table of contents, and previous/next links. The article
- * body keeps the `.mono-doc` typography from `docs.css`.
+ * Docs chrome shared by `/docs` and `/docs/<slug>`: the shared site rail and
+ * bar around topic nav, the rendered article, an on-page table of contents,
+ * and previous/next links. The article body keeps the `.mono-doc` typography
+ * from `docs.css`, scoped to `<main>` so its prose link styles never reach
+ * the shared rail and bar.
  */
 export function DocsShell({
   doc,
@@ -21,23 +24,13 @@ export function DocsShell({
   html: string;
 }) {
   return (
-    <main className="mono-doc mono-index min-h-dvh bg-kumo-base text-kumo-default">
-      <header className="sticky top-0 z-10 flex items-center justify-between border-b border-dashed border-kumo-line bg-kumo-base px-6 py-3">
-        <div className="flex min-w-0 items-center gap-2">
-          <img src="/logo-solid.svg" alt="" className="size-6 shrink-0" />
-          <span className="font-serif text-lg">mono</span>
-          <span className="font-mono text-2xs text-kumo-subtle">docs</span>
-        </div>
-        <Link
-          href="/"
-          className="rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
-        >
-          Showroom
-        </Link>
-      </header>
-
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-10 lg:flex-row">
-        <nav aria-label="Docs" className="lg:sticky lg:top-20 lg:w-52 lg:shrink-0 lg:self-start">
+    <div className="mono-index flex min-h-dvh flex-col bg-kumo-base text-kumo-default lg:flex-row">
+      <aside
+        data-site-rail=""
+        className="flex flex-col gap-5 border-b border-dashed border-kumo-line px-3 py-4 lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-b-0"
+      >
+        <SiteBrand />
+        <nav aria-label="Docs">
           <ul className="grid gap-1">
             {docs.map((entry, i) => (
               <li key={entry.slug}>
@@ -59,40 +52,45 @@ export function DocsShell({
             ))}
           </ul>
         </nav>
+      </aside>
 
-        <article className="min-w-0 flex-1">
-          <div dangerouslySetInnerHTML={{ __html: html }} />
-          <nav
-            aria-label="Docs pages"
-            className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-kumo-line pt-4 text-sm"
-          >
-            {previous ? (
-              <Link
-                href={previous.href}
-                className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
-              >
-                ← {previous.title}
-              </Link>
-            ) : (
-              <span />
-            )}
-            {next ? (
-              <Link
-                href={next.href}
-                className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
-              >
-                {next.title} →
-              </Link>
-            ) : null}
-          </nav>
-        </article>
+      <div className="flex min-w-0 flex-1 flex-col">
+        <SiteBar section="docs" start={<SiteIndexLabel>docs/{doc.slug}</SiteIndexLabel>} />
+        <main className="mono-doc mx-auto flex w-full max-w-5xl flex-1 gap-8 px-6 py-10">
+          <article className="min-w-0 flex-1">
+            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <nav
+              aria-label="Docs pages"
+              className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-kumo-line pt-4 text-sm"
+            >
+              {previous ? (
+                <Link
+                  href={previous.href}
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                >
+                  ← {previous.title}
+                </Link>
+              ) : (
+                <span />
+              )}
+              {next ? (
+                <Link
+                  href={next.href}
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                >
+                  {next.title} →
+                </Link>
+              ) : null}
+            </nav>
+          </article>
 
-        {doc.headings.length > 0 ? (
-          <aside className="hidden xl:sticky xl:top-20 xl:block xl:w-44 xl:shrink-0 xl:self-start">
-            <DocsToc headings={doc.headings} />
-          </aside>
-        ) : null}
+          {doc.headings.length > 0 ? (
+            <aside className="hidden xl:sticky xl:top-20 xl:block xl:w-44 xl:shrink-0 xl:self-start">
+              <DocsToc headings={doc.headings} />
+            </aside>
+          ) : null}
+        </main>
       </div>
-    </main>
+    </div>
   );
 }
