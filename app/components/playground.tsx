@@ -71,7 +71,7 @@ import { Text } from '@/components/ui/text';
 import { ToastProvider } from '@/components/ui/toasty';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-import { ThemeToggle } from '@/components/theme-toggle';
+import { SiteBar, SiteBrand, SiteIndexLabel } from '@/components/site-frame';
 import { PropsTable } from '@/components/props-table';
 import { DEMOS } from '@/demos';
 import type { PropsBySlug } from '@/lib/props';
@@ -255,10 +255,7 @@ export function Playground({
             <Sidebar>
               <Sidebar.Header className="h-auto flex-col items-stretch">
                 <div className="flex min-w-0 flex-col gap-1.5 py-4">
-                  <div className="flex min-w-0 items-center gap-2">
-                    <img src="/logo-solid.svg" alt="" className="size-6 shrink-0" />
-                    <h1 className="font-serif text-lg text-kumo-default">mono</h1>
-                  </div>
+                  <SiteBrand as="h1" />
                   <p className="text-xs leading-snug whitespace-normal text-kumo-subtle">
                     Source-first shadcn registry — Base UI + Hugeicons.
                   </p>
@@ -301,14 +298,17 @@ export function Playground({
               </Sidebar.Footer>
             </Sidebar>
             <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
-              <header className="sticky top-0 z-10 flex items-center justify-between border-b border-kumo-line bg-kumo-base px-6 py-3">
-                <div className="flex min-w-0 items-center gap-3">
-                  <Sidebar.Trigger />
-                  <span className="font-mono text-2xs text-kumo-subtle">
-                    {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')}/{slug}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
+              <SiteBar
+                section="showroom"
+                start={
+                  <>
+                    <Sidebar.Trigger />
+                    <SiteIndexLabel>
+                      {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')}/{slug}
+                    </SiteIndexLabel>
+                  </>
+                }
+                actions={
                   <Button
                     type="button"
                     variant="secondary"
@@ -322,15 +322,8 @@ export function Playground({
                       ⌘K
                     </kbd>
                   </Button>
-                  <Link
-                    href="/docs"
-                    className="rounded-md px-2 py-1 text-sm text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
-                  >
-                    Docs
-                  </Link>
-                  <ThemeToggle />
-                </div>
-              </header>
+                }
+              />
               <main className="flex-1 overflow-y-auto px-8 py-8">
                 <div className="mx-auto grid max-w-3xl gap-6">
                   <div className="grid gap-1.5">
