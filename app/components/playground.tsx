@@ -308,7 +308,7 @@ export function Playground({
                         </Tabs.Tab>
                       ))}
                     </Tabs.List>
-                    <Tabs.Panel value="demo" className="grid gap-4 outline-none">
+                    <Tabs.Panel value="demo" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
                       <div className="border border-dashed border-kumo-line p-6">
                         {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
                       </div>
@@ -318,7 +318,7 @@ export function Playground({
                         </p>
                       ) : null}
                     </Tabs.Panel>
-                    <Tabs.Panel value="code" className="grid gap-4 outline-none">
+                    <Tabs.Panel value="code" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
                       {entry ? (
                         <>
                           <ClipboardText
@@ -335,7 +335,7 @@ export function Playground({
                         <Text>Unknown component.</Text>
                       )}
                     </Tabs.Panel>
-                    <Tabs.Panel value="props" className="outline-none">
+                    <Tabs.Panel value="props" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
                       {props[slug]?.length ? (
                         <PropsTable docs={props[slug]} />
                       ) : (
