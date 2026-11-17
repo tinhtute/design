@@ -216,11 +216,11 @@ Recovery: each phase is its own commit set; revert per phase.
 ## Current State and Next Action
 
 - Active phase: `showroom-redesign`
-- lifecycle_status: in progress (all waves done; pending independent verifier + owner review of the new grouping)
+- lifecycle_status: in progress (all waves done and verified; PR #17 awaiting owner review)
 - Branch: `feat/showroom-waves` (base `feat/showroom-shell` @ 8401a31; worktree `../design-showroom-waves`)
 - Blockers: none
 - Open items: dashboard heading `font-bold` in both `packages/registry/src/components/dashboard.tsx:107` and its app copy (fix in a registry-scoped change); only 3 of 119 actuals reviewed by eye before `visual:update` (verifier spot-checked 2 more); inactive tab panels unmount, so demo state resets when switching tabs; date-range-picker baselines are date-dependent (will fail next month; freeze the demo date); axe now scans only the Demo tab, so Code blocks and props tables on `/#slug` are no longer covered; docs TOC renders list bullets (pre-existing, `docs-toc.tsx`); docs article body is 15px vs Kumo 14px (prose CSS, out of scope); item indices are positional, so reordering `GROUPS` renumbers them.
-- exact_next_action: Independent verifier over `git diff 8401a31..feat/showroom-waves`; then owner reviews grouping and decides whether to push `feat/showroom-waves` and open a PR stacked on #16; then set Phase 2 to checked and close the plan.
+- exact_next_action: Owner reviews PR #17 (feat/showroom-waves → feat/showroom-shell; grouping, 12px tab labels). After the #14→#15→#16→#17 stack merges, set Phase 2 to checked and move this plan to docs/plans/completed/. Verifier already ran (ISSUES, no blockers; fixes in 403549c).
 
 ## Decisions
 
