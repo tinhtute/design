@@ -39,8 +39,8 @@ export function DocsShell({
                   aria-current={entry.slug === doc.slug ? 'page' : undefined}
                   className={
                     entry.slug === doc.slug
-                      ? 'flex items-baseline gap-2 rounded-md bg-kumo-fill px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      ? 'flex items-baseline gap-2 rounded-md bg-sidebar-accent px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-sidebar-accent hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
                   }
                 >
                   <span className="w-5 shrink-0 font-mono text-2xs leading-none">
