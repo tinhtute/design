@@ -31,7 +31,7 @@ export function DocsShell({
       >
         <SiteBrand />
         <nav aria-label="Docs">
-          <ul className="grid gap-1">
+          <ul className="grid gap-0.5">
             {docs.map((entry, i) => (
               <li key={entry.slug}>
                 <Link
@@ -39,11 +39,11 @@ export function DocsShell({
                   aria-current={entry.slug === doc.slug ? 'page' : undefined}
                   className={
                     entry.slug === doc.slug
-                      ? 'flex items-baseline gap-2 rounded-md px-2 py-1 text-xs no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-xs no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      ? 'flex items-baseline gap-2 rounded-md bg-kumo-fill px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
                   }
                 >
-                  <span className="font-mono text-2xs leading-none text-kumo-subtle">
+                  <span className="w-5 shrink-0 font-mono text-2xs leading-none">
                     {String(i + 1).padStart(2, '0')}
                   </span>
                   {entry.title}
@@ -61,12 +61,12 @@ export function DocsShell({
             <div dangerouslySetInnerHTML={{ __html: html }} />
             <nav
               aria-label="Docs pages"
-              className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-kumo-line pt-4 text-sm"
+              className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-dashed border-kumo-line pt-4 text-sm"
             >
               {previous ? (
                 <Link
                   href={previous.href}
-                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
                 >
                   ← {previous.title}
                 </Link>
@@ -76,7 +76,7 @@ export function DocsShell({
               {next ? (
                 <Link
                   href={next.href}
-                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle transition-colors duration-200 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
                 >
                   {next.title} →
                 </Link>
