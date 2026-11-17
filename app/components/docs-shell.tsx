@@ -40,7 +40,7 @@ export function DocsShell({
                   className={
                     entry.slug === doc.slug
                       ? 'flex items-baseline gap-2 rounded-md bg-kumo-fill px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
                   }
                 >
                   <span className="w-5 shrink-0 font-mono text-2xs leading-none">
@@ -66,7 +66,7 @@ export function DocsShell({
               {previous ? (
                 <Link
                   href={previous.href}
-                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
                 >
                   ← {previous.title}
                 </Link>
@@ -76,7 +76,7 @@ export function DocsShell({
               {next ? (
                 <Link
                   href={next.href}
-                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-tint hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
+                  className="rounded-md px-2 py-1 no-underline text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand"
                 >
                   {next.title} →
                 </Link>
