@@ -1,65 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { HugeiconsIcon, type IconSvgElement as Icon } from '@hugeicons/react';
-import {
-  CursorPointer01Icon as CursorClickIcon,
-  ClipboardIcon as ClipboardTextIcon,
-  Tag01Icon as TagIcon,
-  ArrowRight01Icon as CaretRightIcon,
-  SourceCodeIcon as CodeIcon,
-  ArrowDown01Icon as CaretDownIcon,
-  InboxIcon as TrayIcon,
-  Layers01Icon as StackIcon,
-  DashboardSpeed01Icon as GaugeIcon,
-  TextFontIcon as TextAaIcon,
-  Megaphone01Icon as MegaphoneIcon,
-  Loading03Icon as SpinnerGapIcon,
-  Notification02Icon as BellIcon,
-  CheckmarkSquare01Icon as CheckSquareIcon,
-  SearchList01Icon as ListMagnifyingGlassIcon,
-  TextSelectionIcon as TextboxIcon,
-  TextIcon as TextTIcon,
-  TextAlignLeftIcon,
-  Layout3RowIcon as RowsIcon,
-  RadioButtonIcon,
-  ArrowUpDownIcon as CaretUpDownIcon,
-  ToggleOffIcon as ToggleLeftIcon,
-  Search01Icon as MagnifyingGlassIcon,
-  MoreHorizontalIcon as DotsThreeIcon,
-  WebDesign01Icon as BrowsersIcon,
-  FullScreenIcon as FrameCornersIcon,
-  LeftToRightListBulletIcon as ListBulletsIcon,
-  BubbleChatIcon as ChatCircleTextIcon,
-  InformationCircleIcon as InfoIcon,
-  GridIcon as GridFourIcon,
-  Layout01Icon as LayoutIcon,
-  LeftToRightListDashIcon as ListDashesIcon,
-  Analytics01Icon as ChartBarIcon,
-  AnalyticsUpIcon as ChartLineIcon,
-  WorkflowSquare01Icon as TreeStructureIcon,
-  Location01Icon as MapPinIcon,
-  Globe02Icon as GlobeIcon,
-  FilterIcon as FunnelSimpleIcon,
-  Calendar01Icon as CalendarBlankIcon,
-  Link01Icon as LinkIcon,
-  ViewOffIcon as EyeSlashIcon,
-  SidebarLeftIcon as SidebarSimpleIcon,
-  TableIcon,
-  LeftToRightListNumberIcon as ListNumbersIcon,
-  ToolsIcon as ToolboxIcon,
-  Delete02Icon as TrashIcon,
-  DashboardSquare01Icon as SquaresFourIcon,
-  SplitIcon,
-  Copy01Icon as CopyIcon,
-  SquareIcon,
-  SlidersHorizontalIcon,
-  Tag02Icon as TagsIcon,
-  Layers02Icon as LayerDialogIcon,
-  Menu01Icon as MenuBarIcon,
-  Calendar03Icon as CalendarRangeIcon,
-  EarthIcon,
-} from '@hugeicons/core-free-icons';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon as MagnifyingGlassIcon } from '@hugeicons/core-free-icons';
+import { Tabs } from '@base-ui/react/tabs';
 
 import Link from 'next/link';
 import { ComponentSearch } from '@/components/component-search';
@@ -79,121 +23,134 @@ import registry from '../../packages/registry/registry.json';
 
 const DESCRIPTIONS = new Map(registry.items.map((item) => [item.name, item.description]));
 
-type NavItem = readonly [id: string, label: string, icon: Icon];
+type NavItem = readonly [id: string, label: string];
 
+// Each group answers one question about the item; no catch-all group.
 const GROUPS: { title: string; items: NavItem[] }[] = [
   {
     title: 'Action',
     items: [
-      ['button', 'Button', CursorClickIcon],
-      ['button-group', 'Button group', SplitIcon],
-      ['clipboard-text', 'Clipboard text', ClipboardTextIcon],
-      ['inline-copy-text', 'Inline copy text', CopyIcon],
+      ['button', 'Button'],
+      ['button-group', 'Button group'],
+      ['toolbar', 'Toolbar'],
+      ['link', 'Link'],
+      ['clipboard-text', 'Clipboard text'],
+      ['inline-copy-text', 'Inline copy text'],
+    ],
+  },
+  {
+    title: 'Form',
+    items: [
+      ['field', 'Field'],
+      ['label', 'Label'],
+      ['input', 'Input'],
+      ['input-area', 'Input area'],
+      ['input-group', 'Input group'],
+      ['sensitive-input', 'Sensitive input'],
+      ['tag-input', 'Tag input'],
+    ],
+  },
+  {
+    title: 'Selection',
+    items: [
+      ['checkbox', 'Checkbox'],
+      ['radio', 'Radio'],
+      ['switch', 'Switch'],
+      ['slider', 'Slider'],
+      ['select', 'Select'],
+      ['combobox', 'Combobox'],
+      ['autocomplete', 'Autocomplete'],
+      ['date-picker', 'Date picker'],
+      ['date-range-picker', 'Date range picker'],
     ],
   },
   {
     title: 'Display',
     items: [
-      ['badge', 'Badge', TagIcon],
-      ['breadcrumbs', 'Breadcrumbs', CaretRightIcon],
-      ['code', 'Code', CodeIcon],
-      ['collapsible', 'Collapsible', CaretDownIcon],
-      ['empty', 'Empty', TrayIcon],
-      ['layer-card', 'Layer card', StackIcon],
-      ['meter', 'Meter', GaugeIcon],
-      ['surface', 'Surface', SquareIcon],
-      ['text', 'Text', TextAaIcon],
+      ['text', 'Text'],
+      ['code', 'Code'],
+      ['badge', 'Badge'],
+      ['meter', 'Meter'],
     ],
   },
   {
     title: 'Feedback',
     items: [
-      ['banner', 'Banner', MegaphoneIcon],
-      ['loader', 'Loader', SpinnerGapIcon],
-      ['toasty', 'Toasty', BellIcon],
-    ],
-  },
-  {
-    title: 'Input',
-    items: [
-      ['checkbox', 'Checkbox', CheckSquareIcon],
-      ['combobox', 'Combobox', ListMagnifyingGlassIcon],
-      ['field', 'Field', TextboxIcon],
-      ['input', 'Input', TextTIcon],
-      ['input-area', 'Input area', TextAlignLeftIcon],
-      ['input-group', 'Input group', RowsIcon],
-      ['radio', 'Radio', RadioButtonIcon],
-      ['select', 'Select', CaretUpDownIcon],
-      ['slider', 'Slider', SlidersHorizontalIcon],
-      ['switch', 'Switch', ToggleLeftIcon],
-      ['tag-input', 'Tag input', TagsIcon],
-    ],
-  },
-  {
-    title: 'Navigation',
-    items: [
-      ['command-palette', 'Command palette', MagnifyingGlassIcon],
-      ['menubar', 'Menu bar', MenuBarIcon],
-      ['pagination', 'Pagination', DotsThreeIcon],
-      ['tabs', 'Tabs', BrowsersIcon],
-    ],
-  },
-  {
-    title: 'Overlay',
-    items: [
-      ['dialog', 'Dialog', FrameCornersIcon],
-      ['dropdown-menu', 'Dropdown menu', ListBulletsIcon],
-      ['layer-dialog', 'Layer dialog', LayerDialogIcon],
-      ['popover', 'Popover', ChatCircleTextIcon],
-      ['tooltip', 'Tooltip', InfoIcon],
+      ['banner', 'Banner'],
+      ['empty', 'Empty'],
+      ['loader', 'Loader'],
+      ['toasty', 'Toasty'],
     ],
   },
   {
     title: 'Layout',
     items: [
-      ['grid', 'Grid', GridFourIcon],
-      ['page-header', 'Page header', LayoutIcon],
-      ['resource-list-page', 'Resource list page', ListDashesIcon],
+      ['surface', 'Surface'],
+      ['layer-card', 'Layer card'],
+      ['collapsible', 'Collapsible'],
+      ['grid', 'Grid'],
+      ['page-header', 'Page header'],
     ],
   },
   {
-    title: 'Data visualization',
+    title: 'Navigation',
     items: [
-      ['chart', 'Chart', ChartBarIcon],
-      ['timeseries-chart', 'Timeseries chart', ChartLineIcon],
-      ['sankey-chart', 'Sankey chart', TreeStructureIcon],
-      ['bubble-map', 'Bubble map', MapPinIcon],
-      ['choropleth-map', 'Choropleth map', GlobeIcon],
-      ['globe-map', 'Globe map', EarthIcon],
+      ['sidebar', 'Sidebar'],
+      ['tabs', 'Tabs'],
+      ['breadcrumbs', 'Breadcrumbs'],
+      ['pagination', 'Pagination'],
+      ['menubar', 'Menu bar'],
+      ['command-palette', 'Command palette'],
+      ['table-of-contents', 'Table of contents'],
     ],
   },
   {
-    title: 'Other',
+    title: 'Overlay',
     items: [
-      ['autocomplete', 'Autocomplete', FunnelSimpleIcon],
-      ['date-picker', 'Date picker', CalendarBlankIcon],
-      ['date-range-picker', 'Date range picker', CalendarRangeIcon],
-      ['label', 'Label', TagIcon],
-      ['link', 'Link', LinkIcon],
-      ['sensitive-input', 'Sensitive input', EyeSlashIcon],
-      ['sidebar', 'Sidebar', SidebarSimpleIcon],
-      ['table', 'Table', TableIcon],
-      ['table-of-contents', 'Table of contents', ListNumbersIcon],
-      ['toolbar', 'Toolbar', ToolboxIcon],
-      ['delete-resource', 'Delete resource', TrashIcon],
+      ['dialog', 'Dialog'],
+      ['layer-dialog', 'Layer dialog'],
+      ['popover', 'Popover'],
+      ['tooltip', 'Tooltip'],
+      ['dropdown-menu', 'Dropdown menu'],
+    ],
+  },
+  {
+    title: 'Data',
+    items: [
+      ['table', 'Table'],
+      ['chart', 'Chart'],
+      ['timeseries-chart', 'Timeseries chart'],
+      ['sankey-chart', 'Sankey chart'],
+      ['bubble-map', 'Bubble map'],
+      ['choropleth-map', 'Choropleth map'],
+      ['globe-map', 'Globe map'],
     ],
   },
   {
     title: 'Patterns',
     items: [
-      ['data-table', 'Data table', TableIcon],
-      ['filter-bar', 'Filter bar', FunnelSimpleIcon],
-      ['dashboard', 'Dashboard', SquaresFourIcon],
+      ['data-table', 'Data table'],
+      ['filter-bar', 'Filter bar'],
+      ['dashboard', 'Dashboard'],
+      ['resource-list-page', 'Resource list page'],
+      ['delete-resource', 'Delete resource'],
     ],
   },
 ];
 
 type Slug = string;
+type View = 'demo' | 'code' | 'props';
+
+const VIEWS: { value: View; label: string }[] = [
+  { value: 'demo', label: 'Demo' },
+  { value: 'code', label: 'Code' },
+  { value: 'props', label: 'Props' },
+];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+/** Continuous 1-based index of every item across groups, for the rail's mono numbers. */
+const ITEM_INDEX = new Map(GROUPS.flatMap((group) => group.items).map(([id], i) => [id, i + 1]));
 
 export function Playground({
   sources,
@@ -205,6 +162,7 @@ export function Playground({
   props: PropsBySlug;
 }) {
   const [slug, setSlug] = useState<Slug>('button');
+  const [view, setView] = useState<View>('demo');
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
@@ -218,11 +176,13 @@ export function Playground({
     return () => window.removeEventListener('keydown', handleShortcut);
   }, []);
 
+  // A deep link (`/#slug`) always opens on the Demo view.
   useEffect(() => {
     const handleHash = () => {
       const fromHash = window.location.hash.replace(/^#/, '');
-      if (GROUPS.some((group) => group.items.some(([id]) => id === fromHash))) {
+      if (ITEM_INDEX.has(fromHash)) {
         setSlug(fromHash);
+        setView('demo');
       }
     };
 
@@ -233,7 +193,6 @@ export function Playground({
 
   const title = GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ?? slug;
   const groupIndex = GROUPS.findIndex((group) => group.items.some(([id]) => id === slug));
-  const groupTitle = groupIndex >= 0 ? GROUPS[groupIndex].title : '';
 
   const entry = DEMOS[slug];
 
@@ -243,6 +202,7 @@ export function Playground({
 
   const selectComponent = (id: Slug) => {
     setSlug(id);
+    setView('demo');
     window.location.hash = id;
     setSearchOpen(false);
   };
@@ -264,26 +224,29 @@ export function Playground({
               <Sidebar.Content>
                 {GROUPS.map((group, gi) => (
                   <Sidebar.Group key={group.title}>
-                    <div className="flex items-baseline gap-2 px-3 pt-5 pb-1">
-                      <span className="font-mono text-2xs leading-none text-kumo-subtle">
-                        {String(gi + 1).padStart(2, '0')}
-                      </span>
-                      <span className="text-xs font-medium text-kumo-default">{group.title}</span>
+                    <div className="px-2 pt-4 pb-1">
+                      <SiteIndexLabel>
+                        {pad(gi + 1)} {group.title}
+                      </SiteIndexLabel>
                     </div>
                     <Sidebar.Menu>
-                      {group.items.map(([id, label, Icon]) => (
+                      {group.items.map(([id, label]) => (
                         <Sidebar.MenuItem key={id}>
                           <Sidebar.MenuButton
                             active={id === slug}
-                            icon={Icon}
+                            icon={
+                              <span
+                                aria-hidden="true"
+                                className="w-4 shrink-0 font-mono text-2xs tabular-nums"
+                              >
+                                {pad(ITEM_INDEX.get(id) ?? 0)}
+                              </span>
+                            }
                             size="sm"
                             className={
                               id === slug ? undefined : 'text-kumo-subtle hover:text-kumo-default'
                             }
-                            onClick={() => {
-                              setSlug(id);
-                              window.location.hash = id;
-                            }}
+                            onClick={() => selectComponent(id)}
                           >
                             {label}
                           </Sidebar.MenuButton>
@@ -304,7 +267,7 @@ export function Playground({
                   <>
                     <Sidebar.Trigger />
                     <SiteIndexLabel>
-                      {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')}/{slug}
+                      {pad(Math.max(groupIndex, 0) + 1)}/{slug}
                     </SiteIndexLabel>
                   </>
                 }
@@ -325,41 +288,66 @@ export function Playground({
                 }
               />
               <main className="flex-1 overflow-y-auto px-8 py-8">
-                <div className="mx-auto grid max-w-3xl gap-6">
+                <div className="mx-auto grid max-w-3xl gap-4">
                   <div className="grid gap-1.5">
-                    <p className="font-mono text-2xs uppercase tracking-widest text-kumo-subtle">
-                      {String(Math.max(groupIndex, 0) + 1).padStart(2, '0')} — {groupTitle}
-                    </p>
-                    <h2 className="font-heading text-xl tracking-tight text-kumo-default">
-                      {title}
-                    </h2>
-                    <p className="text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
-                    {entry ? (
-                      <p className="text-sm leading-6 text-kumo-default">{entry.notes}</p>
-                    ) : null}
+                    <SiteIndexLabel>
+                      {pad(Math.max(groupIndex, 0) + 1)} {GROUPS[Math.max(groupIndex, 0)].title}
+                    </SiteIndexLabel>
+                    <h2 className="font-heading text-2xl text-kumo-default">{title}</h2>
+                    <p className="max-w-prose text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
                   </div>
-                  <div className="rounded-xl bg-kumo-base p-6 ring ring-kumo-line">
-                    {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
-                  </div>
-                  {entry ? (
-                    <div className="grid gap-4">
-                      <ClipboardText
-                        text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
-                      />
-                      <Code.Block
-                        html={highlighted[slug]}
-                        code={sources[slug] ?? ''}
-                        lang="tsx"
-                        title={`${slug}.tsx`}
-                      />
-                    </div>
-                  ) : null}
-                  <PropsTable docs={props[slug] ?? []} />
+                  <Tabs.Root value={view} onValueChange={(next) => setView(next as View)}>
+                    <Tabs.List aria-label={`${title} views`} className="flex gap-3 pb-3">
+                      {VIEWS.map(({ value, label }) => (
+                        <Tabs.Tab
+                          key={value}
+                          value={value}
+                          className="cursor-pointer rounded-sm font-mono text-xs text-kumo-subtle underline-offset-4 outline-none hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand aria-selected:text-kumo-default aria-selected:underline"
+                        >
+                          {label}
+                        </Tabs.Tab>
+                      ))}
+                    </Tabs.List>
+                    <Tabs.Panel value="demo" className="grid gap-4 outline-none">
+                      <div className="border border-dashed border-kumo-line p-6">
+                        {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
+                      </div>
+                      {entry ? (
+                        <p className="max-w-prose text-sm leading-6 text-kumo-default">
+                          {entry.notes}
+                        </p>
+                      ) : null}
+                    </Tabs.Panel>
+                    <Tabs.Panel value="code" className="grid gap-4 outline-none">
+                      {entry ? (
+                        <>
+                          <ClipboardText
+                            text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
+                          />
+                          <Code.Block
+                            html={highlighted[slug]}
+                            code={sources[slug] ?? ''}
+                            lang="tsx"
+                            title={`${slug}.tsx`}
+                          />
+                        </>
+                      ) : (
+                        <Text>Unknown component.</Text>
+                      )}
+                    </Tabs.Panel>
+                    <Tabs.Panel value="props" className="outline-none">
+                      {props[slug]?.length ? (
+                        <PropsTable docs={props[slug]} />
+                      ) : (
+                        <p className="text-sm text-kumo-subtle">No documented props.</p>
+                      )}
+                    </Tabs.Panel>
+                  </Tabs.Root>
                 </div>
                 <footer className="mx-auto mt-16 flex w-full max-w-3xl items-center justify-between border-t border-dashed border-kumo-line pt-4 pb-2 font-mono text-2xs text-kumo-subtle">
                   <span>mono — @therealtinhtute/design</span>
                   <div className="flex items-center gap-4">
-                    <Link href="/docs" className="transition-colors hover:text-kumo-default">
+                    <Link href="/docs" className="hover:text-kumo-default">
                       docs
                     </Link>
                     <span>© 2026</span>
