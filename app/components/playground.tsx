@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon as MagnifyingGlassIcon } from '@hugeicons/core-free-icons';
 import { Tabs } from '@base-ui/react/tabs';
@@ -10,7 +10,7 @@ import { ComponentSearch } from '@/components/component-search';
 import { Button } from '@/components/ui/button';
 import { ClipboardText } from '@/components/ui/clipboard-text';
 import { Code } from '@/components/ui/code';
-import { Sidebar } from '@/components/ui/sidebar';
+import { Sidebar, useSidebar } from '@/components/ui/sidebar';
 import { Text } from '@/components/ui/text';
 import { ToastProvider } from '@/components/ui/toasty';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -152,6 +152,74 @@ const pad = (n: number) => String(n).padStart(2, '0');
 /** Continuous 1-based index of every item across groups, for the rail's mono numbers. */
 const ITEM_INDEX = new Map(GROUPS.flatMap((group) => group.items).map(([id], i) => [id, i + 1]));
 
+function ShowroomSidebarTrigger() {
+  const { isMobile, open, openMobile } = useSidebar();
+  const expanded = isMobile ? openMobile : open;
+
+  return (
+    <Sidebar.Trigger
+      aria-expanded={expanded}
+      aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+      aria-controls="showroom-sidebar"
+    />
+  );
+}
+
+function ShowroomSidebarMenu({
+  slug,
+  onSelect,
+  onMobileSelect,
+}: {
+  slug: Slug;
+  onSelect: (id: Slug) => void;
+  onMobileSelect: () => void;
+}) {
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  return (
+    <Sidebar.Content>
+      {GROUPS.map((group, gi) => (
+        <Sidebar.Group key={group.title}>
+          <div className="px-2 pt-4 pb-1">
+            <SiteIndexLabel>
+              {pad(gi + 1)} {group.title}
+            </SiteIndexLabel>
+          </div>
+          <Sidebar.Menu>
+            {group.items.map(([id, label]) => (
+              <Sidebar.MenuItem key={id}>
+                <Sidebar.MenuButton
+                  active={id === slug}
+                  aria-current={id === slug ? 'true' : undefined}
+                  icon={
+                    <span
+                      aria-hidden="true"
+                      className="w-4 shrink-0 font-mono text-2xs tabular-nums"
+                    >
+                      {pad(ITEM_INDEX.get(id) ?? 0)}
+                    </span>
+                  }
+                  size="sm"
+                  className={id === slug ? undefined : 'text-kumo-subtle hover:text-kumo-default'}
+                  onClick={() => {
+                    onSelect(id);
+                    if (isMobile) {
+                      setOpenMobile(false);
+                      onMobileSelect();
+                    }
+                  }}
+                >
+                  {label}
+                </Sidebar.MenuButton>
+              </Sidebar.MenuItem>
+            ))}
+          </Sidebar.Menu>
+        </Sidebar.Group>
+      ))}
+    </Sidebar.Content>
+  );
+}
+
 export function Playground({
   sources,
   highlighted,
@@ -164,6 +232,8 @@ export function Playground({
   const [slug, setSlug] = useState<Slug>('button');
   const [view, setView] = useState<View>('demo');
   const [searchOpen, setSearchOpen] = useState(false);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const searchTriggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
@@ -212,7 +282,7 @@ export function Playground({
       <ToastProvider>
         <div className="mono-index">
           <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
-            <Sidebar>
+            <Sidebar id="showroom-sidebar">
               <Sidebar.Header className="h-auto flex-col items-stretch">
                 <div className="flex min-w-0 flex-col gap-1.5 py-4">
                   <SiteBrand as="h1" />
@@ -221,43 +291,13 @@ export function Playground({
                   </p>
                 </div>
               </Sidebar.Header>
-              <Sidebar.Content>
-                {GROUPS.map((group, gi) => (
-                  <Sidebar.Group key={group.title}>
-                    <div className="px-2 pt-4 pb-1">
-                      <SiteIndexLabel>
-                        {pad(gi + 1)} {group.title}
-                      </SiteIndexLabel>
-                    </div>
-                    <Sidebar.Menu>
-                      {group.items.map(([id, label]) => (
-                        <Sidebar.MenuItem key={id}>
-                          <Sidebar.MenuButton
-                            active={id === slug}
-                            icon={
-                              <span
-                                aria-hidden="true"
-                                className="w-4 shrink-0 font-mono text-2xs tabular-nums"
-                              >
-                                {pad(ITEM_INDEX.get(id) ?? 0)}
-                              </span>
-                            }
-                            size="sm"
-                            className={
-                              id === slug ? undefined : 'text-kumo-subtle hover:text-kumo-default'
-                            }
-                            onClick={() => selectComponent(id)}
-                          >
-                            {label}
-                          </Sidebar.MenuButton>
-                        </Sidebar.MenuItem>
-                      ))}
-                    </Sidebar.Menu>
-                  </Sidebar.Group>
-                ))}
-              </Sidebar.Content>
+              <ShowroomSidebarMenu
+                slug={slug}
+                onSelect={selectComponent}
+                onMobileSelect={() => requestAnimationFrame(() => titleRef.current?.focus())}
+              />
               <Sidebar.Footer>
-                <Sidebar.Trigger />
+                <ShowroomSidebarTrigger />
               </Sidebar.Footer>
             </Sidebar>
             <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
@@ -265,35 +305,44 @@ export function Playground({
                 section="showroom"
                 start={
                   <>
-                    <Sidebar.Trigger />
-                    <SiteIndexLabel>
-                      {pad(Math.max(groupIndex, 0) + 1)}/{slug}
-                    </SiteIndexLabel>
+                    <ShowroomSidebarTrigger />
+                    <span className="hidden sm:inline">
+                      <SiteIndexLabel>
+                        {pad(Math.max(groupIndex, 0) + 1)}/{slug}
+                      </SiteIndexLabel>
+                    </span>
                   </>
                 }
                 actions={
                   <Button
+                    ref={searchTriggerRef}
                     type="button"
                     variant="secondary"
                     size="sm"
                     onClick={() => setSearchOpen(true)}
+                    aria-label="Search"
                     aria-keyshortcuts="Meta+K Control+K"
                   >
                     <HugeiconsIcon icon={MagnifyingGlassIcon} className="size-4" />
-                    Search
-                    <kbd className="hidden rounded-sm bg-kumo-fill px-1 py-0.5 font-mono text-2xs leading-none text-kumo-subtle sm:inline-flex">
+                    <span className="hidden sm:inline">Search</span>
+                    <kbd
+                      aria-hidden="true"
+                      className="hidden rounded-sm bg-kumo-fill px-1 py-0.5 font-mono text-2xs leading-none text-kumo-subtle sm:inline-flex"
+                    >
                       ⌘K
                     </kbd>
                   </Button>
                 }
               />
-              <main className="flex-1 overflow-y-auto px-8 py-8">
-                <div className="mx-auto grid max-w-3xl gap-4">
+              <main className="flex-1 overflow-y-auto px-4 py-8 sm:px-8">
+                <div className="mx-auto grid max-w-3xl gap-4 max-sm:grid-cols-1">
                   <div className="grid gap-1.5">
                     <SiteIndexLabel>
                       {pad(Math.max(groupIndex, 0) + 1)} {GROUPS[Math.max(groupIndex, 0)].title}
                     </SiteIndexLabel>
-                    <h2 className="font-heading text-2xl text-kumo-default">{title}</h2>
+                    <h2 ref={titleRef} tabIndex={-1} className="font-heading text-2xl text-kumo-default">
+                      {title}
+                    </h2>
                     <p className="max-w-prose text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
                   </div>
                   <Tabs.Root value={view} onValueChange={(next) => setView(next as View)}>
@@ -308,8 +357,8 @@ export function Playground({
                         </Tabs.Tab>
                       ))}
                     </Tabs.List>
-                    <Tabs.Panel value="demo" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
-                      <div className="border border-dashed border-kumo-line p-6">
+                    <Tabs.Panel value="demo" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm max-sm:grid-cols-1">
+                      <div className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6">
                         {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
                       </div>
                       {entry ? (
@@ -358,6 +407,7 @@ export function Playground({
             <ComponentSearch
               open={searchOpen}
               onOpenChange={setSearchOpen}
+              triggerRef={searchTriggerRef}
               items={searchItems}
               onSelect={selectComponent}
             />

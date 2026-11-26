@@ -45,6 +45,8 @@ export interface CommandPaletteRootProps<TGroup, TItem = TGroup> {
   open: boolean;
   /** Callback when the open state changes */
   onOpenChange: (open: boolean) => void;
+  /** Where to return focus when the palette closes. */
+  finalFocus?: DialogBase.Popup.Props['finalFocus'];
   /**
    * Optional callback when backdrop is clicked.
    * Receives the mouse event for position tracking (e.g., for ripple effects).
@@ -268,6 +270,8 @@ interface DialogProps {
   open: boolean;
   /** Callback when the open state changes */
   onOpenChange: (open: boolean) => void;
+  /** Where to return focus when the palette closes. */
+  finalFocus?: DialogBase.Popup.Props['finalFocus'];
   /**
    * Optional callback when backdrop is clicked.
    * Receives the mouse event for position tracking (e.g., for ripple effects).
@@ -306,6 +310,7 @@ interface DialogProps {
 function Dialog({
   open,
   onOpenChange,
+  finalFocus,
   onBackdropClick,
   children,
   container: containerProp,
@@ -333,7 +338,7 @@ function Dialog({
           onClick={handleBackdropClick}
         />
         <LayerCard
-          render={<DialogBase.Popup />}
+          render={<DialogBase.Popup finalFocus={finalFocus} />}
           className={cn(
             'fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2',
             'overflow-hidden rounded-lg',
@@ -370,6 +375,7 @@ function Dialog({
 function Root<TGroup, TItem = TGroup>({
   open,
   onOpenChange,
+  finalFocus,
   onBackdropClick,
   children,
   items,
@@ -386,6 +392,7 @@ function Root<TGroup, TItem = TGroup>({
     <Dialog
       open={open}
       onOpenChange={onOpenChange}
+      finalFocus={finalFocus}
       onBackdropClick={onBackdropClick}
       container={container}
     >

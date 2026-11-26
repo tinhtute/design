@@ -23,3 +23,9 @@ html:not([data-mode='dark']) .mono-index {
 .mono-index [data-sidebar='footer'] {
   border-style: dashed;
 }
+
+@media (max-width: 767px) {
+  aside#showroom-sidebar {
+    display: none;
+  }
+}
