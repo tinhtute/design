@@ -79,6 +79,31 @@ test.describe('showroom demos', () => {
     await expect(trigger).toBeFocused();
   });
 
+  test('names inline copy controls by their visible text before and after copying', async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.goto('/#inline-copy-text');
+    await expect(
+      page.getByRole('button', { name: '0c239dd2-5b2a-4e1d-9f7a-3c1e8d2a4b6f Copy to clipboard' }),
+    ).toBeVisible();
+    const account = page.getByRole('button', { name: 'Production account Copy to clipboard' });
+    await account.click();
+    await expect(account.getByText('Copied', { exact: true })).toBeAttached();
+    await expect(account).toHaveAccessibleName('Production account Copy to clipboard');
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe('acct_8f2e1c');
+  });
+
+  test('includes the displayed day in date picker control names', async ({ page }) => {
+    await page.goto('/#date-picker');
+    const day = page.getByRole('grid').getByRole('button').filter({ hasText: /^15$/ }).first();
+    await expect(day).toHaveAccessibleName(/^15, .+/);
+    await day.focus();
+    await page.keyboard.press('Enter');
+    await expect(day).toHaveAccessibleName(/^15, .+, selected$/);
+  });
+
   test('docs pages', async ({ page }) => {
     await page.goto('/docs', { waitUntil: 'networkidle' });
     const hrefs = await page.$$eval('nav[aria-label="Docs"] a[href^="/docs"]', (links) =>

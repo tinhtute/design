@@ -7,6 +7,7 @@ import {
   forwardRef,
   useCallback,
   useEffect,
+  useId,
   useRef,
   useState,
   type ComponentPropsWithoutRef,
@@ -44,9 +45,9 @@ export const KUMO_INLINE_COPY_TEXT_STYLING = {
 } as const;
 
 export interface InlineCopyTextLabels {
-  /** Accessible name before the text is copied. @default "Copy to clipboard" */
+  /** Copy action appended to the visible text in the accessible name. @default "Copy to clipboard" */
   copyAction?: string;
-  /** Accessible name and live-region message after copying. @default "Copied" */
+  /** Live-region message after copying. @default "Copied" */
   copied?: string;
 }
 
@@ -136,6 +137,8 @@ export const InlineCopyText = forwardRef<HTMLButtonElement, InlineCopyTextProps>
     ref,
   ) => {
     const [copied, setCopied] = useState(false);
+    const textId = useId();
+    const actionId = useId();
     const resetTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const valueToCopy = resolveCopyValue(children, value);
 
@@ -173,6 +176,7 @@ export const InlineCopyText = forwardRef<HTMLButtonElement, InlineCopyTextProps>
     const renderedText =
       variant === 'mono' || variant === 'mono-secondary' ? (
         <Text<InlineCopyTextMonospaceVariant>
+          id={textId}
           as={as}
           size={size === 'lg' ? size : undefined}
           truncate={truncate}
@@ -183,6 +187,7 @@ export const InlineCopyText = forwardRef<HTMLButtonElement, InlineCopyTextProps>
         </Text>
       ) : (
         <Text<InlineCopyTextCopyVariant>
+          id={textId}
           as={as}
           bold={bold}
           size={size}
@@ -207,9 +212,12 @@ export const InlineCopyText = forwardRef<HTMLButtonElement, InlineCopyTextProps>
             void copyToClipboard();
           }
         }}
-        aria-label={copied ? copiedLabel : copyAction}
+        aria-labelledby={props['aria-labelledby'] ?? `${textId} ${actionId}`}
       >
         {renderedText}
+        <span id={actionId} className="sr-only">
+          {copyAction}
+        </span>
         {copied ? (
           <HugeiconsIcon icon={CheckIcon} aria-hidden size={14} className="shrink-0" />
         ) : (
