@@ -8,6 +8,8 @@ import {
 } from '@hugeicons/core-free-icons';
 import {
   DayPicker,
+  formatDay,
+  labelDayButton,
   type CustomComponents,
   type PropsBase,
   type PropsSingle,
@@ -114,6 +116,11 @@ export function DatePicker({ className, classNames, onChange, ...props }: DatePi
       animate
       {...props}
       onSelect={onChange as never}
+      labels={{
+        labelDayButton: (date, modifiers, options, dateLib) =>
+          `${(props.formatters?.formatDay ?? formatDay)(date, options, dateLib)}, ${labelDayButton(date, modifiers, options, dateLib)}`,
+        ...props.labels,
+      }}
       classNames={{
         ...classNames,
         root: cn('rdp-root rounded-xl bg-kumo-base select-none', classNames?.root, className),

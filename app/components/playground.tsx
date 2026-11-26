@@ -320,7 +320,7 @@ export function Playground({
                     variant="secondary"
                     size="sm"
                     onClick={() => setSearchOpen(true)}
-                    aria-label="Search"
+                    aria-label="Search ⌘K"
                     aria-keyshortcuts="Meta+K Control+K"
                   >
                     <HugeiconsIcon icon={MagnifyingGlassIcon} className="size-4" />
