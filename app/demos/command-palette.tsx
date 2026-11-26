@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { CommandPalette } from '@/components/ui/command-palette';
 
@@ -13,15 +13,17 @@ export const deps = ['button'];
 
 export function Demo() {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   return (
     <div className="grid gap-3">
-      <Button type="button" variant="secondary" onClick={() => setOpen(true)}>
+      <Button ref={triggerRef} type="button" variant="secondary" onClick={() => setOpen(true)}>
         Open palette
       </Button>
       <CommandPalette.Root
         open={open}
         onOpenChange={setOpen}
+        finalFocus={triggerRef}
         items={fruits}
         filter={(item, query) => item.toLowerCase().includes(query.toLowerCase())}
       >

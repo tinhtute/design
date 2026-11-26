@@ -124,6 +124,10 @@ export function DatePicker({ className, classNames, onChange, ...props }: DatePi
       classNames={{
         ...classNames,
         root: cn('rdp-root rounded-xl bg-kumo-base select-none', classNames?.root, className),
+        selected: cn(
+          '[&>button]:rounded-md [&>button]:bg-kumo-brand [&>button]:font-semibold [&>button]:text-kumo-inverse',
+          classNames?.selected,
+        ),
       }}
       components={{
         Chevron,
