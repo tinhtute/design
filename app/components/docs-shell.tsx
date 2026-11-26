@@ -55,7 +55,14 @@ export function DocsShell({
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <SiteBar section="docs" start={<SiteIndexLabel>docs/{doc.slug}</SiteIndexLabel>} />
+        <SiteBar
+          section="docs"
+          start={
+            <span className="hidden sm:inline">
+              <SiteIndexLabel>docs/{doc.slug}</SiteIndexLabel>
+            </span>
+          }
+        />
         <main className="mono-doc mx-auto flex w-full max-w-5xl flex-1 gap-8 px-6 py-10">
           <article className="min-w-0 flex-1">
             <div dangerouslySetInnerHTML={{ __html: html }} />

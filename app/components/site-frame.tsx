@@ -39,7 +39,7 @@ export function SiteBar({
   return (
     <header
       data-site-bar=""
-      className="sticky top-0 z-10 flex items-center justify-between gap-3 border-b border-dashed border-kumo-line bg-kumo-base px-6 py-3"
+      className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-dashed border-kumo-line bg-kumo-base px-3 py-3 sm:gap-3 sm:px-6"
     >
       <div className="flex min-w-0 items-center gap-3">{start}</div>
       <div className="flex items-center gap-2">

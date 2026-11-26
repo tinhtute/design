@@ -1,5 +1,7 @@
 'use client';
 
+import { Dialog } from '@base-ui/react/dialog';
+import type { RefObject } from 'react';
 import { CommandPalette } from '@/components/ui/command-palette';
 
 export interface ComponentSearchItem {
@@ -16,11 +18,13 @@ export interface ComponentSearchItem {
 export function ComponentSearch({
   open,
   onOpenChange,
+  triggerRef,
   items,
   onSelect,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  triggerRef: RefObject<HTMLButtonElement | null>;
   items: ComponentSearchItem[];
   onSelect: (id: string) => void;
 }) {
@@ -28,6 +32,7 @@ export function ComponentSearch({
     <CommandPalette.Root
       open={open}
       onOpenChange={onOpenChange}
+      finalFocus={triggerRef}
       items={items}
       itemToStringValue={(item) => item.label}
       filter={(item, query) => {
@@ -40,13 +45,14 @@ export function ComponentSearch({
         );
       }}
     >
-      <CommandPalette.Input placeholder="Search components…" />
+      <Dialog.Title className="sr-only">Component search</Dialog.Title>
+      <CommandPalette.Input aria-label="Search components" placeholder="Search components…" />
       <CommandPalette.List>
         <CommandPalette.Results>
           {(item: ComponentSearchItem) => (
             <CommandPalette.Item key={item.id} value={item} onClick={() => onSelect(item.id)}>
               <span className="truncate">{item.label}</span>
-              <span className="ms-auto shrink-0 text-xs text-kumo-subtle">{item.group}</span>
+              <span className="ms-auto shrink-0 text-sm text-kumo-default">{item.group}</span>
             </CommandPalette.Item>
           )}
         </CommandPalette.Results>
