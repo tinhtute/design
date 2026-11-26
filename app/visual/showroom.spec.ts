@@ -64,6 +64,21 @@ test.describe('showroom demos', () => {
     await expect(theme).toHaveAttribute('aria-pressed', 'false');
   });
 
+  test('applies the saved theme or system preference before client boot', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await page.route('**/_next/static/**/*.js', (route) => route.abort());
+    await page.goto('/docs');
+    const root = page.locator('html');
+    await expect(root).toHaveCSS('color-scheme', 'dark');
+    await page.evaluate(() => localStorage.setItem('theme', 'light'));
+    await page.reload();
+    await expect(root).toHaveCSS('color-scheme', 'light');
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.evaluate(() => localStorage.setItem('theme', 'dark'));
+    await page.reload();
+    await expect(root).toHaveCSS('color-scheme', 'dark');
+  });
+
   test('names the search dialog and supports its keyboard and empty states', async ({ page }) => {
     await page.goto('/');
     const trigger = page.getByRole('button', { name: 'Search' });
@@ -76,6 +91,16 @@ test.describe('showroom demos', () => {
     await expect(dialog.getByText('No components found')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
+
+  test('returns focus to the command palette demo trigger', async ({ page }) => {
+    await page.goto('/#command-palette');
+    const trigger = page.getByRole('button', { name: 'Open palette' });
+    await trigger.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('combobox', { name: 'Search fruits…' })).toBeFocused();
+    await page.keyboard.press('Escape');
     await expect(trigger).toBeFocused();
   });
 
@@ -99,9 +124,13 @@ test.describe('showroom demos', () => {
     await page.goto('/#date-picker');
     const day = page.getByRole('grid').getByRole('button').filter({ hasText: /^15$/ }).first();
     await expect(day).toHaveAccessibleName(/^15, .+/);
+    const unselectedBackground = await day.evaluate((el) => getComputedStyle(el).backgroundColor);
     await day.focus();
     await page.keyboard.press('Enter');
     await expect(day).toHaveAccessibleName(/^15, .+, selected$/);
+    await page.getByRole('button', { name: /Dark theme/ }).focus();
+    await expect(day).not.toBeFocused();
+    await expect(day).not.toHaveCSS('background-color', unselectedBackground);
   });
 
   test('docs pages', async ({ page }) => {

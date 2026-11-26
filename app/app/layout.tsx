@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Archivo, Google_Sans_Code, Xanh_Mono } from 'next/font/google';
-import Script from 'next/script';
 import './globals.css';
 
 const fontSans = Archivo({
@@ -33,17 +32,21 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `let theme;
+try { theme = localStorage.getItem('theme'); } catch {}
+const dark = theme === 'dark' ||
+  (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+document.documentElement.dataset.mode = dark ? 'dark' : 'light';
+document.documentElement.classList.toggle('dark', dark);`,
+          }}
+        />
+      </head>
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontSerif.variable} min-h-dvh bg-kumo-base text-kumo-default antialiased font-sans`}
       >
-        <Script id="restore-theme" strategy="beforeInteractive">
-          {`try {
-            if (localStorage.getItem('theme') === 'dark') {
-              document.documentElement.dataset.mode = 'dark';
-              document.documentElement.classList.add('dark');
-            }
-          } catch {}`}
-        </Script>
         {children}
       </body>
     </html>
