@@ -1657,6 +1657,28 @@
           "target": "components/ui/chart/globe-land-mask.ts"
         }
       ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "file-upload",
+      "type": "registry:block",
+      "title": "File Upload",
+      "description": "Composable file upload dropzone and queue with per-file and overall native progress, validation errors, and retry/cancel actions.",
+      "dependencies": ["@hugeicons/react", "@hugeicons/core-free-icons"],
+      "registryDependencies": [
+        "@therealtinhtute/badge",
+        "@therealtinhtute/button",
+        "@therealtinhtute/empty",
+        "@therealtinhtute/field",
+        "@therealtinhtute/utils"
+      ],
+      "files": [
+        {
+          "path": "src/components/file-upload.tsx",
+          "type": "registry:block",
+          "target": "components/file-upload.tsx"
+        }
+      ]
     }
   ]
 }

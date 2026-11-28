@@ -24,6 +24,7 @@ import * as dialog from './dialog';
 import * as dropdownMenu from './dropdown-menu';
 import * as empty from './empty';
 import * as field from './field';
+import * as fileUpload from './file-upload';
 import * as filterBar from './filter-bar';
 import * as globeMap from './globe-map';
 import * as grid from './grid';
@@ -92,6 +93,7 @@ export const DEMOS: Record<string, DemoModule> = {
   'dropdown-menu': dropdownMenu,
   empty,
   field,
+  'file-upload': fileUpload,
   'filter-bar': filterBar,
   'globe-map': globeMap,
   grid,

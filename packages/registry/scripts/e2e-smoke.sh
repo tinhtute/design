@@ -3,7 +3,7 @@
 # e2e-smoke.sh — prove a fresh consumer can install the full @therealtinhtute/design
 # catalog from the locally built registry and render it with the theme.
 #
-# Flow: build+validate the registry -> exact-set of 62 names -> serve public/
+# Flow: build+validate the registry -> exact-set of 63 names -> serve public/
 # -> isolated add of button/badge/dialog/chart each in a fresh consumer
 # -> full-set add in the main consumer -> build -> CSS + license + lockfile
 # asserts -> SSR render-check.
@@ -48,6 +48,7 @@ EXPECTED_NAMES=(
   dropdown-menu
   empty
   field
+  file-upload
   filter-bar
   globe-map
   grid
@@ -297,8 +298,8 @@ pnpm --filter @therealtinhtute/registry build
 pnpm --filter @therealtinhtute/registry validate:build >/dev/null
 ok "registry built + schema-validated"
 
-# --- 2. exact-set of 62 names ----------------------------------------------
-step "exact-set: 62 registry names"
+# --- 2. exact-set of 63 names ----------------------------------------------
+step "exact-set: 63 registry names"
 BUILT_REGISTRY="$REGISTRY_PUBLIC/r/registry.json"
 if [ ! -f "$BUILT_REGISTRY" ]; then
   fail "missing $BUILT_REGISTRY"
@@ -307,9 +308,9 @@ fi
 GOT_SORTED="$(jq -r '.items[].name' "$BUILT_REGISTRY" | LC_ALL=C sort)"
 EXP_SORTED="$(printf '%s\n' "${EXPECTED_NAMES[@]}" | LC_ALL=C sort)"
 if [ "$GOT_SORTED" = "$EXP_SORTED" ]; then
-  ok "public/r/registry.json names = 62 catalog set"
+  ok "public/r/registry.json names = 63 catalog set"
 else
-  fail "public/r/registry.json names do not equal the 62-name catalog set"
+  fail "public/r/registry.json names do not equal the 63-name catalog set"
   printf 'missing:\n'
   comm -23 <(printf '%s\n' "$EXP_SORTED") <(printf '%s\n' "$GOT_SORTED") || true
   printf 'extra:\n'
@@ -373,14 +374,14 @@ for item in button badge dialog chart; do
 done
 
 # --- 6. main consumer: full catalog add -------------------------------------
-step "scaffold main consumer + add all 62 items"
+step "scaffold main consumer + add all 63 items"
 cp -a "$BASE_CONSUMER" "$CONSUMER"
 ADD_ARGS=()
 for name in "${EXPECTED_NAMES[@]}"; do
   ADD_ARGS+=("@therealtinhtute/$name")
 done
 "${SHADCN[@]}" add "${ADD_ARGS[@]}" --cwd "$CONSUMER" -y
-ok "all 62 items added"
+ok "all 63 items added"
 
 cat > "$CONSUMER/src/main.tsx" <<'EOF'
 import { StrictMode, useState } from "react";

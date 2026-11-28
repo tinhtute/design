@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/badge';
 import { FilterBar } from '@/components/filter-bar';
 import { DataTable, type ColumnDef } from '@/components/data-table';
 import { Dashboard } from '@/components/dashboard';
+import { FileUpload } from '@/components/file-upload';
 
 interface Row {
   id: string;
@@ -37,6 +38,7 @@ const html = renderToString(
     <FilterBar value="q" onValueChange={() => {}} filterLabel="Apply filter" />
     <DataTable columns={columns} data={rows} />
     <Dashboard />
+    <FileUpload items={[]} onFilesAdd={() => {}} />
   </div>,
 );
 
@@ -49,6 +51,7 @@ const expected = [
   'Dashboard', // dashboard block
   'Recent orders', // dashboard layer-card
   'ORD-001', // dashboard recent-orders table
+  'Choose files', // file-upload block
 ];
 
 let failed = 0;
