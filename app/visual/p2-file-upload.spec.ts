@@ -71,8 +71,28 @@ test.describe('File upload block (P2.1)', () => {
     await expect(main.getByText('unsupported-binary.exe')).toBeVisible();
     await expect(main.getByRole('button', { name: 'Retry unsupported-binary.exe' })).toHaveCount(0);
 
+    // Repeated invalid file additions keep announcing rejection rather than "Added ..."
+    await fileInput.setInputFiles([
+      {
+        name: 'rejected-first.exe',
+        mimeType: 'application/octet-stream',
+        buffer: Buffer.from('MZ'),
+      },
+    ]);
+    await expect(main.getByRole('status')).toContainText('Rejected rejected-first.exe');
+
+    await fileInput.setInputFiles([
+      {
+        name: 'rejected-second.exe',
+        mimeType: 'application/octet-stream',
+        buffer: Buffer.from('MZ'),
+      },
+    ]);
+    await expect(main.getByRole('status')).toContainText('Rejected rejected-second.exe');
+
     // Clearing all shows the Empty dropzone state with keyboard-focusable Choose files button
     await main.getByRole('button', { name: 'Clear all' }).click();
+    await expect(main.getByRole('status')).toHaveText('Cleared upload queue.');
     await expect(main.getByRole('heading', { name: 'Upload files', exact: true })).toBeVisible();
     const chooseFiles = main.getByRole('button', { name: 'Choose files' });
     await chooseFiles.focus();

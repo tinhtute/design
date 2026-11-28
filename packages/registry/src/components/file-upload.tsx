@@ -244,18 +244,11 @@ export function FileUpload({
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragFileCount, setDragFileCount] = useState<number | null>(null);
-  const [liveMessage, setLiveMessage] = useState(announcement ?? '');
-  const [prevAnnouncement, setPrevAnnouncement] = useState(announcement);
-
-  if (announcement !== prevAnnouncement) {
-    setPrevAnnouncement(announcement);
-    if (announcement) {
-      setLiveMessage(announcement);
-    }
-  }
+  const [localAnnouncement, setLocalAnnouncement] = useState('');
+  const liveMessage = announcement ?? localAnnouncement;
 
   const announce = useCallback((message: string) => {
-    setLiveMessage(message);
+    setLocalAnnouncement(message);
   }, []);
 
   const openPicker = useCallback(() => {

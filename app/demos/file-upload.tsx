@@ -162,10 +162,12 @@ export function Demo() {
         setAnnouncement(
           `Queued ${toUpload.length} ${toUpload.length === 1 ? 'file' : 'files'}; ${rejectedCount} rejected by validation.`,
         );
-      } else if (rejectedCount > 0) {
+      } else if (rejectedCount === 1) {
         setAnnouncement(
-          `${rejectedCount} ${rejectedCount === 1 ? 'file was' : 'files were'} rejected by validation.`,
+          `Rejected ${created[0].name}: ${created[0].errorMessage ?? 'validation failed.'}`,
         );
+      } else if (rejectedCount > 1) {
+        setAnnouncement(`${rejectedCount} files were rejected by validation.`);
       } else if (toUpload.length > 0) {
         setAnnouncement(
           `Uploading ${toUpload.length} ${toUpload.length === 1 ? 'file' : 'files'}.`,
@@ -182,19 +184,24 @@ export function Demo() {
   const handleCancel = useCallback(
     (id: string) => {
       stopTimer(id);
+      const target = items.find((item) => item.id === id);
       setItems((prev) =>
         prev.map((item) =>
           item.id === id ? { ...item, status: 'canceled', eta: undefined } : item,
         ),
       );
+      if (target) {
+        setAnnouncement(`Canceled ${target.name}.`);
+      }
     },
-    [stopTimer],
+    [items, stopTimer],
   );
 
   const handleRetry = useCallback(
     (id: string) => {
       const target = items.find((item) => item.id === id);
       if (!target) return;
+      setAnnouncement(`Retrying ${target.name}.`);
       startSimulatedUpload(id, target.name);
     },
     [items, startSimulatedUpload],
@@ -203,18 +210,24 @@ export function Demo() {
   const handleRemove = useCallback(
     (id: string) => {
       stopTimer(id);
+      const target = items.find((item) => item.id === id);
       setItems((prev) => prev.filter((item) => item.id !== id));
+      if (target) {
+        setAnnouncement(`Removed ${target.name}.`);
+      }
     },
-    [stopTimer],
+    [items, stopTimer],
   );
 
   const handleClearCompleted = useCallback(() => {
     setItems((prev) => prev.filter((item) => item.status !== 'success'));
+    setAnnouncement('Cleared completed uploads.');
   }, []);
 
   const handleClearAll = useCallback(() => {
     stopAllTimers();
     setItems([]);
+    setAnnouncement('Cleared upload queue.');
   }, [stopAllTimers]);
 
   const handleSimulateBatch = useCallback(() => {
