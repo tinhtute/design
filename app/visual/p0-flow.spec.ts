@@ -30,21 +30,29 @@ test('restores the demo and its default view when using browser history', async 
   await expect(page.getByRole('tab', { name: 'Demo' })).toHaveAttribute('aria-selected', 'true');
 });
 
-test('keeps the table of contents demo when its section links change the hash', async ({
-  page,
-}) => {
+test('keeps the TOC demo deep link after section selection, reload, and Back', async ({ page }) => {
   await page.goto('/#table-of-contents');
   const demo = page.getByRole('tabpanel', { name: 'Demo' });
   const overview = demo.getByRole('link', { name: 'Overview' });
   await overview.click();
-  await expect(page).toHaveURL(/\/#overview$/);
+  await expect(page).toHaveURL(/\/#table-of-contents$/);
   await expect(overview).toHaveAttribute('aria-current', 'true');
-  await expect(page.getByRole('heading', { name: 'Table of contents', exact: true })).toBeVisible();
 
+  const heading = page.getByRole('heading', { name: 'Table of contents', exact: true });
+  await page.reload();
+  await expect(heading).toBeVisible();
   const installation = demo.getByRole('link', { name: 'Installation' });
-  await installation.click();
-  await expect(page).toHaveURL(/\/#installation$/);
   await expect(installation).toHaveAttribute('aria-current', 'true');
+  await overview.click();
+  await expect(overview).toHaveAttribute('aria-current', 'true');
+  await installation.click();
+  await expect(installation).toHaveAttribute('aria-current', 'true');
+
+  await page.getByRole('button', { name: 'Badge', exact: true }).click();
+  await expect(page).toHaveURL(/\/#badge$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/#table-of-contents$/);
+  await expect(heading).toBeVisible();
 });
 
 test('recovers an unknown component with keyboard search', async ({ page }) => {
