@@ -85,6 +85,33 @@ test('catalog matches registry items and links to executable pilot demos', async
   await expect(page.getByRole('cell', { name: 'api-gateway' })).toBeVisible();
 });
 
+test('preserves constant, array and object defaults in the catalog and Props tab', async ({
+  page,
+  request,
+}) => {
+  const response = await request.get('/agent-catalog.json');
+  expect(response.ok()).toBeTruthy();
+  const { items }: { items: CatalogItem[] } = await response.json();
+  for (const [slug, name, defaultValue] of [
+    ['sidebar', 'defaultWidth', '256'],
+    ['tag-input', 'defaultValue', '[]'],
+    ['clipboard-text', 'labels', '{}'],
+  ]) {
+    const item = items.find((entry) => entry.slug === slug);
+    expect(item?.props.flatMap(({ props }) => props)).toEqual(
+      expect.arrayContaining([expect.objectContaining({ name, defaultValue })]),
+    );
+
+    await page.goto('/#' + slug);
+    await page.getByRole('tab', { name: 'Props' }).click();
+    const panel = page.getByRole('tabpanel', { name: 'Props' });
+    const row = panel
+      .getByRole('row')
+      .filter({ has: page.getByRole('cell', { name, exact: true }) });
+    await expect(row.getByRole('cell', { name: defaultValue, exact: true })).toBeVisible();
+  }
+});
+
 test('finds a pilot by alias and copies the catalog example and documented props', async ({
   page,
   context,

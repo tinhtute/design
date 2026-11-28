@@ -80,12 +80,16 @@ function sourceDefaults(file: string): Map<string, Map<string, string>> {
   );
   const defaults = new Map<string, Map<string, string>>();
   const bindings = new Map<string, ts.Expression>();
+  const constants = new Map<string, ts.Expression>();
 
   for (const statement of source.statements) {
     if (!ts.isVariableStatement(statement)) continue;
     for (const declaration of statement.declarationList.declarations) {
       if (ts.isIdentifier(declaration.name) && declaration.initializer) {
         bindings.set(declaration.name.text, declaration.initializer);
+        if (statement.declarationList.flags & ts.NodeFlags.Const) {
+          constants.set(declaration.name.text, declaration.initializer);
+        }
       }
     }
   }
@@ -96,25 +100,32 @@ function sourceDefaults(file: string): Map<string, Map<string, string>> {
       : expression;
   }
 
-  function literal(expression: ts.Expression): string | undefined {
+  function literal(expression: ts.Expression, seen = new Set<ts.Expression>()): string | undefined {
     const value = unwrap(expression);
+    if (seen.has(value)) return;
+    seen.add(value);
     if (ts.isStringLiteralLike(value) || ts.isNumericLiteral(value)) return value.text;
+    if (ts.isIdentifier(value)) {
+      const initializer = constants.get(value.text);
+      return initializer && literal(initializer, seen);
+    }
     if (
+      ts.isArrayLiteralExpression(value) ||
+      ts.isObjectLiteralExpression(value) ||
       value.kind === ts.SyntaxKind.TrueKeyword ||
       value.kind === ts.SyntaxKind.FalseKeyword ||
       value.kind === ts.SyntaxKind.NullKeyword
     )
       return value.getText(source);
     if (ts.isPropertyAccessExpression(value) && ts.isIdentifier(value.expression)) {
-      const binding = bindings.get(value.expression.text);
+      const binding = constants.get(value.expression.text);
       const object = binding && unwrap(binding);
       if (object && ts.isObjectLiteralExpression(object)) {
         const property = object.properties.find(
           (part) => ts.isPropertyAssignment(part) && part.name.getText(source) === value.name.text,
         );
         if (property && ts.isPropertyAssignment(property)) {
-          const member = unwrap(property.initializer);
-          if (ts.isStringLiteralLike(member) || ts.isNumericLiteral(member)) return member.text;
+          return literal(property.initializer, seen);
         }
       }
     }
