@@ -33,6 +33,9 @@
 
 ## Lộ trình
 
+- **P1.1 — Catalog cho agent:** đã triển khai [catalog JSON và Copy for agent](agent-catalog.md)
+  cho pilot Button, Badge, Field, Select, Dialog, Tabs, Toasty và Resource list page.
+
 Ước tính bằng **ngày công** cả triển khai và kiểm tra, cho một người; chưa gồm thời gian review hay chờ quyết định. P0 ưu tiên sửa luồng hiện có, P1 xây tài liệu và tiêu chuẩn dùng lại, P2 thử block mới và hoàn thiện bảo trì.
 
 | ID   | Hạng mục và nơi làm                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Điều kiện nghiệm thu                                                                                                                                                                                                                                                                                                     | Ngày công |
