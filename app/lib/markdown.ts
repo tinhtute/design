@@ -41,6 +41,25 @@ function rehypeHeadingIds() {
   };
 }
 
+function rehypeScrollableTables() {
+  function wrapTables(node: HastNode) {
+    node.children = node.children?.map((child) => {
+      if (child.type === 'element' && child.tagName === 'table') {
+        return {
+          type: 'element',
+          tagName: 'div',
+          properties: { className: ['docs-table-scroll'], tabIndex: 0 },
+          children: [child],
+        };
+      }
+      wrapTables(child);
+      return child;
+    });
+  }
+
+  return wrapTables;
+}
+
 /**
  * Server-side Markdown → HTML pipeline for docs content.
  *
@@ -56,7 +75,7 @@ function rehypeHeadingIds() {
  *   `` `npx shadcn add x{:bash}` ``
  *
  * The output is rendered with `dangerouslySetInnerHTML` inside a
- * `.mono-doc` wrapper (see `app/app/docs.css`).
+ * `.mono-prose` wrapper (see `app/docs/docs.css`).
  */
 export async function renderMarkdown(markdown: string): Promise<string> {
   // The rehype plugin types its parameter as `HighlighterGeneric<any, any>`;
@@ -70,6 +89,7 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(remarkGfm)
     .use(remarkRehype)
     .use(rehypeHeadingIds)
+    .use(rehypeScrollableTables)
     .use(rehypeShikiFromHighlighter, highlighter, {
       themes: { light: monoLightTheme, dark: monoDarkTheme },
       defaultColor: false,
