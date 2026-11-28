@@ -2,13 +2,6 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { ThemeToggle } from '@/components/theme-toggle';
 
-/**
- * Shared showroom chrome (direction A, "Refine designeer"): the brand mark at
- * the top of the left rail and a slim top bar over the stage with section
- * links, page actions and the theme toggle. `/` and `/docs` both render these
- * inside `.mono-index`, which supplies the white canvas and dashed hairlines.
- */
-
 type Section = 'showroom' | 'docs';
 
 const SECTIONS: { id: Section; href: string; label: string }[] = [
@@ -41,7 +34,7 @@ export function SiteBar({
   return (
     <header
       data-site-bar=""
-      className="sticky top-0 z-10 flex items-center justify-between gap-2 border-b border-dashed border-kumo-line bg-kumo-base px-3 py-3 sm:gap-3 sm:px-6"
+      className="sticky top-0 z-10 flex min-h-14 items-center justify-between gap-2 border-b border-kumo-line bg-kumo-base px-3 py-2 sm:gap-3 sm:px-6"
     >
       <div className="flex min-w-0 items-center gap-3">{start}</div>
       <div className="flex items-center gap-2">
@@ -53,11 +46,7 @@ export function SiteBar({
               href={href}
               onNavigate={id === 'showroom' ? onShowroomNavigate : undefined}
               aria-current={id === section ? 'page' : undefined}
-              className={
-                id === section
-                  ? 'rounded-md px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                  : 'rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-              }
+              className="rounded-md px-2 py-2 text-sm text-kumo-subtle underline-offset-4 hover:bg-kumo-interact hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-focus aria-[current=page]:text-kumo-default aria-[current=page]:underline"
             >
               {label}
             </Link>
@@ -69,7 +58,6 @@ export function SiteBar({
   );
 }
 
-/** Mono index label, e.g. `01/button` or `docs/getting-started`. */
 export function SiteIndexLabel({ children }: { children: ReactNode }) {
-  return <span className="font-mono text-2xs text-kumo-subtle">{children}</span>;
+  return <span className="font-mono text-xs text-kumo-subtle tabular-nums">{children}</span>;
 }
