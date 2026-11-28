@@ -109,6 +109,7 @@ export const GROUPS: { title: string; items: NavItem[] }[] = [
       ['dashboard', 'Dashboard'],
       ['resource-list-page', 'Resource list page'],
       ['delete-resource', 'Delete resource'],
+      ['file-upload', 'File upload'],
     ],
   },
 ];
