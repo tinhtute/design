@@ -66,6 +66,7 @@ test('operates checkboxes, radios and select by keyboard', async ({ page }) => {
   await expect(group.getByRole('radio', { name: 'SMS' })).toBeChecked();
 
   await page.goto('/#select');
+  await expect(main.getByRole('heading', { name: 'Select', exact: true })).toBeFocused();
   const select = main.getByRole('combobox', { name: 'Fruit' });
   await select.focus();
   await page.keyboard.press('Enter');
