@@ -299,7 +299,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
       >
         <span
           className={cn(
-            'flex items-center gap-1 transition-[translate,opacity] duration-200',
+            'flex items-center gap-1 transition-[translate,opacity] duration-base ease-standard motion-reduce:transition-none',
             copied ? clipboardTextAnimations.slide.animate : clipboardTextAnimations.slide.initial,
           )}
         >
@@ -307,7 +307,7 @@ export const ClipboardText = forwardRef<HTMLDivElement, ClipboardTextProps>(
         </span>
         <span
           className={cn(
-            'flex items-center justify-center transition-[translate,opacity] duration-200',
+            'flex items-center justify-center transition-[translate,opacity] duration-base ease-standard motion-reduce:transition-none',
             copied ? clipboardTextAnimations.slide.end : clipboardTextAnimations.slide.animate,
           )}
         >

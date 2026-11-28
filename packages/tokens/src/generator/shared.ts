@@ -198,7 +198,7 @@ export type CssTree = { [key: string]: string | CssTree };
  * referenced by ported components; without them they generate no CSS.
  * Deliberate deviations: the toast/clipboard bump animations use ease-out-quart
  * instead of upstream's overshoot curve (DESIGN.md bans bounce/elastic easing),
- * and the reduced-motion guard covers both bump classes.
+ * and the reduced-motion guard covers both bump classes and the skeleton shimmer.
  * Kept as a CssTree so it can ship both as theme.css text and as the
  * structured `css` field on the registry theme item.
  */
@@ -294,6 +294,9 @@ export const KUMO_UTILITY_CSS: CssTree = {
       animation: 'none',
     },
     '.animate-toast-bump': {
+      animation: 'none',
+    },
+    '.skeleton-line::after': {
       animation: 'none',
     },
   },

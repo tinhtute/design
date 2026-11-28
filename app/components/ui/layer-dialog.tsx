@@ -418,7 +418,7 @@ function LayerDialogBody({ children }: LayerDialogBodyProps) {
             // aria-describedby keeps working while it is clipped.
             <div
               className={cn(
-                'grid transition-[grid-template-rows,opacity] duration-200 ease-out motion-reduce:transition-none',
+                'grid transition-[grid-template-rows,opacity] duration-base ease-standard motion-reduce:transition-none',
                 condensed ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100',
               )}
               data-condensed={condensed || undefined}

@@ -32,6 +32,10 @@ const DOC_ENTRIES: { slug: string; description: string }[] = [
     description: 'Token layers, light and dark mode, and the theme item.',
   },
   {
+    slug: 'motion',
+    description: 'Duration and easing tokens, rules, and reduced-motion fallbacks.',
+  },
+  {
     slug: 'registry',
     description: 'How items are authored, validated, and published.',
   },

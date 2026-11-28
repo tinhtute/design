@@ -148,7 +148,7 @@ export function Empty({
               <HugeiconsIcon
                 icon={CheckIcon}
                 size={16}
-                className="text-kumo-success transition-transform duration-150 ease-out"
+                className="text-kumo-success transition-transform duration-fast ease-standard motion-reduce:transition-none"
               />
             ) : (
               <HugeiconsIcon

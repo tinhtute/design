@@ -17,6 +17,8 @@ bridge that maps `--color-*` utilities onto the semantic variables, the light
   `--radius`, and the `--chart-*` ramp.
 - **Kumo compatibility** — `--kumo-*` fills, lines and surfaces used by the
   ported components, plus the `--text-color-kumo-*` text bridge.
+- **Motion** — `--duration-*` / `--transition-duration-*` (`fast`, `base`,
+  `slow`) and `--ease-*` (`standard`, `emphasized`); see Motion.
 - **Utilities** — the vendored Kumo class layer (`animate-*`, `skeleton-line`,
   `no-scrollbar`, …) that the components reference by name.
 

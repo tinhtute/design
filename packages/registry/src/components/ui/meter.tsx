@@ -93,7 +93,7 @@ export function Meter({
       >
         <BaseMeter.Indicator
           className={cn(
-            'absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-kumo-brand via-kumo-brand to-kumo-brand transition-[width] duration-300 ease-out',
+            'absolute inset-y-0 left-0 rounded-full bg-linear-to-r from-kumo-brand via-kumo-brand to-kumo-brand transition-[width] duration-slow ease-standard motion-reduce:transition-none',
             indicatorClassName,
           )}
         />

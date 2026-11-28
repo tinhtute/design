@@ -125,8 +125,11 @@
           "--shadow-md": "0 4px 6px -1px oklch(0 0 0 / 0.1)",
           "--shadow-lg": "0 10px 15px -3px oklch(0 0 0 / 0.1)",
           "--duration-fast": "100ms",
+          "--transition-duration-fast": "100ms",
           "--duration-base": "200ms",
+          "--transition-duration-base": "200ms",
           "--duration-slow": "400ms",
+          "--transition-duration-slow": "400ms",
           "--ease-standard": "cubic-bezier(0.2, 0, 0, 1)",
           "--ease-emphasized": "cubic-bezier(0.4, 0, 0.2, 1)"
         },
@@ -427,6 +430,9 @@
             "animation": "none"
           },
           ".animate-toast-bump": {
+            "animation": "none"
+          },
+          ".skeleton-line::after": {
             "animation": "none"
           }
         }

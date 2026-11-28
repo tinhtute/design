@@ -64,6 +64,7 @@ export function buildThemeRegistryItem(theme: Theme): RegistryThemeItem {
   }
   for (const [key, value] of Object.entries(theme.motion?.durations ?? {})) {
     themeBlock[`--duration-${key}`] = value;
+    themeBlock[`--transition-duration-${key}`] = value;
   }
   for (const [key, value] of Object.entries(theme.motion?.easings ?? {})) {
     themeBlock[`--ease-${key}`] = value;

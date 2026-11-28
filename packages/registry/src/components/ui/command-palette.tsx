@@ -334,7 +334,7 @@ function Dialog({
     <DialogBase.Root open={open} onOpenChange={onOpenChange} modal>
       <DialogBase.Portal container={container}>
         <DialogBase.Backdrop
-          className="fixed inset-0 bg-kumo-overlay opacity-80 transition-all duration-150 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0"
+          className="fixed inset-0 bg-kumo-overlay opacity-80 transition-opacity duration-base ease-standard motion-reduce:transition-none data-[ending-style]:opacity-0 data-[starting-style]:opacity-0"
           onClick={handleBackdropClick}
         />
         <LayerCard
@@ -342,12 +342,11 @@ function Dialog({
           className={cn(
             'fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2',
             'overflow-hidden rounded-lg',
-            'duration-150 data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+            'duration-base ease-standard motion-reduce:transition-none data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
           )}
           style={
             {
               transitionProperty: 'scale, opacity',
-              transitionTimingFunction: 'var(--default-transition-timing-function)',
             } as CSSProperties
           }
         >
@@ -720,7 +719,7 @@ function ResultItem<T>({
       {showArrow && !external && !nonInteractive && (
         <HugeiconsIcon
           icon={ArrowRightIcon}
-          className="h-4 w-4 flex-shrink-0 text-kumo-subtle opacity-0 transition-opacity group-data-[highlighted]:opacity-100"
+          className="h-4 w-4 flex-shrink-0 text-kumo-subtle opacity-0 transition-opacity duration-fast group-data-[highlighted]:opacity-100"
         />
       )}
     </Autocomplete.Item>

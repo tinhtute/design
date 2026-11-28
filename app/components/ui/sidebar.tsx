@@ -912,7 +912,7 @@ const SidebarContent = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<'div'
           orientation="vertical"
           className={cn(
             'flex w-1.5 touch-none p-px select-none',
-            'opacity-0 transition-opacity duration-150',
+            'opacity-0 transition-opacity duration-fast ease-standard motion-reduce:transition-none',
             'data-[hovering]:opacity-100 data-[scrolling]:opacity-100',
             'group-data-[state=collapsed]/sidebar:hidden',
           )}
@@ -2255,7 +2255,7 @@ function SidebarMenuChevron({ className }: { className?: string }) {
       size={12}
       strokeWidth={2}
       className={cn(
-        'ml-auto shrink-0 opacity-40 transition-[transform,rotate,opacity] duration-200 group-hover/menu-button:opacity-100',
+        'ml-auto shrink-0 opacity-40 transition-[transform,rotate,opacity] duration-base ease-standard motion-reduce:transition-none group-hover/menu-button:opacity-100',
         isCollapsible && isOpen && 'rotate-90',
         // Hidden when sidebar is collapsed
         'group-data-[state=collapsed]/sidebar:hidden',
