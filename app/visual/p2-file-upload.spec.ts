@@ -38,11 +38,14 @@ test.describe('File upload block (P2.1)', () => {
     ).toBeVisible();
     await expect(retryNetwork).toHaveCount(0, { timeout: 5000 });
 
-    // Canceling an uploading item transitions it to Canceled and enables Retry
+    // Canceling an uploading item transitions it to Canceled, announces it, and enables Retry
     const cancelUploading = main.getByRole('button', {
       name: 'Cancel design-tokens-bundle-production-release-v2.15.0.json',
     });
     await cancelUploading.click();
+    await expect(main.getByRole('status')).toHaveText(
+      'Canceled design-tokens-bundle-production-release-v2.15.0.json.',
+    );
     await expect(
       main.getByRole('button', {
         name: 'Retry design-tokens-bundle-production-release-v2.15.0.json',

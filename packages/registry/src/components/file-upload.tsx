@@ -244,10 +244,18 @@ export function FileUpload({
 
   const [isDragging, setIsDragging] = useState(false);
   const [dragFileCount, setDragFileCount] = useState<number | null>(null);
-  const [localAnnouncement, setLocalAnnouncement] = useState('');
+  const [liveMessage, setLiveMessage] = useState(announcement ?? '');
+  const [prevAnnouncement, setPrevAnnouncement] = useState(announcement);
+
+  if (announcement !== prevAnnouncement) {
+    setPrevAnnouncement(announcement);
+    if (announcement) {
+      setLiveMessage(announcement);
+    }
+  }
 
   const announce = useCallback((message: string) => {
-    setLocalAnnouncement(message);
+    setLiveMessage(message);
   }, []);
 
   const openPicker = useCallback(() => {
@@ -368,8 +376,6 @@ export function FileUpload({
           : completedCount > 0 && (failedCount > 0 || canceledCount > 0)
             ? { variant: 'warning' as const, label: 'Partial success' }
             : { variant: 'error' as const, label: 'Needs attention' };
-
-  const liveMessage = announcement ?? localAnnouncement;
 
   return (
     <div className={cn('flex w-full min-w-0 flex-col gap-3', className)}>
