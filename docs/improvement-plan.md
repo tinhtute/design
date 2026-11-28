@@ -63,6 +63,29 @@ Xem [bằng chứng và giới hạn kiểm chứng P0](p0-verification.md).
 
 **Có** = tìm được hỗ trợ trong mã hoặc tài liệu; **Một phần** = có primitive tương đương, hỗ trợ chưa đầy đủ, hoặc chưa đủ bằng chứng xác nhận hành vi; **Thiếu** = chưa thấy hỗ trợ tương đương ở cấp design system. Đây là đánh giá tĩnh, không chứng nhận accessibility. Với dòng **Có**, hạng mục chỉ việc ghi tài liệu/xác minh giữ nguyên; với dòng **Thiếu**, hạng mục có thể là recipe hoặc ghi lý do hoãn, không hứa mở API hay quy trình mới. ID và tên mục giữ nguyên từ nguồn để tiện đối chiếu.
 
+### Quyết định P2.2 — recipes, phạm vi và kiểm chứng
+
+Xem [recipe registry](../app/content/docs/registry.md#compose-a-worker-inventory) và demo Worker inventory. Các quyết định dưới đây không biến phần ghép ở app thành API registry; giữ trạng thái cũ khi chưa có hỗ trợ tương đương.
+
+| ID đối chiếu | Cách ghép, lý do hoãn hoặc cách kiểm chứng |
+| --- | --- |
+| `c-alert-actions` | Dùng `Banner` dạng title/description với `action` hoặc link trong description; Dashboard minh họa link tới inventory. App quyết định mức thông báo; Banner không mặc định là live alert. Kiểm tra hành động xuống dòng và vẫn bấm được ở 320 px. |
+| `c-avatar-image`, `c-avatar-image-fallback`, `c-avatar-sizes`, `c-avatar-colors`, `c-avatar-shape`, `c-avatar-group`, `c-avatar-a11y-label` | Hoãn Avatar cho tới khi có luồng nhận diện người hoặc nhóm cần dùng lại. Tạm dùng tên người bằng văn bản; nếu thực sự cần ảnh, dùng `img` cùng tên và thay ảnh lỗi bằng tên. Chỉ đề xuất API khi có use case, rồi kiểm ảnh lỗi, các cỡ/hình, màu tương phản, nhóm tràn và tên không bị đọc hai lần. |
+| `c-badge-sizes`, `c-badge-dismiss`, `c-badge-empty`, `c-badge-positioning` | Giữ Badge hiện có cho trạng thái; bố trí bằng flex với nội dung, không dựa vào vị trí tuyệt đối. Không render badge rỗng; nếu cần bỏ một bộ lọc, dùng nút có tên “Bỏ bộ lọc …” và đặt focus về bộ lọc sau khi bỏ. Không tạo cỡ mới hay biến badge thông tin thành nút. |
+| `c-breadcrumbs-disabled`, `c-breadcrumbs-collapsed`, `c-breadcrumbs-separator` | Mục không điều hướng là text; trang hiện tại có `aria-current="page"`. Với đường dẫn dài, ưu tiên xuống dòng; nếu cần thu gọn, dùng nút Menu có tên và giữ liên kết cha trong menu, kiểm Tab/Escape và 320 px. Dùng separator sẵn có; hoãn tùy biến nếu chỉ khác trang trí. |
+| `c-card-media-sections`, `c-card-actions`, `c-card-groups` | Ghép vùng ảnh HTML với phần nội dung và footer Button/Link độc lập; dùng `ul`/`li` + grid cho nhóm thẻ. Không bọc cả thẻ bằng link khi có nút khác; kiểm ảnh lỗi, focus theo thứ tự đọc và thẻ xuống một cột ở 320 px. |
+| `c-carousel-navigation`, `c-carousel-composition`, `c-carousel-item-size`, `c-carousel-touch`, `c-carousel-responsive`, `c-carousel-a11y-keyboard-navigation` | Hoãn vì chưa có luồng cần chuyển slide. Dùng danh sách thẻ responsive. Nếu có use case, kiểm nút trước/sau, kích thước và nội dung slide, swipe không cản cuộn, khả năng dùng không cần swipe ở 320 px, thứ tự Tab và thông báo slide đang xem. |
+| `c-checkbox-group` | Ghép các Checkbox có nhãn riêng trong `fieldset`/`legend`; app quản lý giá trị tập hợp và thông báo lỗi chung. Kiểm Tab và Space với từng mục, không giả định có điều hướng theo nhóm. |
+| `c-divider-direction`, `c-divider-a11y-role` | Dùng `hr` để ngăn hai chủ đề như trong inventory; đường trang trí ngang/dọc là CSS border không thêm điểm focus hoặc vai trò. Không coi đường dọc trang trí là separator có ngữ nghĩa. |
+| `c-dropdown-hover` | Mở Dropdown Menu bằng click/touch hoặc bàn phím. Không thêm hover-only; nếu một luồng cần hover, kiểm cách đóng, khả năng giữ con trỏ trên menu, và toàn bộ thao tác bằng bàn phím/touch. |
+| `c-image-sizes`, `c-image-fallback`, `c-image-density` | Dùng HTML `img` với width/height, CSS responsive, `srcset` hoặc `picture`; app thay ảnh lỗi bằng text tương đương. Kiểm nguồn 1x/2x và nguồn lỗi; không có chính sách fallback tự động từ registry. |
+| `c-link-disabled` | Nếu không có đích hữu dụng, dùng text kèm lý do thay vì link có `href` nhưng chặn click; nếu là thao tác không khả dụng, dùng Button disabled. Không có link disabled tương đương nút disabled. |
+| `c-list-order`, `c-list-composition`, `c-list-a11y-role` | Dùng `ol` cho thứ tự có nghĩa, `ul` cho tài nguyên không thứ tự, `li` chứa text và hành động riêng như inventory. Giữ semantics list (kiểm khi reset marker); không phải listbox có điều hướng phím mũi tên. |
+| `c-loading-indicator-time` | App điều khiển Loader theo vòng đời request, giữ dữ liệu cũ khi refresh và cho thử lại khi lỗi; spinner không đo thời lượng. Nếu cần timeout thật, kiểm chuyển từ đang tải sang lỗi và tránh xử lý phản hồi cũ sau retry. |
+| `c-pagination-indeterminate` | Khi backend chỉ có cursor, ghép nút “Tải thêm” với trạng thái đang tải/hết/lỗi, không tự tạo tổng trang. Kiểm không thêm trùng khi retry và giữ focus khi chèn kết quả. Đây không phải Pagination có số trang chưa biết. |
+| `c-select-prefix` | Đặt ngữ cảnh trong Label hoặc phần mô tả/đơn vị bên ngoài trigger; giữ giá trị đã chọn đọc rõ ràng ở 320 px. Không giả định có slot prefix nội tuyến riêng. |
+| `m-documentation-props`, `m-documentation-composition`, `m-documentation-sandbox` | Giữ tab Props theo kiểu xuất sẵn; tài liệu registry trỏ đến bốn demo và tab Code. Worker inventory là sandbox cục bộ có lọc, xóa, tải, lỗi và thử lại, không phải một backend tham chiếu. |
+
 ### Ngôn ngữ thiết kế (Design language)
 
 #### Brand
@@ -174,7 +197,7 @@ Hugeicons là họ icon thống nhất; `icon-alignment` và audit nhãn nút l�
 
 #### Alert
 
-`Banner` có variant, title và icon; cần ví dụ secondary action, xác minh responsive và vai trò thông báo theo ngữ cảnh.
+`Banner` có variant, title và icon; recipe Dashboard minh họa hành động bổ sung bằng link. App quyết định vai trò thông báo theo ngữ cảnh.
 
 | ID                   | Mục                   | Trạng thái | Hạng mục |
 | -------------------- | --------------------- | ---------- | -------- |
@@ -328,7 +351,7 @@ Hugeicons cho màu/cỡ qua props hoặc CSS; phân biệt icon trang trí với
 
 #### Image
 
-Có ảnh/logo ở app; chưa có item Image hay recipe chung cho responsive density, fallback và alt.
+Có ảnh/logo ở app và recipe HTML trong tài liệu registry; chưa có item Image hay fallback tự động dùng chung.
 
 | ID                 | Mục                    | Trạng thái | Hạng mục |
 | ------------------ | ---------------------- | ---------- | -------- |
@@ -546,8 +569,8 @@ Chưa có item đúng ngữ nghĩa progressbar; `Meter` có giá trị/nhãn nh�
 | `m-documentation-dev`         | Development best practices     | Một phần   | P1.1     |
 | `m-documentation-anatomy`     | Component anatomy              | Một phần   | P1.1     |
 | `m-documentation-props`       | Component properties           | Có         | P2.2     |
-| `m-documentation-composition` | Component composition examples | Một phần   | P2.2     |
-| `m-documentation-sandbox`     | Sandbox product example        | Một phần   | P2.2     |
+| `m-documentation-composition` | Component composition examples | Có         | P2.2     |
+| `m-documentation-sandbox`     | Sandbox product example        | Có         | P2.2     |
 | `m-documentation-env`         | Browser / OS support           | Thiếu      | P2.3     |
 | `m-documentation-release`     | Release cycle                  | Thiếu      | P2.3     |
 
