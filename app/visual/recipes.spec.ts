@@ -103,10 +103,14 @@ test('keeps the delete confirmation available after a failed request', async ({ 
   await expect(alert).toBeAttached();
   await expect(alert).toHaveText('');
   await submit.press('Enter');
+  await expect(confirm).toBeDisabled();
+  await expect(submit).toBeDisabled();
+  await expect(submit).toBeFocused();
   await expect(alert).toHaveText('Could not delete the worker. Try again.');
   await expect(dialog.getByText('Could not delete the worker. Try again.')).toBeVisible();
   await expect(confirm).toHaveValue('api-gateway');
-  await submit.press('Enter');
+  await expect(submit).toBeFocused();
+  await page.keyboard.press('Enter');
   await expect(dialog).toBeHidden();
   await expect(trigger).toBeFocused();
   await expect(demo.getByRole('status')).toHaveText('Deleted api-gateway.');

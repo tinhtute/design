@@ -13,6 +13,7 @@ import {
   Cancel01Icon as XIcon,
 } from '@hugeicons/core-free-icons';
 import { Banner } from '@/components/ui/banner';
+import { Loader } from '@/components/ui/loader';
 
 export const KUMO_DELETE_RESOURCE_VARIANTS = {
   size: {
@@ -195,8 +196,9 @@ export function DeleteResource({
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={!isConfirmed || isDeleting}
-            loading={isDeleting}
+            disabled={!isConfirmed}
+            aria-disabled={isDeleting || undefined}
+            icon={isDeleting ? <Loader size={14} aria-label="Deleting" /> : undefined}
           >
             {deleteButtonText || `Delete ${resourceType}`}
           </Button>
