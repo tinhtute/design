@@ -9,6 +9,9 @@ test('opens the worker inventory and filters and retires a worker with the keybo
   await expect(inventoryLink).toBeInViewport({ ratio: 1 });
   await inventoryLink.press('Enter');
   await expect(page).toHaveURL(/#resource-list-page$/);
+  await expect(
+    page.getByRole('heading', { name: 'Resource list page', exact: true }),
+  ).toBeFocused();
   const demo = page.getByRole('tabpanel', { name: 'Demo' });
   const query = demo.getByRole('textbox', { name: 'Filter workers…' });
   await query.fill('missing-deployment');
