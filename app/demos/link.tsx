@@ -13,7 +13,7 @@ export function Demo() {
     <Text>
       Deploy your first Worker from the{' '}
       <Link href="https://developers.cloudflare.com/workers/">Workers docs</Link>, browse the{' '}
-      <Link href="/components" variant="plain">
+      <Link href="/" variant="plain">
         component catalog
       </Link>
       , or check the{' '}

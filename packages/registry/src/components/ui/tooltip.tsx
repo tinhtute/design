@@ -2,7 +2,7 @@
  * Adapted from cloudflare/kumo (MIT), commit a5800aa3c484ebc58788dce6a0d5eabfd6c00dcf.
  */
 import { Tooltip as TooltipBase } from '@base-ui/react/tooltip';
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
+import { useId, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 import { usePortalContainer, type PortalContainer } from '@/lib/portal-provider';
@@ -148,6 +148,7 @@ export function Tooltip({
   delay,
   ...props
 }: TooltipProps) {
+  const tooltipId = useId();
   const contextContainer = usePortalContainer();
   const container = containerProp ?? contextContainer ?? undefined;
 
@@ -159,6 +160,7 @@ export function Tooltip({
   return (
     <TooltipBase.Root {...props}>
       <TooltipBase.Trigger
+        aria-describedby={tooltipId}
         closeDelay={closeDelay}
         delay={delay}
         className={cn(
@@ -177,7 +179,7 @@ export function Tooltip({
       >
         {asChild ? undefined : (children as ReactNode)}
       </TooltipBase.Trigger>
-      <TooltipBase.Portal container={container}>
+      <TooltipBase.Portal container={container} keepMounted>
         <TooltipBase.Positioner
           align={align}
           side={side}
@@ -185,6 +187,8 @@ export function Tooltip({
           className="max-w-[var(--available-width)]"
         >
           <TooltipBase.Popup
+            id={tooltipId}
+            role="tooltip"
             className={cn(
               'flex origin-[var(--transform-origin)] flex-col rounded-md bg-kumo-base px-2.5 py-1.5 text-sm text-kumo-default',
               'shadow-md outline outline-kumo-line',

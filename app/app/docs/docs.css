@@ -19,6 +19,7 @@
 
 .mono-doc h2 {
   margin: 2.5rem 0 0.75rem;
+  scroll-margin-top: 5rem;
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-color-kumo-default);
@@ -26,6 +27,7 @@
 
 .mono-doc h3 {
   margin: 1.75rem 0 0.5rem;
+  scroll-margin-top: 5rem;
   font-size: 1.0625rem;
   font-weight: 600;
   color: var(--text-color-kumo-default);

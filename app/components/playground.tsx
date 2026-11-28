@@ -7,6 +7,7 @@ import { Tabs } from '@base-ui/react/tabs';
 
 import Link from 'next/link';
 import { ComponentSearch } from '@/components/component-search';
+import { SkipLink } from '@/components/skip-link';
 import { Button } from '@/components/ui/button';
 import { ClipboardText } from '@/components/ui/clipboard-text';
 import { Code } from '@/components/ui/code';
@@ -22,6 +23,7 @@ import type { PropsBySlug } from '@/lib/props';
 import registry from '../../packages/registry/registry.json';
 
 const DESCRIPTIONS = new Map(registry.items.map((item) => [item.name, item.description]));
+const DEMO_CONTENT_ID = 'showroom-demo';
 
 type NavItem = readonly [id: string, label: string];
 
@@ -170,7 +172,7 @@ function ShowroomSidebarMenu({
   onSelect,
   onMobileSelect,
 }: {
-  slug: Slug;
+  slug: Slug | null;
   onSelect: (id: Slug) => void;
   onMobileSelect: () => void;
 }) {
@@ -229,31 +231,34 @@ export function Playground({
   highlighted: Record<string, string>;
   props: PropsBySlug;
 }) {
-  const [slug, setSlug] = useState<Slug>('button');
+  const [slug, setSlug] = useState<Slug | null>('button');
   const [view, setView] = useState<View>('demo');
   const [searchOpen, setSearchOpen] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const searchTriggerRef = useRef<HTMLButtonElement>(null);
+  const recoveryTriggerRef = useRef<HTMLButtonElement>(null);
+  const searchFromRecovery = useRef(false);
 
   useEffect(() => {
     const handleShortcut = (event: KeyboardEvent) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
-        setSearchOpen((open) => !open);
+        if (!searchOpen) {
+          searchFromRecovery.current = document.activeElement === recoveryTriggerRef.current;
+        }
+        setSearchOpen(!searchOpen);
       }
     };
     window.addEventListener('keydown', handleShortcut);
     return () => window.removeEventListener('keydown', handleShortcut);
-  }, []);
+  }, [searchOpen]);
 
   // A deep link (`/#slug`) always opens on the Demo view.
   useEffect(() => {
     const handleHash = () => {
       const fromHash = window.location.hash.replace(/^#/, '');
-      if (ITEM_INDEX.has(fromHash)) {
-        setSlug(fromHash);
-        setView('demo');
-      }
+      setSlug(fromHash === '' ? 'button' : ITEM_INDEX.has(fromHash) ? fromHash : null);
+      setView('demo');
     };
 
     handleHash();
@@ -261,10 +266,12 @@ export function Playground({
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  const title = GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ?? slug;
+  const title =
+    GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ??
+    'Component not found';
   const groupIndex = GROUPS.findIndex((group) => group.items.some(([id]) => id === slug));
 
-  const entry = DEMOS[slug];
+  const entry = slug === null ? undefined : DEMOS[slug];
 
   const searchItems = GROUPS.flatMap((group) =>
     group.items.map(([id, label]) => ({ id, label, group: group.title })),
@@ -281,6 +288,7 @@ export function Playground({
     <TooltipProvider>
       <ToastProvider>
         <div className="mono-index">
+          <SkipLink targetId={DEMO_CONTENT_ID}>Skip to demo</SkipLink>
           <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
             <Sidebar id="showroom-sidebar">
               <Sidebar.Header className="h-auto flex-col items-stretch">
@@ -307,9 +315,11 @@ export function Playground({
                   <>
                     <ShowroomSidebarTrigger />
                     <span className="hidden sm:inline">
-                      <SiteIndexLabel>
-                        {pad(Math.max(groupIndex, 0) + 1)}/{slug}
-                      </SiteIndexLabel>
+                      {slug !== null && (
+                        <SiteIndexLabel>
+                          {pad(groupIndex + 1)}/{slug}
+                        </SiteIndexLabel>
+                      )}
                     </span>
                   </>
                 }
@@ -319,7 +329,10 @@ export function Playground({
                     type="button"
                     variant="secondary"
                     size="sm"
-                    onClick={() => setSearchOpen(true)}
+                    onClick={() => {
+                      searchFromRecovery.current = false;
+                      setSearchOpen(true);
+                    }}
                     aria-label="Search ⌘K"
                     aria-keyshortcuts="Meta+K Control+K"
                   >
@@ -334,69 +347,114 @@ export function Playground({
                   </Button>
                 }
               />
-              <main className="flex-1 overflow-y-auto px-4 py-8 sm:px-8">
+              <main
+                id={DEMO_CONTENT_ID}
+                tabIndex={-1}
+                className="flex-1 overflow-y-auto px-4 py-8 sm:px-8"
+              >
                 <div className="mx-auto grid max-w-3xl gap-4 max-sm:grid-cols-1">
                   <div className="grid gap-1.5">
-                    <SiteIndexLabel>
-                      {pad(Math.max(groupIndex, 0) + 1)} {GROUPS[Math.max(groupIndex, 0)].title}
-                    </SiteIndexLabel>
-                    <h2 ref={titleRef} tabIndex={-1} className="font-heading text-2xl text-kumo-default">
+                    {slug !== null && (
+                      <SiteIndexLabel>
+                        {pad(groupIndex + 1)} {GROUPS[groupIndex].title}
+                      </SiteIndexLabel>
+                    )}
+                    <h2
+                      ref={titleRef}
+                      tabIndex={-1}
+                      className="font-heading text-2xl text-kumo-default"
+                    >
                       {title}
                     </h2>
-                    <p className="max-w-prose text-sm text-kumo-subtle">{DESCRIPTIONS.get(slug)}</p>
+                    <p className="max-w-prose text-sm text-kumo-subtle">
+                      {slug === null
+                        ? 'This link does not match a component in the showroom.'
+                        : DESCRIPTIONS.get(slug)}
+                    </p>
                   </div>
-                  <Tabs.Root value={view} onValueChange={(next) => setView(next as View)}>
-                    <Tabs.List aria-label={`${title} views`} className="flex gap-3 pb-3">
-                      {VIEWS.map(({ value, label }) => (
-                        <Tabs.Tab
-                          key={value}
-                          value={value}
-                          className="cursor-pointer rounded-sm font-mono text-xs text-kumo-subtle underline-offset-4 outline-none hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand aria-selected:text-kumo-default aria-selected:underline"
-                        >
-                          {label}
-                        </Tabs.Tab>
-                      ))}
-                    </Tabs.List>
-                    <Tabs.Panel value="demo" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm max-sm:grid-cols-1">
-                      <div className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6">
-                        {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
-                      </div>
-                      {entry ? (
-                        <p className="max-w-prose text-sm leading-6 text-kumo-default">
-                          {entry.notes}
-                        </p>
-                      ) : null}
-                    </Tabs.Panel>
-                    <Tabs.Panel value="code" className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
-                      {entry ? (
-                        <>
-                          <ClipboardText
-                            text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
-                          />
-                          <Code.Block
-                            html={highlighted[slug]}
-                            code={sources[slug] ?? ''}
-                            lang="tsx"
-                            title={`${slug}.tsx`}
-                          />
-                        </>
-                      ) : (
-                        <Text>Unknown component.</Text>
-                      )}
-                    </Tabs.Panel>
-                    <Tabs.Panel value="props" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm">
-                      {props[slug]?.length ? (
-                        <PropsTable docs={props[slug]} />
-                      ) : (
-                        <p className="text-sm text-kumo-subtle">No documented props.</p>
-                      )}
-                    </Tabs.Panel>
-                  </Tabs.Root>
+                  {slug === null ? (
+                    <div>
+                      <Button
+                        ref={recoveryTriggerRef}
+                        type="button"
+                        variant="secondary"
+                        onClick={() => {
+                          searchFromRecovery.current = true;
+                          setSearchOpen(true);
+                        }}
+                      >
+                        Find a component
+                      </Button>
+                    </div>
+                  ) : (
+                    <Tabs.Root value={view} onValueChange={(next) => setView(next as View)}>
+                      <Tabs.List aria-label={`${title} views`} className="flex gap-3 pb-3">
+                        {VIEWS.map(({ value, label }) => (
+                          <Tabs.Tab
+                            key={value}
+                            value={value}
+                            className="cursor-pointer rounded-sm font-mono text-sm text-kumo-subtle underline-offset-4 outline-none hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand aria-selected:text-kumo-default aria-selected:underline"
+                          >
+                            {label}
+                          </Tabs.Tab>
+                        ))}
+                      </Tabs.List>
+                      <Tabs.Panel
+                        value="demo"
+                        className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm max-sm:grid-cols-1"
+                      >
+                        <div className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6">
+                          {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
+                        </div>
+                        {entry ? (
+                          <p className="max-w-prose text-sm leading-6 text-kumo-default">
+                            {entry.notes}
+                          </p>
+                        ) : null}
+                      </Tabs.Panel>
+                      <Tabs.Panel
+                        value="code"
+                        className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm"
+                      >
+                        {entry ? (
+                          <>
+                            <ClipboardText
+                              text={`pnpm dlx shadcn add @therealtinhtute/${slug}${(entry.deps ?? []).map((d) => ` @therealtinhtute/${d}`).join('')}`}
+                            />
+                            <Link
+                              href="/docs#configuration"
+                              className="w-fit rounded-sm text-sm text-kumo-link underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-kumo-focus"
+                            >
+                              Configure the registry
+                            </Link>
+                            <Code.Block
+                              html={highlighted[slug]}
+                              code={sources[slug] ?? ''}
+                              lang="tsx"
+                              title={`${slug}.tsx`}
+                            />
+                          </>
+                        ) : (
+                          <Text>Unknown component.</Text>
+                        )}
+                      </Tabs.Panel>
+                      <Tabs.Panel
+                        value="props"
+                        className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm"
+                      >
+                        {props[slug]?.length ? (
+                          <PropsTable docs={props[slug]} />
+                        ) : (
+                          <p className="text-sm text-kumo-subtle">No documented props.</p>
+                        )}
+                      </Tabs.Panel>
+                    </Tabs.Root>
+                  )}
                 </div>
                 <footer className="mx-auto mt-16 flex w-full max-w-3xl items-center justify-between border-t border-dashed border-kumo-line pt-4 pb-2 font-mono text-2xs text-kumo-subtle">
                   <span>mono — @therealtinhtute/design</span>
                   <div className="flex items-center gap-4">
-                    <Link href="/docs" className="hover:text-kumo-default">
+                    <Link href="/docs" className="text-sm hover:text-kumo-default">
                       docs
                     </Link>
                     <span>© 2026</span>
@@ -407,7 +465,11 @@ export function Playground({
             <ComponentSearch
               open={searchOpen}
               onOpenChange={setSearchOpen}
-              triggerRef={searchTriggerRef}
+              finalFocus={() =>
+                (searchFromRecovery.current ? recoveryTriggerRef.current : null) ??
+                searchTriggerRef.current ??
+                undefined
+              }
               items={searchItems}
               onSelect={selectComponent}
             />

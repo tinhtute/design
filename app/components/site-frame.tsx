@@ -32,7 +32,7 @@ export function SiteBar({
   start,
   actions,
 }: {
-  section: Section;
+  section?: Section;
   start?: ReactNode;
   actions?: ReactNode;
 }) {

@@ -1,7 +1,10 @@
 import Link from 'next/link';
 import { DocsToc } from '@/components/docs-toc';
 import { SiteBar, SiteBrand, SiteIndexLabel } from '@/components/site-frame';
+import { SkipLink } from '@/components/skip-link';
 import type { Doc } from '@/lib/docs';
+
+const DOCS_CONTENT_ID = 'docs-content';
 
 /**
  * Docs chrome shared by `/docs` and `/docs/<slug>`: the shared site rail and
@@ -25,6 +28,7 @@ export function DocsShell({
 }) {
   return (
     <div className="mono-index flex min-h-dvh flex-col bg-kumo-base text-kumo-default lg:flex-row">
+      <SkipLink targetId={DOCS_CONTENT_ID}>Skip to documentation</SkipLink>
       <aside
         data-site-rail=""
         className="flex flex-col gap-5 border-b border-dashed border-kumo-line px-3 py-4 lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-b-0"
@@ -63,8 +67,13 @@ export function DocsShell({
             </span>
           }
         />
-        <main className="mono-doc mx-auto flex w-full max-w-5xl flex-1 gap-8 px-6 py-10">
+        <main
+          id={DOCS_CONTENT_ID}
+          tabIndex={-1}
+          className="mono-doc mx-auto flex w-full max-w-5xl flex-1 gap-8 px-6 py-10"
+        >
           <article className="min-w-0 flex-1">
+            {doc.headings.length > 0 && <DocsToc headings={doc.headings} collapsible />}
             <div dangerouslySetInnerHTML={{ __html: html }} />
             <nav
               aria-label="Docs pages"
