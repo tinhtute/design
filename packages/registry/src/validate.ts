@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import Ajv from 'ajv';
 import { validateDeps } from './validate-deps';
+import { validateMotion } from './validate-motion';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -74,6 +75,7 @@ async function main() {
     console.error(`FAIL non-theme items with no files: ${noFiles.map((i) => i.name).join(', ')}`);
   }
   failed += await validateDeps(root, registry);
+  failed += await validateMotion(root);
 
   if (failed > 0) process.exit(1);
   console.log(`validated ${registry.items.length} registry items; all referenced files present`);

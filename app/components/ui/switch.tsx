@@ -291,7 +291,7 @@ const SwitchBase = forwardRef<HTMLButtonElement, SwitchProps>(
           const trackClassName = cn(
             'relative inline-flex cursor-pointer items-center border-none p-0 ring',
             'focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand',
-            'transition-colors duration-150 ease-out motion-reduce:transition-none',
+            'transition-colors duration-fast ease-standard motion-reduce:transition-none',
             'disabled:cursor-not-allowed disabled:opacity-50',
             s.track,
             squircleRadius,
@@ -305,7 +305,7 @@ const SwitchBase = forwardRef<HTMLButtonElement, SwitchProps>(
             s.thumb,
             squircleRadius,
             thumbColors,
-            'transition-all duration-150 ease-out motion-reduce:transition-none',
+            'transition-[left,background-color] duration-fast ease-standard motion-reduce:transition-none',
             state.checked ? s.slide : 'left-0',
           );
 
@@ -443,7 +443,7 @@ const SwitchItem = forwardRef<HTMLButtonElement, SwitchItemProps>(
             const trackClassName = cn(
               'relative inline-flex cursor-pointer items-center border-none p-0 ring',
               'focus:ring-kumo-focus/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand',
-              'transition-colors duration-150 ease-out motion-reduce:transition-none',
+              'transition-colors duration-fast ease-standard motion-reduce:transition-none',
               'disabled:cursor-not-allowed disabled:opacity-50',
               s.track,
               squircleRadius,
@@ -456,7 +456,7 @@ const SwitchItem = forwardRef<HTMLButtonElement, SwitchItemProps>(
               s.thumb,
               squircleRadius,
               thumbColors,
-              'transition-all duration-150 ease-out motion-reduce:transition-none',
+              'transition-[left,background-color] duration-fast ease-standard motion-reduce:transition-none',
               state.checked ? s.slide : 'left-0',
             );
 

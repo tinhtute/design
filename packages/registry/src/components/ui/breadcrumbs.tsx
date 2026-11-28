@@ -170,7 +170,7 @@ function Clipboard({ text }: { text: string }) {
       variant="ghost"
       shape="square"
       size="sm"
-      className="opacity-0 transition-[opacity] group-hover:opacity-100"
+      className="opacity-0 transition-opacity duration-fast ease-standard motion-reduce:transition-none group-hover:opacity-100"
       onClick={handleCopyDeeplink}
       title="Click to copy"
       aria-label="Copy"

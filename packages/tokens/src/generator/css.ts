@@ -45,6 +45,7 @@ function themeInlineVars(theme: Theme): string[] {
   }
   for (const [key, value] of Object.entries(theme.motion?.durations ?? {})) {
     vars.push(`--duration-${key}: ${value};`);
+    vars.push(`--transition-duration-${key}: ${value};`);
   }
   for (const [key, value] of Object.entries(theme.motion?.easings ?? {})) {
     vars.push(`--ease-${key}: ${value};`);

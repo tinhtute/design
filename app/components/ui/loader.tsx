@@ -3,7 +3,7 @@
  */
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { resolveVariant } from '@/lib/resolve-variant';
 
@@ -93,8 +93,29 @@ export const Loader = ({
   'aria-label': ariaLabel = 'Loading',
 }: LoaderProps) => {
   const sizeValue = loaderVariants({ size });
+  const svgRef = useRef<SVGSVGElement>(null);
+
+  // SMIL ignores prefers-reduced-motion, so freeze the spinner on a visible arc instead.
+  useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg || typeof window.matchMedia !== 'function') return;
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => {
+      if (query.matches) {
+        svg.setCurrentTime(0.75);
+        svg.pauseAnimations();
+      } else {
+        svg.unpauseAnimations();
+      }
+    };
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
   return (
     <svg
+      ref={svgRef}
       width="24"
       height="24"
       viewBox="0 0 24 24"

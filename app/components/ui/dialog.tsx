@@ -142,7 +142,7 @@ export function dialogVariants({
 }: KumoDialogVariantsProps = {}) {
   return cn(
     // Base styles
-    'shadow-md ring ring-kumo-line fixed top-8 left-1/2 sm:top-16 w-full max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-hidden rounded-xl bg-kumo-base text-kumo-default duration-150 data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0',
+    'shadow-md ring ring-kumo-line fixed top-8 left-1/2 sm:top-16 w-full max-w-[calc(100vw-2rem)] -translate-x-1/2 overflow-hidden rounded-xl bg-kumo-base text-kumo-default duration-base ease-standard data-ending-style:scale-90 data-ending-style:opacity-0 data-starting-style:scale-90 data-starting-style:opacity-0',
     // Apply size from KUMO_DIALOG_VARIANTS
     resolveVariant(KUMO_DIALOG_VARIANTS.size, size, KUMO_DIALOG_DEFAULT_VARIANTS.size).classes,
   );
@@ -224,18 +224,16 @@ function DialogContent({
 
   return (
     <BasePortal container={container}>
-      <BaseBackdrop className="fixed inset-0 bg-kumo-recessed opacity-80 transition-all duration-200 ease-out motion-reduce:transition-none data-ending-style:opacity-0 data-starting-style:opacity-0" />
+      <BaseBackdrop className="fixed inset-0 bg-kumo-recessed opacity-80 transition-opacity duration-base ease-standard motion-reduce:transition-none data-ending-style:opacity-0 data-starting-style:opacity-0" />
       <LayerCard
         render={<BasePopup />}
         className={cn(
           dialogVariants({ size }),
-          'duration-200 ease-out motion-reduce:transition-none',
+          'transition-[scale,opacity] duration-base ease-standard motion-reduce:transition-none',
           className,
         )}
         style={
           {
-            transitionProperty: 'scale, opacity',
-            transitionTimingFunction: 'var(--default-transition-timing-function)',
             '--tw-shadow': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
             ...style,
           } as CSSProperties

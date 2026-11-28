@@ -420,7 +420,7 @@ export const RefreshButton = ({
     <HugeiconsIcon
       icon={ArrowsClockwise}
       className={cn({
-        'animate-refresh': loading,
+        'animate-refresh motion-reduce:animate-none': loading,
         'size-4.5': props.size === 'base' || !props.size,
         'size-4': props.size === 'sm',
         'size-5': props.size === 'lg',

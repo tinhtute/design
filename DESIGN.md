@@ -32,8 +32,10 @@
 
 ## Motion & Transitions
 
-- Timing: Standard `200ms cubic-bezier(0.2, 0, 0, 1)`, Emphasized `400ms cubic-bezier(0.4, 0, 0.2, 1)`
-- Easing: Decelerated / exponential easing (`ease-out-quart`, `cubic-bezier(0.25, 1, 0.5, 1)`); strict ban on bounce/elastic animations, `prefers-reduced-motion` honored
+- Durations: `fast` 100ms (hover, toggles), `base` 200ms (overlays, indicators), `slow` 400ms (one-off value changes) — utilities `duration-fast|base|slow`
+- Easing: `standard` `cubic-bezier(0.2, 0, 0, 1)` by default, `emphasized` `cubic-bezier(0.4, 0, 0.2, 1)` for rest-to-rest movement — utilities `ease-standard|emphasized`
+- Bumps (toast, copy) use ease-out-quart `cubic-bezier(0.25, 1, 0.5, 1)`; strict ban on bounce/elastic animations
+- Name transitioned properties (no `transition-all`); every transition or animation has a `prefers-reduced-motion` fallback. Inventory and exceptions: `app/content/docs/motion.md`
 
 ## Kumo Rules (audit baseline)
 

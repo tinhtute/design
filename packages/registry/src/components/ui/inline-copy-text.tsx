@@ -226,7 +226,7 @@ export const InlineCopyText = forwardRef<HTMLButtonElement, InlineCopyTextProps>
             aria-hidden
             size={14}
             className={cn(
-              'shrink-0 opacity-0 transition-opacity motion-reduce:transition-none',
+              'shrink-0 opacity-0 transition-opacity duration-fast ease-standard motion-reduce:transition-none',
               'group-hover/inline-copy:opacity-100 group-focus-visible/inline-copy:opacity-100',
               'group-focus-within:opacity-100 group-hover:opacity-100',
             )}

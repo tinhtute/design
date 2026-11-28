@@ -169,7 +169,7 @@ Motion scale có trong DESIGN.md; một số component có reduced motion. Loade
 | -------------------- | ------------- | ---------- | -------- |
 | `df-motion-easing`   | Easing        | Có         | P1.3     |
 | `df-motion-duration` | Duration      | Có         | P1.3     |
-| `df-motion-a11y`     | Accessibility | Một phần   | P1.3     |
+| `df-motion-a11y`     | Accessibility | Có         | P1.3     |
 
 #### Iconography
 
@@ -395,7 +395,7 @@ Dùng native `ul`, `ol`, `li` và Resource list recipe; container hiển thị t
 | `c-loading-indicator-colors`              | Colors              | Một phần   | P1.1     |
 | `c-loading-indicators-sizes`              | Sizes               | Có         | P1.3     |
 | `c-loading-indicator-time`                | Loading duration    | Thiếu      | P2.2     |
-| `c-loading-indicator-a11y-reduced-motion` | Reduced motion      | Một phần   | P1.3     |
+| `c-loading-indicator-a11y-reduced-motion` | Reduced motion      | Có         | P1.3     |
 | `c-loading-indicator-a11y-label`          | Accessibility label | Có         | P1.3     |
 
 #### Modal
@@ -475,7 +475,7 @@ Chưa có item đúng ngữ nghĩa progressbar; `Meter` có giá trị/nhãn nh�
 | `c-skeleton-sizes`       | Sizes          | Có         | P1.3     |
 | `c-skeleton-shapes`      | Shapes         | Một phần   | P1.3     |
 | `c-skeleton-composition` | Composition    | Một phần   | P1.3     |
-| `c-skeleton-a11y-motion` | Reduced motion | Một phần   | P1.3     |
+| `c-skeleton-a11y-motion` | Reduced motion | Có         | P1.3     |
 
 #### Switch
 
@@ -546,7 +546,7 @@ Chưa có item đúng ngữ nghĩa progressbar; `Meter` có giá trị/nhãn nh�
 | `c-toast-stacking`    | Stacking             | Có         | P1.1     |
 | `c-toast-action`      | Supplementary action | Có         | P1.1     |
 | `c-toast-a11y-focus`  | Focus management     | Một phần   | P0.2     |
-| `c-toast-a11y-motion` | Reduced motion       | Một phần   | P1.3     |
+| `c-toast-a11y-motion` | Reduced motion       | Có         | P1.3     |
 
 #### Tooltip
 

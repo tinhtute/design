@@ -268,7 +268,7 @@ export function Tabs({
               {...props}
               className={cn(
                 'absolute left-0 z-1',
-                'w-(--active-tab-width) translate-x-(--active-tab-left) transition-all duration-200',
+                'w-(--active-tab-width) translate-x-(--active-tab-left) transition-[translate,width,height,top,scale,opacity] duration-base ease-standard motion-reduce:transition-none',
                 'data-[rendered=false]:scale-90 data-[rendered=false]:opacity-0',
                 isSegmented &&
                   cn(
@@ -335,7 +335,7 @@ function TabsOverflowControl({
       tabIndex={visible ? 0 : -1}
       onClick={onClick}
       className={cn(
-        'absolute inset-y-0 z-3 flex items-center border-0 bg-transparent p-0 transition-opacity duration-150 focus:outline-none focus-visible:[&>span]:ring-2 focus-visible:[&>span]:ring-kumo-brand',
+        'absolute inset-y-0 z-3 flex items-center border-0 bg-transparent p-0 transition-opacity duration-fast ease-standard motion-reduce:transition-none focus:outline-none focus-visible:[&>span]:ring-2 focus-visible:[&>span]:ring-kumo-brand',
         isStart ? 'left-0 justify-start bg-linear-to-r' : 'right-0 justify-end bg-linear-to-l',
         visible ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         isSegmented
