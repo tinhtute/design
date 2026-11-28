@@ -1,0 +1,75 @@
+import type { AgentGuide } from './agent-catalog-model';
+
+export const AGENT_GUIDES: Record<string, AgentGuide & { aliases: string[] }> = {
+  button: {
+    aliases: ['cta', 'call to action'],
+    useWhen: 'Trigger a discrete action such as saving or creating a resource.',
+    avoidWhen: 'Navigation to another page; use Link for a destination.',
+    anatomy: ['Button', 'label', 'optional leading icon'],
+    states: ['default', 'disabled', 'loading'],
+    rules: ['Name the action; give icon-only controls an accessible name.'],
+  },
+  badge: {
+    aliases: ['status label', 'status pill'],
+    useWhen: 'Show a compact, non-interactive category or status.',
+    avoidWhen: 'The user needs to act or read a detailed message; use a Button or Banner.',
+    anatomy: ['Badge', 'text'],
+    states: ['primary', 'success', 'warning', 'error'],
+    rules: ['Use text as well as color to distinguish statuses.'],
+  },
+  field: {
+    aliases: ['form validation', 'form label'],
+    useWhen: 'Connect a label, description and validation message to a form control.',
+    avoidWhen: 'The control already owns the same visible label.',
+    anatomy: ['Field', 'label', 'control', 'description', 'error'],
+    states: ['required', 'optional', 'invalid'],
+    rules: ['Describe how to correct the invalid value next to the control.'],
+  },
+  select: {
+    aliases: ['single choice', 'dropdown select'],
+    useWhen: 'Choose one value from a known list.',
+    avoidWhen: 'The user needs to type and filter choices; consider Combobox.',
+    anatomy: ['Select', 'label', 'trigger', 'options'],
+    states: ['unselected', 'open', 'selected', 'disabled'],
+    rules: ['Supply a visible label or aria-label; a placeholder is not a substitute.'],
+  },
+  dialog: {
+    aliases: ['modal', 'confirmation overlay'],
+    useWhen: 'Keep focus on a confirmation or a short, contained task.',
+    avoidWhen: 'The message does not require interaction; use inline feedback.',
+    anatomy: ['Dialog.Root', 'Dialog.Trigger', 'Dialog', 'Dialog.Title', 'Dialog.Description'],
+    states: ['closed', 'open'],
+    rules: ['Name the dialog with a title and preserve Escape and focus return.'],
+  },
+  tabs: {
+    aliases: ['tab bar', 'sibling views'],
+    useWhen: 'Switch among closely related views in the same context.',
+    avoidWhen: 'Navigating between pages or progressing through a required sequence.',
+    anatomy: ['Tabs', 'tabs array', 'view content supplied by the app'],
+    states: ['unselected', 'selected'],
+    rules: ['Use clear labels and retain the component’s arrow-key behavior.'],
+  },
+  toasty: {
+    aliases: ['toast', 'snackbar'],
+    useWhen: 'A brief status update acknowledges the result of an action.',
+    avoidWhen: 'The message is needed to complete a form or recover later; keep it visible inline.',
+    anatomy: [
+      'Toasty provider',
+      'useKumoToastManager',
+      'title',
+      'optional description and actions',
+    ],
+    states: ['success', 'error', 'warning', 'info'],
+    rules: [
+      'Report the outcome without moving focus; do not put essential instructions only in a toast.',
+    ],
+  },
+  'resource-list-page': {
+    aliases: ['resource index', 'resource inventory'],
+    useWhen: 'List and manage a collection of resources in a page layout.',
+    avoidWhen: 'Designing a single resource detail or edit form.',
+    anatomy: ['ResourceListPage', 'heading', 'children', 'optional usage and additionalContent'],
+    states: ['empty, loading and error content supplied by the app'],
+    rules: ['Provide an accessible name and table headers when using a Table.'],
+  },
+};
