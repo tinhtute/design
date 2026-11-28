@@ -182,6 +182,13 @@ async function scanInteractiveStates(dark) {
     await page.locator(`html[data-mode="${dark ? 'dark' : 'light'}"]`).waitFor();
   }
 
+  async function waitForPopupOpacity(popup) {
+    await page.waitForFunction(
+      (element) => element.ownerDocument.defaultView.getComputedStyle(element).opacity === '1',
+      await popup.elementHandle(),
+    );
+  }
+
   try {
     await open('/#invalid-component', 'Component not found');
     await scan(page, `${theme} 390px invalid component`);
@@ -189,16 +196,14 @@ async function scanInteractiveStates(dark) {
     const palette = page.getByRole('dialog', { name: 'Component search' });
     await palette.getByRole('combobox', { name: 'Search components' }).fill('not-found');
     await palette.getByText('No components found').waitFor();
+    await waitForPopupOpacity(palette);
     await scan(page, `${theme} 390px search with no results`);
     await page.keyboard.press('Escape');
 
     await open('/#dialog', 'Dialog');
     await main.getByRole('button', { name: 'Open dialog' }).tap();
     const dialog = page.getByRole('dialog', { name: 'Confirm' });
-    await page.waitForFunction(
-      (popup) => popup.ownerDocument.defaultView.getComputedStyle(popup).opacity === '1',
-      await dialog.elementHandle(),
-    );
+    await waitForPopupOpacity(dialog);
     await scan(page, `${theme} 390px Dialog open`);
     await page.keyboard.press('Escape');
 
