@@ -120,6 +120,7 @@ export function Playground({
   const [view, setView] = useState<View>('demo');
   const [searchOpen, setSearchOpen] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const searchTriggerRef = useRef<HTMLButtonElement>(null);
   const recoveryTriggerRef = useRef<HTMLButtonElement>(null);
   const searchFromRecovery = useRef(false);
@@ -140,13 +141,21 @@ export function Playground({
 
   // A deep link (`/#slug`) always opens on the Demo view.
   useEffect(() => {
-    const handleHash = () => {
+    const selectFromHash = () => {
       const fromHash = window.location.hash.slice(1);
       setSlug(fromHash === '' ? 'button' : ITEM_INDEX.has(fromHash) ? fromHash : null);
       setView('demo');
     };
 
-    handleHash();
+    const handleHash = () => {
+      const focusWasInPreview = previewRef.current?.contains(document.activeElement);
+      selectFromHash();
+      if (focusWasInPreview) {
+        requestAnimationFrame(() => titleRef.current?.focus());
+      }
+    };
+
+    selectFromHash();
     window.addEventListener('hashchange', handleHash);
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
@@ -294,7 +303,10 @@ export function Playground({
                         value="demo"
                         className="grid gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm max-sm:grid-cols-1"
                       >
-                        <div className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6">
+                        <div
+                          ref={previewRef}
+                          className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6"
+                        >
                           {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
                         </div>
                         {entry ? (

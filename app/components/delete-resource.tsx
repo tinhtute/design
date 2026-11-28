@@ -13,6 +13,7 @@ import {
   Cancel01Icon as XIcon,
 } from '@hugeicons/core-free-icons';
 import { Banner } from '@/components/ui/banner';
+import { Loader } from '@/components/ui/loader';
 
 export const KUMO_DELETE_RESOURCE_VARIANTS = {
   size: {
@@ -125,11 +126,13 @@ export function DeleteResource({
 
         <div className="flex flex-col gap-4 p-6">
           <div className="flex flex-col gap-2">
-            {errorMessage && (
-              <Banner icon={<HugeiconsIcon icon={WarningCircleIcon} />} variant="error">
-                {errorMessage}
-              </Banner>
-            )}
+            <div role="alert" className="empty:absolute">
+              {errorMessage && (
+                <Banner icon={<HugeiconsIcon icon={WarningCircleIcon} />} variant="error">
+                  {errorMessage}
+                </Banner>
+              )}
+            </div>
             <p className="max-w-prose text-base text-pretty text-kumo-subtle">
               This action cannot be undone. This will permanently delete the{' '}
               <span className="font-medium text-kumo-default">{resourceName}</span>{' '}
@@ -193,8 +196,9 @@ export function DeleteResource({
           <Button
             variant="destructive"
             onClick={handleDelete}
-            disabled={!isConfirmed || isDeleting}
-            loading={isDeleting}
+            disabled={!isConfirmed}
+            aria-disabled={isDeleting || undefined}
+            icon={isDeleting ? <Loader size={14} aria-label="Deleting" /> : undefined}
           >
             {deleteButtonText || `Delete ${resourceType}`}
           </Button>

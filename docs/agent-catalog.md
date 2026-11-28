@@ -20,7 +20,7 @@ thay thế contract shadcn `/r/registry.json`.
 | Dialog             | Yêu cầu xác nhận với title và description, giữ Escape và trả focus.                 | Chặn người dùng chỉ để thông báo trạng thái không cần trả lời.                |
 | Tabs               | Đổi giữa **Overview** và **Deployments** trong cùng ngữ cảnh.                       | Biến Tabs thành trình tự bắt buộc hoặc điều hướng giữa các trang.             |
 | Toasty             | Thông báo ngắn **Worker deployed** sau khi tác vụ thành công.                       | Chỉ báo lỗi form trong toast thoáng qua.                                      |
-| Resource list page | Ghép layout với Table có cột **Name** và **Status**.                                | Dùng layout danh sách cho trang chi tiết, hoặc mặc định block tự tải dữ liệu. |
+| Resource list page | Ghép layout với FilterBar và danh sách **Deployments**.                             | Dùng layout danh sách cho trang chi tiết, hoặc mặc định block tự tải dữ liệu. |
 
 Anatomy và trạng thái được ghi trên từng item. Resource list page chỉ cấp bố
 cục và các slot; app tự cung cấp nội dung rỗng, đang tải và lỗi. Ví dụ được lấy

@@ -5,22 +5,55 @@ import { Button } from '@/components/ui/button';
 import { DeleteResource } from '@/components/delete-resource';
 
 export const notes =
-  'Type-to-confirm dialog for destructive deletes — the Delete button stays disabled until the input matches `resourceName`. Control `open`/`onOpenChange` in the parent so a row action can trigger it; `onDelete` runs after confirmation.';
+  'Keep the dialog open on failure, preserve the confirmation, and let the operator retry. This simulated delete fails once per opening. A real app removes the row only after success and moves focus to a stable control if the original trigger disappears.';
+
+export const deps = ['button'];
 
 export function Demo() {
   const [open, setOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [deleted, setDeleted] = useState(false);
+
+  async function deleteWorker() {
+    const shouldFail = !errorMessage;
+    setIsDeleting(true);
+    setErrorMessage('');
+    await new Promise((resolve) => setTimeout(resolve, 600));
+    setIsDeleting(false);
+    if (shouldFail) {
+      setErrorMessage('Could not delete the worker. Try again.');
+    } else {
+      setDeleted(true);
+      setOpen(false);
+    }
+  }
 
   return (
     <>
-      <Button variant="destructive" onClick={() => setOpen(true)}>
+      <Button
+        variant="destructive"
+        onClick={() => {
+          setErrorMessage('');
+          setDeleted(false);
+          setOpen(true);
+        }}
+      >
         Delete worker
       </Button>
+      <p role="status" className="text-sm text-kumo-subtle">
+        {deleted ? 'Deleted api-gateway.' : ''}
+      </p>
       <DeleteResource
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={(nextOpen) => {
+          if (!isDeleting) setOpen(nextOpen);
+        }}
         resourceType="worker"
         resourceName="api-gateway"
-        onDelete={() => setOpen(false)}
+        isDeleting={isDeleting}
+        errorMessage={errorMessage}
+        onDelete={deleteWorker}
       />
     </>
   );

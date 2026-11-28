@@ -77,12 +77,12 @@ test('catalog matches registry items and links to executable pilot demos', async
       expect.objectContaining({ name: 'children', required: true }),
     ]),
   );
-  expect(resource.install).toContain('@therealtinhtute/table');
+  expect(resource.install).toContain('@therealtinhtute/filter-bar');
   const registryItem = await request.get(new URL(resource.links.registry).pathname);
   expect(registryItem.ok()).toBeTruthy();
   await page.goto('/' + new URL(resource.links.demo).hash);
   await expect(page.getByRole('heading', { name: 'Resource list page' })).toBeVisible();
-  await expect(page.getByRole('cell', { name: 'api-gateway' })).toBeVisible();
+  await expect(page.getByRole('listitem').filter({ hasText: 'api-gateway' })).toBeVisible();
 });
 
 test('preserves constant, array and object defaults in the catalog and Props tab', async ({
