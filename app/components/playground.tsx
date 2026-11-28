@@ -256,20 +256,7 @@ export function Playground({
   // A deep link (`/#slug`) always opens on the Demo view.
   useEffect(() => {
     const handleHash = () => {
-      const hash = window.location.hash;
-      const fromHash = hash.slice(1);
-      if (fromHash && !ITEM_INDEX.has(fromHash)) {
-        const demo = document.getElementById(DEMO_CONTENT_ID);
-        const section = document.getElementById(fromHash);
-        if (
-          (section && demo?.contains(section)) ||
-          Array.from(demo?.querySelectorAll('[role="tabpanel"] a[href^="#"]') ?? []).some(
-            (link) => link.getAttribute('href') === hash,
-          )
-        ) {
-          return;
-        }
-      }
+      const fromHash = window.location.hash.slice(1);
       setSlug(fromHash === '' ? 'button' : ITEM_INDEX.has(fromHash) ? fromHash : null);
       setView('demo');
     };

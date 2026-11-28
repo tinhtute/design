@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { TableOfContents } from '@/components/ui/table-of-contents';
 
 export const notes =
@@ -9,6 +9,11 @@ export const notes =
 export function Demo() {
   const [activeId, setActiveId] = useState('installation');
 
+  const previewSection = (id: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setActiveId(id);
+  };
+
   return (
     <TableOfContents>
       <TableOfContents.Title>On this page</TableOfContents.Title>
@@ -16,7 +21,7 @@ export function Demo() {
         <TableOfContents.Item
           href="#overview"
           active={activeId === 'overview'}
-          onClick={() => setActiveId('overview')}
+          onClick={previewSection('overview')}
         >
           Overview
         </TableOfContents.Item>
@@ -24,14 +29,14 @@ export function Demo() {
           <TableOfContents.Item
             href="#installation"
             active={activeId === 'installation'}
-            onClick={() => setActiveId('installation')}
+            onClick={previewSection('installation')}
           >
             Installation
           </TableOfContents.Item>
           <TableOfContents.Item
             href="#setup"
             active={activeId === 'setup'}
-            onClick={() => setActiveId('setup')}
+            onClick={previewSection('setup')}
           >
             Setup
           </TableOfContents.Item>
@@ -39,7 +44,7 @@ export function Demo() {
         <TableOfContents.Item
           href="#api-reference"
           active={activeId === 'api-reference'}
-          onClick={() => setActiveId('api-reference')}
+          onClick={previewSection('api-reference')}
         >
           API reference
         </TableOfContents.Item>
