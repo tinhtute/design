@@ -69,6 +69,21 @@ test('recovers an unknown component with keyboard search', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Search' })).toBeFocused();
 });
 
+test('returns to the Button demo when Showroom clears an unknown hash', async ({ page }) => {
+  await page.goto('/#does-not-exist');
+  const main = page.getByRole('main');
+  const recovery = main.getByRole('heading', { name: 'Component not found' });
+  await expect(recovery).toBeVisible();
+  await page.getByRole('navigation', { name: 'Site' }).getByRole('link', { name: 'Showroom' }).click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(main.getByRole('heading', { name: 'Button', exact: true })).toBeVisible();
+  await expect(main.getByRole('tab', { name: 'Demo' })).toHaveAttribute('aria-selected', 'true');
+  await page.goBack();
+  await expect(recovery).toBeVisible();
+  await page.goForward();
+  await expect(main.getByRole('heading', { name: 'Button', exact: true })).toBeVisible();
+});
+
 test('invalid docs URLs return 404 and provide routes back', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
   const response = await page.goto('/docs/does-not-exist');

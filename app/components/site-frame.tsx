@@ -31,10 +31,12 @@ export function SiteBar({
   section,
   start,
   actions,
+  onShowroomNavigate,
 }: {
   section?: Section;
   start?: ReactNode;
   actions?: ReactNode;
+  onShowroomNavigate?: () => void;
 }) {
   return (
     <header
@@ -49,6 +51,7 @@ export function SiteBar({
             <Link
               key={id}
               href={href}
+              onNavigate={id === 'showroom' ? onShowroomNavigate : undefined}
               aria-current={id === section ? 'page' : undefined}
               className={
                 id === section
