@@ -324,6 +324,10 @@ export function Playground({
             <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
               <SiteBar
                 section="showroom"
+                onShowroomNavigate={() => {
+                  setSlug('button');
+                  setView('demo');
+                }}
                 start={
                   <>
                     <ShowroomSidebarTrigger />
