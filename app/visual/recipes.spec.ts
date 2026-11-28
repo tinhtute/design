@@ -126,6 +126,7 @@ test('clears a draft without resetting the applied filter', async ({ page }) => 
   await expect(count).toHaveText('Showing 1 of 6 workers.');
   await demo.getByRole('button', { name: 'Clear search' }).press('Enter');
   await expect(query).toHaveValue('');
+  await expect(query).toBeFocused();
   await expect(count).toHaveText('Showing 1 of 6 workers.');
   await query.press('Enter');
   await expect(count).toHaveText('Showing 6 of 6 workers.');

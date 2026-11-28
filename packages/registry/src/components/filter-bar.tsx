@@ -38,6 +38,8 @@ export function FilterBar({
   className,
   ...props
 }: FilterBarProps) {
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   return (
     <div className={cn('flex items-center gap-2', className)} {...props}>
       <InputGroup className="w-full max-w-sm">
@@ -45,6 +47,7 @@ export function FilterBar({
           <HugeiconsIcon icon={MagnifyingGlass} />
         </InputGroup.Addon>
         <InputGroup.Input
+          ref={inputRef}
           value={value}
           onChange={(event) => onValueChange(event.target.value)}
           placeholder={placeholder}
@@ -55,7 +58,10 @@ export function FilterBar({
             <InputGroup.Button
               icon={X}
               aria-label="Clear search"
-              onClick={() => onValueChange('')}
+              onClick={() => {
+                onValueChange('');
+                inputRef.current?.focus();
+              }}
             />
           </InputGroup.Addon>
         ) : null}
