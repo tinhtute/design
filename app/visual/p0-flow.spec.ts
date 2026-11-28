@@ -30,7 +30,9 @@ test('restores the demo and its default view when using browser history', async 
   await expect(page.getByRole('tab', { name: 'Demo' })).toHaveAttribute('aria-selected', 'true');
 });
 
-test('keeps the table of contents demo when its section links change the hash', async ({ page }) => {
+test('keeps the table of contents demo when its section links change the hash', async ({
+  page,
+}) => {
   await page.goto('/#table-of-contents');
   const demo = page.getByRole('tabpanel', { name: 'Demo' });
   const overview = demo.getByRole('link', { name: 'Overview' });
@@ -74,7 +76,10 @@ test('returns to the Button demo when Showroom clears an unknown hash', async ({
   const main = page.getByRole('main');
   const recovery = main.getByRole('heading', { name: 'Component not found' });
   await expect(recovery).toBeVisible();
-  await page.getByRole('navigation', { name: 'Site' }).getByRole('link', { name: 'Showroom' }).click();
+  await page
+    .getByRole('navigation', { name: 'Site' })
+    .getByRole('link', { name: 'Showroom' })
+    .click();
   await expect(page).toHaveURL(/\/$/);
   await expect(main.getByRole('heading', { name: 'Button', exact: true })).toBeVisible();
   await expect(main.getByRole('tab', { name: 'Demo' })).toHaveAttribute('aria-selected', 'true');
