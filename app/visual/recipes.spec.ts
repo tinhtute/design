@@ -96,7 +96,11 @@ test('keeps the delete confirmation available after a failed request', async ({ 
   const submit = dialog.getByRole('button', { name: 'Delete worker' });
   await expect(submit).toBeDisabled();
   await confirm.fill('api-gateway');
+  const alert = dialog.getByRole('alert');
+  await expect(alert).toBeAttached();
+  await expect(alert).toHaveText('');
   await submit.press('Enter');
+  await expect(alert).toHaveText('Could not delete the worker. Try again.');
   await expect(dialog.getByText('Could not delete the worker. Try again.')).toBeVisible();
   await expect(confirm).toHaveValue('api-gateway');
   await submit.press('Enter');
