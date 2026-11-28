@@ -134,6 +134,7 @@ test.describe('showroom demos', () => {
   });
 
   test('docs pages', async ({ page }) => {
+    test.slow();
     await page.goto('/docs', { waitUntil: 'networkidle' });
     const hrefs = await page.$$eval('nav[aria-label="Docs"] a[href^="/docs"]', (links) =>
       links.map((link) => link.getAttribute('href') ?? ''),
@@ -153,6 +154,9 @@ async function capture(
   name: string,
   { dark = false }: { dark?: boolean } = {},
 ) {
+  if (url === '/#date-picker' || url === '/#date-range-picker') {
+    await page.clock.setFixedTime(new Date('2026-11-27T12:00:00Z'));
+  }
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(1500);
   if (dark) {
@@ -161,6 +165,14 @@ async function capture(
       document.documentElement.classList.add('dark');
     });
     await page.waitForTimeout(800);
+  }
+  if (url === '/#loader') {
+    await page.getByRole('status', { name: 'Loading' }).evaluateAll((loaders: SVGSVGElement[]) => {
+      for (const loader of loaders) {
+        loader.pauseAnimations();
+        loader.setCurrentTime(0.5);
+      }
+    });
   }
   await expect(page).toHaveScreenshot(`${name}.png`, { fullPage: false });
 }

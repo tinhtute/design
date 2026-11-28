@@ -164,6 +164,77 @@ await Promise.all(Array.from({ length: concurrency }, () => worker(queue)));
   await context.close();
 }
 
+async function scanInteractiveStates(dark) {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+    colorScheme: dark ? 'dark' : 'light',
+    reducedMotion: 'reduce',
+  });
+  const page = await context.newPage();
+  const main = page.getByRole('main');
+  const theme = dark ? 'dark ' : 'light';
+
+  async function open(route, heading) {
+    await page.goto(`${baseUrl}${route}`);
+    await main.getByRole('heading', { name: heading, exact: true }).waitFor();
+    await page.locator(`html[data-mode="${dark ? 'dark' : 'light'}"]`).waitFor();
+  }
+
+  try {
+    await open('/#invalid-component', 'Component not found');
+    await scan(page, `${theme} 390px invalid component`);
+    await main.getByRole('button', { name: 'Find a component' }).tap();
+    const palette = page.getByRole('dialog', { name: 'Component search' });
+    await palette.getByRole('combobox', { name: 'Search components' }).fill('not-found');
+    await palette.getByText('No components found').waitFor();
+    await scan(page, `${theme} 390px search with no results`);
+    await page.keyboard.press('Escape');
+
+    await open('/#dialog', 'Dialog');
+    await main.getByRole('button', { name: 'Open dialog' }).tap();
+    const dialog = page.getByRole('dialog', { name: 'Confirm' });
+    await page.waitForFunction(
+      (popup) => popup.ownerDocument.defaultView.getComputedStyle(popup).opacity === '1',
+      await dialog.elementHandle(),
+    );
+    await scan(page, `${theme} 390px Dialog open`);
+    await page.keyboard.press('Escape');
+
+    await open('/#layer-dialog', 'Layer dialog');
+    await main.getByRole('button', { name: 'Edit Worker' }).tap();
+    await page.getByRole('dialog', { name: 'Edit Worker' }).waitFor();
+    await scan(page, `${theme} 390px LayerDialog open`);
+    await page.keyboard.press('Escape');
+
+    await open('/#select', 'Select');
+    await main.getByRole('combobox', { name: 'Fruit' }).tap();
+    await page.getByRole('listbox').waitFor();
+    await scan(page, `${theme} 390px Select open`);
+    await page.keyboard.press('Escape');
+
+    await open('/#tooltip', 'Tooltip');
+    await main.getByRole('button', { name: 'Edge requests' }).focus();
+    await page.keyboard.press('Tab');
+    await page.getByRole('tooltip').getByText('Deploy a new version').waitFor();
+    await scan(page, `${theme} 390px Tooltip open`);
+    await page.keyboard.press('Escape');
+
+    await open('/#toasty', 'Toasty');
+    await main.getByRole('button', { name: 'Error toast' }).tap();
+    await page.getByText('Deployment failed', { exact: true }).waitFor();
+    await scan(page, `${theme} 390px error toast`);
+
+    await open('/docs/does-not-exist', 'Page not found');
+    await scan(page, `${theme} 390px docs 404`);
+  } finally {
+    await context.close();
+  }
+}
+
+await Promise.all([scanInteractiveStates(false), scanInteractiveStates(true)]);
+
 await browser.close();
 stopServer();
 

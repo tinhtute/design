@@ -51,6 +51,8 @@ Tổng: **27–41 ngày công**. Cắt PR theo ranh giới kiểm chứng: P0.1 
 
 ### Gate cho các PR triển khai
 
+Xem [bằng chứng và giới hạn kiểm chứng P0](p0-verification.md).
+
 - Showroom: `pnpm --filter app build`, `pnpm --filter app a11y`, `pnpm --filter app visual` và `pnpm --filter app typecheck`; dùng Playwright cho regression theo luồng, review ảnh diff trước khi cập nhật baseline. Ghi các ca kiểm thủ công và chỗ chưa kiểm.
 - Registry/token: `pnpm --filter @therealtinhtute/registry validate`, build registry rồi `validate:build` / `e2e`; nếu chạm generator, sinh lại và so theme CSS/item bằng `pnpm --filter @therealtinhtute/tokens generate`. Dùng [Validation](../app/content/docs/validation.md) cho lệnh/CI hiện có và `pnpm lint`, `pnpm -r build` khi phạm vi thay đổi cần.
 - Hoàn thành mỗi đợt khi có bằng chứng chạy lệnh, diff hoặc thao tác thật phù hợp với hạng mục; cập nhật những dòng liên quan ở phụ lục, không đánh “có” chỉ vì có file hoặc vì axe không báo lỗi.
@@ -381,8 +383,8 @@ Dùng native `ul`, `ol`, `li` và Resource list recipe; container hiển thị t
 | `c-modal-close`         | Close action                | Có         | P1.1     |
 | `c-modal-positioning`   | Positioning                 | Có         | P1.1     |
 | `c-modal-sizes`         | Sizes                       | Có         | P1.1     |
-| `c-modal-a11y-focus`    | Focus trapping              | Một phần   | P0.2     |
-| `c-modal-a11y-keyboard` | Keyboard navigation         | Một phần   | P0.2     |
+| `c-modal-a11y-focus`    | Focus trapping              | Có         | P0.2     |
+| `c-modal-a11y-keyboard` | Keyboard navigation         | Có         | P0.2     |
 | `c-modal-a11y-labels`   | Title and subtitle labeling | Một phần   | P0.2     |
 
 #### Pagination
@@ -420,7 +422,7 @@ Chưa có item đúng ngữ nghĩa progressbar; `Meter` có giá trị/nhãn nh�
 | `c-radio-error`         | Error state      | Có         | P1.1     |
 | `c-radio-disabled` †    | Disabled state   | Có         | P1.1     |
 | `c-radio-group`         | Radio group      | Có         | P1.1     |
-| `c-radio-a11y-keyboard` | Keyboard support | Một phần   | P0.2     |
+| `c-radio-a11y-keyboard` | Keyboard support | Có         | P0.2     |
 
 #### Select
 
@@ -528,7 +530,7 @@ Chưa có item đúng ngữ nghĩa progressbar; `Meter` có giá trị/nhãn nh�
 | ------------------------- | ---------------- | ---------- | -------- |
 | `c-tooltip-positioning`   | Positioning      | Có         | P1.3     |
 | `c-tooltip-timeout`       | Timeout          | Một phần   | P0.2     |
-| `c-tooltip-a11y-keyboard` | Keyboard support | Một phần   | P1.3     |
+| `c-tooltip-a11y-keyboard` | Keyboard support | Có         | P0.2     |
 
 ### Bảo trì (Maintenance)
 

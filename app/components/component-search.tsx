@@ -1,7 +1,6 @@
 'use client';
 
 import { Dialog } from '@base-ui/react/dialog';
-import type { RefObject } from 'react';
 import { CommandPalette } from '@/components/ui/command-palette';
 
 export interface ComponentSearchItem {
@@ -18,13 +17,13 @@ export interface ComponentSearchItem {
 export function ComponentSearch({
   open,
   onOpenChange,
-  triggerRef,
+  finalFocus,
   items,
   onSelect,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  triggerRef: RefObject<HTMLButtonElement | null>;
+  finalFocus: Dialog.Popup.Props['finalFocus'];
   items: ComponentSearchItem[];
   onSelect: (id: string) => void;
 }) {
@@ -32,7 +31,7 @@ export function ComponentSearch({
     <CommandPalette.Root
       open={open}
       onOpenChange={onOpenChange}
-      finalFocus={triggerRef}
+      finalFocus={finalFocus}
       items={items}
       itemToStringValue={(item) => item.label}
       filter={(item, query) => {

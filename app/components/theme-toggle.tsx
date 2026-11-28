@@ -1,6 +1,6 @@
 'use client';
 
-import { useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Moon02Icon as Moon, Sun03Icon as Sun } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
@@ -17,6 +17,21 @@ function isDarkTheme() {
 
 export function ThemeToggle() {
   const dark = useSyncExternalStore(subscribeToTheme, isDarkTheme, () => false);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (root.dataset.mode) return;
+    let theme: string | null = null;
+    try {
+      theme = localStorage.getItem('theme');
+    } catch {
+      // Fall back to the system preference.
+    }
+    const preferredDark =
+      theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+    root.dataset.mode = preferredDark ? 'dark' : 'light';
+    root.classList.toggle('dark', preferredDark);
+  }, []);
 
   return (
     <Button

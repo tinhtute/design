@@ -1,63 +1,43 @@
 # Getting started
 
-Install any component with the shadcn CLI — the registry resolves the
-component, its dependencies, and the license metadata for you:
+Find a component in the [showroom](/), try its demo, then open **Code** for
+the install command. Start with the [Button demo](/#button).
+
+## Configuration
+
+In your React + Tailwind project, run `pnpm dlx shadcn init` if you do not
+have a `components.json` yet. Merge this entry into `registries`, keeping the
+rest of your configuration and any other registries:
+
+```json
+{
+  "registries": {
+    "@therealtinhtute": "https://design.tinhtute.me/r/{name}.json"
+  }
+}
+```
+
+## Theming
+
+Install the theme once to add the CSS variables for light and dark modes.
+Review the stylesheet changes if your app already defines a theme.
+
+```bash
+pnpm dlx shadcn add @therealtinhtute/theme-default
+```
+
+## Install your first component
 
 ```bash
 pnpm dlx shadcn add @therealtinhtute/button
 ```
 
-Inline code works too — append the marker inside the backticks:
-
-```md
-`npx shadcn add @therealtinhtute/code{:bash}`
-`Code.Block{:tsx}`
-```
-
-## Theming
-
-Every token ships as a CSS variable, so your theme swaps in both modes:
-
-```ts
-const theme = useTheme(); // [!code highlight]
-return theme === 'dark' ? 'mono-dark' : 'mono-light';
-```
-
-Diffs are annotated with `[!code ++]` and `[!code --]`:
-
-```tsx
-function Greeting({ name }: { name: string }) {
-  return <p>Hello, {name}!</p>; // [!code --]
-  return <p>Welcome, {name}!</p>; // [!code ++]
-}
-```
-
-Focus lines with `[!code focus]`, or flag problems with `[!code error]`:
-
-```bash
-pnpm install # [!code focus]
-pnpm deploy --invalid-flag # [!code error]
-```
-
-## Configuration
-
-```jsonc
-{
-  // Registry settings
-  "name": "mono",
-  "components": ["button", "code", "sidebar"],
-  "theme": "default",
-}
-```
-
-| Flag          | Default | Purpose                         |
-| ------------- | ------- | ------------------------------- |
-| `highlight`   | `false` | Render dual-theme syntax colors |
-| `lineNumbers` | `true`  | Show a CSS-counter gutter       |
-| `copyButton`  | `true`  | Copy the raw source             |
+The CLI resolves the component, its dependencies and attribution. Import
+`Button` from `@/components/ui/button` (or your configured UI alias) and
+render `<Button>Save changes</Button>`.
 
 ## Next steps
 
-- Browse the component catalog in the showroom.
-- Read `docs/plans/completed/shiki-codeblock-integration.md` for the
-  highlighting architecture.
+- Return to the [Button demo](/#button) for examples and props.
+- Read [Theming](/docs/theming) to customize tokens, or [Registry](/docs/registry)
+  to learn what gets installed.
