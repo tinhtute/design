@@ -7,6 +7,7 @@ export interface ComponentSearchItem {
   id: string;
   label: string;
   group: string;
+  aliases: string[];
 }
 
 /**
@@ -40,7 +41,8 @@ export function ComponentSearch({
         return (
           item.label.toLowerCase().includes(q) ||
           item.id.includes(q) ||
-          item.group.toLowerCase().includes(q)
+          item.group.toLowerCase().includes(q) ||
+          item.aliases.some((alias) => alias.toLowerCase().includes(q))
         );
       }}
     >
