@@ -7,6 +7,7 @@ import { Tabs } from '@base-ui/react/tabs';
 
 import Link from 'next/link';
 import { ComponentSearch } from '@/components/component-search';
+import { CopyForAgent } from '@/components/copy-for-agent';
 import { SkipLink } from '@/components/skip-link';
 import { Button } from '@/components/ui/button';
 import { ClipboardText } from '@/components/ui/clipboard-text';
@@ -19,126 +20,10 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { SiteBar, SiteBrand, SiteIndexLabel } from '@/components/site-frame';
 import { PropsTable } from '@/components/props-table';
 import { DEMOS } from '@/demos';
-import type { PropsBySlug } from '@/lib/props';
-import registry from '../../packages/registry/registry.json';
+import type { CatalogItem } from '@/lib/agent-catalog-model';
+import { GROUPS } from '@/lib/showroom-groups';
 
-const DESCRIPTIONS = new Map(registry.items.map((item) => [item.name, item.description]));
 const DEMO_CONTENT_ID = 'showroom-demo';
-
-type NavItem = readonly [id: string, label: string];
-
-// Each group answers one question about the item; no catch-all group.
-const GROUPS: { title: string; items: NavItem[] }[] = [
-  {
-    title: 'Action',
-    items: [
-      ['button', 'Button'],
-      ['button-group', 'Button group'],
-      ['toolbar', 'Toolbar'],
-      ['link', 'Link'],
-      ['clipboard-text', 'Clipboard text'],
-      ['inline-copy-text', 'Inline copy text'],
-    ],
-  },
-  {
-    title: 'Form',
-    items: [
-      ['field', 'Field'],
-      ['label', 'Label'],
-      ['input', 'Input'],
-      ['input-area', 'Input area'],
-      ['input-group', 'Input group'],
-      ['sensitive-input', 'Sensitive input'],
-      ['tag-input', 'Tag input'],
-    ],
-  },
-  {
-    title: 'Selection',
-    items: [
-      ['checkbox', 'Checkbox'],
-      ['radio', 'Radio'],
-      ['switch', 'Switch'],
-      ['slider', 'Slider'],
-      ['select', 'Select'],
-      ['combobox', 'Combobox'],
-      ['autocomplete', 'Autocomplete'],
-      ['date-picker', 'Date picker'],
-      ['date-range-picker', 'Date range picker'],
-    ],
-  },
-  {
-    title: 'Display',
-    items: [
-      ['text', 'Text'],
-      ['code', 'Code'],
-      ['badge', 'Badge'],
-      ['meter', 'Meter'],
-    ],
-  },
-  {
-    title: 'Feedback',
-    items: [
-      ['banner', 'Banner'],
-      ['empty', 'Empty'],
-      ['loader', 'Loader'],
-      ['toasty', 'Toasty'],
-    ],
-  },
-  {
-    title: 'Layout',
-    items: [
-      ['surface', 'Surface'],
-      ['layer-card', 'Layer card'],
-      ['collapsible', 'Collapsible'],
-      ['grid', 'Grid'],
-      ['page-header', 'Page header'],
-    ],
-  },
-  {
-    title: 'Navigation',
-    items: [
-      ['sidebar', 'Sidebar'],
-      ['tabs', 'Tabs'],
-      ['breadcrumbs', 'Breadcrumbs'],
-      ['pagination', 'Pagination'],
-      ['menubar', 'Menu bar'],
-      ['command-palette', 'Command palette'],
-      ['table-of-contents', 'Table of contents'],
-    ],
-  },
-  {
-    title: 'Overlay',
-    items: [
-      ['dialog', 'Dialog'],
-      ['layer-dialog', 'Layer dialog'],
-      ['popover', 'Popover'],
-      ['tooltip', 'Tooltip'],
-      ['dropdown-menu', 'Dropdown menu'],
-    ],
-  },
-  {
-    title: 'Data',
-    items: [
-      ['table', 'Table'],
-      ['chart', 'Chart'],
-      ['timeseries-chart', 'Timeseries chart'],
-      ['sankey-chart', 'Sankey chart'],
-      ['bubble-map', 'Bubble map'],
-      ['choropleth-map', 'Choropleth map'],
-      ['globe-map', 'Globe map'],
-    ],
-  },
-  {
-    title: 'Patterns',
-    items: [
-      ['data-table', 'Data table'],
-      ['filter-bar', 'Filter bar'],
-      ['dashboard', 'Dashboard'],
-      ['resource-list-page', 'Resource list page'],
-      ['delete-resource', 'Delete resource'],
-    ],
-  },
-];
 
 type Slug = string;
 type View = 'demo' | 'code' | 'props';
@@ -225,11 +110,11 @@ function ShowroomSidebarMenu({
 export function Playground({
   sources,
   highlighted,
-  props,
+  catalog,
 }: {
   sources: Record<string, string>;
   highlighted: Record<string, string>;
-  props: PropsBySlug;
+  catalog: CatalogItem[];
 }) {
   const [slug, setSlug] = useState<Slug | null>('button');
   const [view, setView] = useState<View>('demo');
@@ -275,16 +160,18 @@ export function Playground({
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  const title =
-    GROUPS.flatMap((group) => group.items).find(([id]) => id === slug)?.[1] ??
-    'Component not found';
+  const item = catalog.find((item) => item.slug === slug);
+  const title = item?.title ?? 'Component not found';
   const groupIndex = GROUPS.findIndex((group) => group.items.some(([id]) => id === slug));
 
   const entry = slug === null ? undefined : DEMOS[slug];
 
-  const searchItems = GROUPS.flatMap((group) =>
-    group.items.map(([id, label]) => ({ id, label, group: group.title })),
-  );
+  const searchItems = catalog.map(({ slug, title, group, aliases }) => ({
+    id: slug,
+    label: title,
+    group,
+    aliases,
+  }));
 
   const selectComponent = (id: Slug) => {
     setSlug(id);
@@ -382,7 +269,7 @@ export function Playground({
                     <p className="max-w-prose text-sm text-kumo-subtle">
                       {slug === null
                         ? 'This link does not match a component in the showroom.'
-                        : DESCRIPTIONS.get(slug)}
+                        : item?.description}
                     </p>
                   </div>
                   {slug === null ? (
@@ -443,6 +330,7 @@ export function Playground({
                             >
                               Configure the registry
                             </Link>
+                            {item?.example && <CopyForAgent key={item.slug} item={item} />}
                             <Code.Block
                               html={highlighted[slug]}
                               code={sources[slug] ?? ''}
@@ -458,8 +346,8 @@ export function Playground({
                         value="props"
                         className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand focus-visible:ring-offset-2 focus-visible:ring-offset-kumo-base rounded-sm"
                       >
-                        {props[slug]?.length ? (
-                          <PropsTable docs={props[slug]} />
+                        {item?.props.length ? (
+                          <PropsTable docs={item.props} />
                         ) : (
                           <p className="text-sm text-kumo-subtle">No documented props.</p>
                         )}
