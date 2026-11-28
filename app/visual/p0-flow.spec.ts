@@ -30,6 +30,21 @@ test('restores the demo and its default view when using browser history', async 
   await expect(page.getByRole('tab', { name: 'Demo' })).toHaveAttribute('aria-selected', 'true');
 });
 
+test('keeps the table of contents demo when its section links change the hash', async ({ page }) => {
+  await page.goto('/#table-of-contents');
+  const demo = page.getByRole('tabpanel', { name: 'Demo' });
+  const overview = demo.getByRole('link', { name: 'Overview' });
+  await overview.click();
+  await expect(page).toHaveURL(/\/#overview$/);
+  await expect(overview).toHaveAttribute('aria-current', 'true');
+  await expect(page.getByRole('heading', { name: 'Table of contents', exact: true })).toBeVisible();
+
+  const installation = demo.getByRole('link', { name: 'Installation' });
+  await installation.click();
+  await expect(page).toHaveURL(/\/#installation$/);
+  await expect(installation).toHaveAttribute('aria-current', 'true');
+});
+
 test('recovers an unknown component with keyboard search', async ({ page }) => {
   await page.goto('/#does-not-exist');
   const main = page.getByRole('main');
