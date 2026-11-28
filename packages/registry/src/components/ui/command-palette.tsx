@@ -342,13 +342,8 @@ function Dialog({
           className={cn(
             'fixed top-[10vh] left-1/2 w-full max-w-2xl -translate-x-1/2',
             'overflow-hidden rounded-lg',
-            'duration-base ease-standard motion-reduce:transition-none data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
+            'transition-[scale,opacity] duration-base ease-standard motion-reduce:transition-none data-[ending-style]:scale-90 data-[ending-style]:opacity-0 data-[starting-style]:scale-90 data-[starting-style]:opacity-0',
           )}
-          style={
-            {
-              transitionProperty: 'scale, opacity',
-            } as CSSProperties
-          }
         >
           <DialogContext.Provider value={{ onClose: handleClose }}>
             {children}

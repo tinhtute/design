@@ -229,12 +229,11 @@ function DialogContent({
         render={<BasePopup />}
         className={cn(
           dialogVariants({ size }),
-          'duration-base ease-standard motion-reduce:transition-none',
+          'transition-[scale,opacity] duration-base ease-standard motion-reduce:transition-none',
           className,
         )}
         style={
           {
-            transitionProperty: 'scale, opacity',
             '--tw-shadow': '0 20px 25px -5px rgb(0 0 0 / 0.03), 0 8px 10px -6px rgb(0 0 0 / 0.03)',
             ...style,
           } as CSSProperties
