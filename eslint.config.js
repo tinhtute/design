@@ -13,6 +13,7 @@ export default tseslint.config(
       'app/.next/',
       '.claude/',
       '.github/',
+      '.agents/skills/unslop/',
     ],
   },
 

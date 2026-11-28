@@ -47,6 +47,18 @@ test.describe('showroom demos', () => {
     await expect(page.getByRole('button', { name: 'Dark theme' })).toBeInViewport({ ratio: 1 });
   });
 
+  test('keeps the same catalog number in the rail and component heading', async ({ page }) => {
+    await page.goto('/#input');
+    const rail = page.getByRole('complementary');
+    const item = rail.getByRole('button', { name: 'Input', exact: true });
+    const main = page.getByRole('main');
+
+    await expect(item).toHaveAttribute('aria-current', 'true');
+    await expect(item.getByText('09', { exact: true })).toBeVisible();
+    await expect(main.getByText('09 / Form', { exact: true })).toBeVisible();
+    await expect(main.getByRole('tab', { name: 'Demo', selected: true })).toBeVisible();
+  });
+
   test('restores the selected theme after a refresh and across sections', async ({ page }) => {
     await page.goto('/');
     const theme = page.getByRole('button', { name: 'Dark theme' });

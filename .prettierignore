@@ -14,6 +14,7 @@ app/public/r/
 
 # vendored skill installs (managed by skill installers, not repo source)
 .claude/
+.agents/skills/unslop/
 .github/agents/
 .github/skills/
 .github/hooks/

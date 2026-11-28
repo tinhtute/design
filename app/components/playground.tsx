@@ -65,12 +65,10 @@ function ShowroomSidebarMenu({
 
   return (
     <Sidebar.Content>
-      {GROUPS.map((group, gi) => (
+      {GROUPS.map((group) => (
         <Sidebar.Group key={group.title}>
           <div className="px-2 pt-4 pb-1">
-            <SiteIndexLabel>
-              {pad(gi + 1)} {group.title}
-            </SiteIndexLabel>
+            <SiteIndexLabel>{group.title}</SiteIndexLabel>
           </div>
           <Sidebar.Menu>
             {group.items.map(([id, label]) => (
@@ -162,7 +160,7 @@ export function Playground({
 
   const item = catalog.find((item) => item.slug === slug);
   const title = item?.title ?? 'Component not found';
-  const groupIndex = GROUPS.findIndex((group) => group.items.some(([id]) => id === slug));
+  const group = GROUPS.find((group) => group.items.some(([id]) => id === slug));
 
   const entry = slug === null ? undefined : DEMOS[slug];
 
@@ -188,10 +186,10 @@ export function Playground({
           <Sidebar.Provider defaultOpen collapsible="offcanvas" className="h-dvh">
             <Sidebar id="showroom-sidebar">
               <Sidebar.Header className="h-auto flex-col items-stretch">
-                <div className="flex min-w-0 flex-col gap-1.5 py-4">
+                <div className="flex min-w-0 flex-col gap-2 py-4">
                   <SiteBrand as="h1" />
                   <p className="text-xs leading-snug whitespace-normal text-kumo-subtle">
-                    Source-first shadcn registry — Base UI + Hugeicons.
+                    shadcn components built with Base UI and Hugeicons
                   </p>
                 </div>
               </Sidebar.Header>
@@ -200,9 +198,6 @@ export function Playground({
                 onSelect={selectComponent}
                 onMobileSelect={() => requestAnimationFrame(() => titleRef.current?.focus())}
               />
-              <Sidebar.Footer>
-                <ShowroomSidebarTrigger />
-              </Sidebar.Footer>
             </Sidebar>
             <div className="flex min-h-dvh min-w-0 flex-1 flex-col bg-kumo-base text-kumo-default">
               <SiteBar
@@ -211,18 +206,7 @@ export function Playground({
                   setSlug('button');
                   setView('demo');
                 }}
-                start={
-                  <>
-                    <ShowroomSidebarTrigger />
-                    <span className="hidden sm:inline">
-                      {slug !== null && (
-                        <SiteIndexLabel>
-                          {pad(groupIndex + 1)}/{slug}
-                        </SiteIndexLabel>
-                      )}
-                    </span>
-                  </>
-                }
+                start={<ShowroomSidebarTrigger />}
                 actions={
                   <Button
                     ref={searchTriggerRef}
@@ -250,19 +234,19 @@ export function Playground({
               <main
                 id={DEMO_CONTENT_ID}
                 tabIndex={-1}
-                className="flex-1 overflow-y-auto px-4 py-8 sm:px-8"
+                className="flex-1 overflow-y-auto px-4 py-8 sm:px-8 sm:py-10"
               >
-                <div className="mx-auto grid max-w-3xl gap-4 max-sm:grid-cols-1">
-                  <div className="grid gap-1.5">
-                    {slug !== null && (
+                <div className="mx-auto grid max-w-5xl gap-6 max-sm:grid-cols-1">
+                  <div className="grid gap-2">
+                    {slug !== null && group && (
                       <SiteIndexLabel>
-                        {pad(groupIndex + 1)} {GROUPS[groupIndex].title}
+                        {pad(ITEM_INDEX.get(slug) ?? 0)} / {group.title}
                       </SiteIndexLabel>
                     )}
                     <h2
                       ref={titleRef}
                       tabIndex={-1}
-                      className="font-heading text-2xl text-kumo-default"
+                      className="font-heading text-2xl text-kumo-default sm:text-3xl"
                     >
                       {title}
                     </h2>
@@ -288,12 +272,15 @@ export function Playground({
                     </div>
                   ) : (
                     <Tabs.Root value={view} onValueChange={(next) => setView(next as View)}>
-                      <Tabs.List aria-label={`${title} views`} className="flex gap-3 pb-3">
+                      <Tabs.List
+                        aria-label={`${title} views`}
+                        className="mb-4 flex gap-2 border-b border-kumo-line"
+                      >
                         {VIEWS.map(({ value, label }) => (
                           <Tabs.Tab
                             key={value}
                             value={value}
-                            className="cursor-pointer rounded-sm font-mono text-sm text-kumo-subtle underline-offset-4 outline-none hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-brand aria-selected:text-kumo-default aria-selected:underline"
+                            className="min-h-9 cursor-pointer border-b-2 border-transparent px-3 text-sm text-kumo-subtle transition-colors duration-fast ease-standard outline-none hover:text-kumo-default focus-visible:ring-2 focus-visible:ring-kumo-focus motion-reduce:transition-none aria-selected:border-kumo-brand aria-selected:text-kumo-default"
                           >
                             {label}
                           </Tabs.Tab>
@@ -305,7 +292,7 @@ export function Playground({
                       >
                         <div
                           ref={previewRef}
-                          className="border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6"
+                          className="rounded-lg border border-dashed border-kumo-line p-4 max-sm:overflow-x-auto sm:p-6"
                         >
                           {entry ? <entry.Demo /> : <Text>Unknown component.</Text>}
                         </div>
@@ -355,11 +342,11 @@ export function Playground({
                     </Tabs.Root>
                   )}
                 </div>
-                <footer className="mx-auto mt-16 flex w-full max-w-3xl items-center justify-between border-t border-dashed border-kumo-line pt-4 pb-2 font-mono text-2xs text-kumo-subtle">
-                  <span>mono — @therealtinhtute/design</span>
+                <footer className="mx-auto mt-12 flex w-full max-w-5xl flex-wrap items-center justify-between gap-2 border-t border-kumo-line pt-4 pb-2 font-mono text-xs text-kumo-subtle">
+                  <span>@therealtinhtute/design</span>
                   <div className="flex items-center gap-4">
                     <Link href="/docs" className="text-sm hover:text-kumo-default">
-                      docs
+                      Docs
                     </Link>
                     <span>© 2026</span>
                   </div>

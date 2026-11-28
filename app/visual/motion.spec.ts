@@ -24,11 +24,11 @@ test.describe('motion with default preferences', () => {
   test('tabs indicator settles on the last tab after rapid switching', async ({ page }) => {
     await page.goto('/#tabs');
     const tabs = demoTabs(page).getByRole('tab');
-    const count = await tabs.count();
     await expect(async () => {
       await tabs.nth(1).click();
       await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true', { timeout: 500 });
     }).toPass();
+    const count = await tabs.count();
     for (let round = 0; round < 3; round += 1) {
       for (let i = 0; i < count; i += 1) await tabs.nth(i).click({ delay: 0 });
     }

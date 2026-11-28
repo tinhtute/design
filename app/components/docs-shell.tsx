@@ -9,9 +9,7 @@ const DOCS_CONTENT_ID = 'docs-content';
 /**
  * Docs chrome shared by `/docs` and `/docs/<slug>`: the shared site rail and
  * bar around topic nav, the rendered article, an on-page table of contents,
- * and previous/next links. The article body keeps the `.mono-doc` typography
- * from `docs.css`, scoped to `<main>` so its prose link styles never reach
- * the shared rail and bar.
+ * and previous/next links.
  */
 export function DocsShell({
   doc,
@@ -31,7 +29,7 @@ export function DocsShell({
       <SkipLink targetId={DOCS_CONTENT_ID}>Skip to documentation</SkipLink>
       <aside
         data-site-rail=""
-        className="flex flex-col gap-5 border-b border-dashed border-kumo-line px-3 py-4 lg:sticky lg:top-0 lg:h-dvh lg:w-64 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-b-0"
+        className="flex flex-col gap-5 border-b border-kumo-line px-3 py-4 lg:sticky lg:top-0 lg:h-dvh lg:w-65 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-b-0"
       >
         <SiteBrand />
         <nav aria-label="Docs">
@@ -43,12 +41,12 @@ export function DocsShell({
                   aria-current={entry.slug === doc.slug ? 'page' : undefined}
                   className={
                     entry.slug === doc.slug
-                      ? 'flex items-baseline gap-2 rounded-md bg-sidebar-accent px-2 py-1 text-sm no-underline text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
-                      : 'flex items-baseline gap-2 rounded-md px-2 py-1 text-sm no-underline text-kumo-subtle hover:bg-sidebar-accent hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-brand'
+                      ? 'flex min-h-8 items-center gap-2 rounded-md bg-sidebar-accent px-2 py-1 text-sm text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-focus'
+                      : 'flex min-h-8 items-center gap-2 rounded-md px-2 py-1 text-sm text-kumo-subtle hover:bg-sidebar-accent hover:text-kumo-default focus:outline-none focus-visible:ring-2 focus-visible:ring-kumo-focus'
                   }
                 >
-                  <span className="w-5 shrink-0 font-mono text-2xs leading-none">
-                    {String(i + 1).padStart(2, '0')}
+                  <span aria-hidden="true" className="w-5 shrink-0">
+                    <SiteIndexLabel>{String(i + 1).padStart(2, '0')}</SiteIndexLabel>
                   </span>
                   {entry.title}
                 </Link>
@@ -63,21 +61,21 @@ export function DocsShell({
           section="docs"
           start={
             <span className="hidden sm:inline">
-              <SiteIndexLabel>docs/{doc.slug}</SiteIndexLabel>
+              <SiteIndexLabel>Documentation</SiteIndexLabel>
             </span>
           }
         />
         <main
           id={DOCS_CONTENT_ID}
           tabIndex={-1}
-          className="mono-doc mx-auto flex w-full max-w-5xl flex-1 gap-8 px-6 py-10"
+          className="mx-auto flex w-full max-w-5xl flex-1 gap-8 px-4 py-8 sm:px-8 sm:py-10"
         >
           <article className="min-w-0 flex-1">
             {doc.headings.length > 0 && <DocsToc headings={doc.headings} collapsible />}
-            <div dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="mono-prose" dangerouslySetInnerHTML={{ __html: html }} />
             <nav
               aria-label="Docs pages"
-              className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-dashed border-kumo-line pt-4 text-sm"
+              className="mt-12 flex flex-wrap items-center justify-between gap-3 border-t border-kumo-line pt-4 text-sm"
             >
               {previous ? (
                 <Link

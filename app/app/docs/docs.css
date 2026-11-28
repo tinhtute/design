@@ -4,72 +4,66 @@
    code blocks inherit the shipped `code.css` dual-theme rules.
    ============================================================ */
 
-.mono-doc article {
-  font-size: 0.9375rem; /* 15px */
-  line-height: 1.625;
+.mono-prose {
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
-.mono-doc h1 {
-  margin: 0 0 1.5rem;
+.mono-prose h1 {
+  margin: 0 0 1rem;
   font-family: var(--font-heading);
-  font-size: 1.5rem;
+  font-size: 1.875rem;
   font-weight: 400;
   color: var(--text-color-kumo-default);
 }
 
-.mono-doc h2 {
-  margin: 2.5rem 0 0.75rem;
+.mono-prose h2 {
+  margin: 2rem 0 0.75rem;
   scroll-margin-top: 5rem;
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--text-color-kumo-default);
 }
 
-.mono-doc h3 {
+.mono-prose h3 {
   margin: 1.75rem 0 0.5rem;
   scroll-margin-top: 5rem;
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-color-kumo-default);
 }
 
-.mono-doc p {
+.mono-prose p {
   margin: 0.75rem 0;
   color: var(--text-color-kumo-default);
 }
 
-.mono-doc ul,
-.mono-doc ol {
+.mono-prose ul,
+.mono-prose ol {
   margin: 0.75rem 0;
   padding-left: 1.5rem;
   color: var(--text-color-kumo-default);
 }
 
-.mono-doc ul {
+.mono-prose ul {
   list-style: disc;
 }
 
-.mono-doc ol {
+.mono-prose ol {
   list-style: decimal;
 }
 
-.mono-doc li {
+.mono-prose li {
   margin: 0.25rem 0;
 }
 
-.mono-doc a {
+.mono-prose a {
   color: var(--text-color-kumo-link);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-/* Chrome links (topic nav, prev/next, header) never take the prose underline. */
-.mono-doc nav a,
-.mono-doc header a {
-  text-decoration: none;
-}
-
-.mono-doc a:focus-visible {
+.mono-prose a:focus-visible {
   outline: 2px solid var(--kumo-focus);
   outline-offset: 2px;
   border-radius: 2px;
@@ -78,7 +72,7 @@
 /* Inline code only — block code lives inside <pre> and must keep its
    own font-size (a bare `code` selector would also shrink fenced
    blocks, which are <pre><code>). */
-.mono-doc :not(pre) > code {
+.mono-prose :not(pre) > code {
   font-family: var(--font-mono);
   font-size: 0.8125em;
   color: var(--text-color-kumo-default);
@@ -88,8 +82,9 @@
   padding: 0.125rem 0.375rem;
 }
 
-.mono-doc .shiki {
+.mono-prose .shiki {
   margin: 1rem 0;
+  padding: 0.75rem 1rem;
   border: 1px solid var(--kumo-fill);
   border-radius: 6px;
   font-size: 0.8125rem;
@@ -98,34 +93,43 @@
   overflow-x: auto;
 }
 
-.mono-doc blockquote {
+.mono-prose blockquote {
   margin: 1rem 0;
   padding: 0.125rem 0 0.125rem 1rem;
   border-left: 3px solid var(--kumo-fill); /* impeccable-disable-line side-tab: markdown blockquote convention, not a card accent */
   color: var(--text-color-kumo-subtle);
 }
 
-.mono-doc table {
+.mono-prose .docs-table-scroll {
   margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.mono-prose .docs-table-scroll:focus-visible {
+  outline: 2px solid var(--kumo-focus);
+  outline-offset: 2px;
+}
+
+.mono-prose table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.875rem;
 }
 
-.mono-doc th,
-.mono-doc td {
+.mono-prose th,
+.mono-prose td {
   padding: 0.5rem 0.75rem;
   text-align: left;
   border: 1px solid var(--kumo-hairline);
 }
 
-.mono-doc th {
+.mono-prose th {
   font-weight: 600;
   color: var(--text-color-kumo-default);
   background: var(--kumo-tint);
 }
 
-.mono-doc hr {
+.mono-prose hr {
   margin: 2rem 0;
   border: 0;
   border-top: 1px solid var(--kumo-hairline);

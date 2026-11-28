@@ -144,6 +144,25 @@ test('shows the full install heading in the desktop contents', async ({ page }) 
   await expect(page).toHaveURL(/\/docs#install-your-first-component$/);
 });
 
+test('keeps wide Docs tables within the page and scrolls them by keyboard', async ({ page }) => {
+  await page.setViewportSize({ width: 400, height: 800 });
+  await page.goto('/docs/motion');
+
+  const tokens = page.getByRole('table').filter({
+    has: page.getByRole('columnheader', { name: 'Use for' }),
+  });
+  const scroll = page.locator('.docs-table-scroll').filter({ has: tokens });
+  await expect(tokens).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(400);
+  expect(await scroll.evaluate((el) => el.scrollWidth - el.clientWidth)).toBeGreaterThan(0);
+
+  await scroll.focus();
+  await expect(scroll).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect.poll(() => scroll.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
+  expect(await page.evaluate(() => window.scrollX)).toBe(0);
+});
+
 test.describe('compact docs', () => {
   test.use({ hasTouch: true, isMobile: true });
 
